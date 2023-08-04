@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function AddJob({ userType, user, loggedIn, setShowAlert, setAlertMsg, library }) {
-  const CurrencyFormat = require("react-currency-format");
 
   const [showJobBtn, setShowJobBtn] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
