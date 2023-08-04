@@ -2,7 +2,6 @@ import { CircularProgress, Alert, Modal, Box } from "@mui/material";
 import { Container } from "@mui/system";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
-import { CurrencyFormat } from "react-currency-format";
 import { useNavigate } from "react-router-dom";
 
 
