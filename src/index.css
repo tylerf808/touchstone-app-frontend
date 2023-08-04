@@ -1,0 +1,775 @@
+ * {
+    margin: 0;
+    padding: 0;
+ }
+
+ /*** Site Wide ***/
+ h1,
+ h2,
+ h3 {
+    font-family: "Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif";
+    color: rgb(233, 220, 208);
+ }
+
+ p {
+    font-size: 1.2em;
+    font-family: "Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif";
+    color: rgb(255, 255, 255);
+ }
+
+
+ body {
+    background-color: rgb(122, 121, 121);
+ }
+
+ ::-webkit-scrollbar {
+    width: 10px
+ }
+
+ ::-webkit-scrollbar-track {
+    background: rgb(238, 229, 223);
+ }
+
+ ::-webkit-scrollbar-thumb {
+    background: rgb(176, 148, 127);
+ }
+
+ /**/
+
+ /*** Log In Page ****/
+ .logInContainer {
+    display: grid;
+    grid-template-columns: 600px;
+ }
+
+ .logInFormItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3em;
+ }
+
+ .logInLabelContainer {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+ }
+
+ .logInBtn {
+    position: relative;
+    background-color: rgb(236, 223, 213);
+    width: 160px;
+    height: 30px;
+    margin: 2em;
+ }
+
+ .logInBtn:hover {
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
+ }
+
+ /****/
+
+ /**/
+
+ /* Text */
+ .paragraph {
+    font-size: 1.5em;
+    margin: 1em;
+ }
+
+ .dollarSign {
+    position: relative;
+    left: 6px;
+    font-size: 20px;
+ }
+
+ .radioLabel {
+    margin-right: .5em;
+ }
+
+ #sign-up-link {
+    color: orange;
+ }
+
+ #profit-label,
+ #profit-number {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    justify-content: center;
+    left: 20px;
+    padding: 6px;
+ }
+
+ #net-profit-label,
+ #net-profit-number {
+    border-top: 2px solid black;
+    justify-content: center;
+    left: 20px;
+    padding: 15px;
+    font-size: 22px;
+ }
+
+ /* Containers */
+ .headerContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 3em
+ }
+
+ .verticalContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+ }
+
+ .horizontalContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+ }
+
+ .driversDisplay {
+    margin: 5em;
+ }
+
+ .editDriversInput {
+    margin: .5em;
+    background-color: #f4ddc3;
+ }
+
+ .displayDriversItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2em;
+    padding: 1em;
+    border: .15em solid #cecece;
+    background-color: #797979;
+    border-radius: 3%;
+ }
+
+ .showPasswordContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 1em;
+ }
+
+ .signUpLinkContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3em;
+ }
+
+ .verticalFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+
+ .pageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+ }
+
+ .inputContainer {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+ }
+
+ .horizontalFormContainer {
+    display: grid;
+    grid-template-columns: 300px 300px;
+ }
+
+ .costsContainer {
+    display: grid;
+    grid-template-columns: 500px 400px;
+    grid-template-rows: 300px 300px;
+ }
+
+ .operatingCostsContainer {
+    margin: auto;
+    width: 100%;
+ }
+
+ .fixedCostsContainer {
+    margin: auto;
+    width: 100%;
+ }
+
+ .costsHeaderContainer {
+    margin: auto;
+    width: 50%;
+ }
+
+
+ .costsItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .6em;
+ }
+
+ .costsItem p {
+    margin-right: .5em;
+    color: rgb(236, 223, 213);
+    font-size: 1.5em;
+ }
+
+ .costsNum {
+    color: rgb(236, 223, 213);
+    font-size: 1.5em;
+ }
+
+ .btnContainerSignUp {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+ }
+
+ .signUpInstructionsContainer {
+    height: 600px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+ }
+
+ .alertContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+ }
+
+ .btnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+ }
+
+ /* Container items and Form items */
+ .formItem {
+    display: grid;
+    grid-template-columns: 150px 300px;
+ }
+
+ .formItem p {
+   position: relative;
+   top: 10px;
+ }
+
+ .horizontalFormItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 10px;
+    position: relative;
+    left: 40px;
+    top: 12px;
+ }
+
+ .horizontalFormItem p {
+    margin-right: 20px;
+    font-size: 20px;
+ }
+
+ .radioItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: .2em;
+    margin-bottom: 1.5em;
+ }
+
+ .jobDisplayItem {
+    position: relative;
+    padding: 6px;
+    margin-top: .2em;
+    margin-bottom: .2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    left: 30px
+ }
+
+ /* Buttons */
+
+ .addJobBtn {
+    position: relative;
+    color: rgb(205, 239, 207);
+    background-color: rgb(30, 97, 17);
+    width: 160px;
+    height: 30px;
+    margin: 1em;
+ }
+
+ .btn2 {
+    position: relative;
+    color: rgb(227, 210, 210);
+    background-color: #aa2d2d;
+    width: 160px;
+    height: 30px;
+    margin: 1em;
+ }
+
+ .btnAddDriver {
+    margin: 1em;
+    width: 6em;
+    height: 2em;
+    border: .05em solid black;
+    border-radius: 5%;
+    background-color: rgb(233, 220, 208);
+ }
+
+ .btnAddDriver:hover {
+    box-shadow: 2px 2px 3px rgb(77, 77, 77)
+ }
+
+ .btnSignUp {
+    margin: 2em;
+    width: 8em;
+    height: 3em;
+    border: .05em solid black;
+    border-radius: 5%;
+    background-color: rgb(233, 220, 208);
+ }
+
+ .btnSignUp:hover {
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+ }
+
+ .radioBtn {
+    margin: .2em;
+ }
+
+ .checkJobBtn {
+    position: relative;
+    background-color: rgb(233, 220, 208);
+    width: 160px;
+    height: 30px;
+    margin: 1em;
+ }
+
+ .checkJobBtn:hover {
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+ }
+
+ /* Side Menu */
+ .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 128, 0);
+    overflow-x: clip;
+    transition: .3s;
+    padding-top: 60px;
+ }
+
+ .sideNavLink {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: centr;
+    margin: 2em;
+ }
+
+ .sidenav a {
+    text-decoration: none;
+    font-size: 32px;
+    color: #030303;
+ }
+
+ .sidenav a:hover {
+    color: #f1f1f1;
+ }
+
+ .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+ }
+
+ .sidenav .closebtn:hover {
+    cursor: pointer;
+ }
+
+ /* Toolbar */
+ .toolbar {
+    background-color: rgb(255, 128, 0);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+ }
+
+ .toolbarHeader {
+    color: rgb(242, 242, 242);
+    font-weight: 300;
+    font-size: 1.3em;
+    position: relative;
+    left: 10px;
+ }
+
+ /* Alert Msg */
+ .alertMsg {
+    position: fixed;
+    width: 50%;
+    z-index: 1;
+ }
+
+ /* SignUp carousel*/
+ .slideItem {
+    display: grid;
+    grid-template-columns: 300px 200px;
+    margin: 1em;
+ }
+
+ .slideItemTextInput {
+    margin-left: .5em;
+    width: 50px;
+    height: 30px;
+    background-color: rgb(236, 223, 213);
+ }
+
+ .slide {
+    border: none !important;
+    display: grid;
+    grid-template-columns: 500px 500px;
+ }
+
+ .slideInputs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+ }
+
+ .slider {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+ }
+
+ .slideTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.3em;
+ }
+
+ .slideLabelContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+ }
+
+ .slideLabel {
+    font-size: 1.2em;
+ }
+
+ .slideLabelContainerCreateAcct {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+ }
+
+ .passwordInputSignUp {
+    background-color: rgb(236, 223, 213);
+    width: 100%;
+    height: 1.5em;
+ }
+
+ s .showPasswordLabel {
+    color: rgb(243, 239, 236)
+ }
+
+ .emailInputSignUp {
+    background-color: rgb(236, 223, 213);
+    width: 100%;
+    height: 1.5em;
+ }
+
+ /* Display */
+ .checkJobDisplay {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    background-color: rgb(100, 100, 100);
+    height: 500px;
+ }
+
+ .percentageSign {
+    position: relative;
+    left: 35px;
+    bottom: 26px;
+ }
+
+ /* Modals */
+ .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: none;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+ }
+
+ .loadingCircle {
+    accent-color: orange;
+    margin: auto;
+    width: 50%;
+ }
+
+ .modalContent {
+    background-color: rgb(146, 146, 146);
+    margin: 8% auto;
+    padding: 20px;
+    border: 2px solid #888;
+    width: 50%;
+    height: 30%;
+    border-radius: 8px;
+ }
+
+ .jobModalContent {
+    background-color: rgb(100, 100, 100);
+    padding: 20px;
+    width: 30%;
+    height: 80%;
+    margin-top: 4em;
+    margin-left: 33%;
+ }
+
+ .jobModalContent p {
+    font-size: 18px;
+ }
+
+ .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+ }
+
+ .close:hover,
+ .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+ }
+
+ .modalContent p {
+    font-size: 20px;
+    margin: 2px
+ }
+
+ /* Inputs */
+ .emailInput {
+    background-color: rgb(236, 223, 213);
+    width: auto;
+ }
+
+ .passwordInput {
+    background-color: rgb(236, 223, 213);
+    width: auto;
+ }
+
+ .showPasswordInput {
+    margin-left: 8px;
+    accent-color: orange;
+ }
+
+ .textInput {
+    margin-left: .5em;
+    width: 250px;
+    height: 30px;
+    background-color: rgb(236, 223, 213);
+ }
+
+ .numberInput {
+    margin-left: .5em;
+    width: 120px;
+    height: 25px;
+ }
+
+ .newCostInput {
+    margin-left: .8em;
+    background-color: rgb(236, 223, 213);
+    width: 100px;
+    height: 25px;
+ }
+
+ .radioInput {
+    accent-color: orange;
+ }
+
+ .addDriversItem {
+    margin: .2em;
+ }
+
+ .addDriversItem p {
+    color: rgb(245, 239, 234);
+ }
+
+ .addDriversInput {
+    background-color: rgb(236, 223, 213);
+ }
+
+ .addDriversPassword {
+    background-color: rgb(236, 223, 213);
+ }
+
+ .showPasswordContainerDrivers {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: .5em;
+ }
+
+ .addDriversContainer {
+    position: relative;
+    height: 35rem;
+    width: 450px;
+    margin: auto;
+    overflow-y: auto;
+ }
+
+ .addDriverBtnContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+ }
+
+ .driverInputs {
+    border: .1em solid #cecece;
+    background-color: #797979;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 25%;
+    margin-top: 1em;
+    width: 200px;
+    padding: 1em
+ }
+
+ .costsInputContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+ }
+
+ .costsInput {
+    width: 33%;
+    font-size: 1em;
+    background-color: rgb(236, 223, 213)
+ }
+
+ .dollarInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+ }
+
+ .percentageInput {
+    width: 30px;
+ }
+
+ input::-webkit-outer-spin-button,
+ input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+ }
+
+ /* Menus */
+ .radioMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+ }
+
+ .accountTypeMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+ }
+
+ .accountTypeMenu p {
+    margin-left: 1.5em;
+    margin-right: .2em;
+ }
+
+ #menu-icon {
+    margin: .5em;
+    font-size: 2em;
+ }
+
+ #menu-icon:hover {
+    cursor: pointer;
+ }
+
+ /* Labels */
+ #profit-label,
+ #profit-number {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    justify-content: center;
+    left: 20px;
+    padding: 6px;
+ }
+
+ #net-profit-label,
+ #net-profit-number {
+    border-top: 2px solid black;
+    justify-content: center;
+    left: 20px;
+    padding: 15px;
+    font-size: 22px;
+ }
