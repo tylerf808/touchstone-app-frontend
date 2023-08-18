@@ -67,7 +67,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
 
     if (showAlert === false) {
       if (accountType === 'owner') {
-        const response = await fetch("http://localhost:3001/api/user/driver", {
+        const response = await fetch("/api/user/driver", {
           method: "POST",
           body: JSON.stringify({
             email: email,
@@ -95,7 +95,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         console.log(response[1])
         navigate('/addjob')
       } else {
-        const response = await fetch("http://localhost:3001/api/user/manager", {
+        const response = await fetch("/api/user/manager", {
           method: "POST",
           body: JSON.stringify({
             email: email,

@@ -19,9 +19,13 @@ export default function FirstPage(props) {
             return
         }
 
-        const response = await fetch('http://localhost:3001/api/user/check?email=' + props.email + '&username=' + props.username + '&accountType=' + props.accountType, {
-            method: 'GET',
+        const response = await fetch('https://touchstone-api.onrender.com/api/user/check', {
+            method: 'POST',
             headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: props.email,
+                username: props.username
+            })
         }).then((res) => res.json()).catch((err) => console.log(err))
 
         if (response === null) {
