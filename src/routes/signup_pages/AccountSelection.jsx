@@ -21,8 +21,8 @@ export default function AccountSelection({ accountType, setAccountType, setShowA
                                     <input className="radioInput" type="radio" name="accountType" value='dispatcher' onClick={(e) => setAccountType(e.target.value)}></input>
                                 </div>
                                 <div className="radioItem">
-                                    <p className="radioLabel">Manager</p>
-                                    <input className="radioInput" type="radio" name="accountType" value='manager' onClick={(e) => setAccountType(e.target.value)}></input>
+                                    <p className="radioLabel">Admin</p>
+                                    <input className="radioInput" type="radio" name="accountType" value='admin' onClick={(e) => setAccountType(e.target.value)}></input>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@ export default function AccountSelection({ accountType, setAccountType, setShowA
                             case 'dispatcher':
                                 setCurrentSlide(currentSlide + 4)
                                 break;
-                            case 'manager':
+                            case 'admin':
                                 setCurrentSlide(currentSlide + 1)
                                 break;
                         }

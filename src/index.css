@@ -36,6 +36,36 @@
 
  /**/
 
+ .dashboardContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    position: relative;
+    top: 10em
+ }
+
+ .dashboardItem {
+    border: .1em solid orange;
+    border-radius: 5%;
+    width: 200px;
+    height: 150px;
+    display: flex;
+    justify-content: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(111, 111, 111, 0.689);
+ }
+
+ .dashboardItem h2{
+   color: rgb(209, 203, 195);
+ }
+
+ .dashboardItem h2:hover {
+   cursor: pointer;
+ }
+
  /*** Log In Page ****/
  .logInContainer {
     display: grid;
@@ -187,6 +217,12 @@
     height: 100%;
  }
 
+ .showPasswordContainerSignup {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+ }
+
  .inputContainer {
     margin-top: 8px;
     display: flex;
@@ -278,8 +314,8 @@
  }
 
  .formItem p {
-   position: relative;
-   top: 10px;
+    position: relative;
+    top: 10px;
  }
 
  .horizontalFormItem {

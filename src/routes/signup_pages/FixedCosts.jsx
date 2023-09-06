@@ -12,27 +12,49 @@ export default function ThirdPage(props) {
                     <div className="slideInputs">
                         <div className="slideItem">
                             <p className="slideLabel">Enter your labor rate as a percentage of revenue.</p>
-                            <input className="newCostInput" type="number" onChange={(e) => props.setLaborAmount(e.target.value)} />
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <input className="newCostInput" type="number" onChange={(e) => props.setLaborAmount(e.target.value)} />
+                                <p>%</p>
+                            </div>
                         </div>
                         <div className="slideItem">
                             <p className="slideLabel">Enter your payroll tax rate as a percentage of revenue.</p>
-                            <input className="newCostInput" type="number" onChange={(e) => props.setPayrollAmount(e.target.value)} />
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <input className="newCostInput" type="number" onChange={(e) => props.setPayrollAmount(e.target.value)} />
+                                <p>%</p>
+                            </div>
                         </div>
                         <div className="slideItem">
+                            
                             <p className="slideLabel">Enter your dispatch fee as a percentage of revenue.</p>
-                            <input className="newCostInput" type='number' onChange={(e) => props.setDispatchAmount(e.target.value)} />
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <input className="newCostInput" type="number" onChange={(e) => props.setDispatchAmount(e.target.value)} />
+                                <p>%</p>
+                            </div>
                         </div>
                         <div className="slideItem">
                             <p className="slideLabel">Enter your factor fee as a percentage of revenue.</p>
-                            <input className="newCostInput" type='number' onChange={(e) => props.setFactorAmount(e.target.value)} />
-                        </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <input className="newCostInput" type="number" onChange={(e) => props.setFactorAmount(e.target.value)} />
+                                <p>%</p>
+                            </div>                        </div>
                         <div className="slideItem">
                             <p className="slideLabel">Enter your MPG.</p>
                             <input className="newCostInput" type="number" onChange={(e) => props.setMpgAmount(e.target.value)} />
                         </div>
                         <div className="slideItem">
-                            <p className="slideLabel">Enter your other direct costs (ODC) as a monthly expense.</p>
-                            <input className="newCostInput" type="number" onChange={(e) => props.setOdcAmount(e.target.value)} />
+                            <p className="slideLabel">Enter your other direct costs (ODC) as a percentage of revenue.</p>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <input className="newCostInput" type="number" onChange={(e) => props.setOdcAmount(e.target.value)} />
+                                <p>%</p>
+                            </div>
+                        </div>
+                        <div className="slideItem">
+                            <p className="slideLabel">Enter your overhead as a percentage of revenue.</p>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <input className="newCostInput" type="number" onChange={(e) => props.setOverheadAmount(e.target.value)} />
+                                <p>%</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,8 +66,8 @@ export default function ThirdPage(props) {
                 }}>Back</button>
                 <button className="btnSignUp" onClick={() => {
                     props.setShowAlert(false)
-                    if(props.laborAmount === 0 || props.payrollAmount === 0 || props.dispatchAmount === 0 || props.factorAmount ===0
-                    || props.mpgAmount === 0 || props.odcAmount === 0){
+                    if (props.laborAmount === 0 || props.payrollAmount === 0 || props.dispatchAmount === 0 || props.factorAmount === 0
+                        || props.mpgAmount === 0 || props.odcAmount === 0) {
                         props.setAlertMsg("Missing an entry")
                         props.setShowAlert(true)
                         return

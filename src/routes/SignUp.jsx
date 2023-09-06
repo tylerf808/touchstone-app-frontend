@@ -11,6 +11,7 @@ import SelectManager from "./signup_pages/SelectManger";
 export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setCosts, user, setAlertMsg, setShowAlert }) {
 
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [selectedAdmin, setSelectedAdmin] = useState('')
   const [accountType, setAccountType] = useState('')
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -30,7 +31,8 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
   const [payrollAmount, setPayrollAmount] = useState(0)
   const [gandaAmount, setGandaAmount] = useState(0)
   const [parkingAmount, setParkingAmount] = useState(0)
-  const [drivers, setDrivers] = useState([{email: '', username: '', name: '', password: '', num: 0}])
+  const [overheadAmount, setOverheadAmount] = useState(0)
+  const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0 }])
 
   const navigate = useNavigate();
 
@@ -67,7 +69,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
 
     if (showAlert === false) {
       if (accountType === 'owner') {
-        const response = await fetch("/api/user/driver", {
+        const response = await fetch("http://localhost:3001/api/user/newOwner", {
           method: "POST",
           body: JSON.stringify({
             email: email,
@@ -82,7 +84,8 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
             payrollTax: (payrollAmount / 100).toFixed(2),
             factor: (factorAmount / 100).toFixed(2),
             odc: (odcAmount / 100).toFixed(2),
-            gAndA: (gandaAmount / 30).toFixed(2),
+            overhead: (overheadAmount / 100).toFixed(2),
+            gAndA: (gandaAmount / 100).toFixed(2),
             loan: (loanAmount / 30).toFixed(2),
             repairs: (repairsAmount / 30).toFixed(2),
             parking: (parkingAmount / 30).toFixed(2)
@@ -92,10 +95,9 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         setUser(response[0].user_id);
         setCosts(response[1])
         setLoggedIn(true)
-        console.log(response[1])
         navigate('/addjob')
       } else {
-        const response = await fetch("/api/user/manager", {
+        const response = await fetch("http://localhost:3001/api/user/newAdmin", {
           method: "POST",
           body: JSON.stringify({
             email: email,
@@ -110,6 +112,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
             payrollTax: (payrollAmount / 100).toFixed(2),
             factor: (factorAmount / 100).toFixed(2),
             odc: (odcAmount / 100).toFixed(2),
+            overhead: (overheadAmount / 100).toFixed(2),
             gAndA: (gandaAmount / 30).toFixed(2),
             loan: (loanAmount / 30).toFixed(2),
             repairs: (repairsAmount / 30).toFixed(2),
@@ -118,14 +121,26 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
-        setUser(response[0].user_id);
+        setUser(response[0].username);
         setCosts(response[1])
         setLoggedIn(true)
-        console.log(response[1])
         navigate('/addjob')
       }
     } else {
-      return
+      const response = await fetch("http://localhost:3001/api/user/newDispatcher", {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          username: username,
+          admin: selectedAdmin
+        }),
+        headers: { "Content-Type": "application/json" },
+      }).then((res) => res.json())
+      setUser(response[0].username);
+      setCosts(response[1])
+      setLoggedIn(true)
+      navigate('/addjob')
     }
   }
 
@@ -156,7 +171,8 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
           factorAmount={factorAmount} mpgAmount={mpgAmount} odcAmount={odcAmount}
           setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} setAccountType={setAccountType}
           setLaborAmount={setLaborAmount} setPayrollAmount={setPayrollAmount} setDispatchAmount={setDispatchAmount}
-          setFactorAmount={setFactorAmount} setMpgAmount={setMpgAmount} setOdcAmount={setOdcAmount}
+          setFactorAmount={setFactorAmount} setMpgAmount={setMpgAmount} setOdcAmount={setOdcAmount} overheadAmount={overheadAmount}
+          setOverheadAmount={setOverheadAmount}
         />
       )
     case 4:
@@ -172,12 +188,12 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
     case 5:
       return (
         <AddDrivers currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          createAccount={createAccount} drivers={drivers} setDrivers={setDrivers}/>
+          createAccount={createAccount} drivers={drivers} setDrivers={setDrivers} />
       )
-      case 6:
+    case 6:
       return (
-        <SelectManager currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          createAccount={createAccount}/>
+        <SelectManager selectedAdmin={selectedAdmin} setSelectedAdmin={setSelectedAdmin} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
+          createAccount={createAccount} />
       )
   }
 }

@@ -2,19 +2,18 @@ import { useEffect, useState } from "react"
 
 export default function SelectManager(props) {
 
-    const [managers, setManagers] = useState([])
+    const [admins, setAdmins] = useState([])
 
     useEffect(() => {
 
-        async function getManagers() {
-            const managers = await fetch("http://localhost:3001/api/user/getManagers", {
+        async function getAdmins() {
+            const admins = await fetch("http://localhost:3001/api/user/getAdmins", {
                 method: 'GET',
                 headers: { "Content-Type": "application/json" }
             }).then((res) => res.json())
-            setManagers(managers)
-            console.log(managers)
+            setAdmins(admins)
         }
-        getManagers()
+        getAdmins()
     }, [])
 
     return (
@@ -27,9 +26,9 @@ export default function SelectManager(props) {
                     <div className="slideInputs">
                         <div className="slideItem">
                             <select name='manager'>
-                                {managers.map((el) => {
+                                {admins.map((el, i) => {
                                     return (
-                                        <option key={el.manager_id} value={el.username}>{el.username}</option>
+                                        <option key={i} value={el.username}>{el.username}</option>
                                     )
                                 })}
                             </select>

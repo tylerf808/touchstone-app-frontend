@@ -51,7 +51,7 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
             })
                 .then((res) => res.json())
                 .then((data) => setCosts(data[0]));
-            navigate('addjob')
+            navigate('dashboard')
     };
 
     return (

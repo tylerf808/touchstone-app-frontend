@@ -13,6 +13,7 @@ import CostsPage from "./routes/CostsPage";
 import SignUp from "./routes/SignUp";
 import ViewJobs from './routes/ViewJobs'
 import Drivers from './routes/Drivers'
+import Dashboard from "./routes/Dashboard";
 
 const library = ["places"];
 
@@ -64,6 +65,7 @@ export default function App() {
         <Toolbar user={user} costs={costs} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} setCosts={setCosts} />
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
+          <Route path='dashboard' element={<Dashboard />} />
           <Route path="addjob" element={<AddJob loggedIn={loggedIn} library={library} user={user} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />} />
           <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs} setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType}/>} />

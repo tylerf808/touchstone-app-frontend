@@ -2,7 +2,19 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 
 export default function FirstPage(props) {
-    
+
+    const togglePassword = () => {
+        let password = document.getElementById('password-signup')
+        let passwordConf = document.getElementById('password-conf-signup')
+        if (password.type === 'password') {
+            password.type = 'text'
+            passwordConf.type = 'text'
+        } else {
+            password.type = 'password'
+            passwordConf.type = 'password'
+        }
+    }
+
     const checkUser = async () => {
 
         props.setShowAlert(false)
@@ -19,7 +31,7 @@ export default function FirstPage(props) {
             return
         }
 
-        const response = await fetch('https://touchstone-api.onrender.com/api/user/check', {
+        const response = await fetch('http://localhost:3001/api/user/check', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -28,13 +40,13 @@ export default function FirstPage(props) {
             })
         }).then((res) => res.json()).catch((err) => console.log(err))
 
-        if (response === null) {
-            props.setCurrentSlide(props.currentSlide + 1)
-            props.setShowAlert(false)
-            return
-        } else {
+        if (response.status === 404) {
             props.setAlertMsg('User with that email or username already exists')
             props.setShowAlert(true)
+            return
+        } else {
+            props.setCurrentSlide(props.currentSlide + 1)
+            props.setShowAlert(false)
             return
         }
     }
@@ -63,13 +75,19 @@ export default function FirstPage(props) {
                             <div className="slideLabelContainerCreateAcct">
                                 <p className="slideLabel">Password</p>
                             </div>
-                            <input className="passwordInputSignUp" onChange={(e) => props.setPassword(e.target.value)} type="password" />
+                            <input className="passwordInputSignUp" id='password-signup' onChange={(e) => props.setPassword(e.target.value)} type="password" />
                         </div>
                         <div className="slideItem">
                             <div className="slideLabelContainerCreateAcct">
                                 <p className="slideLabel">Confirm Password</p>
                             </div>
-                            <input className="passwordInputSignUp" onChange={(e) => props.setPasswordConf(e.target.value)} type="password" />
+                            <input className="passwordInputSignUp" id="password-conf-signup" onChange={(e) => props.setPasswordConf(e.target.value)} type="password" />
+                        </div>
+                        <div className="slideItem" style={{position: 'relative', left: 200}}>
+                            <div className='showPasswordContainerSignup'>
+                                <p>Show Password</p>
+                                <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
+                            </div>
                         </div>
                     </div>
                 </div>
