@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
+const { apiUrl } = require('../../urls.json')
+
 export default function FirstPage(props) {
 
     const togglePassword = () => {
@@ -31,7 +33,7 @@ export default function FirstPage(props) {
             return
         }
 
-        const response = await fetch('http://localhost:3001/api/user/check', {
+        const response = await fetch(apiUrl + '/api/user/check', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

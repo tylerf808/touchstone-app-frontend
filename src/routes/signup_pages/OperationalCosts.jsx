@@ -5,7 +5,7 @@ export default function FourthPage(props) {
     const [isManager, setIsManager] = useState(false)
 
     useEffect(() => {
-        if (props.accountType === 'manager') {
+        if (props.accountType === 'admin') {
             setIsManager(true)
         }
     }, [])

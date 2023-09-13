@@ -46,7 +46,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
     //   return
     // }
     async function getDrivers() {
-      const response = await fetch('http://localhost:3001/api/user/getDrivers', {
+      const response = await fetch('http://localhost:8080/api/user/getDrivers', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ manager: user })
@@ -272,7 +272,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
             <select className="textInput" id="driver" name="driver" >
               {drivers.map((el, i) => {
                 return (
-                  <option key={i} value={el.username}>{el.username}</option>
+                  <option key={i} value={el.name}>{el.name}</option>
                 )
               })}
             </select>

@@ -92,7 +92,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
-        setUser(response[0].user_id);
+        setUser(response[0].username);
         setCosts(response[1])
         setLoggedIn(true)
         navigate('/addjob')

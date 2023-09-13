@@ -17,10 +17,6 @@ export default function AccountSelection({ accountType, setAccountType, setShowA
                                     <input className="radioInput" type="radio" name="accountType" value='owner' onClick={(e) => setAccountType(e.target.value)}></input>
                                 </div>
                                 <div className="radioItem">
-                                    <p className="radioLabel">Dispatcher</p>
-                                    <input className="radioInput" type="radio" name="accountType" value='dispatcher' onClick={(e) => setAccountType(e.target.value)}></input>
-                                </div>
-                                <div className="radioItem">
                                     <p className="radioLabel">Admin</p>
                                     <input className="radioInput" type="radio" name="accountType" value='admin' onClick={(e) => setAccountType(e.target.value)}></input>
                                 </div>
