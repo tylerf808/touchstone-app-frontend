@@ -3,13 +3,14 @@ import { Container } from "@mui/system";
 import { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { CSVLink, CSVDownload } from 'react-csv'
+import {apiUrl} from '../urls.json'
 
 export default function ViewJobs({ user }) {
 
     let [jobs, setJobs] = useState()
 
     const getJobs = async () => {
-        const response = await fetch('http://localhost:3001/api/jobs?id=' + user,
+        const response = await fetch(apiUrl + '/api/jobs?id=' + user,
             {
                 method: 'GET',
             }).then((res) => res.json())

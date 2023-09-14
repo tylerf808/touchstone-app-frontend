@@ -14,6 +14,7 @@ import SignUp from "./routes/SignUp";
 import ViewJobs from './routes/ViewJobs'
 import Drivers from './routes/Drivers'
 import Dashboard from "./routes/Dashboard";
+import {apiUrl} from './urls.json'
 
 const library = ["places"];
 
@@ -52,7 +53,7 @@ export default function App() {
       return
     }
 
-    const response = await fetch("http://localhost:3001/api/user", {
+    const response = await fetch(apiUrl + "/api/user", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: { "Content-Type": "application/json" },

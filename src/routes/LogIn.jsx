@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import {apiUrl} from '../urls.json'
 
 export default function LogIn({ user, userType, setUserType, setUser, costs, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
 
@@ -31,7 +32,7 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
             setLogInType('email')
         } 
 
-        const response = await fetch("http://localhost:3001/api/user/login", {
+        const response = await fetch(apiUrl + "api/user/login", {
                 method: "POST",
                 body: JSON.stringify({ emailOrUsername: emailOrUsername, password: password, logInType: logInType }),
                 headers: { "Content-Type": "application/json" },
@@ -46,7 +47,7 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
             setUser(id);
             setLoggedIn(true);
 
-            await fetch("http://localhost:3001/api/costs?id=" + id, {
+            await fetch(apiUrl + "api/costs?id=" + id, {
                 method: "GET",
             })
                 .then((res) => res.json())

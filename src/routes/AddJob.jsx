@@ -3,8 +3,7 @@ import { Container } from "@mui/system";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
+import {apiUrl} from '../urls.json'
 
 export default function AddJob({ userType, user, loggedIn, setShowAlert, setAlertMsg, library }) {
 
@@ -46,7 +45,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
     //   return
     // }
     async function getDrivers() {
-      const response = await fetch('http://localhost:8080/api/user/getDrivers', {
+      const response = await fetch(apiUrl + '/api/user/getDrivers', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ manager: user })
@@ -112,7 +111,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
     statesArray.push(geoDropOff.results[0].address_components[4].short_name);
 
     const checkRes = await fetch(
-      "http://localhost:3001/api/costs/check?id=" +
+      apiUrl + "/api/costs/check?id=" +
       user +
       "&start=" +
       start +
@@ -204,7 +203,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
   };
 
   const addJob = async () => {
-    await fetch("http://localhost:3001/api/jobs", {
+    await fetch(apiUrl + "/api/jobs", {
       method: "POST",
       body: JSON.stringify(job),
       headers: {

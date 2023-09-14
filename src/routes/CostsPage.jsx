@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {apiUrl} from "../urls.json"
 
 export default function CostsPage(props) {
 
@@ -32,7 +33,7 @@ export default function CostsPage(props) {
       parking: props.parkingValue / 30
     };
 
-    await fetch("http://localhost:3001/api/costs?id=" + props.user, {
+    await fetch(apiUrl + "/api/costs?id=" + props.user, {
       method: "PUT",
       body: JSON.stringify(newCostsObj),
       headers: {
@@ -42,7 +43,7 @@ export default function CostsPage(props) {
       .then((res) => res.json())
       .catch((err) => console.log(err))
 
-    await fetch("http://localhost:3001/api/costs?id=" + props.user, {
+    await fetch(apiUrl + "/api/costs?id=" + props.user, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

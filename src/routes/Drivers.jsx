@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import {apiUrl} from '../urls.json'
 
 export default function Drivers(props) {
 
@@ -13,7 +14,7 @@ export default function Drivers(props) {
             navigate('/')
         }
         async function getDrivers() {
-            const response = await fetch('http://localhost:3001/api/user/getDrivers', {
+            const response = await fetch(apiUrl + '/api/user/getDrivers', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ manager: props.user })

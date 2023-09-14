@@ -7,6 +7,7 @@ import OperationalCosts from "./signup_pages/OperationalCosts";
 import AddDrivers from "./signup_pages/AddDrivers";
 import AccountSelection from "./signup_pages/AccountSelection";
 import SelectManager from "./signup_pages/SelectManger";
+import {apiUrl} from "../urls.json"
 
 export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setCosts, user, setAlertMsg, setShowAlert }) {
 
@@ -69,7 +70,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
 
     if (showAlert === false) {
       if (accountType === 'owner') {
-        const response = await fetch("http://localhost:3001/api/user/newOwner", {
+        const response = await fetch(apiUrl + "/api/user/newOwner", {
           method: "POST",
           body: JSON.stringify({
             email: email,
@@ -97,7 +98,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         setLoggedIn(true)
         navigate('/addjob')
       } else {
-        const response = await fetch("http://localhost:3001/api/user/newAdmin", {
+        const response = await fetch(apiUrl + "/api/user/newAdmin", {
           method: "POST",
           body: JSON.stringify({
             email: email,
@@ -127,7 +128,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         navigate('/addjob')
       }
     } else {
-      const response = await fetch("http://localhost:3001/api/user/newDispatcher", {
+      const response = await fetch(apiUrl + "/api/user/newDispatcher", {
         method: "POST",
         body: JSON.stringify({
           email: email,
