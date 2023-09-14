@@ -7,7 +7,8 @@ import OperationalCosts from "./signup_pages/OperationalCosts";
 import AddDrivers from "./signup_pages/AddDrivers";
 import AccountSelection from "./signup_pages/AccountSelection";
 import SelectManager from "./signup_pages/SelectManger";
-import {apiUrl} from "../urls.json"
+
+const {apiUrl} = require('../urls.json')
 
 export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setCosts, user, setAlertMsg, setShowAlert }) {
 

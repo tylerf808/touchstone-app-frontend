@@ -3,7 +3,8 @@ import { Container } from "@mui/system";
 import { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { CSVLink, CSVDownload } from 'react-csv'
-import {apiUrl} from '../urls.json'
+
+const {apiUrl} = require('../urls.json')
 
 export default function ViewJobs({ user }) {
 

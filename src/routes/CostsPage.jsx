@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {apiUrl} from "../urls.json"
+
+const {apiUrl} = require('../urls.json')
 
 export default function CostsPage(props) {
 
