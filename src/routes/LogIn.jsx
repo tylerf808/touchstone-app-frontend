@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-const {apiUrl} = require('../urls.json')
+const { apiUrl } = require('../urls.json')
 
 export default function LogIn({ user, userType, setUserType, setUser, costs, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
 
     const [showPassword, setShowPassword] = useState(false);
-    const [logInType, setLogInType] = useState('username')
 
     const navigate = useNavigate();
 
@@ -30,30 +29,55 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
         }
 
         if (emailOrUsername.includes('@')) {
-            setLogInType('email')
-        } 
-
-        const response = await fetch(apiUrl + "api/user/login", {
+            const response = await fetch(apiUrl + "/api/user/emailLogin", {
                 method: "POST",
-                body: JSON.stringify({ emailOrUsername: emailOrUsername, password: password, logInType: logInType }),
+                body: JSON.stringify({ email: emailOrUsername, password: password }),
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json())
-            if (response.message) {
-                setAlertMsg('Wrong email/username or password')
-                setShowAlert(true)
+            if (response.msg) {
+                console.log('Wrong Password')
                 return
-            }
-            const id = response.manager_id || response.driver_id || response.dispatcher_id
-            setShowAlert(false)
-            setUser(id);
-            setLoggedIn(true);
+            } else {
+                setShowAlert(false)
+                setUser(response);
+                setLoggedIn(true);
 
-            await fetch(apiUrl + "api/costs?id=" + id, {
-                method: "GET",
-            })
-                .then((res) => res.json())
-                .then((data) => setCosts(data[0]));
-            navigate('dashboard')
+                await fetch(apiUrl + "/api/costs", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        username: response.username
+                    })
+                })
+                    .then((res) => res.json())
+                    .then((data) => setCosts(data[0]));
+                navigate('dashboard')
+            }
+
+        } else {
+            const response = await fetch(apiUrl + "/api/user/usernameLogin", {
+                method: "POST",
+                body: JSON.stringify({ username: emailOrUsername, password: password }),
+                headers: { "Content-Type": "application/json" },
+            }).then((res) => res.json())
+            if (response.msg) {
+                console.log('Wrong Password')
+                return
+            } else {
+                setShowAlert(false)
+                setUser(response);
+                setLoggedIn(true);
+
+                await fetch(apiUrl + "/api/costs", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        username: response.username
+                    })
+                })
+                    .then((res) => res.json())
+                    .then((data) => setCosts(data[0]));
+                navigate('dashboard')
+            }
+        }
     };
 
     return (

@@ -34,7 +34,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
   const [gandaAmount, setGandaAmount] = useState(0)
   const [parkingAmount, setParkingAmount] = useState(0)
   const [overheadAmount, setOverheadAmount] = useState(0)
-  const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0 }])
+  const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0, admin: user.username }])
 
   const navigate = useNavigate();
 
@@ -90,7 +90,8 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
             gAndA: (gandaAmount / 100).toFixed(2),
             loan: (loanAmount / 30).toFixed(2),
             repairs: (repairsAmount / 30).toFixed(2),
-            parking: (parkingAmount / 30).toFixed(2)
+            parking: (parkingAmount / 30).toFixed(2),
+            insuranceType: insuranceType,
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
@@ -105,6 +106,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
             email: email,
             password: password,
             username: username,
+            insuranceType: insuranceType,
             insurance: insurance.toFixed(2),
             tractorLease: (tractorAmount / 30).toFixed(2),
             trailerLease: (trailerAmount / 30).toFixed(2),
@@ -139,7 +141,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         }),
         headers: { "Content-Type": "application/json" },
       }).then((res) => res.json())
-      setUser(response[0].username);
+      setUser(response[0]);
       setCosts(response[1])
       setLoggedIn(true)
       navigate('/addjob')

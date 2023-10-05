@@ -4,9 +4,9 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const {apiUrl} = require('../urls.json')
+const { apiUrl, mapsApiKey } = require('../urls.json')
 
-export default function AddJob({ userType, user, loggedIn, setShowAlert, setAlertMsg, library }) {
+export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, library }) {
 
   const [showJobBtn, setShowJobBtn] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
@@ -22,29 +22,6 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
     if (!loggedIn) {
       navigate('/')
     }
-    // async function getDrivers() {
-    //   const response = await fetch('http://localhost:3001/api/user/getDrivers', {
-    //     method: 'POST',
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ manager: user })
-    //   }).then((res) => res.json())
-    //   setDrivers(response)
-    // }
-    // async function getDispatchersDrivers() {
-    //   const response = await fetch('http://localhost:3001/api/user/getDispatchersDrivers', {
-    //     method: 'POST',
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ id: user })
-    //   }).then((res) => res.json())
-    //   setDrivers(response)
-    // }
-    // if (userType === "manager") {
-    //   getDrivers()
-    // } else if (userType === "dispatcher") {
-    //   getDispatchersDrivers()
-    // } else {
-    //   return
-    // }
     async function getDrivers() {
       const response = await fetch(apiUrl + '/api/user/getDrivers', {
         method: 'POST',
@@ -57,7 +34,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
   }, [])
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyDcXIOrxmAOOPEvqjLEXVeZb9mdTyUqS6k",
+    googleMapsApiKey: mapsApiKey,
     libraries: library,
   });
 
@@ -69,17 +46,21 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
 
     e.preventDefault()
 
-    const start = document.getElementById("start").value;
-    const pickUp = document.getElementById("pick-up").value;
-    const dropOff = document.getElementById("drop-off").value;
-    const pay = document.getElementById("revenue").value;
-    const date = document.getElementById("date").value;
-    const client = document.getElementById("client").value;
-    const driver = document.getElementById("driver").value;
+    document.getElementById('job-results').style.height = '100vh'
 
-    setAlertMsg("");
-    setShowAlert(false);
-    setShowResults(false);
+    const start = document.getElementById("start").value
+    const pickUp = document.getElementById("pick-up").value
+    const dropOff = document.getElementById("drop-off").value
+    const pay = document.getElementById("revenue").value
+    const date = document.getElementById("date").value
+    const client = document.getElementById("client").value
+    const driver = document.getElementById("driver").value
+
+    const jobResultsDiv = document.getElementById('job-results')
+
+    setAlertMsg("")
+    setShowAlert(false)
+    setShowResults(false)
 
     if (
       start === "" ||
@@ -90,16 +71,17 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
       client === '' ||
       driver === ''
     ) {
-      setAlertMsg("Missing an entry");
-      setShowAlert(true);
-      setShowLoading(false);
+      setAlertMsg("Missing an entry")
+      setShowAlert(true)
+      setShowLoading(false)
       return;
     }
-    const modal = document.getElementById('modal')
-    modal.style.display = 'block'
 
-    setShowJobBtn(false);
-    setShowLoading(true);
+    setShowJobBtn(false)
+    setShowLoading(true)
+    setShowResults(true)
+
+    jobResultsDiv.scrollIntoView()
 
     const geocoder = new window.google.maps.Geocoder();
 
@@ -111,22 +93,19 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
     statesArray.push(geoPickUp.results[0].address_components[4].short_name);
     statesArray.push(geoDropOff.results[0].address_components[4].short_name);
 
-    const checkRes = await fetch(
-      apiUrl + "/api/costs/check?id=" +
-      user +
-      "&start=" +
-      start +
-      "&pick_up=" +
-      pickUp +
-      "&drop_off=" +
-      dropOff +
-      "&state1=" +
-      statesArray[0] +
-      "&state2=" +
-      statesArray[1] +
-      "&state3=" +
-      statesArray[2]
-    ).then((data) => data.json());
+    const checkRes = await fetch(apiUrl + "/api/costs/check", {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        start: start,
+        pick_up: pickUp,
+        drop_off: dropOff,
+        state1: statesArray[0],
+        state2: statesArray[1],
+        state3: statesArray[2],
+        username: user
+      })
+    }).then((data) => data.json());
 
     const grossProfitCosts =
       parseFloat((checkRes.odc) +
@@ -164,7 +143,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
       factor: parseFloat((checkRes.factor * pay)),
       gAndA: parseFloat(checkRes.gAndA),
       loan: parseFloat(checkRes.loan),
-      odc: parseFloat(checkRes.odc ),
+      odc: parseFloat(checkRes.odc),
       repairs: parseFloat(checkRes.repairs),
       ratePerMile: parseFloat((pay / checkRes.distance)),
       labor: parseFloat((checkRes.laborRate * pay)),
@@ -186,11 +165,11 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
       tolls: parseFloat(checkRes.tolls),
       client: client,
       driver: driver,
+      admin: user,
       driveTime: checkRes.duration
     }
 
     setJob(newJob)
-    console.log(grossProfitCosts)
 
     if (totalCost > pay) {
       setProfitable(false);
@@ -204,7 +183,7 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
   };
 
   const addJob = async () => {
-    await fetch(apiUrl + "/api/jobs", {
+    await fetch(apiUrl + "/api/jobs/newJob", {
       method: "POST",
       body: JSON.stringify(job),
       headers: {
@@ -213,7 +192,6 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
     }).then((res) => res.json());
     setShowJobBtn(false);
     setShowResults(false);
-    document.getElementById('modal').style.display = 'none';
     document.getElementById("start").value = ''
     document.getElementById("pick-up").value = ''
     document.getElementById("drop-off").value = ''
@@ -223,79 +201,101 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
     document.getElementById("driver").value = ''
   };
 
+  const clearResults = () => {
+    setShowResults(false)
+    document.getElementById('job-results').style.height = '0vh'
+    document.getElementById("start").value = ''
+    document.getElementById("pick-up").value = ''
+    document.getElementById("drop-off").value = ''
+    document.getElementById("revenue").value = ''
+    document.getElementById("date").value = ''
+    document.getElementById("client").value = ''
+    document.getElementById("driver").value = ''
+  }
+
   return (
     <div className="pageContainer">
       <div className="headerContainer">
         <h1>Check Job</h1>
       </div>
-      <form className="verticalFormContainer" id="check-job-form">
-        <div className="formItem">
-          <p >Start</p>
-          <Autocomplete className="inputContainer">
-            <input className="textInput" name="start" id="start" type="text" />
-          </Autocomplete>
-        </div>
-        <div className="formItem">
-          <p >Pick Up</p>
-          <Autocomplete className="inputContainer">
-            <input className="textInput" name="pickUp" id="pick-up" type="text" />
-          </Autocomplete>
-        </div>
-        <div className="formItem">
-          <p >Drop Off</p>
-          <Autocomplete className="inputContainer" id='drop-off-auto'>
-            <input className="textInput" name="dropOff" id="drop-off" type="text" />
-          </Autocomplete>
-        </div>
-        <div className="formItem">
-          <p >Revenue</p>
-          <div className="inputContainer" >
-            <p style={{ top: 0 }}>$</p>
-            <input style={{ width: 100 }} className="textInput" type='number' placeholder="Enter Dollar Amount" name="revenue" id='revenue' />
+      <form className="jobInputsForm" id="check-job-form">
+        <div className="jobInputHeadersContainer">
+          <div style={{ width: '100%', marginTop: '1em' }} className="jobInputsHeader">
+            <h2 style={{ color: '#7a7979' }}>Route</h2>
+          </div>
+          <div style={{
+            width: '50%', marginTop: '1em', borderLeft: '.1em solid #7a7979',
+            borderRight: '.1em solid #7a7979'
+          }} className="jobInputsHeader">
+            <h2 style={{ color: '#7a7979' }}>Revenue</h2>
+          </div>
+          <div style={{ width: '100%', marginTop: '1em' }} className="jobInputsHeader">
+            <h2 style={{ color: '#7a7979' }}>Details</h2>
           </div>
         </div>
-        <div className="formItem">
-          <p >Date</p>
-          <div className="inputContainer">
-            <input className="textInput" type='date' name="date" id='date' />
+        <div className="jobInputsContainer">
+          <div className="routeInputsContainer">
+            <div className="routeInputsItem">
+              <p className="jobInputsLabel">Start</p>
+              <Autocomplete className="autocompleteContainer">
+                <input className="addressInput" name="start" id="start" type="text" />
+              </Autocomplete>
+            </div>
+            <div className="routeInputsItem">
+              <p className="jobInputsLabel">Pick Up</p>
+              <Autocomplete className="autocompleteContainer">
+                <input className="addressInput" name="pickUp" id="pick-up" type="text" />
+              </Autocomplete>
+            </div>
+            <div className="routeInputsItem">
+              <p className="jobInputsLabel">Drop Off</p>
+              <Autocomplete className="autocompleteContainer" id='drop-off-auto'>
+                <input className="addressInput" name="dropOff" id="drop-off" type="text" />
+              </Autocomplete>
+            </div>
           </div>
-        </div>
-        <div className="formItem">
-          <p >Client</p>
-          <div className="inputContainer">
-            <input className="textInput" id="client" placeholder="Enter Clients Name" name="client" ></input>
+          <div className="revenueInputContainer">
+            <div className="inputContainer" >
+              <p className="jobInputsLabel">$</p>
+              <input className="textInput" type='number' placeholder="Enter Dollar Amount" name="revenue" id='revenue' />
+            </div>
           </div>
-        </div>
-        <div className="formItem">
-          <p >Driver</p>
-          <div className="inputContainer">
-            <select className="textInput" id="driver" name="driver" >
-              {drivers.map((el, i) => {
-                return (
-                  <option key={i} value={el.name}>{el.name}</option>
-                )
-              })}
-            </select>
+          <div className="detailInputsContainer">
+            <div className="detailInputsItem">
+              <p className="jobInputsLabel">Date</p>
+              <input className="textInput" type='date' name="date" id='date' />
+            </div>
+            <div className="detailInputsItem">
+              <p className="jobInputsLabel">Client</p>
+              <input className="textInput" id="client" placeholder="Enter Clients Name" name="client" ></input>
+            </div>
+            <div className="detailInputsItem">
+              <p className="jobInputsLabel">Driver</p>
+              <select className="textInput" id="driver" name="driver" >
+                {drivers.map((el, i) => {
+                  return (
+                    <option key={i} value={el.name}>{el.name}</option>
+                  )
+                })}
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="btnContainer">
-          <button className="checkJobBtn" onClick={checkJob}>Check Job</button>
         </div>
       </form>
-      <div className="modal" id="modal">
-        <div className="jobModalContent" id="modal-content">
-          <span className="close" id="close-modal" onClick={() => {
-            const modal = document.getElementById('modal')
-            modal.style.display = 'none';
-          }}>&times;</span>
-
-          {showLoading ? <CircularProgress sx={{ color: 'orange', position: 'relative', left: '44%', top: '43%' }}></CircularProgress> : null}
-
-          <div >
-            {showResults ?
-              <div className="jobModalContainer">
+      <div className="checkJobBtnContainer">
+        <button className="checkJobBtn" onClick={checkJob}>Check Job</button>
+      </div>
+      <div className="jobResults" id="job-results">
+        {showResults ?
+          <>
+            {showLoading ?
+              <div className="loadingCircleContainer">
+                <CircularProgress size='4em' sx={{ color: 'orange' }}></CircularProgress>
+              </div>
+              :
+              <div className="jobResultsContainer">
                 <div className="headerContainer" >
-                  {profitable ? <h2 >Job is Profitable</h2> : <h2>Job is NOT Profitable</h2>}
+                  {profitable ? <h1 style={{ color: 'lightgreen' }}>Job is Profitable</h1> : <h1 style={{ color: 'maroon' }}>Job is NOT Profitable</h1>}
                 </div>
                 <div className="checkJobDisplay" >
                   <div id="profit-label" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
@@ -379,21 +379,118 @@ export default function AddJob({ userType, user, loggedIn, setShowAlert, setAler
                 </div>
                 <div className="btnContainer" style={{ marginTop: 50 }}>
                   <button onClick={addJob} className="addJobBtn">Add Job</button>
-                  <button onClick={() => {
-                    document.getElementById('modal').style.display = 'none';
-                    document.getElementById("start").value = ''
-                    document.getElementById("pick-up").value = ''
-                    document.getElementById("drop-off").value = ''
-                    document.getElementById("revenue").value = ''
-                    document.getElementById("date").value = ''
-                    document.getElementById("client").value = ''
-                    document.getElementById("driver").value = ''
-                  }} className="btn2">Clear</button>
+                  <button onClick={clearResults} className="btn2">Clear</button>
                 </div>
-              </div> : null}
-          </div>
-        </div>
+              </div>
+            }
+          </>
+          :
+          null
+        }
       </div>
-    </div >
+      {/* <div className="jobResults">           
+        {showLoading ? <CircularProgress sx={{ color: 'orange', position: 'relative', left: '44%', top: '43%' }}></CircularProgress> : null}
+        {showResults ?
+          <div className="jobModalContainer">
+            <div className="headerContainer" >
+              {profitable ? <h2 >Job is Profitable</h2> : <h2>Job is NOT Profitable</h2>}
+            </div>
+            <div className="checkJobDisplay" >
+              <div id="profit-label" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
+                <p>Revenue</p>
+              </div>
+              <div id="profit-number" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
+                <p>${job?.revenue}</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Labor</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.labor}]</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Payroll Tax</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.payrollTax}]</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Dispatch</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.dispatch}]</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Factor</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.factor}]</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Fuel</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.gasCost}]</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Tolls</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.tolls}]</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>ODC</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.odc}]</p>
+              </div>
+              <div id="profit-label" className="jobDisplayItem" >
+                <p>Gross Profit</p>
+              </div>
+              <div id="profit-number" className="jobDisplayItem" >
+                <p>${job?.grossProfit}</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Fixed Costs</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.totalFixedCost}]</p>
+              </div>
+              <div id="profit-label" className="jobDisplayItem">
+                <p>Operating Profit</p>
+              </div>
+              <div id="profit-number" className="jobDisplayItem">
+                <p>${(job?.operatingProfit)}</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>Repairs and Dep.</p>
+              </div>
+              <div className="jobDisplayItem">
+                <p>[${job?.repairs}]</p>
+              </div>
+              <div id="net-profit-label" className="jobDisplayItem">
+                <p style={{ fontWeight: 'bold' }}>Net Profit</p>
+              </div>
+              <div id="net-profit-number" className="jobDisplayItem">
+                <p style={{ fontWeight: 'bold' }}>${job?.netProfit}</p>
+              </div>
+            </div>
+            <div className="btnContainer" style={{ marginTop: 50 }}>
+              <button onClick={addJob} className="addJobBtn">Add Job</button>
+              <button onClick={() => {
+                document.getElementById('modal').style.display = 'none';
+                document.getElementById("start").value = ''
+                document.getElementById("pick-up").value = ''
+                document.getElementById("drop-off").value = ''
+                document.getElementById("revenue").value = ''
+                document.getElementById("date").value = ''
+                document.getElementById("client").value = ''
+                document.getElementById("driver").value = ''
+              }} className="btn2">Clear</button>
+            </div>
+          </div> : null}
+      </div> */}
+    </div>
+
   )
 }
