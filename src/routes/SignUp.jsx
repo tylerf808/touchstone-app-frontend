@@ -8,6 +8,8 @@ import AddDrivers from "./signup_pages/AddDrivers";
 import AccountSelection from "./signup_pages/AccountSelection";
 import SelectManager from "./signup_pages/SelectManger";
 
+const {apiUrl} = require('../urls.json')
+
 export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setCosts, user, setAlertMsg, setShowAlert }) {
 
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -32,7 +34,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
   const [gandaAmount, setGandaAmount] = useState(0)
   const [parkingAmount, setParkingAmount] = useState(0)
   const [overheadAmount, setOverheadAmount] = useState(0)
-  const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0 }])
+  const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0, admin: user.username }])
 
   const navigate = useNavigate();
 
@@ -69,7 +71,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
 
     if (showAlert === false) {
       if (accountType === 'owner') {
-        const response = await fetch("http://localhost:3001/api/user/newOwner", {
+        const response = await fetch(apiUrl + "/api/user/newOwner", {
           method: "POST",
           body: JSON.stringify({
             email: email,
@@ -88,7 +90,8 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
             gAndA: (gandaAmount / 100).toFixed(2),
             loan: (loanAmount / 30).toFixed(2),
             repairs: (repairsAmount / 30).toFixed(2),
-            parking: (parkingAmount / 30).toFixed(2)
+            parking: (parkingAmount / 30).toFixed(2),
+            insuranceType: insuranceType,
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
@@ -97,12 +100,13 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         setLoggedIn(true)
         navigate('/addjob')
       } else {
-        const response = await fetch("http://localhost:3001/api/user/newAdmin", {
+        const response = await fetch(apiUrl + "/api/user/newAdmin", {
           method: "POST",
           body: JSON.stringify({
             email: email,
             password: password,
             username: username,
+            insuranceType: insuranceType,
             insurance: insurance.toFixed(2),
             tractorLease: (tractorAmount / 30).toFixed(2),
             trailerLease: (trailerAmount / 30).toFixed(2),
@@ -127,7 +131,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         navigate('/addjob')
       }
     } else {
-      const response = await fetch("http://localhost:3001/api/user/newDispatcher", {
+      const response = await fetch(apiUrl + "/api/user/newDispatcher", {
         method: "POST",
         body: JSON.stringify({
           email: email,
@@ -137,7 +141,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
         }),
         headers: { "Content-Type": "application/json" },
       }).then((res) => res.json())
-      setUser(response[0].username);
+      setUser(response[0]);
       setCosts(response[1])
       setLoggedIn(true)
       navigate('/addjob')

@@ -1,6 +1,7 @@
  * {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
  }
 
  /*** Site Wide ***/
@@ -143,6 +144,8 @@
  }
 
  /* Containers */
+
+
  .headerContainer {
     display: flex;
     flex-direction: row;
@@ -307,6 +310,135 @@
     width: 100%;
  }
 
+.jobInputsForm {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 30vh;
+   width: 80%;
+   background-color: rgb(243, 239, 235);
+   border: .1em solid rgb(233, 220, 208);
+   border-radius: 1em;
+}
+
+.jobInputHeadersContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+}
+
+.jobInputsHeader {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   width: 100%;
+}
+
+ .jobInputsContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+   margin-bottom: 1em;
+}
+
+ .routeInputsContainer {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   border-right: .1em solid #7a7979;
+   width: 40%;
+   height: 100%;
+ }
+
+ .jobInputsLabel {
+   color: rgb(122, 121, 121);
+   font-weight: 900;
+ }
+
+ .addressInput {
+   width: 225px;
+ }
+
+ .detailInputsItem {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: flex-start;
+   margin: .3em;
+ }
+ 
+ .detailInputsContainer input {
+   width: 175px;
+ }
+
+ .detailInputsContainer select {
+   width: 175px;
+ }
+
+ .routeInputsItem {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: flex-start;
+   margin: .3em;
+ }
+
+ .revenueInputContainer {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   width: 20%;
+   border-right: .1em solid #7a7979;
+   height: 100%;
+
+ }
+
+ .detailInputsContainer {
+   width: 40%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+ }
+
+ .checkJobBtnContainer {
+   margin-top: 1.5em;
+   border-bottom: .3em solid grey;
+   height: 8em;
+   width: 90%;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .jobResults {
+   width: 100%;
+   height: 100vh;
+ }
+
+ .loadingCircleContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+ }
+
+
+
+ #revenue {
+   width: 140px;
+ }
+
  /* Container items and Form items */
  .formItem {
     display: grid;
@@ -429,15 +561,16 @@
     overflow-x: clip;
     transition: .3s;
     padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
  }
 
  .sideNavLink {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: centr;
-    margin: 2em;
+   margin: 1em;
  }
+
 
  .sidenav a {
     text-decoration: none;
@@ -568,9 +701,15 @@
  /* Display */
  .checkJobDisplay {
     display: grid;
-    grid-template-columns: 200px 200px;
-    background-color: rgb(100, 100, 100);
-    height: 500px;
+    grid-template-columns: 300px 300px;
+    height: 80%;
+ }
+
+ .jobResultsContainer {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
  }
 
  .percentageSign {
@@ -655,13 +794,6 @@
  .showPasswordInput {
     margin-left: 8px;
     accent-color: orange;
- }
-
- .textInput {
-    margin-left: .5em;
-    width: 250px;
-    height: 30px;
-    background-color: rgb(236, 223, 213);
  }
 
  .numberInput {

@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 
+const {apiUrl} = require('../../urls.json')
+
+
 export default function SelectManager(props) {
 
     const [admins, setAdmins] = useState([])
@@ -7,7 +10,7 @@ export default function SelectManager(props) {
     useEffect(() => {
 
         async function getAdmins() {
-            const admins = await fetch("http://localhost:3001/api/user/getAdmins", {
+            const admins = await fetch(apiUrl + "/api/user/getAdmins", {
                 method: 'GET',
                 headers: { "Content-Type": "application/json" }
             }).then((res) => res.json())

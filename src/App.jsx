@@ -16,6 +16,7 @@ import Drivers from './routes/Drivers'
 import Dashboard from "./routes/Dashboard";
 
 const library = ["places"];
+const {apiUrl} = require('./urls.json')
 
 export default function App() {
 
@@ -52,7 +53,7 @@ export default function App() {
       return
     }
 
-    const response = await fetch("http://localhost:3001/api/user", {
+    const response = await fetch(apiUrl + "/api/user", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: { "Content-Type": "application/json" },
@@ -69,8 +70,8 @@ export default function App() {
           <Route path="addjob" element={<AddJob loggedIn={loggedIn} library={library} user={user} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />} />
           <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs} setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType}/>} />
-          <Route path="signup" setUserType={setUserType} userType={userType} user={user} element={<SignUp showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} signUp={signUp} loggedIn={loggedIn} />} />
-          <Route path="costs" userType={userType} element={<CostsPage insuranceType={insuranceType} setInsuranceType={setInsuranceType}
+          <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} signUp={signUp} loggedIn={loggedIn} />} />
+          <Route path="costs"  element={<CostsPage userType={userType} insuranceType={insuranceType} setInsuranceType={setInsuranceType}
           insuranceValue={insuranceValue} setInsuranceValue={setInsuranceValue}
           tractorValue={tractorValue} setTractorValue={setTractorValue} trailerValue={trailerValue}
           setTrailerValue={setTrailerValue} mpgValue={mpgValue} setMpgValue={setMpgValue}

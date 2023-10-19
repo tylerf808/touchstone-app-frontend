@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 
-export default function Toolbar({ loggedIn, user, setLoggedIn, setUser, setCosts, costs, userType, setUserType }) {
+export default function Toolbar({ loggedIn, user, setLoggedIn, setUser, setCosts, costs}) {
 
   const handleLogOut = () => {
     setLoggedIn(false)
@@ -11,12 +11,12 @@ export default function Toolbar({ loggedIn, user, setLoggedIn, setUser, setCosts
     closeNav()
   };
 
-  const [isManager, setIsManager] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
-    if (userType === 'manager') {
-      setIsManager(true)
-    }
+    // if (user.accountType === 'admin') {
+    //   setIsAdmin(true)
+    // }
   }, [])
 
   function openNav() {
@@ -37,7 +37,7 @@ export default function Toolbar({ loggedIn, user, setLoggedIn, setUser, setCosts
         <div className='sideNavLink' onClick={closeNav}><Link to='/addjob'>New Load</Link></div>
         <div className='sideNavLink' onClick={closeNav}><Link to='/jobs'>Accepted Loads</Link></div>
         <div className='sideNavLink' onClick={closeNav}><Link to='/costs'>Costs</Link></div>
-        {isManager ? null :
+        {isAdmin ? null :
           <div className='sideNavLink' onClick={closeNav}><Link to='/drivers'>Users</Link></div>}
         <div className='sideNavLink' onClick={handleLogOut}><Link to='/'>Log Out</Link></div>
       </div>

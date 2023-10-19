@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function DriverInput({num, setDrivers, drivers}) {
+export default function DriverInput({num, setDrivers, drivers, user}) {
 
     const [newName, setNewName] = useState('')
     const [newEmail, setNewEmail] = useState('')
@@ -14,7 +14,7 @@ export default function DriverInput({num, setDrivers, drivers}) {
         currentDriver.email = newEmail
         currentDriver.username = newUsername
         currentDriver.password = newPassword
-        const newDrivers = [...drivers, {email: '', username: '', name: '', password: '', num: num+1}]
+        const newDrivers = [...drivers, {email: '', username: '', name: '', password: '', num: num, admin: user.username}]
         newDrivers[currentDriverIndex] = currentDriver
         setDrivers(newDrivers)
     }

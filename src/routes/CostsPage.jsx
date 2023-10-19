@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const {apiUrl} = require('../urls.json')
+
 export default function CostsPage(props) {
 
   const [edit, setEdit] = useState(false)
@@ -32,7 +34,7 @@ export default function CostsPage(props) {
       parking: props.parkingValue / 30
     };
 
-    await fetch("http://localhost:3001/api/costs?id=" + props.user, {
+    await fetch(apiUrl + "/api/costs?id=" + props.user, {
       method: "PUT",
       body: JSON.stringify(newCostsObj),
       headers: {
@@ -42,7 +44,7 @@ export default function CostsPage(props) {
       .then((res) => res.json())
       .catch((err) => console.log(err))
 
-    await fetch("http://localhost:3001/api/costs?id=" + props.user, {
+    await fetch(apiUrl + "/api/costs?id=" + props.user, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +97,7 @@ export default function CostsPage(props) {
           <div className="fixedCostsContainer">
             <div className="costsItem">
               <p className="costsLabel">Labor Rate:</p>
-              <input className="costsInput" onChange={(e) => props.setLaborValue(e.target.value)}></input>
+              <input className="costsInput" defaultValue={props.costs.laborValue} onChange={(e) => props.setLaborValue(e.target.value)}></input>
             </div>
             <div className="costsItem">
               <p className="costsLabel">Payroll Tax:</p>
@@ -131,7 +133,7 @@ export default function CostsPage(props) {
           <div className="operatingCostsContainer">
           <div className="costsItem">
               <p className="costsLabel">Insurance Type:</p>
-              <p className="costsNum">${props.costs.insuranceType}</p>
+              <p className="costsNum">{props.costs.insuranceType}</p>
             </div>
             <div className="costsItem">
               <p className="costsLabel">Insurance Amount:</p>
@@ -160,27 +162,27 @@ export default function CostsPage(props) {
           <div className="fixedCostsContainer">
             <div className="costsItem">
               <p className="costsLabel">Labor Rate:</p>
-              <p className="costsNum">${props.costs.laborRate}</p>
+              <p className="costsNum">{(props.costs.laborRate)*100}%</p>
             </div>
             <div className="costsItem">
               <p className="costsLabel">Payroll Tax:</p>
-              <p className="costsNum">${props.costs.payrollTax}</p>
+              <p className="costsNum">{props.costs.payrollTax*100}%</p>
             </div>
             <div className="costsItem">
               <p className="costsLabel">Dispatch:</p>
-              <p className="costsNum">${props.costs.dispatch}</p>
+              <p className="costsNum">{props.costs.dispatch*100}%</p>
             </div>
             <div className="costsItem">
               <p className="costsLabel">MPG:</p>
-              <p className="costsNum">${props.costs.mpg}</p>
+              <p className="costsNum">{props.costs.mpg}</p>
             </div>
             <div className="costsItem">
               <p className="costsLabel">Factor:</p>
-              <p className="costsNum">${props.costs.factor}</p>
+              <p className="costsNum">{props.costs.factor*100}%</p>
             </div>
             <div className="costsItem">
               <p className="costsLabel">ODC:</p>
-              <p className="costsNum">${props.costs.odc}</p>
+              <p className="costsNum">{props.costs.odc*100}%</p>
             </div>
             <div className="costsItem">
               <p className="costsLabel">Loan:</p>
@@ -198,6 +200,7 @@ export default function CostsPage(props) {
           :
           <button className="checkJobBtn" onClick={() => {
             setEdit(true)
+            console.log(props.costs)
           }}>Edit Costs</button>}
       </div>
     </div>

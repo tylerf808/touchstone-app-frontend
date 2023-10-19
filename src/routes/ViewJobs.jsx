@@ -4,20 +4,22 @@ import { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { CSVLink, CSVDownload } from 'react-csv'
 
+const {apiUrl} = require('../urls.json')
+
 export default function ViewJobs({ user }) {
 
     let [jobs, setJobs] = useState()
 
     const getJobs = async () => {
-        const response = await fetch('http://localhost:3001/api/jobs?id=' + user,
+        const jobs = await fetch(apiUrl + '/api/jobs/allJobs',
             {
-                method: 'GET',
-            }).then((res) => res.json())
-        if(response !== null){
-            setJobs(response)
-        } else {
-            return
-        }
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    admin: user
+                })
+            }).then((res) => res.json()).then((data) => {return data})
+        setJobs(jobs)
     }
 
     useEffect(() => {
@@ -25,7 +27,7 @@ export default function ViewJobs({ user }) {
     }, [])
 
     const columns = [
-        { field: 'id', headerName: 'Job ID', width: 80 },
+        { field: '_id', headerName: 'Job ID', width: 80 },
         { field: 'date', headerName: 'Date', width: 120 },
         { field: 'client', headerName: 'Client', width: 120 },
         { field: 'driver', headerName: 'Driver', width: 120 },
@@ -62,7 +64,7 @@ export default function ViewJobs({ user }) {
         <div className="pageContainer">
             <div style={{ marginTop: 20, height: '60vh', width: '80vw' }}>
                 {jobs ? <>
-                    <DataGrid style={{ backgroundColor: 'white' }} rows={jobs} columns={columns} pageSize={30} rowsPerPageOptions={[30]} />
+                    <DataGrid style={{ backgroundColor: 'white' }} getRowId={(row) => row._id} rows={jobs} columns={columns} pageSize={30} rowsPerPageOptions={[30]} />
                     <CSVLink style={{ marginTop: 2, display: 'flex', flexDirection: 'row', justifyContent: 'center' }} data={jobs} >Download Excel Sheet</CSVLink>
                 </>
                     : <p>No previous jobs</p>}

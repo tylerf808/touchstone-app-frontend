@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-const { apiUrl } = require('../../urls.json')
+const {apiUrl} = require('../../urls.json')
 
 export default function FirstPage(props) {
 
