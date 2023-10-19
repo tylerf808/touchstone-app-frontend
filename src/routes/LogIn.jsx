@@ -35,7 +35,7 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json())
             if (response.msg) {
-                console.log('Wrong Password')
+                console.log(response.msg)
                 return
             } else {
                 setShowAlert(false)
