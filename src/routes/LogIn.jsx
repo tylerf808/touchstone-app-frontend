@@ -35,11 +35,12 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json())
             if (response.msg) {
-                console.log(response.msg)
+                setShowAlert(true)
+                setAlertMsg(response.msg)
                 return
             } else {
                 setShowAlert(false)
-                setUser(response);
+                setUser(response.username);
                 setLoggedIn(true);
 
                 await fetch(apiUrl + "/api/costs", {
@@ -60,11 +61,12 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json())
             if (response.msg) {
-                console.log('Wrong Password')
+                setShowAlert(true)
+                setAlertMsg(response.msg)
                 return
             } else {
                 setShowAlert(false)
-                setUser(response);
+                setUser(response.username);
                 setLoggedIn(true);
 
                 await fetch(apiUrl + "/api/costs", {

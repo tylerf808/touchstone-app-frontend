@@ -3,7 +3,8 @@ import DriverInput from "../../components/DriverInput"
 
 export default function AddDrivers(props) {
 
-    const [inputList, setInputList] = useState([<DriverInput key={0} num={0} setDrivers={props.setDrivers} drivers={props.drivers} user={props.user}/>])
+    const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0, admin: props.user }])
+    const [inputList, setInputList] = useState([<DriverInput key={0} num={0} setDrivers={setDrivers} drivers={drivers} user={props.user}/>])
 
     const togglePassword = () => {
         const passwords = Array.from(document.getElementsByClassName('addDriversPassword'))
@@ -32,7 +33,7 @@ export default function AddDrivers(props) {
                         <div className="addDriverBtnContainer">
                             <button className="btnAddDriver" onClick={() => {
                                 setInputList(inputList.concat([<DriverInput key={inputList.length -1} num={inputList.length - 1}
-                                    setDrivers={props.setDrivers} drivers={props.drivers} user={props.user}/>]))
+                                    setDrivers={setDrivers} drivers={drivers} user={props.user}/>]))
                             }}>+ Driver</button>
                         </div>
                     </div>

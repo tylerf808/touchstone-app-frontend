@@ -34,11 +34,10 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
   const [gandaAmount, setGandaAmount] = useState(0)
   const [parkingAmount, setParkingAmount] = useState(0)
   const [overheadAmount, setOverheadAmount] = useState(0)
-  const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0, admin: user.username }])
 
   const navigate = useNavigate();
 
-  const createAccount = async (account) => {
+  const createAccount = async (drivers, setDrivers) => {
 
     setShowAlert(false)
 
@@ -192,7 +191,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
     case 5:
       return (
         <AddDrivers currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          createAccount={createAccount} drivers={drivers} setDrivers={setDrivers} />
+          createAccount={createAccount}  />
       )
     case 6:
       return (
