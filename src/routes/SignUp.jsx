@@ -10,7 +10,7 @@ import SelectManager from "./signup_pages/SelectManger";
 
 const {apiUrl} = require('../urls.json')
 
-export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setCosts, user, setAlertMsg, setShowAlert }) {
+export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setAlertMsg, setShowAlert }) {
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [selectedAdmin, setSelectedAdmin] = useState('')
@@ -34,6 +34,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
   const [gandaAmount, setGandaAmount] = useState(0)
   const [parkingAmount, setParkingAmount] = useState(0)
   const [overheadAmount, setOverheadAmount] = useState(0)
+  const [tractorNum, setTractorNum] = useState(0)
 
   const navigate = useNavigate();
 
@@ -91,6 +92,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
             repairs: (repairsAmount / 30).toFixed(2),
             parking: (parkingAmount / 30).toFixed(2),
             insuranceType: insuranceType,
+            tractorNum: tractorNum
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
@@ -120,7 +122,8 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
             loan: (loanAmount / 30).toFixed(2),
             repairs: (repairsAmount / 30).toFixed(2),
             parking: (parkingAmount / 30).toFixed(2),
-            drivers: drivers
+            drivers: drivers,
+            tractorNum: tractorNum
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
@@ -175,7 +178,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
           setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} setAccountType={setAccountType}
           setLaborAmount={setLaborAmount} setPayrollAmount={setPayrollAmount} setDispatchAmount={setDispatchAmount}
           setFactorAmount={setFactorAmount} setMpgAmount={setMpgAmount} setOdcAmount={setOdcAmount} overheadAmount={overheadAmount}
-          setOverheadAmount={setOverheadAmount}
+          setOverheadAmount={setOverheadAmount} tractorNum={tractorNum} setTractorNum={setTractorNum}
         />
       )
     case 4:
@@ -185,7 +188,7 @@ export default function SignUp({ showAlert, loggedIn, setLoggedIn, setUser, setC
           setInsuranceAmount={setInsuranceAmount} trailerAmount={trailerAmount} setTrailerAmount={setTrailerAmount}
           tractorAmount={tractorAmount} setTractorAmount={setTractorAmount} parkingAmount={parkingAmount}
           setParkingAmount={setParkingAmount} gandaAmount={gandaAmount} setGandaAmount={setGandaAmount}
-          createAccount={createAccount} accountType={accountType} setShowAlert={setShowAlert}
+          createAccount={createAccount} accountType={accountType} setShowAlert={setShowAlert} setAlertMsg={setAlertMsg}
         />
       )
     case 5:

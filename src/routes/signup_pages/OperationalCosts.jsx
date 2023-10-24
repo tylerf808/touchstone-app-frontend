@@ -11,12 +11,19 @@ export default function FourthPage(props) {
     }, [])
 
     const checkForm = () => {
-        if (props.insuranceType === '' || props.insuranceAmount === '' ||
-            props.trailerAmount === '' || props.setTractorAmount === '' ||
-            props.parkingAmount === '' || props.gandaAmount === '') {
-            return false
-        } else {
-            return true
+        props.setShowAlert(false)
+        let missingItems
+        const inputs = Array.from(document.getElementsByClassName('newCostInput'))
+        inputs.forEach((el) => {
+            if (el.value === '') {
+                props.setAlertMsg('Missing an entry')
+                props.setShowAlert(true)
+                missingItems = true
+                return
+            }
+        })
+        if (missingItems !== true) {
+            props.setCurrentSlide(props.currentSlide + 1)
         }
     }
 
@@ -33,28 +40,12 @@ export default function FourthPage(props) {
                             <div className="slideLabelContainerCreateAcct">
                                 <p className="slideLabel">Select your Insurance payment frequency</p>
                             </div>
-                            <div className="radioMenu">
-                                <div className="radioItem">
-                                    <p className="radioLabel">Monthly</p>
-                                    <input value='monthly' className="radioInput" type="radio" name="insuranceType"
-                                        onClick={(e) => props.setInsuranceType(e.target.value)} />
-                                </div>
-                                <div className="radioItem">
-                                    <p className="radioLabel">Bi-Monthly</p>
-                                    <input value='bi-monthly' className="radioInput" type="radio" name="insuranceType"
-                                        onClick={(e) => props.setInsuranceType(e.target.value)} />
-                                </div>
-                                <div className="radioItem">
-                                    <p className="radioLabel">Quarterly</p>
-                                    <input value='quarterly' className="radioInput" type="radio" name="insuranceType"
-                                        onClick={(e) => props.setInsuranceType(e.target.value)} />
-                                </div>
-                                <div className="radioItem">
-                                    <p className="radioLabel">Annually</p>
-                                    <input value='annually' className="radioInput" type="radio" name="insuranceType"
-                                        onClick={(e) => props.setInsuranceType(e.target.value)} />
-                                </div>
-                            </div>
+                            <select className="newCostInput" defaultValue={props.insuranceType} onChange={(e) => props.setInsuranceType(e.target.value)}>
+                                <option value='monthly' className="selectOption" type="radio" name="insuranceType">Monthly</option>
+                                <option value='bi-monthly' className="selectOption" type="radio" name="insuranceType">Bi-Monthly</option>
+                                <option value='quarterly' className="selectOption" type="radio" name="insuranceType">Quarterly</option>
+                                <option value='annually' className="selectOption" type="radio" name="insuranceType">Annually</option>
+                            </select>
                         </div>
                         <div className="slideItem">
                             <div className="slideLabelContainer">
@@ -97,7 +88,6 @@ export default function FourthPage(props) {
                 {isManager ?
                     <button className="btnSignUp" onClick={() => {
                         checkForm()
-                        props.setCurrentSlide(props.currentSlide + 1)
                     }}>Next</button>
                     :
                     <button className="btnSignUp" onClick={() => {
