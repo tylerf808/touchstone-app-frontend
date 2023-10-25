@@ -3,6 +3,7 @@ import { Container } from "@mui/system";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import './addJobStyles.css'
 
 const { apiUrl, mapsApiKey } = require('../../urls.json')
 

@@ -88,6 +88,48 @@
 
 }
 
+.routeInputsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: .1em solid #7a7979;
+    width: 40%;
+    height: 100%;
+}
+
+.addressInput {
+    width: 225px;
+}
+
+.detailInputsItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: .3em;
+}
+
+.detailInputsContainer input {
+    width: 175px;
+}
+
+.detailInputsContainer select {
+    width: 175px;
+}
+
+.loadingCircleContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#revenue {
+    width: 140px;
+}
+
 .detailInputsContainer {
     width: 40%;
     display: flex;
@@ -106,15 +148,40 @@
     justify-content: flex-start;
     align-items: center;
     left: 30px
- }
+}
 
- /* Buttons */
+.checkJobDisplay {
+    display: grid;
+    grid-template-columns: 300px 300px;
+    height: 80%;
+}
 
- .addJobBtn {
+.jobResultsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Buttons */
+
+.addJobBtn {
     position: relative;
     color: rgb(205, 239, 207);
     background-color: rgb(30, 97, 17);
     width: 160px;
     height: 30px;
     margin: 1em;
- }
+}
+
+.checkJobBtn {
+    position: relative;
+    background-color: rgb(233, 220, 208);
+    width: 160px;
+    height: 30px;
+    margin: 1em;
+}
+
+.checkJobBtn:hover {
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}

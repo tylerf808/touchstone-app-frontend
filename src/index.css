@@ -18,7 +18,6 @@
     color: rgb(255, 255, 255);
  }
 
-
  body {
     background-color: rgb(122, 121, 121);
  }
@@ -37,69 +36,9 @@
 
  /**/
 
- .dashboardContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 80%;
-    position: relative;
-    top: 10em
- }
-
- .dashboardItem {
-    border: .1em solid orange;
-    border-radius: 5%;
-    width: 200px;
-    height: 150px;
-    display: flex;
-    justify-content: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(111, 111, 111, 0.689);
- }
-
- .dashboardItem h2{
-   color: rgb(209, 203, 195);
- }
-
- .dashboardItem h2:hover {
-   cursor: pointer;
- }
 
  /*** Log In Page ****/
- .logInContainer {
-    display: grid;
-    grid-template-columns: 600px;
- }
 
- .logInFormItem {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 3em;
- }
-
- .logInLabelContainer {
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
- }
-
- .logInBtn {
-    position: relative;
-    background-color: rgb(236, 223, 213);
-    width: 160px;
-    height: 30px;
-    margin: 2em;
- }
-
- .logInBtn:hover {
-    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-    cursor: pointer;
- }
 
  /****/
 
@@ -170,26 +109,6 @@
     flex-wrap: wrap;
  }
 
- .driversDisplay {
-    margin: 5em;
- }
-
- .editDriversInput {
-    margin: .5em;
-    background-color: #f4ddc3;
- }
-
- .displayDriversItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 2em;
-    padding: 1em;
-    border: .15em solid #cecece;
-    background-color: #797979;
-    border-radius: 3%;
- }
 
  .showPasswordContainer {
     display: flex;
@@ -199,13 +118,7 @@
     margin-top: 1em;
  }
 
- .signUpLinkContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 3em;
- }
+
 
  .verticalFormContainer {
     display: flex;
@@ -221,11 +134,7 @@
     width: 100%;
  }
 
- .showPasswordContainerSignup {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
- }
+
 
  .inputContainer {
     margin-top: 8px;
@@ -240,62 +149,9 @@
     grid-template-columns: 300px 300px;
  }
 
- .costsContainer {
-    display: grid;
-    grid-template-columns: 500px 400px;
-    grid-template-rows: 300px 300px;
- }
-
- .operatingCostsContainer {
-    margin: auto;
-    width: 100%;
- }
-
- .fixedCostsContainer {
-    margin: auto;
-    width: 100%;
- }
-
- .costsHeaderContainer {
-    margin: auto;
-    width: 50%;
- }
 
 
- .costsItem {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: .6em;
- }
-
- .costsItem p {
-    margin-right: .5em;
-    color: rgb(236, 223, 213);
-    font-size: 1.5em;
- }
-
- .costsNum {
-    color: rgb(236, 223, 213);
-    font-size: 1.5em;
- }
-
- .btnContainerSignUp {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
- }
-
- .signUpInstructionsContainer {
-    height: 600px;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
- }
+ 
 
  .alertContainer {
     display: flex;
@@ -315,54 +171,6 @@
 
 
 
- .routeInputsContainer {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   border-right: .1em solid #7a7979;
-   width: 40%;
-   height: 100%;
- }
-
-
-
- .addressInput {
-   width: 225px;
- }
-
- .detailInputsItem {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: flex-start;
-   margin: .3em;
- }
- 
- .detailInputsContainer input {
-   width: 175px;
- }
-
- .detailInputsContainer select {
-   width: 175px;
- }
-
-
- 
-
- .loadingCircleContainer {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   height: 100%;
- }
-
-
-
- #revenue {
-   width: 140px;
- }
 
  /* Container items and Form items */
  .formItem {
@@ -411,47 +219,13 @@
     margin: 1em;
  }
 
- .btnAddDriver {
-    margin: 1em;
-    width: 6em;
-    height: 2em;
-    border: .05em solid black;
-    border-radius: 5%;
-    background-color: rgb(233, 220, 208);
- }
 
- .btnAddDriver:hover {
-    box-shadow: 2px 2px 3px rgb(77, 77, 77)
- }
-
- .btnSignUp {
-    margin: 2em;
-    width: 8em;
-    height: 3em;
-    border: .05em solid black;
-    border-radius: 5%;
-    background-color: rgb(233, 220, 208);
- }
-
- .btnSignUp:hover {
-    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
- }
 
  .radioBtn {
     margin: .2em;
  }
 
- .checkJobBtn {
-    position: relative;
-    background-color: rgb(233, 220, 208);
-    width: 160px;
-    height: 30px;
-    margin: 1em;
- }
-
- .checkJobBtn:hover {
-    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
- }
+ 
 
  /* Side Menu */
  .sidenav {
@@ -525,96 +299,10 @@
  }
 
  /* SignUp carousel*/
- .slideItem {
-    display: grid;
-    grid-template-columns: 300px 200px;
-    margin: 1em;
- }
 
- .slideItemTextInput {
-    margin-left: .5em;
-    width: 50px;
-    height: 30px;
-    background-color: rgb(236, 223, 213);
- }
-
- .slide {
-    border: none !important;
-    display: grid;
-    grid-template-columns: 500px 500px;
- }
-
- .slideInputs {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
- }
-
- .slider {
-    margin-top: 5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
- }
-
- .slideTitle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.3em;
- }
-
- .slideLabelContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
- }
-
- .slideLabel {
-    font-size: 1.2em;
- }
-
- .slideLabelContainerCreateAcct {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
- }
-
- .passwordInputSignUp {
-    background-color: rgb(236, 223, 213);
-    width: 100%;
-    height: 1.5em;
- }
-
- s .showPasswordLabel {
-    color: rgb(243, 239, 236)
- }
-
- .emailInputSignUp {
-    background-color: rgb(236, 223, 213);
-    width: 100%;
-    height: 1.5em;
- }
 
  /* Display */
- .checkJobDisplay {
-    display: grid;
-    grid-template-columns: 300px 300px;
-    height: 80%;
- }
 
- .jobResultsContainer {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
- }
 
  .percentageSign {
     position: relative;
@@ -759,18 +447,7 @@
     padding: 1em
  }
 
- .costsInputContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
- }
 
- .costsInput {
-    width: 33%;
-    font-size: 1em;
-    background-color: rgb(236, 223, 213)
- }
 
  .dollarInput {
     display: flex;

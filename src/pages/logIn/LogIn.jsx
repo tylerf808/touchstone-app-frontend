@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import './loginStyles.css'
 
 const { apiUrl } = require('../../urls.json')
 
-export default function LogIn({ user, userType, setUserType, setUser, costs, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
+export default function LogIn({setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
 
     const [showPassword, setShowPassword] = useState(false);
 

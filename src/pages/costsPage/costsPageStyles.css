@@ -1,0 +1,52 @@
+.costsInputContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.costsInput {
+    width: 33%;
+    font-size: 1em;
+    background-color: rgb(236, 223, 213)
+}
+
+.costsContainer {
+    display: grid;
+    grid-template-columns: 500px 400px;
+    grid-template-rows: 300px 300px;
+}
+
+.operatingCostsContainer {
+    margin: auto;
+    width: 100%;
+}
+
+.fixedCostsContainer {
+    margin: auto;
+    width: 100%;
+}
+
+.costsHeaderContainer {
+    margin: auto;
+    width: 50%;
+}
+
+.costsItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .6em;
+}
+
+.costsItem p {
+    margin-right: .5em;
+    color: rgb(236, 223, 213);
+    font-size: 1.5em;
+}
+
+.costsNum {
+    color: rgb(236, 223, 213);
+    font-size: 1.5em;
+}

@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UserInfo from "./signup_pages/UserInfo";
-import Instructions from "./signup_pages/Instructions";
-import FixedCosts from "./signup_pages/FixedCosts";
-import OperationalCosts from "./signup_pages/OperationalCosts";
-import AddDrivers from "./signup_pages/AddDrivers";
-import AccountSelection from "./signup_pages/AccountSelection";
-import SelectManager from "./signup_pages/SelectManger";
+import UserInfo from "./signUpPages/UserInfo";
+import Instructions from "./signUpPages/Instructions";
+import FixedCosts from "./signUpPages/FixedCosts";
+import OperationalCosts from "./signUpPages/OperationalCosts";
+import AddDrivers from "./signUpPages/AddDrivers";
+import AccountSelection from "./signUpPages/AccountSelection";
+import SelectManager from "./signUpPages/SelectManger";
+import './signUpStyles.css'
 
-const {apiUrl} = require('../../../urls.json')
+const {apiUrl} = require('../../urls.json')
 
 export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setAlertMsg, setShowAlert }) {
 

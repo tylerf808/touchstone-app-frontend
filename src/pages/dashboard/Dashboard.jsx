@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import './dashboardStyles.css'
 
 export default function Dashboard(props) {
 

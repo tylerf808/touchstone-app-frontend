@@ -10,7 +10,7 @@ import { Alert } from "@mui/material";
 import AddJob from "./pages/addJob/AddJob";
 import LogIn from "./pages/logIn/LogIn";
 import CostsPage from "./pages/costsPage/CostsPage";
-import SignUp from "./pages/signUp/signUpPages/SignUp";
+import SignUp from "./pages/signUp/SignUp";
 import ViewJobs from './pages/viewJobs/ViewJobs'
 import Drivers from './pages/drivers/Drivers'
 import Dashboard from "./pages/dashboard/Dashboard";

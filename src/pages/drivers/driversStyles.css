@@ -1,0 +1,33 @@
+.driversDisplay {
+    margin: 5em;
+ }
+
+ .editDriversInput {
+    margin: .5em;
+    background-color: #f4ddc3;
+ }
+
+ .displayDriversItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2em;
+    padding: 1em;
+    border: .15em solid #cecece;
+    background-color: #797979;
+    border-radius: 3%;
+ }
+
+ .btnAddDriver {
+    margin: 1em;
+    width: 6em;
+    height: 2em;
+    border: .05em solid black;
+    border-radius: 5%;
+    background-color: rgb(233, 220, 208);
+ }
+
+ .btnAddDriver:hover {
+    box-shadow: 2px 2px 3px rgb(77, 77, 77)
+ }

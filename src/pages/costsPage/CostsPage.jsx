@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import './costsPageStyles.css'
 
 const {apiUrl} = require('../../urls.json')
 

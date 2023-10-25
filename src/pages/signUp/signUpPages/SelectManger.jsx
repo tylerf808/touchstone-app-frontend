@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const {apiUrl} = require('../../urls.json')
+const {apiUrl} = require('../../../urls.json')
 
 
 export default function SelectManager(props) {
