@@ -4,7 +4,7 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const { apiUrl, mapsApiKey } = require('../urls.json')
+const { apiUrl, mapsApiKey } = require('../../urls.json')
 
 export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, library }) {
 

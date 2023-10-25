@@ -1,5 +1,5 @@
 import { useState, useEffect, StrictMode } from "react";
-import Toolbar from "./routes/Toolbar";
+import Toolbar from "./components/Toolbar";
 import {
   BrowserRouter as Router,
   Route,
@@ -7,13 +7,13 @@ import {
   Routes
 } from "react-router-dom";
 import { Alert } from "@mui/material";
-import AddJob from "./routes/AddJob";
-import LogIn from "./routes/LogIn";
-import CostsPage from "./routes/CostsPage";
-import SignUp from "./routes/SignUp";
-import ViewJobs from './routes/ViewJobs'
-import Drivers from './routes/Drivers'
-import Dashboard from "./routes/Dashboard";
+import AddJob from "./pages/addJob/AddJob";
+import LogIn from "./pages/logIn/LogIn";
+import CostsPage from "./pages/costsPage/CostsPage";
+import SignUp from "./pages/signUp/signUpPages/SignUp";
+import ViewJobs from './pages/viewJobs/ViewJobs'
+import Drivers from './pages/drivers/Drivers'
+import Dashboard from "./pages/dashboard/Dashboard";
 
 const library = ["places"];
 const {apiUrl} = require('./urls.json')

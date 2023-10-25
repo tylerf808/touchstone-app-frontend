@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-const { apiUrl } = require('../urls.json')
+const { apiUrl } = require('../../urls.json')
 
 export default function LogIn({ user, userType, setUserType, setUser, costs, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
 
