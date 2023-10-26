@@ -85,7 +85,7 @@ export default function FirstPage(props) {
                             </div>
                             <input className="passwordInputSignUp" id="password-conf-signup" onChange={(e) => props.setPasswordConf(e.target.value)} type="password" />
                         </div>
-                        <div className="slideItem" style={{position: 'relative', left: 200}}>
+                        <div className="slideItem" style={{position: 'relative', left: 165}}>
                             <div className='showPasswordContainerSignup'>
                                 <p>Show Password</p>
                                 <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>

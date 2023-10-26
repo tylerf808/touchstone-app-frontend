@@ -1,134 +1,140 @@
 .signUpLinkContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 3em;
- }
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   margin-top: 3em;
+}
 
- .showPasswordContainerSignup {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
- }
+.showPasswordContainerSignup {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+}
 
- .btnContainerSignUp {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
- }
+.btnContainerSignUp {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+}
 
- .signUpInstructionsContainer {
-    height: 30%;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
- }
- 
- .btnSignUp {
-    margin: 2em;
-    width: 8em;
-    height: 3em;
-    border: .05em solid black;
-    border-radius: 5%;
-    background-color: rgb(233, 220, 208);
- }
+.signUpInstructionsContainer {
+   margin-top: 3em;
+   width: 40%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
 
- .btnSignUp:hover {
-    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
- }
+.btnSignUp {
+   margin: 2em;
+   width: 8em;
+   height: 3em;
+   border: .05em solid black;
+   border-radius: 5%;
+   background-color: rgb(233, 220, 208);
+}
 
- .slideItemGroup {
+.btnSignUp:hover {
+   box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.slideItemGroup {
    background-color: rgb(255, 255, 255);
    border: .1em solid black;
    border-radius: .5em;
    padding: 1em;
- }
+}
 
- .slideGroupLabel{
+.slideGroupLabel {
    color: black;
    font-weight: 600;
- }
+}
 
- .slideItem {
-    display: grid;
-    grid-template-columns: 70% 30%;
-    margin: 1em;
- }
+.slideItem {
+   display: grid;
+   grid-template-columns: 70% 30%;
+   margin: 1em;
+}
 
- .slideInputContaier {
+.slideInputContainer {
    display: flex;
    flex-direction: row;
    justify-content: center;
- }
+}
 
- .slide {
-    border: none !important;
-    display: grid;
-    grid-template-columns: 50% 50%;
- }
+.slide {
+   border: none !important;
+   display: grid;
+   grid-template-columns: 40% 60%;
+}
 
- .slider {
-    margin-top: 5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
- }
+.slider {
+   margin-top: 5%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
 
- .slideTitle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.3em;
- }
+.slideTitle {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   font-size: 2.3em;
+}
 
- .slideLabelContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
- }
+.slideLabelContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+}
 
- .slideLabel {
-    font-size: 1.2em;
-    color: grey;
- }
+.slideLabel {
+   font-size: 1.2em;
+   color: grey;
+}
 
- .slideLabelContainerCreateAcct {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
- }
+.slideLabelContainerCreateAcct {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+}
 
- .slideInputs {
+.slideLabelContainerCreateAcct p {
+   color: rgb(233, 220, 208);
+}
 
- }
+.percentageSign {
+   color: black
+}
 
- .newCostInput {
+.slideInputs {}
+
+.newCostInput {
    margin-left: .8em;
    background-color: rgb(236, 223, 213);
    width: 6em;
    height: 2em;
 }
 
- .passwordInputSignUp {
-    background-color: rgb(236, 223, 213);
-    width: 100%;
-    height: 1.5em;
- }
+.passwordInputSignUp {
+   background-color: rgb(236, 223, 213);
+   width: 12em;
+   height: 1.5em;
+}
 
- s .showPasswordLabel {
-    color: rgb(243, 239, 236)
- }
+s .showPasswordLabel {
+   color: rgb(243, 239, 236)
+}
 
- .emailInputSignUp {
-    background-color: rgb(236, 223, 213);
-    width: 100%;
-    height: 1.5em;
- }
+.emailInputSignUp {
+   background-color: rgb(236, 223, 213);
+   width: 12em;
+   height: 1.5em;
+}

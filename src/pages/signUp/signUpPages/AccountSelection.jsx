@@ -1,6 +1,20 @@
-
+import {useEffect} from 'react'
 
 export default function AccountSelection({ accountType, setAccountType, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide }) {
+
+    const checkAccountOption = () => {
+        const ownerInput = document.getElementById('owner')
+        const adminInput = document.getElementById('admin')
+        if(accountType === 'admin'){
+            adminInput.checked = true
+        } else {
+            ownerInput.checked = true
+        }
+    }
+
+    useEffect(() => {
+        checkAccountOption()
+    }, [])
 
     return (
         <div className="pageContainer">
@@ -14,11 +28,11 @@ export default function AccountSelection({ accountType, setAccountType, setShowA
                             <div className="radioMenu">
                                 <div className="radioItem">
                                     <p className="radioLabel">Owner/Operator</p>
-                                    <input className="radioInput" type="radio" name="accountType" value='owner' onClick={(e) => setAccountType(e.target.value)}></input>
+                                    <input id="owner" className="radioInput" type="radio" name="accountType" value='owner' onClick={(e) => setAccountType(e.target.value)}></input>
                                 </div>
                                 <div className="radioItem">
                                     <p className="radioLabel">Admin</p>
-                                    <input className="radioInput" type="radio" name="accountType" value='admin' onClick={(e) => setAccountType(e.target.value)}></input>
+                                    <input id="admin" className="radioInput" type="radio" name="accountType" value='admin' onClick={(e) => setAccountType(e.target.value)}></input>
                                 </div>
                             </div>
                         </div>
