@@ -21,21 +21,21 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
   const [password, setPassword] = useState('')
   const [passwordConf, setPasswordConf] = useState('')
   const [insuranceType, setInsuranceType] = useState()
-  const [insuranceAmount, setInsuranceAmount] = useState(0)
-  const [tractorAmount, setTractorAmount] = useState(0)
-  const [trailerAmount, setTrailerAmount] = useState(0)
-  const [dispatchAmount, setDispatchAmount] = useState(0)
-  const [factorAmount, setFactorAmount] = useState(0)
-  const [odcAmount, setOdcAmount] = useState(0)
-  const [loanAmount, setLoanAmount] = useState(0)
-  const [repairsAmount, setRepairsAmount] = useState(0)
-  const [mpgAmount, setMpgAmount] = useState(0)
-  const [laborAmount, setLaborAmount] = useState(0)
-  const [payrollAmount, setPayrollAmount] = useState(0)
-  const [gandaAmount, setGandaAmount] = useState(0)
-  const [parkingAmount, setParkingAmount] = useState(0)
-  const [overheadAmount, setOverheadAmount] = useState(0)
-  const [tractorNum, setTractorNum] = useState(0)
+  const [insuranceAmount, setInsuranceAmount] = useState()
+  const [tractorAmount, setTractorAmount] = useState()
+  const [trailerAmount, setTrailerAmount] = useState()
+  const [dispatchAmount, setDispatchAmount] = useState()
+  const [factorAmount, setFactorAmount] = useState()
+  const [odcAmount, setOdcAmount] = useState()
+  const [loanAmount, setLoanAmount] = useState()
+  const [repairsAmount, setRepairsAmount] = useState()
+  const [mpgAmount, setMpgAmount] = useState()
+  const [laborAmount, setLaborAmount] = useState()
+  const [payrollAmount, setPayrollAmount] = useState()
+  const [gandaAmount, setGandaAmount] = useState()
+  const [parkingAmount, setParkingAmount] = useState()
+  const [overheadAmount, setOverheadAmount] = useState()
+  const [tractorNum, setTractorNum] = useState()
 
   const navigate = useNavigate();
 
@@ -190,6 +190,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
           tractorAmount={tractorAmount} setTractorAmount={setTractorAmount} parkingAmount={parkingAmount}
           setParkingAmount={setParkingAmount} gandaAmount={gandaAmount} setGandaAmount={setGandaAmount}
           createAccount={createAccount} accountType={accountType} setShowAlert={setShowAlert} setAlertMsg={setAlertMsg}
+          repairsAmount={repairsAmount} setRepairsAmount={setRepairsAmount} loanAmount={loanAmount} setLoanAmount={setLoanAmount}
         />
       )
     case 5:

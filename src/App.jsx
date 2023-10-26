@@ -16,7 +16,6 @@ import Drivers from './pages/drivers/Drivers'
 import Dashboard from "./pages/dashboard/Dashboard";
 
 const library = ["places"];
-const {apiUrl} = require('./urls.json')
 
 export default function App() {
 
@@ -40,26 +39,6 @@ export default function App() {
   const [loanValue, setLoanValue] = useState()
   const [repairsValue, setRepairsValue] = useState()
 
-  const signUp = async () => {
-    const email = document.getElementById("email-signup").value;
-    const password = document.getElementById("password-signup").value;
-    const passwordConf = document.getElementById("password-signup-conf").value;
-
-    if (email || password === '' || passwordConf === '') {
-      return
-    }
-
-    if (password !== passwordConf) {
-      return
-    }
-
-    const response = await fetch(apiUrl + "/api/user", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-Type": "application/json" },
-    }).then((res) => res.json());
-    setUser(response.user_id);
-  };
 
   return (
       <Router>
@@ -68,9 +47,11 @@ export default function App() {
         <Routes>
           <Route path='dashboard' element={<Dashboard />} />
           <Route path="addjob" element={<AddJob loggedIn={loggedIn} library={library} user={user} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />} />
-          <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs} setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+          <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs}
+           setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType}/>} />
-          <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} signUp={signUp} loggedIn={loggedIn} />} />
+          <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+           setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
           <Route path="costs"  element={<CostsPage userType={userType} insuranceType={insuranceType} setInsuranceType={setInsuranceType}
           insuranceValue={insuranceValue} setInsuranceValue={setInsuranceValue}
           tractorValue={tractorValue} setTractorValue={setTractorValue} trailerValue={trailerValue}

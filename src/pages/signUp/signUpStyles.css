@@ -19,7 +19,7 @@
  }
 
  .signUpInstructionsContainer {
-    height: 600px;
+    height: 30%;
     width: 40%;
     display: flex;
     flex-direction: column;
@@ -39,30 +39,35 @@
  .btnSignUp:hover {
     box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
  }
+
+ .slideItemGroup {
+   background-color: rgb(255, 255, 255);
+   border: .1em solid black;
+   border-radius: .5em;
+   padding: 1em;
+ }
+
+ .slideGroupLabel{
+   color: black;
+   font-weight: 600;
+ }
+
  .slideItem {
     display: grid;
-    grid-template-columns: 300px 200px;
+    grid-template-columns: 70% 30%;
     margin: 1em;
  }
 
- .slideItemTextInput {
-    margin-left: .5em;
-    width: 50px;
-    height: 30px;
-    background-color: rgb(236, 223, 213);
+ .slideInputContaier {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
  }
 
  .slide {
     border: none !important;
     display: grid;
-    grid-template-columns: 500px 500px;
- }
-
- .slideInputs {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    grid-template-columns: 50% 50%;
  }
 
  .slider {
@@ -70,7 +75,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
  }
 
  .slideTitle {
@@ -90,6 +95,7 @@
 
  .slideLabel {
     font-size: 1.2em;
+    color: grey;
  }
 
  .slideLabelContainerCreateAcct {
@@ -99,6 +105,17 @@
     align-items: center;
     width: 100%;
  }
+
+ .slideInputs {
+
+ }
+
+ .newCostInput {
+   margin-left: .8em;
+   background-color: rgb(236, 223, 213);
+   width: 6em;
+   height: 2em;
+}
 
  .passwordInputSignUp {
     background-color: rgb(236, 223, 213);

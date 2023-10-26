@@ -383,12 +383,7 @@
     height: 25px;
  }
 
- .newCostInput {
-    margin-left: .8em;
-    background-color: rgb(236, 223, 213);
-    width: 100px;
-    height: 25px;
- }
+ 
 
  .radioInput {
     accent-color: orange;
