@@ -27,7 +27,6 @@ export default function FourthPage(props) {
         }
     }
 
-
     return (
         <div className="pageContainer">
             <div className="slider">
@@ -39,7 +38,7 @@ export default function FourthPage(props) {
                         <div className="slideItemGroup">
                             <p className="slideGroupLabel">Insurance</p>
                             <div className="slideItem">
-                                <div className="slideLabelContainerCreateAcct">
+                                <div className="slideLabelContainer">
                                     <p className="slideLabel">Select your Insurance payment frequency</p>
                                 </div>
                                 <select className="newCostInput" defaultValue={props.insuranceType} onChange={(e) => props.setInsuranceType(e.target.value)}>
@@ -53,9 +52,7 @@ export default function FourthPage(props) {
                                 <div className="slideLabelContainer">
                                     <p className="slideLabel">Enter your Insurance payment</p>
                                 </div>
-                                <div className="slideInputContainer">
-                                    <input defaultValue={props.insuranceAmount} className="newCostInput" type="number" onChange={(e) => props.setInsuranceAmount(e.target.value)} />
-                                </div>
+                                <input defaultValue={props.insuranceAmount} className="newCostInput" type="number" onChange={(e) => props.setInsuranceAmount(e.target.value)} />
                             </div>
                         </div>
                         <div className="slideItemGroup">
@@ -100,25 +97,27 @@ export default function FourthPage(props) {
                                 <input defaultValue={props.gandaAmount} className="newCostInput" type="number" onChange={(e) => props.setGandaAmount(e.target.value)} />
                             </div>
                         </div>
+                        <div className="btnContainerSignUp">
+                            <button className="btnSignUp" onClick={() => {
+                                props.setShowAlert(false)
+                                props.setCurrentSlide(props.currentSlide - 1)
+                            }}>Back</button>
+                            {isManager ?
+                                <button className="btnSignUp" onClick={() => {
+                                    checkForm()
+                                }}>Next</button>
+                                :
+                                <button className="btnSignUp" onClick={() => {
+                                    checkForm()
+                                    props.createAccount(props.accountType)
+                                }}>Submit</button>
+                            }
+                        </div>
                     </div>
                 </div>
+
             </div>
-            <div className="btnContainerSignUp">
-                <button className="btnSignUp" onClick={() => {
-                    props.setShowAlert(false)
-                    props.setCurrentSlide(props.currentSlide - 1)
-                }}>Back</button>
-                {isManager ?
-                    <button className="btnSignUp" onClick={() => {
-                        checkForm()
-                    }}>Next</button>
-                    :
-                    <button className="btnSignUp" onClick={() => {
-                        checkForm()
-                        props.createAccount(props.accountType)
-                    }}>Submit</button>
-                }
-            </div>
+
         </div>
     )
 }

@@ -89,20 +89,21 @@ export default function ThirdPage(props) {
                                 </div>
                             </div>
                         </div>
+                        <div className="btnContainerSignUp">
+                            <button className="btnSignUp" onClick={() => {
+                                props.setShowAlert(false)
+                                props.setCurrentSlide(props.currentSlide - 1)
+                            }}>Back</button>
+                            <button className="btnSignUp" onClick={() => {
+                                // props.setShowAlert(false)
+                                checkForm()
+                                // props.setCurrentSlide(props.currentSlide + 1)
+                            }}>Next</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="btnContainerSignUp">
-                <button className="btnSignUp" onClick={() => {
-                    props.setShowAlert(false)
-                    props.setCurrentSlide(props.currentSlide - 1)
-                }}>Back</button>
-                <button className="btnSignUp" onClick={() => {
-                    // props.setShowAlert(false)
-                    checkForm()
-                    // props.setCurrentSlide(props.currentSlide + 1)
-                }}>Next</button>
-            </div>
+
         </div>
     )
 }

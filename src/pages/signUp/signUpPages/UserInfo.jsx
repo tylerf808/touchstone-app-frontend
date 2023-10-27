@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-const {apiUrl} = require('../../../urls.json')
+const { apiUrl } = require('../../../urls.json')
 
 export default function FirstPage(props) {
 
@@ -61,37 +61,29 @@ export default function FirstPage(props) {
                         <h3>Create an Account</h3>
                     </div>
                     <div className="slideInputs">
-                        <div className="slideItem">
-                            <div className="slideLabelContainerCreateAcct">
+                        <div className="slideItemGroup">
+                            <div className="slideItemInfo">
                                 <p className="slideLabel">Email</p>
+                                <input className="emailInputSignUp" onChange={(e) => props.setEmail(e.target.value)} type="email" />
                             </div>
-                            <input className="emailInputSignUp" onChange={(e) => props.setEmail(e.target.value)} type="email" />
-                        </div>
-                        <div className="slideItem">
-                            <div className="slideLabelContainerCreateAcct">
+                            <div className="slideItemInfo">
                                 <p className="slideLabel">Username</p>
+                                <input className="emailInputSignUp" onChange={(e) => props.setUsername(e.target.value)} type="text" />
                             </div>
-                            <input className="emailInputSignUp" onChange={(e) => props.setUsername(e.target.value)} type="text" />
-                        </div>
-                        <div className="slideItem">
-                            <div className="slideLabelContainerCreateAcct">
+                            <div className="slideItemInfo">
                                 <p className="slideLabel">Password</p>
+                                <input className="passwordInputSignUp" id='password-signup' onChange={(e) => props.setPassword(e.target.value)} type="password" />
                             </div>
-                            <input className="passwordInputSignUp" id='password-signup' onChange={(e) => props.setPassword(e.target.value)} type="password" />
-                        </div>
-                        <div className="slideItem">
-                            <div className="slideLabelContainerCreateAcct">
+                            <div className="slideItemInfo">
                                 <p className="slideLabel">Confirm Password</p>
-                            </div>
-                            <input className="passwordInputSignUp" id="password-conf-signup" onChange={(e) => props.setPasswordConf(e.target.value)} type="password" />
-                        </div>
-                        <div className="slideItem" style={{position: 'relative', left: 165}}>
-                            <div className='showPasswordContainerSignup'>
-                                <p>Show Password</p>
-                                <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
+                                <input className="passwordInputSignUp" id="password-conf-signup" onChange={(e) => props.setPasswordConf(e.target.value)} type="password" />
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className='showPasswordContainerSignup' style={{ left: '16em', top: '1em', position: 'relative' }}>
+                    <p>Show Password</p>
+                    <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
                 </div>
             </div>
             <div className="btnContainer">

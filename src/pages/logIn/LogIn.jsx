@@ -4,7 +4,7 @@ import './loginStyles.css'
 
 const { apiUrl } = require('../../urls.json')
 
-export default function LogIn({setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
+export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -85,24 +85,15 @@ export default function LogIn({setUser, setCosts, setLoggedIn, setShowAlert, set
 
     return (
         <div className='pageContainer'>
-            <div className='headerContainer'>
-                <h1>Log In</h1>
-            </div>
             <div className='logInContainer'>
-                <div className="logInFormItem">
-                    <div className='logInLabelContainer'>
-                        <p>Email or Username</p>
-                    </div>
-                    <input className='textInput' type='emailOrUsername' id="email-login"></input>
+                <div className='logInHeader'>
+                    <h2>Log In</h2>
+                    <p>Enter your credentials below</p>
                 </div>
-                <div className="logInFormItem">
-                    <div className='logInLabelContainer'>
-                        <p>Password</p>
-                    </div>
-                    <input className='textInput' type='password' id="password-login"></input>
-                </div>
+                <input placeholder='Enter your email or username' className='emailAndPasswordInput' type='emailOrUsername' id="email-login"></input>
+                <input placeholder='Enter you password' className='emailAndPasswordInput' type='password' id="password-login"></input>
                 <div className='showPasswordContainer'>
-                    <p>Show Password</p>
+                    <p style={{color: 'black', fontSize: '1em'}}>Show Password</p>
                     <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
                 </div>
                 <div className='btnContainer'>
@@ -112,7 +103,6 @@ export default function LogIn({setUser, setCosts, setLoggedIn, setShowAlert, set
             <div className='signUpLinkContainer'>
                 <p >Don't have an account? <Link id='sign-up-link' to="/signup">Sign up here!</Link></p>
             </div>
-
         </div>
     )
 }

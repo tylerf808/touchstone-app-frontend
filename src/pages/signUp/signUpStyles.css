@@ -15,7 +15,7 @@
 .btnContainerSignUp {
    display: flex;
    flex-direction: row;
-   justify-content: space-between;
+   justify-content: center;
 }
 
 .signUpInstructionsContainer {
@@ -45,6 +45,12 @@
    border: .1em solid black;
    border-radius: .5em;
    padding: 1em;
+}
+
+.slideItemInfo {
+   display: grid;
+   grid-template-columns: 50% 50%;
+   margin: 1em;
 }
 
 .slideGroupLabel {
@@ -95,7 +101,7 @@
 
 .slideLabel {
    font-size: 1.2em;
-   color: grey;
+   color: rgb(84, 76, 59);
 }
 
 .slideLabelContainerCreateAcct {
@@ -114,7 +120,9 @@
    color: black
 }
 
-.slideInputs {}
+.slideInputs {
+
+}
 
 .newCostInput {
    margin-left: .8em;
@@ -125,7 +133,7 @@
 
 .passwordInputSignUp {
    background-color: rgb(236, 223, 213);
-   width: 12em;
+   width: 80%;
    height: 1.5em;
 }
 
@@ -135,6 +143,6 @@ s .showPasswordLabel {
 
 .emailInputSignUp {
    background-color: rgb(236, 223, 213);
-   width: 12em;
+   width: 80%;
    height: 1.5em;
 }
