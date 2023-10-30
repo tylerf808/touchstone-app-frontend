@@ -42,10 +42,10 @@ export default function FourthPage(props) {
                                     <p className="slideLabel">Select your Insurance payment frequency</p>
                                 </div>
                                 <select className="newCostInput" defaultValue={props.insuranceType} onChange={(e) => props.setInsuranceType(e.target.value)}>
-                                    <option value='monthly' className="selectOption" type="radio" name="insuranceType">Monthly</option>
-                                    <option value='bi-monthly' className="selectOption" type="radio" name="insuranceType">Bi-Monthly</option>
-                                    <option value='quarterly' className="selectOption" type="radio" name="insuranceType">Quarterly</option>
-                                    <option value='annually' className="selectOption" type="radio" name="insuranceType">Annually</option>
+                                    <option value='monthly' className="selectOption" name="insuranceType">Monthly</option>
+                                    <option value='bi-monthly' className="selectOption" name="insuranceType">Bi-Monthly</option>
+                                    <option value='quarterly' className="selectOption" name="insuranceType">Quarterly</option>
+                                    <option value='annually' className="selectOption" name="insuranceType">Annually</option>
                                 </select>
                             </div>
                             <div className="slideItem">
