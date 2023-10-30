@@ -146,3 +146,15 @@ s .showPasswordLabel {
    width: 80%;
    height: 1.5em;
 }
+
+.addDriversItem {
+   margin: .2em;
+}
+
+.addDriversInput {
+   background-color: rgb(236, 223, 213);
+}
+
+.addDriversPassword {
+   background-color: rgb(236, 223, 213);
+}

@@ -389,21 +389,7 @@
     accent-color: orange;
  }
 
- .addDriversItem {
-    margin: .2em;
- }
 
- .addDriversItem p {
-    color: rgb(245, 239, 234);
- }
-
- .addDriversInput {
-    background-color: rgb(236, 223, 213);
- }
-
- .addDriversPassword {
-    background-color: rgb(236, 223, 213);
- }
 
  .showPasswordContainerDrivers {
     display: flex;

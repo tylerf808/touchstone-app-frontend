@@ -10,3 +10,11 @@
     width: 200px;
     padding: 1em
  }
+
+ .addDriversItem p{
+    color: grey;
+ }
+
+ .driverInputs h3{
+    color: grey
+ }

@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import DriverInput from "../../../components/DriverInput"
 
 export default function AddDrivers(props) {
 
     const [drivers, setDrivers] = useState([{ email: '', username: '', name: '', password: '', num: 0, admin: props.user }])
-    const [inputList, setInputList] = useState([<DriverInput key={0} num={0} setDrivers={setDrivers} drivers={drivers} user={props.user}/>])
+    const [driverInputs, setDriverInputs]= useState()
 
     const togglePassword = () => {
         const passwords = Array.from(document.getElementsByClassName('addDriversPassword'))
@@ -22,19 +22,15 @@ export default function AddDrivers(props) {
             <div className="slider">
                 <div className="slide">
                     <div className="slideTitle">
-                        <h1>Drivers</h1>
+                        <h1>Add Drivers</h1>
                     </div>
                     <div className="addDriversContainer">
-                        {inputList}
-                        <div className="showPasswordContainerDrivers">
-                            <p className="showPasswordLabel">Show Passwords</p>
-                            <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
+                        <div className="selectDriversAmount">
+                            <p>Select the number of drivers you would like to add. 
+                                You can add more drivers at anytime on the drivers page.</p>
                         </div>
-                        <div className="addDriverBtnContainer">
-                            <button className="btnAddDriver" onClick={() => {
-                                setInputList(inputList.concat([<DriverInput key={inputList.length -1} num={inputList.length - 1}
-                                    setDrivers={setDrivers} drivers={drivers} user={props.user}/>]))
-                            }}>+ Driver</button>
+                        <div className="drivers">
+                            {driverInputs}
                         </div>
                     </div>
                 </div>
