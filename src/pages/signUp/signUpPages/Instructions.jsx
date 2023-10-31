@@ -16,6 +16,9 @@ export default function SecondPage({ currentSlide, setCurrentSlide }) {
                 </div>
             </div>
             <div className="btnContainerSignUp">
+            <button className="btnSignUp" onClick={() => {
+                    setCurrentSlide(currentSlide - 1)
+                }}>Back</button>
                 <button className="btnSignUp" onClick={() => {
                     setCurrentSlide(currentSlide + 1)
                 }}>Next</button>

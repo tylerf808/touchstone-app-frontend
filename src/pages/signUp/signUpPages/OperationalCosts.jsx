@@ -29,95 +29,106 @@ export default function FourthPage(props) {
 
     return (
         <div className="pageContainer">
-            <div className="slider">
-                <div className="slide">
-                    <div className="slideTitle">
-                        <h3>Operational Costs</h3>
+
+            <div className="slideTitle">
+                <h3>Operational Costs</h3>
+            </div>
+            <div className="operationalCostsSlide">
+                <div className="slideItemGroup">
+                    <p className="slideGroupLabel">Insurance</p>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Select your Insurance payment frequency</p>
+                        </div>
+                        <div className="slideInputContainer">
+                            <select className="newCostInput" defaultValue={props.insuranceType} onChange={(e) => props.setInsuranceType(e.target.value)}>
+                                <option value='monthly' className="selectOption" name="insuranceType">Monthly</option>
+                                <option value='bi-monthly' className="selectOption" name="insuranceType">Bi-Monthly</option>
+                                <option value='quarterly' className="selectOption" name="insuranceType">Quarterly</option>
+                                <option value='annually' className="selectOption" name="insuranceType">Annually</option>
+                            </select>
+                        </div>
                     </div>
-                    <div className="slideInputs">
-                        <div className="slideItemGroup">
-                            <p className="slideGroupLabel">Insurance</p>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Select your Insurance payment frequency</p>
-                                </div>
-                                <select className="newCostInput" defaultValue={props.insuranceType} onChange={(e) => props.setInsuranceType(e.target.value)}>
-                                    <option value='monthly' className="selectOption" name="insuranceType">Monthly</option>
-                                    <option value='bi-monthly' className="selectOption" name="insuranceType">Bi-Monthly</option>
-                                    <option value='quarterly' className="selectOption" name="insuranceType">Quarterly</option>
-                                    <option value='annually' className="selectOption" name="insuranceType">Annually</option>
-                                </select>
-                            </div>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Enter your Insurance payment</p>
-                                </div>
-                                <input defaultValue={props.insuranceAmount} className="newCostInput" type="number" onChange={(e) => props.setInsuranceAmount(e.target.value)} />
-                            </div>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Enter your Insurance payment</p>
                         </div>
-                        <div className="slideItemGroup">
-                            <p className="slideGroupLabel">Tractor & Trailer</p>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Enter your monthly trailer lease payment</p>
-                                </div>
-                                <input defaultValue={props.trailerAmount} className="newCostInput" type="number" onChange={(e) => props.setTrailerAmount(e.target.value)} />
-                            </div>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Enter your monthly tractor lease payment</p>
-                                </div>
-                                <input defaultValue={props.tractorAmount} className="newCostInput" type="number" onChange={(e) => props.setTractorAmount(e.target.value)} />
-                            </div>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Enter your average monthly spending on repairs for all tractors.</p>
-                                </div>
-                                <input defaultValue={props.repairsAmount} className="newCostInput" type="number" onChange={(e) => props.setRepairsAmount(e.target.value)} />
-                            </div>
-                        </div>
-                        <div className="slideItemGroup">
-                            <p className="slideGroupLabel">Other</p>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Enter your monthly loan payments if any.</p>
-                                </div>
-                                <input defaultValue={props.loanAmount} className="newCostInput" type="number" onChange={(e) => props.setLoanAmount(e.target.value)} />
-                            </div>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Enter your monthly parking cost</p>
-                                </div>
-                                <input defaultValue={props.parkingAmount} className="newCostInput" type="number" onChange={(e) => props.setParkingAmount(e.target.value)} />
-                            </div>
-                            <div className="slideItem">
-                                <div className="slideLabelContainer">
-                                    <p className="slideLabel">Enter your monthly G&A cost</p>
-                                </div>
-                                <input defaultValue={props.gandaAmount} className="newCostInput" type="number" onChange={(e) => props.setGandaAmount(e.target.value)} />
-                            </div>
-                        </div>
-                        <div className="btnContainerSignUp">
-                            <button className="btnSignUp" onClick={() => {
-                                props.setShowAlert(false)
-                                props.setCurrentSlide(props.currentSlide - 1)
-                            }}>Back</button>
-                            {isManager ?
-                                <button className="btnSignUp" onClick={() => {
-                                    checkForm()
-                                }}>Next</button>
-                                :
-                                <button className="btnSignUp" onClick={() => {
-                                    checkForm()
-                                    props.createAccount(props.accountType)
-                                }}>Submit</button>
-                            }
+                        <div className="slideInputContainer">
+                            <input defaultValue={props.insuranceAmount} className="newCostInput" type="number" onChange={(e) => props.setInsuranceAmount(e.target.value)} />
                         </div>
                     </div>
                 </div>
-
+                <div className="slideItemGroup">
+                    <p className="slideGroupLabel">Tractor & Trailer</p>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Enter your monthly trailer lease payment</p>
+                        </div>
+                        <div className="slideInputContainer">
+                            <input defaultValue={props.trailerAmount} className="newCostInput" type="number" onChange={(e) => props.setTrailerAmount(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Enter your monthly tractor lease payment</p>
+                        </div>
+                        <div className="slideInputContainer">
+                            <input defaultValue={props.tractorAmount} className="newCostInput" type="number" onChange={(e) => props.setTractorAmount(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Enter your average monthly spending on repairs for all tractors.</p>
+                        </div>
+                        <div className="slideInputContainer">
+                            <input defaultValue={props.repairsAmount} className="newCostInput" type="number" onChange={(e) => props.setRepairsAmount(e.target.value)} />
+                        </div>
+                    </div>
+                </div>
+                <div className="slideItemGroup">
+                    <p className="slideGroupLabel">Other</p>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Enter your monthly loan payments if any.</p>
+                        </div>
+                        <div className="slideInputContainer">
+                            <input defaultValue={props.loanAmount} className="newCostInput" type="number" onChange={(e) => props.setLoanAmount(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Enter your monthly parking cost</p>
+                        </div>
+                        <div className="slideInputContainer">
+                            <input defaultValue={props.parkingAmount} className="newCostInput" type="number" onChange={(e) => props.setParkingAmount(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="slideItem">
+                        <div className="slideLabelContainer">
+                            <p className="slideLabel">Enter your monthly G&A cost</p>
+                        </div>
+                        <div className="slideInputContainer">
+                            <input defaultValue={props.gandaAmount} className="newCostInput" type="number" onChange={(e) => props.setGandaAmount(e.target.value)} />
+                        </div>
+                    </div>
+                </div>
+                <div className="btnContainerSignUp">
+                    <button className="btnSignUp" onClick={() => {
+                        props.setShowAlert(false)
+                        props.setCurrentSlide(props.currentSlide - 1)
+                    }}>Back</button>
+                    {isManager ?
+                        <button className="btnSignUp" onClick={() => {
+                            checkForm()
+                        }}>Next</button>
+                        :
+                        <button className="btnSignUp" onClick={() => {
+                            checkForm()
+                            props.createAccount(props.accountType)
+                        }}>Submit</button>
+                    }
+                </div>
             </div>
-
         </div>
     )
 }

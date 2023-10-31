@@ -56,9 +56,6 @@
     font-size: 20px;
  }
 
- .radioLabel {
-    margin-right: .5em;
- }
 
  #sign-up-link {
     color: orange;
@@ -109,17 +106,6 @@
     flex-wrap: wrap;
  }
 
-
- .showPasswordContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 1em;
- }
-
-
-
  .verticalFormContainer {
     display: flex;
     flex-direction: column;
@@ -134,8 +120,6 @@
     width: 100%;
  }
 
-
-
  .inputContainer {
     margin-top: 8px;
     display: flex;
@@ -148,10 +132,6 @@
     display: grid;
     grid-template-columns: 300px 300px;
  }
-
-
-
- 
 
  .alertContainer {
     display: flex;
@@ -166,11 +146,6 @@
     align-items: center;
     width: 100%;
  }
-
-
-
-
-
 
  /* Container items and Form items */
  .formItem {
@@ -199,14 +174,6 @@
     font-size: 20px;
  }
 
- .radioItem {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: .2em;
-    margin-bottom: 1.5em;
- }
 
  
 
@@ -221,9 +188,6 @@
 
 
 
- .radioBtn {
-    margin: .2em;
- }
 
  
 
@@ -296,18 +260,6 @@
     position: fixed;
     width: 50%;
     z-index: 1;
- }
-
- /* SignUp carousel*/
-
-
- /* Display */
-
-
- .percentageSign {
-    position: relative;
-    left: 35px;
-    bottom: 26px;
  }
 
  /* Modals */
@@ -385,9 +337,7 @@
 
  
 
- .radioInput {
-    accent-color: orange;
- }
+
 
 
 
@@ -417,12 +367,7 @@
  }
 
  /* Menus */
- .radioMenu {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
- }
+
 
  .accountTypeMenu {
     display: flex;

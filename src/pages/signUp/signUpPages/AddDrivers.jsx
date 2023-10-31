@@ -9,8 +9,8 @@ export default function AddDrivers(props) {
 
     useEffect(() => {
         const newArray = []
-        for(let i = 0; i < numOfDrivers; i++){
-            newArray.push(<DriverInput key={i} num={i} drivers={drivers} setDrivers={setDrivers}/>)
+        for (let i = 0; i < numOfDrivers; i++) {
+            newArray.push(<DriverInput key={i} num={i} drivers={drivers} setDrivers={setDrivers} />)
         }
         setDriverInputs(newArray)
         driverInputs.forEach((el, i) => {
@@ -31,30 +31,29 @@ export default function AddDrivers(props) {
 
     return (
         <div className="pageContainer">
-            <div className="slider">
-                <div className="slide">
-                    <div className="slideTitle">
-                        <h1>Add Drivers</h1>
-                    </div>
-                    <div className="addDriversContainer">
-                        <div className="selectDriversAmount">
-                            <p>Select the number of drivers you would like to add. 
-                                You can add more drivers at anytime on the drivers page (You can select 0 to skip this step 
-                                and add them at another time.).</p>
-                            <select defaultValue={0} className="editNumOfDrivers" type="number" onChange={(e) => setNumOfDrivers(e.target.value)}>
-                                <option value={0}>0</option>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                            </select>
-                        </div>
-                        <div className="drivers">
-                            {driverInputs}
-                        </div>
-                    </div>
+            <div className="slideTitle">
+                <h3>Add Drivers</h3>
+            </div>
+            <div className="addDriversSlide">
+                <div className="selectDriversAmount">
+                    <p>
+                        Select the number of drivers you would like to add.
+                        You can add more drivers at anytime on the drivers page
+                        or you can select 0 to skip this step
+                        and add them at another time.
+                    </p>
+                    <select defaultValue={0} className="editNumOfDrivers" type="number" onChange={(e) => setNumOfDrivers(e.target.value)}>
+                        <option value={0}>0</option>
+                        <option value={1}>1</option>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                        <option value={5}>5</option>
+                        <option value={6}>6</option>
+                    </select>
+                </div>
+                <div className="drivers">
+                    {driverInputs}
                 </div>
             </div>
             <div className="btnContainerSignUp">
