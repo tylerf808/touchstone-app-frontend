@@ -3,19 +3,16 @@ import DriverInput from "../../../components/DriverInput"
 
 export default function AddDrivers(props) {
 
-    const [drivers, setDrivers] = useState([])
+    
     const [numOfDrivers, setNumOfDrivers] = useState()
     const [driverInputs, setDriverInputs] = useState([])
 
     useEffect(() => {
         const newArray = []
         for (let i = 0; i < numOfDrivers; i++) {
-            newArray.push(<DriverInput key={i} num={i} drivers={drivers} setDrivers={setDrivers} />)
+            newArray.push(<DriverInput key={i} num={i} drivers={props.drivers} setDrivers={props.setDrivers} />)
         }
         setDriverInputs(newArray)
-        driverInputs.forEach((el, i) => {
-            console.log(driverInputs[i])
-        })
     }, [numOfDrivers])
 
     const togglePassword = () => {
@@ -42,7 +39,9 @@ export default function AddDrivers(props) {
                         or you can select 0 to skip this step
                         and add them at another time.
                     </p>
-                    <select defaultValue={0} className="editNumOfDrivers" type="number" onChange={(e) => setNumOfDrivers(e.target.value)}>
+                    <select defaultValue={0} className="editNumOfDrivers" type="number" onChange={(e) => {
+                        props.setDrivers([{name: '', email: '', username: '', password: '', num: 0}])
+                        setNumOfDrivers(e.target.value)}}>
                         <option value={0}>0</option>
                         <option value={1}>1</option>
                         <option value={2}>2</option>
@@ -60,7 +59,7 @@ export default function AddDrivers(props) {
                 <button className="btnSignUp" onClick={() => {
                     props.setCurrentSlide(props.currentSlide - 1)
                 }}>Back</button>
-                <button className="btnSignUp" onClick={props.createAccount}>Submit</button>
+                <button className="btnSignUp" onClick={() => props.setCurrentSlide(props.currentSlide + 2)}>Next</button>
             </div>
         </div>
     )

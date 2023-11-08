@@ -46,7 +46,7 @@
 .slideItemInfo {
    display: grid;
    grid-template-columns: 50% 50%;
-   margin: 1em;
+   margin: 2em;
 }
 
 .slideGroupLabel {
@@ -125,7 +125,7 @@
    background-color: rgb(255, 255, 255);
    border: .1em solid black;
    border-radius: .5em;
-   padding: 1em;
+   padding: 2em;
    margin: 2em
 }
 
@@ -185,6 +185,73 @@
    margin: .7em;
    width: 2em;
    font-size: large;
+}
+
+.confirmDetailsSlide {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: center;
+   width: 30%;
+}
+
+.detailsItem {
+   display: grid;
+   grid-template-columns: 50% 50%;
+   grid-template-rows: 2em;
+}
+
+.detailsGroup {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: flex-start;
+   background-color: white;
+   border: .1em solid black;
+   border-radius: .5em;
+   padding: 1em;
+}
+
+.detailsItemGroup {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   width: 100%;
+}
+
+.detailsGroupLabel {
+   color: black;
+   font-weight: 700;
+   margin-bottom: .5em;
+}
+
+.detailsLabel {
+   justify-self: flex-start;
+   margin-left: 2em;
+   color: black;
+}
+
+.detailsValue {
+   justify-self: center;
+   color: black;
+   font-weight: 400;
+}
+
+.displayDriver {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: flex-start;
+}
+
+.driverLabel {
+   align-self: center;
+   color: black;
+}
+
+.driverValue {
+   color: black
 }
 
 .operationalCostsSlide {

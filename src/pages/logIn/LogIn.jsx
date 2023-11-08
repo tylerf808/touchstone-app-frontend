@@ -92,7 +92,7 @@ export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, se
                 </div>
                 <input placeholder='Enter your email or username' className='emailAndPasswordInput' type='emailOrUsername' id="email-login"></input>
                 <input placeholder='Enter you password' className='emailAndPasswordInput' type='password' id="password-login"></input>
-                <div className='showPasswordContainer'>
+                <div className='logInShowPassword'>
                     <p style={{color: 'black', fontSize: '1em'}}>Show Password</p>
                     <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
                 </div>

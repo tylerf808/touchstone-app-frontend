@@ -23,13 +23,16 @@ export default function FourthPage(props) {
             }
         })
         if (missingItems !== true) {
-            props.setCurrentSlide(props.currentSlide + 1)
+            if (isManager === true) {
+                props.setCurrentSlide(props.currentSlide + 1)
+            } else {
+                props.setCurrentSlide(props.currentSlide + 2)
+            }
         }
     }
 
     return (
         <div className="pageContainer">
-
             <div className="slideTitle">
                 <h3>Operational Costs</h3>
             </div>
@@ -38,20 +41,7 @@ export default function FourthPage(props) {
                     <p className="slideGroupLabel">Insurance</p>
                     <div className="slideItem">
                         <div className="slideLabelContainer">
-                            <p className="slideLabel">Select your Insurance payment frequency</p>
-                        </div>
-                        <div className="slideInputContainer">
-                            <select className="newCostInput" defaultValue={props.insuranceType} onChange={(e) => props.setInsuranceType(e.target.value)}>
-                                <option value='monthly' className="selectOption" name="insuranceType">Monthly</option>
-                                <option value='bi-monthly' className="selectOption" name="insuranceType">Bi-Monthly</option>
-                                <option value='quarterly' className="selectOption" name="insuranceType">Quarterly</option>
-                                <option value='annually' className="selectOption" name="insuranceType">Annually</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="slideItem">
-                        <div className="slideLabelContainer">
-                            <p className="slideLabel">Enter your Insurance payment</p>
+                            <p className="slideLabel">Enter your annual Insurance payment (it will calculate per tractor).</p>
                         </div>
                         <div className="slideInputContainer">
                             <input defaultValue={props.insuranceAmount} className="newCostInput" type="number" onChange={(e) => props.setInsuranceAmount(e.target.value)} />

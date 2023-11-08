@@ -60,7 +60,6 @@ export default function FirstPage(props) {
             <div className="slideTitle">
                 <h3>Create an Account</h3>
             </div>
-
             <div className="userInfoSlide">
                 <div className="slideItemInfo">
                     <p className="slideLabel">Email</p>

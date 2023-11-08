@@ -10,6 +10,10 @@ export default function Dashboard(props) {
             <div className="dashboardContainer">
                 <div className="dashboardItem">
                     <h2 onClick={() => {navigate('/addjob')}}>New Load</h2>
+                    <div className="dashboardSubItem">
+                        <p>Available Drivers: </p>
+                        <p></p>
+                    </div>
                 </div>
                 <div className="dashboardItem">
                     <h2 onClick={() => {navigate('/jobs')}}>Accepted Loads</h2>

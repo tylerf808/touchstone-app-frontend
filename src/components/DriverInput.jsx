@@ -1,7 +1,7 @@
 import { useState } from "react"
 import './driverInputStyles.css'
 
-export default function DriverInput({ num, setDrivers, drivers, user }) {
+export default function DriverInput({ num, drivers, setDrivers }) {
 
     const [newName, setNewName] = useState('')
     const [newEmail, setNewEmail] = useState('')
@@ -9,11 +9,10 @@ export default function DriverInput({ num, setDrivers, drivers, user }) {
     const [newPassword, setNewPassword] = useState('')
 
     const updateDriverInfo = () => {
-        const newDriver = { name: newName, email: newEmail, username: newUsername, password: newPassword }
-        const driversArray = drivers
-        driversArray.push(newDriver)
-        setDrivers(driversArray)
-        console.log(drivers)
+        const currentDriver = {name: newName, email: newEmail, username: newUsername, password: newPassword, num: num}
+        const oldArray = drivers
+        oldArray.splice(num, 1, currentDriver)
+        setDrivers(oldArray)
     }
 
     return (
@@ -34,6 +33,7 @@ export default function DriverInput({ num, setDrivers, drivers, user }) {
                         <p>Drivers Username</p>
                         <input className="addDriversInput" type="text" onChange={(e) => {
                             setNewUsername(e.target.value)
+                            updateDriverInfo()
                         }}></input>
                     </div>
                 </div>
@@ -42,12 +42,14 @@ export default function DriverInput({ num, setDrivers, drivers, user }) {
                         <p>Drivers Name</p>
                         <input className="addDriversInput" type="text" onChange={(e) => {
                             setNewName(e.target.value)
+                            updateDriverInfo()
                         }}></input>
                     </div>
                     <div className="addDriversItem">
                         <p>Drivers Password</p>
                         <input className="addDriversPassword" type="password" onChange={(e) => {
                             setNewPassword(e.target.value)
+                            updateDriverInfo()
                         }}></input>
                     </div>
                 </div>

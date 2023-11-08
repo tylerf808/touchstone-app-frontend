@@ -9,7 +9,7 @@ import AccountSelection from "./signUpPages/AccountSelection";
 import SelectManager from "./signUpPages/SelectManger";
 import './signUpStyles.css'
 
-const {apiUrl} = require('../../urls.json')
+const { apiUrl } = require('../../urls.json')
 
 export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setAlertMsg, setShowAlert }) {
 
@@ -36,16 +36,13 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
   const [parkingAmount, setParkingAmount] = useState()
   const [overheadAmount, setOverheadAmount] = useState()
   const [tractorNum, setTractorNum] = useState()
+  const [drivers, setDrivers] = useState([{ name: '', email: '', username: '', password: '', num: 0 }])
 
   const navigate = useNavigate();
 
-  const createAccount = async (drivers, setDrivers) => {
+  const createAccount = async () => {
 
     setShowAlert(false)
-
-    const newDrivers = drivers
-    newDrivers.pop()
-    setDrivers(newDrivers)
 
     if (password !== passwordConf) {
       setAlertMsg('Password do not match')
@@ -53,22 +50,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
       return
     }
 
-    let insurance
-
-    switch (insuranceType) {
-      case 'monthly':
-        insurance = insuranceAmount / 30
-        break;
-      case 'bi-monthly':
-        insurance = insuranceAmount / 15
-        break;
-      case 'quarterly':
-        insurance = insuranceAmount / 91
-        break;
-      default:
-        insurance = insuranceAmount / 365
-        break;
-    }
+    const dailyInsurance = (insuranceAmount / 240) / tractorNum
 
     if (showAlert === false) {
       if (accountType === 'owner') {
@@ -78,7 +60,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
             email: email,
             password: password,
             username: username,
-            insurance: insurance.toFixed(2),
+            insurance: dailyInsurance.toFixed(2),
             tractorLease: (tractorAmount / 30).toFixed(2),
             trailerLease: (trailerAmount / 30).toFixed(2),
             dispatch: (dispatchAmount / 100).toFixed(2),
@@ -92,7 +74,6 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
             loan: (loanAmount / 30).toFixed(2),
             repairs: (repairsAmount / 30).toFixed(2),
             parking: (parkingAmount / 30).toFixed(2),
-            insuranceType: insuranceType,
             tractorNum: tractorNum
           }),
           headers: { "Content-Type": "application/json" },
@@ -100,7 +81,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
         setUser(response[0].username);
         setCosts(response[1])
         setLoggedIn(true)
-        navigate('/addjob')
+        navigate('/dashboard')
       } else {
         const response = await fetch(apiUrl + "/api/user/newAdmin", {
           method: "POST",
@@ -108,8 +89,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
             email: email,
             password: password,
             username: username,
-            insuranceType: insuranceType,
-            insurance: insurance.toFixed(2),
+            insurance: dailyInsurance.toFixed(2),
             tractorLease: (tractorAmount / 30).toFixed(2),
             trailerLease: (trailerAmount / 30).toFixed(2),
             dispatch: (dispatchAmount / 100).toFixed(2),
@@ -131,7 +111,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
         setUser(response[0].username);
         setCosts(response[1])
         setLoggedIn(true)
-        navigate('/addjob')
+        navigate('/dashboard')
       }
     } else {
       const response = await fetch(apiUrl + "/api/user/newDispatcher", {
@@ -147,7 +127,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
       setUser(response[0]);
       setCosts(response[1])
       setLoggedIn(true)
-      navigate('/addjob')
+      navigate('/dashboard')
     }
   }
 
@@ -196,12 +176,128 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
     case 5:
       return (
         <AddDrivers currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          createAccount={createAccount}  />
+          createAccount={createAccount} drivers={drivers} setDrivers={setDrivers} />
       )
     case 6:
       return (
         <SelectManager selectedAdmin={selectedAdmin} setSelectedAdmin={setSelectedAdmin} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
           createAccount={createAccount} />
+      )
+    case 7:
+      return (
+        <div className="pageContainer">
+          <div className='slideTitle'>
+            <h3>Confirm Details</h3>
+          </div>
+          <div className='confirmDetailsSlide'>
+            <div className="detailsGroup">
+              <p className="detailsGroupLabel">User Details</p>
+              <div className="detailsItemGroup">
+                <div className="detailsItem">
+                  <p className="detailsLabel">Email: </p>
+                  <p className="detailsValue">{email}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Username: </p>
+                  <p className="detailsValue">{username}</p>
+                </div>
+              </div>
+            </div>
+            <div className="detailsGroup">
+              <p className="detailsGroupLabel">Fixed Costs</p>
+              <div className="detailsItemGroup">
+                <div className="detailsItem">
+                  <p className="detailsLabel">Labor Rate</p>
+                  <p className="detailsValue">{laborAmount}%</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Payroll Tax</p>
+                  <p className="detailsValue">{payrollAmount}%</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Dispatch Fee</p>
+                  <p className="detailsValue">{dispatchAmount}%</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Factor Fee</p>
+                  <p className="detailsValue">{factorAmount}%</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">MPG</p>
+                  <p className="detailsValue">{mpgAmount}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Number of Tractors</p>
+                  <p className="detailsValue">{tractorNum}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">ODC</p>
+                  <p className="detailsValue">{odcAmount}%</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Overhead</p>
+                  <p className="detailsValue">{overheadAmount}%</p>
+                </div>
+              </div>
+            </div>
+            <div className="detailsGroup">
+              <p className="detailsGroupLabel">Operational Costs</p>
+              <div className="detailsItemGroup">
+                <div className="detailsItem">
+                  <p className="detailsLabel">Insurance Payment</p>
+                  <p className="detailsValue">${insuranceAmount}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Tractor Lease</p>
+                  <p className="detailsValue">${tractorAmount}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Trailer Lease</p>
+                  <p className="detailsValue">${trailerAmount}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Repairs</p>
+                  <p className="detailsValue">${repairsAmount}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Loan Payments</p>
+                  <p className="detailsValue">${loanAmount}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">Parking</p>
+                  <p className="detailsValue">${parkingAmount}</p>
+                </div>
+                <div className="detailsItem">
+                  <p className="detailsLabel">G&A</p>
+                  <p className="detailsValue">${gandaAmount}</p>
+                </div>
+              </div>
+            </div>
+            <div className="detailsGroup">
+              <p className="detailsGroupLabel">Drivers</p>
+              <div className="detailsItemGroup">
+                {drivers.map((driver, i) => {
+                  return (
+                    <div className="driverItem" key={i}>
+                      <p className="driverLabel">Driver {i + 1}</p>
+                      <div className="displayDriver">
+                        <p className="driverDetailsLabel">Name:</p>
+                        <p className="driverValue">{driver.name}</p>
+                      </div>
+                    </div>)
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="btnContainerSignUp">
+            <button className="btnSignUp" onClick={() => {
+              setCurrentSlide(currentSlide - 2)
+            }}>Back</button>
+            <button className="btnSignUp" onClick={() => {
+              createAccount()
+            }}>Submit</button>
+          </div>
+        </div>
       )
   }
 }

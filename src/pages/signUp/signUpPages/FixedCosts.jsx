@@ -35,7 +35,7 @@ export default function ThirdPage(props) {
                         </div>
                     </div>
                     <div className="slideItem">
-                        <p className="slideLabel">Enter your payroll tax rate as a percentage of revenue.</p>
+                        <p className="slideLabel">Enter your payroll tax rate.</p>
                         <div className="slideInputContainer">
                             <input defaultValue={props.payrollAmount} className="newCostInputPercent" type="number" onChange={(e) => props.setPayrollAmount(e.target.value)} />
                             <p className="percentageSign">%</p>
