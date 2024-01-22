@@ -121,6 +121,30 @@
    justify-content: center;
 }
 
+.progressContainer {
+   margin: .5rem
+}
+
+.dot {
+   height: .8rem;
+   width: .8rem;
+   background-color: white;
+   border: .1rem solid orange;
+   border-radius: 50%;
+   display: inline-block;
+   margin: .5rem;
+}
+
+.currentDot {
+   height: .8rem;
+   width: .8rem;
+   background-color: orange;
+   border: .1rem solid orange;
+   border-radius: 50%;
+   display: inline-block;
+   margin: .5rem;
+}
+
 .userInfoSlide {
    background-color: rgb(255, 255, 255);
    border: .1em solid black;
@@ -134,6 +158,20 @@
    flex-direction: row;
    align-items: center;
    justify-content: center;
+}
+
+.addDispatcherSlide {
+   background-color: rgb(255, 255, 255);
+   border: .1em solid black;
+   border-radius: .5em;
+   padding: 1rem;
+   margin: 2em;
+}
+
+.dispatchItem {
+   margin: 2rem;
+   display: grid;
+   grid-template-columns: 50% 50%;
 }
 
 .showPasswordContainer {
@@ -169,18 +207,6 @@
    height: 1.5em;
 }
 
-.addDriversItem {
-   margin: .2em;
-}
-
-.addDriversInput {
-   background-color: rgb(236, 223, 213);
-}
-
-.addDriversPassword {
-   background-color: rgb(236, 223, 213);
-}
-
 .editNumOfDrivers {
    margin: .7em;
    width: 2em;
@@ -192,7 +218,7 @@
    flex-direction: column;
    align-items: flex-start;
    justify-content: center;
-   width: 30%;
+   width: 60%;
 }
 
 .detailsItem {
@@ -211,6 +237,13 @@
    border: .1em solid black;
    border-radius: .5em;
    padding: 1em;
+}
+
+.detailsRow {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   width: 100%;
 }
 
 .detailsItemGroup {
@@ -245,6 +278,14 @@
    align-items: flex-start;
 }
 
+.dispatcherDetailsContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+}
+
 .driverLabel {
    align-self: center;
    color: black;
@@ -268,12 +309,8 @@
    justify-content: center;
 }
 
-.selectDriversAmount {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   width: 50%;
-   margin-bottom: 2em;
+.addDriversInstructions {
+   margin-bottom: 2rem;
 }
 
 .addDriversContainer {
@@ -287,7 +324,32 @@
 .drivers {
    display: flex;
    flex-direction: column;
+   justify-content: center;
    align-items: center;
+   width: 100%;
+   background-color: white;
+   border: .1rem solid black;
+   border-radius: .5rem;
+}
+
+.addDriverBtnContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-end;
+   align-items: center;
+   width: 95%;
+}
+
+.addDriverBtn {
+   position: relative;
+   bottom: 1rem;
+   width: 2rem;
+   height: 2rem;
+   background-color: rgba(255, 166, 0, 0.676);
+   border: .1rem solid black;
+   border-top: none;
+   border-bottom-left-radius: 3px;
+   border-bottom-right-radius: 3px;
 }
 
 .radioLabel {
@@ -302,7 +364,6 @@
    margin: 1em;
 }
 
-
 .radioBtn {
    margin: .2em;
 }
@@ -316,4 +377,128 @@
    flex-direction: row;
    align-items: center;
    justify-content: center;
+}
+
+@media screen and (max-width: 1000px) {
+
+   .pageContainer {
+      width: 100%;
+   }
+
+   .slideTitle {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+   }
+
+   .userInfoSlide {
+      margin-top: 0px;
+      width: 90%;
+      padding: .5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+
+   .slideItemInfo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      width: 55%;
+      margin: .8rem;
+   }
+
+   .showPasswordContainer {
+      align-self: flex-end;
+   }
+
+   .signUpInstructionsContainer {
+      width: 90%;
+   }
+
+   .subTitle {
+      width: 80%;
+      font-size: 1rem;
+   }
+
+   .fixedCostsSlide {
+      width: 85%;
+   }
+
+   .operationalCostsSlide {
+      width: 85%;
+   }
+
+   .slideLabel {
+      width: 80%;
+   }
+
+   .addDriversSlide {
+      height: 100%;
+   }
+
+   .selectDriversAmount {
+      height: 10rem;
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+   }
+
+   .editNumOfDrivers {
+      height: 2.5rem;
+      width: 3rem;
+   }
+
+   .confirmDetailsSlide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+   }
+
+   .detailsRow {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 85%;
+   }
+
+   .detailsItem {
+      height: 3rem;
+      width: 100%
+   }
+
+   .detailsLabel {
+      margin-left: 0px;
+   }
+
+   .displayDriver {
+      display: grid;
+      grid-template-columns: 8rem 10rem;
+      gap: .5rem;
+      justify-items: center;
+   }
+
+   .driverItem {
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+   }
+
+   .userInfoValue {
+      width: 2rem;
+   }
+
+   .dispatchItem p {
+      font-size: 1rem;
+   }
 }

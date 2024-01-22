@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './loginStyles.css'
 
 const { apiUrl } = require('../../urls.json')
 
-export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
-
-    const [showPassword, setShowPassword] = useState(false);
+export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg, setUserType }) {
 
     const navigate = useNavigate();
 
@@ -17,6 +14,17 @@ export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, se
         } else {
             password.type = 'password'
         }
+    }
+
+    const getCosts = async () => {
+        await fetch(apiUrl + '/api/costs/',{
+            method: 'POST',
+            body: JSON.stringify({
+                username: user
+            })
+        }).then((res) => res.json()).then((data) => {
+            setCosts(data[0])})
+        navigate('/dashboard')
     }
 
     const logIn = async () => {
@@ -41,20 +49,10 @@ export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, se
                 return
             } else {
                 setShowAlert(false)
-                setUser(response.username);
+                setUser(response);
+                setUserType(response.accountType)
                 setLoggedIn(true);
-
-                await fetch(apiUrl + "/api/costs", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        username: response.username
-                    })
-                })
-                    .then((res) => res.json())
-                    .then((data) => setCosts(data[0]));
-                navigate('dashboard')
             }
-
         } else {
             const response = await fetch(apiUrl + "/api/user/usernameLogin", {
                 method: "POST",
@@ -67,20 +65,12 @@ export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, se
                 return
             } else {
                 setShowAlert(false)
-                setUser(response.username);
+                setUser(response);
+                setUserType(response.accountType)
                 setLoggedIn(true);
-
-                await fetch(apiUrl + "/api/costs", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        username: response.username
-                    })
-                })
-                    .then((res) => res.json())
-                    .then((data) => setCosts(data[0]));
-                navigate('dashboard')
             }
         }
+        getCosts()
     };
 
     return (
@@ -88,7 +78,6 @@ export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, se
             <div className='logInContainer'>
                 <div className='logInHeader'>
                     <h2>Log In</h2>
-                    <p>Enter your credentials below</p>
                 </div>
                 <input placeholder='Enter your email or username' className='emailAndPasswordInput' type='emailOrUsername' id="email-login"></input>
                 <input placeholder='Enter you password' className='emailAndPasswordInput' type='password' id="password-login"></input>
@@ -101,7 +90,7 @@ export default function LogIn({ setUser, setCosts, setLoggedIn, setShowAlert, se
                 </div>
             </div>
             <div className='signUpLinkContainer'>
-                <p >Don't have an account? <Link id='sign-up-link' to="/signup">Sign up here!</Link></p>
+                <p >Don't have an account? <Link id='sign-up-link' to="/signup" onClick={() => setShowAlert(false)}>Sign up here!</Link></p>
             </div>
         </div>
     )

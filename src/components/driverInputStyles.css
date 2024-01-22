@@ -1,12 +1,11 @@
 .driverInputs {
-   border: .1em solid black;
-   background-color: white;
-   border-radius: 1em;
    display: flex;
    flex-direction: column;
    align-items: center;
-   width: 100%;
+   width: 90%;
    padding: 1em;
+   border-bottom: .1rem solid grey;
+   margin-bottom: 1rem;
 }
 
  .addDriversItem p{
@@ -15,6 +14,20 @@
 
  .driverInputs h3{
     color: grey
+ }
+
+ .driverHeaderContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   width: 100%;
+ }
+
+ .addDriversInputContainer {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   width: 100%;
  }
 
  .addDriversInput {
@@ -27,6 +40,38 @@
  .addDriversInputRow {
    display: flex;
    flex-direction: row;
-   justify-content: center;
+   justify-content: space-evenly;
    align-items: center;
+ }
+
+ .addDriversItem {
+   margin: .2em;
+}
+
+.addDriversInput {
+   background-color: rgb(236, 223, 213);
+}
+
+.addDriversPassword {
+   background-color: rgb(236, 223, 213);
+}
+
+ @media screen and (max-width: 1000px){
+
+   .driverInputs {
+      width: 85%;
+      margin-top: .5rem;
+   }
+
+   .addDriversInput {
+      width: 8rem;
+   }
+
+   .addDriversPassword {
+      width: 8rem;
+   }
+
+   .addDriversItem p {
+      font-size: 1rem;
+   }
  }

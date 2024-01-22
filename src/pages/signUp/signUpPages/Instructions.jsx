@@ -11,12 +11,21 @@ export default function SecondPage({ currentSlide, setCurrentSlide }) {
                 <p className="paragraph">Please answer the questions to the best of your ability to ensure the
                     most accurate results.
                 </p>
-                <div className="headerContainer">
-                    <p className="paragraph" >Press <span style={{ fontWeight: 'bold' }} >next</span> to continue.</p>
-                </div>
+
+                <p className="paragraph" >Press <span style={{ fontWeight: 'bold' }} >next</span> to continue.</p>
+
+            </div>
+            <div className='progressContainer'>
+                <span className='dot'></span>
+                <span className='currentDot'></span>
+                <span className='dot'></span>
+                <span className='dot'></span>
+                <span className='dot'></span>
+                <span className='dot'></span>
+                <span className='dot'></span>
             </div>
             <div className="btnContainerSignUp">
-            <button className="btnSignUp" onClick={() => {
+                <button className="btnSignUp" onClick={() => {
                     setCurrentSlide(currentSlide - 1)
                 }}>Back</button>
                 <button className="btnSignUp" onClick={() => {

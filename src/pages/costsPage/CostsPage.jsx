@@ -1,43 +1,68 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Chart } from 'react-google-charts'
 import './costsPageStyles.css'
 
-const {apiUrl} = require('../../urls.json')
+const { apiUrl } = require('../../urls.json')
 
 export default function CostsPage(props) {
 
-  const [edit, setEdit] = useState(false)
+  const [editCosts, setEditCosts] = useState(false)
+  const [pieChartData, setPieChartData] = useState()
+  const [costs, setCosts] = useState()
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!props.user) {
+    if (!props.loggedIn) {
       navigate('/')
     }
-  }, []);
+    getCosts()
+  }, [])
+
+  const getCosts = async () => {
+
+    let userID
+
+    if(props.user.accountType === 'dispatcher'){
+      userID = props.user.admin
+    } else {
+      userID = props.user.username
+    }
+
+    await fetch(apiUrl + '/api/costs', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: userID
+      })
+    }).then((res) => res.json()).then((data) => {
+      setCosts(data[0])
+      setPieChartData([
+        ["Cost", "Amount"],
+        ["Insurance", data[0].insurance],
+        ['Tractor', data[0].tractorLease],
+        ['Trailer', data[0].trailerLease],
+        ['G&A', data[0].gAndA],
+        ['Labor', data[0].laborRate],
+        ['Overhead', data[0].overhead],
+        ['Loan', data[0].loan],
+        ['Parking', data[0].parking],
+        ['ODC', data[0].odc],
+        ['Dispatch', data[0].dispatch],
+        ['Repairs', data[0].repairs]
+      ])
+    })
+  }
 
   const updateCosts = async () => {
+    console.log(costs)
 
-    const newCostsObj = {
-      insuranceType: (props.insuranceType),
-      insurance: (props.insuranceValue / 30),
-      tractorLease: (props.tractorValue / 30),
-      trailerLease: (props.trailerValue / 30),
-      dispatch: (props.dispatchValue / 100),
-      mpg: (props.mpgValue),
-      laborRate: (props.laborValue / 100),
-      payrollTax: (props.payrollValue / 100),
-      factor: (props.factorValue / 100),
-      odc: (props.odcValue / 100),
-      gAndA: (props.gAndAValue / 30),
-      loan: (props.loanValue / 30),
-      repairs: props.repairsValue / 30,
-      parking: props.parkingValue / 30
-    };
-
-    await fetch(apiUrl + "/api/costs?id=" + props.user, {
-      method: "PUT",
-      body: JSON.stringify(newCostsObj),
+    await fetch(apiUrl + "/api/costs/update", {
+      method: "POST",
+      body: JSON.stringify(costs),
       headers: {
         "Content-Type": "application/json",
       },
@@ -45,164 +70,172 @@ export default function CostsPage(props) {
       .then((res) => res.json())
       .catch((err) => console.log(err))
 
-    await fetch(apiUrl + "/api/costs?id=" + props.user, {
-      method: "GET",
+    await fetch(apiUrl + "/api/costs/", {
+      method: "POST",
+      body: JSON.stringify({ username: props.user }),
       headers: {
         "Content-Type": "application/json",
       }
     }).then((res) => res.json())
       .then((data) => {
-        props.setCosts(data[0])
+        setCosts(data[0])
       })
   };
 
+  const options = {
+    legend: { position: "bottom" },
+  };
+
   return (
-    <div className="pageContainer">
-      <div className="headerContainer">
-        <h2>Current Costs Per Job</h2>
+    <div className="costsContainer">
+      <div className="graphContainer">
+        <h2 style={{ color: 'orange' }}>Costs as Percentage of Total</h2>
+        <Chart chartType="PieChart" width="100%" height="100%" data={pieChartData} options={options} />
       </div>
-      {edit ?
-        <div className="costsContainer">
-          <div className="costsHeaderContainer">
-            <h1>Operating Costs</h1>
+      <div className="infoContainer">
+        <div className="operatingCostsContainer">
+          <div className="subHeaderContainer">
+            <h2 style={{ color: 'orange' }}>Operating Costs</h2>
+            {editCosts ?
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
+                <span id="edit-btn" className="cancelX" onClick={() => {
+                  setEditCosts(false)
+                }}>&#10006;</span>
+                <span id="edit-btn" className="confirmCheck" onClick={() => {
+                  updateCosts()
+                  setEditCosts(false)
+                }}>&#10003;</span>
+              </div>
+              :
+              <i id="edit-btn" class="fa fa-pencil" style={{ fontSize: '1.5em' }} onClick={() => {
+                setEditCosts(true)
+              }}></i>
+            }
           </div>
-          <div className="operatingCostsContainer">
-          <div className="costsItem">
-              <p className="costsLabel">Insurance Type:</p>
-              <input className="costsInput" onChange={(e) => props.setInsuranceType(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Insurance Amount:</p>
-              <input className="costsInput" onChange={(e) => props.setInsuranceValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Tractor Lease:</p>
-              <input className="costsInput" onChange={(e) => props.setTractorValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Tailer Lease:</p>
-              <input className="costsInput" onChange={(e) => props.setTrailerValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">G&A:</p>
-              <input className="costsInput" onChange={(e) => props.setGAndAValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Repairs:</p>
-              <input className="costsInput" onChange={(e) => props.setRepairsValue(e.target.value)}></input>
-            </div>
-          </div>
-          <div className="costsHeaderContainer">
-            <h1>Fixed Costs</h1>
-          </div>
-          <div className="fixedCostsContainer">
-            <div className="costsItem">
-              <p className="costsLabel">Labor Rate:</p>
-              <input className="costsInput" defaultValue={props.costs.laborValue} onChange={(e) => props.setLaborValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Payroll Tax:</p>
-              <input className="costsInput" onChange={(e) => props.setPayrollValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Dispatch:</p>
-              <input className="costsInput" onChange={(e) => props.setDispatchValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">MPG:</p>
-              <input className="costsInput" onChange={(e) => props.setMpgValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Factor:</p>
-              <input className="costsInput" onChange={(e) => props.setFactorValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">ODC:</p>
-              <input className="costsInput" onChange={(e) => props.setOdcValue(e.target.value)}></input>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Loan:</p>
-              <input className="costsInput" onChange={(e) => props.setLoanValue(e.target.value)}></input>
-            </div>
-          </div>
+          {editCosts ?
+            <>
+              <div className="costsItem">
+                <p className="inputInstructions">Annual insurance payment</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value)/240).toFixed(2) })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Monthly trailer lease payment</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value/30).toFixed(2) })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Monthly tractor lease payment</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value/30).toFixed(2) })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Amount spent on repairs each month</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, repairs: (e.target.value/30).toFixed(2) })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Monthly loan payments</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, loan: (e.target.value/30).toFixed(2) })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Amount spent on parking each month</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, parking: (e.target.value/30).toFixed(2) })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Amount spend on G&A each month</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value/30).toFixed(2) })} />
+              </div>
+            </>
+            :
+            <>
+              <div className="costsItem">
+                <p className="costsLabel">Insurance</p>
+                <p className="costsNum">{costs?.insurance.toFixed(2)}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Trailer Lease</p>
+                <p className="costsNum">{costs?.trailerLease.toFixed(2)}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Tractor Lease</p>
+                <p className="costsNum">{costs?.tractorLease.toFixed(2)}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Repairs</p>
+                <p className="costsNum">{costs?.repairs.toFixed(2)}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Loan</p>
+                <p className="costsNum">{costs?.loan.toFixed(2)}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Parking</p>
+                <p className="costsNum">{costs?.parking.toFixed(2)}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">G&A</p>
+                <p className="costsNum">{costs?.gAndA.toFixed(2)}</p>
+              </div>
+            </>
+          }
         </div>
-        :
-        <div className="costsContainer">
-          <div className="costsHeaderContainer">
-            <h1>Operating Costs</h1>
+        <div className="fixedCostsContainer">
+          <div className="subHeaderContainer">
+            <h2 style={{ color: 'orange' }}>Fixed Costs</h2>
           </div>
-          <div className="operatingCostsContainer">
-          <div className="costsItem">
-              <p className="costsLabel">Insurance Type:</p>
-              <p className="costsNum">{props.costs.insuranceType}</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Insurance Amount:</p>
-              <p className="costsNum">${props.costs.insurance}</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Tractor Lease:</p>
-              <p className="costsNum">${props.costs.tractorLease}</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Tailer Lease:</p>
-              <p className="costsNum">${props.costs.tractorLease}</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">G&A:</p>
-              <p className="costsNum">${props.costs.gAndA}</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Repairs:</p>
-              <p className="costsNum">${props.costs.repairs}</p>
-            </div>
-          </div>
-          <div className="costsHeaderContainer">
-            <h1>Fixed Costs</h1>
-          </div>
-          <div className="fixedCostsContainer">
-            <div className="costsItem">
-              <p className="costsLabel">Labor Rate:</p>
-              <p className="costsNum">{(props.costs.laborRate)*100}%</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Payroll Tax:</p>
-              <p className="costsNum">{props.costs.payrollTax*100}%</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Dispatch:</p>
-              <p className="costsNum">{props.costs.dispatch*100}%</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">MPG:</p>
-              <p className="costsNum">{props.costs.mpg}</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Factor:</p>
-              <p className="costsNum">{props.costs.factor*100}%</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">ODC:</p>
-              <p className="costsNum">{props.costs.odc*100}%</p>
-            </div>
-            <div className="costsItem">
-              <p className="costsLabel">Loan:</p>
-              <p className="costsNum">${props.costs.loan}</p>
-            </div>
-          </div>
+          {editCosts ?
+            <>
+              <div className="costsItem">
+                <p className="inputInstructions">Labor Rate</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, laborRate: e.target.value })}/>
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Payroll Tax Rate</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, payrollTax: e.target.value })}/>
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Dispatch</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, dispatch: e.target.value })}/>
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Factor</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, factor: e.target.value })}/>
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">MPG</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, mpg: e.target.value })}/>
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Num. of Tractor</p>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })}/>
+              </div>
+            </>
+            :
+            <>
+              <div className="costsItem">
+                <p className="costsLabel">Labor Rate</p>
+                <p className="costsNum">{costs?.laborRate * 100}%</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Payroll Tax Rate</p>
+                <p className="costsNum">{costs?.payrollTax * 100}%</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Dispatch rate</p>
+                <p className="costsNum">{costs?.dispatch * 100}%</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Factor rate</p>
+                <p className="costsNum">{costs?.factor * 100}%</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">MPG</p>
+                <p className="costsNum">{costs?.mpg}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">Num. of Tractors</p>
+                <p className="costsNum">{costs?.tractorNum}</p>
+              </div>
+            </>
+          }
         </div>
-      }
-      <div className="btnContainer">
-        {edit ?
-          <button className="checkJobBtn" onClick={() => {
-            setEdit(false)
-            updateCosts()
-          }}>Update</button>
-          :
-          <button className="checkJobBtn" onClick={() => {
-            setEdit(true)
-            console.log(props.costs)
-          }}>Edit Costs</button>}
       </div>
     </div>
   );

@@ -1,29 +1,163 @@
-.dashboardContainer {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    gap: 1em;
-    width: 70%;
-    height: 20em;
-    margin-top: 6em;
- }
+.subItemLabel {
+  color: black
+}
 
- .dashboardItem {
-    border: .1em solid black;
-    border-radius: 1em;
+.subItemValue {
+  color: black;
+  margin-left: 40%
+}
+
+.dashboardDrivers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 50%;
+}
+
+.moneyBar {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.moneyBarItem {
+  border: .1em solid black;
+  border-radius: .5em;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2em;
+  width: 12%;
+}
+
+.moneyBarLabel {
+  color: black;
+}
+
+.moneyBarLabel:hover {
+  cursor: pointer;
+}
+
+.revenueAndProfitGraph {
+  width: 100%;
+  height: 100%;
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.lineChartContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 5em;
+  width: 35%;
+  height: 400px;
+  background-color: white;
+  border: .1em solid black;
+  border-radius: 1em;
+  padding: 1em;
+}
+
+.pieChartContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 5em;
+  width: 35%;
+  height: 400px;
+  background-color: white;
+  border: .1em solid black;
+  border-radius: 1em;
+  padding: 1em;
+}
+
+.chartHeaderContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+
+@media screen and (max-width: 1000px) {
+
+  .chartContainer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pageContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width: 100%;
-    height: 100%;
+  }
+
+  .moneyBar {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem
+  }
+
+  .moneyBarItem {
+    border: .1em solid black;
+    border-radius: .5em;
     background-color: white;
- }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2em;
+    width: 6rem;
+  }
 
- .dashboardItem h2{
-   color: rgb(241, 153, 38);
-   margin-top: .5em;
- }
+  .lineChartContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 16rem;
+    border: .1rem solid black;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding: .1rem;
+    background-color: white;
+  }
 
- .dashboardItem h2:hover {
-   cursor: pointer;
- }
+  .pieChartContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 12rem;
+    border: .1rem solid black;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding: .1rem;
+    background-color: white;
+  }
+
+  .chartHeaderContainer {
+    font-size: .7rem;
+  }
+}

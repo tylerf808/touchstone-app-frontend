@@ -42,14 +42,14 @@ export default function App() {
 
   return (
       <Router>
-        <Toolbar user={user} costs={costs} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} setCosts={setCosts} />
+        <Toolbar setShowAlert={setShowAlert} user={user} costs={costs} userType={userType} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} setCosts={setCosts} />
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
-          <Route path='dashboard' element={<Dashboard />} />
+          <Route path='dashboard' element={<Dashboard user={user} loggedIn={loggedIn} userType={userType}/>} />
           <Route path="addjob" element={<AddJob loggedIn={loggedIn} library={library} user={user} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />} />
           <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs}
            setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
-          <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType}/>} />
+          <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType} loggedIn={loggedIn}/>} />
           <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
            setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
           <Route path="costs"  element={<CostsPage userType={userType} insuranceType={insuranceType} setInsuranceType={setInsuranceType}
@@ -61,7 +61,7 @@ export default function App() {
           factorValue={factorValue} setFactorValue={setFactorValue} odcValue={odcValue} setOdcValue={setOdcValue}
           gAndAValue={gAndAValue} setGAndAValue={setGAndAValue} loanValue={loanValue} setLoanValue={setLoanValue}
           repairsValue={repairsValue} setRepairsValue={setRepairsValue}
-          loggedIn={loggedIn} user={user} costs={costs} setCosts={setCosts} />} />
+          loggedIn={loggedIn} user={user} />} />
           <Route path="drivers" element={<Drivers userType={userType} user={user}/>} />
         </Routes>
         

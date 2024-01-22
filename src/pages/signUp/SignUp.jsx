@@ -7,36 +7,19 @@ import OperationalCosts from "./signUpPages/OperationalCosts";
 import AddDrivers from "./signUpPages/AddDrivers";
 import AccountSelection from "./signUpPages/AccountSelection";
 import SelectManager from "./signUpPages/SelectManger";
+import ConfirmDetails from "./signUpPages/ConfirmDetails";
+import AddDispatcher from "./signUpPages/AddDispatcher";
 import './signUpStyles.css'
 
 const { apiUrl } = require('../../urls.json')
 
-export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setAlertMsg, setShowAlert }) {
+export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, setShowAlert }) {
 
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [selectedAdmin, setSelectedAdmin] = useState('')
-  const [accountType, setAccountType] = useState('')
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [passwordConf, setPasswordConf] = useState('')
-  const [insuranceType, setInsuranceType] = useState()
-  const [insuranceAmount, setInsuranceAmount] = useState()
-  const [tractorAmount, setTractorAmount] = useState()
-  const [trailerAmount, setTrailerAmount] = useState()
-  const [dispatchAmount, setDispatchAmount] = useState()
-  const [factorAmount, setFactorAmount] = useState()
-  const [odcAmount, setOdcAmount] = useState()
-  const [loanAmount, setLoanAmount] = useState()
-  const [repairsAmount, setRepairsAmount] = useState()
-  const [mpgAmount, setMpgAmount] = useState()
-  const [laborAmount, setLaborAmount] = useState()
-  const [payrollAmount, setPayrollAmount] = useState()
-  const [gandaAmount, setGandaAmount] = useState()
-  const [parkingAmount, setParkingAmount] = useState()
-  const [overheadAmount, setOverheadAmount] = useState()
-  const [tractorNum, setTractorNum] = useState()
-  const [drivers, setDrivers] = useState([{ name: '', email: '', username: '', password: '', num: 0 }])
+  const [userInfo, setUserInfo] = useState({name: '', email: '', username: '', password: '', accountType: ''})
+  const [costs, setCosts] = useState({})
+  const [drivers, setDrivers] = useState([])
+  const [dispatcher, setDispatcher] = useState({email: '', username: '', name: '', company: '', password: '', accountType: 'dispatcher'})
 
   const navigate = useNavigate();
 
@@ -44,37 +27,39 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
 
     setShowAlert(false)
 
-    if (password !== passwordConf) {
+    if (userInfo.password !== userInfo.passwordConf) {
       setAlertMsg('Password do not match')
       setShowAlert(true)
       return
     }
 
-    const dailyInsurance = (insuranceAmount / 240) / tractorNum
+    console.log(drivers, dispatcher, userInfo)
+
+    const dailyInsurance = (costs.insuranceAmount / 240) / costs.tractorNum
 
     if (showAlert === false) {
-      if (accountType === 'owner') {
+      if (userInfo.accountType === 'owner') {
         const response = await fetch(apiUrl + "/api/user/newOwner", {
           method: "POST",
           body: JSON.stringify({
-            email: email,
-            password: password,
-            username: username,
+            email: userInfo.email,
+            password: userInfo.password,
+            username: userInfo.username,
             insurance: dailyInsurance.toFixed(2),
-            tractorLease: (tractorAmount / 30).toFixed(2),
-            trailerLease: (trailerAmount / 30).toFixed(2),
-            dispatch: (dispatchAmount / 100).toFixed(2),
-            mpg: mpgAmount,
-            laborRate: (laborAmount / 100).toFixed(2),
-            payrollTax: (payrollAmount / 100).toFixed(2),
-            factor: (factorAmount / 100).toFixed(2),
-            odc: (odcAmount / 100).toFixed(2),
-            overhead: (overheadAmount / 100).toFixed(2),
-            gAndA: (gandaAmount / 100).toFixed(2),
-            loan: (loanAmount / 30).toFixed(2),
-            repairs: (repairsAmount / 30).toFixed(2),
-            parking: (parkingAmount / 30).toFixed(2),
-            tractorNum: tractorNum
+            tractorLease: (costs.tractorAmount / 30).toFixed(2),
+            trailerLease: (costs.trailerAmount / 30).toFixed(2),
+            dispatch: (costs.dispatchAmount / 100).toFixed(2),
+            mpg: costs.mpgAmount,
+            laborRate: (costs.laborAmount / 100).toFixed(2),
+            payrollTax: (costs.payrollAmount / 100).toFixed(2),
+            factor: (costs.factorAmount / 100).toFixed(2),
+            odc: (costs.odcAmount / 100).toFixed(2),
+            overhead: (costs.overheadAmount / 100).toFixed(2),
+            gAndA: (costs.gandaAmount / 30).toFixed(2),
+            loan: (costs.loanAmount / 30).toFixed(2),
+            repairs: (costs.repairsAmount / 30).toFixed(2),
+            parking: (costs.parkingAmount / 30).toFixed(2),
+            tractorNum: costs.tractorNum
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
@@ -86,28 +71,30 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
         const response = await fetch(apiUrl + "/api/user/newAdmin", {
           method: "POST",
           body: JSON.stringify({
-            email: email,
-            password: password,
-            username: username,
+            email: userInfo.email,
+            password: userInfo.password,
+            username: userInfo.username,
             insurance: dailyInsurance.toFixed(2),
-            tractorLease: (tractorAmount / 30).toFixed(2),
-            trailerLease: (trailerAmount / 30).toFixed(2),
-            dispatch: (dispatchAmount / 100).toFixed(2),
-            mpg: mpgAmount,
-            laborRate: (laborAmount / 100).toFixed(2),
-            payrollTax: (payrollAmount / 100).toFixed(2),
-            factor: (factorAmount / 100).toFixed(2),
-            odc: (odcAmount / 100).toFixed(2),
-            overhead: (overheadAmount / 100).toFixed(2),
-            gAndA: (gandaAmount / 30).toFixed(2),
-            loan: (loanAmount / 30).toFixed(2),
-            repairs: (repairsAmount / 30).toFixed(2),
-            parking: (parkingAmount / 30).toFixed(2),
+            tractorLease: (costs.tractorAmount / 30).toFixed(2),
+            trailerLease: (costs.trailerAmount / 30).toFixed(2),
+            dispatch: (costs.dispatchAmount / 100).toFixed(2),
+            mpg: costs.mpgAmount,
+            laborRate: (costs.laborAmount / 100).toFixed(2),
+            payrollTax: (costs.payrollAmount / 100).toFixed(2),
+            factor: (costs.factorAmount / 100).toFixed(2),
+            odc: (costs.odcAmount / 100).toFixed(2),
+            overhead: (costs.overheadAmount / 100).toFixed(2),
+            gAndA: (costs.gandaAmount / 30).toFixed(2),
+            loan: (costs.loanAmount / 30).toFixed(2),
+            repairs: (costs.repairsAmount / 30).toFixed(2),
+            parking: (costs.parkingAmount / 30).toFixed(2),
+            tractorNum: costs.tractorNum,
             drivers: drivers,
-            tractorNum: tractorNum
+            dispatcher: dispatcher
           }),
           headers: { "Content-Type": "application/json" },
-        }).then((res) => res.json())
+        }).then((res) => res.json()).then((data) => {return data})
+        console.log(response)
         setUser(response[0].username);
         setCosts(response[1])
         setLoggedIn(true)
@@ -117,10 +104,9 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
       const response = await fetch(apiUrl + "/api/user/newDispatcher", {
         method: "POST",
         body: JSON.stringify({
-          email: email,
-          password: password,
-          username: username,
-          admin: selectedAdmin
+          email: userInfo.email,
+          password: userInfo.password,
+          username: userInfo.username
         }),
         headers: { "Content-Type": "application/json" },
       }).then((res) => res.json())
@@ -134,12 +120,8 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
   switch (currentSlide) {
     case 0:
       return (
-        <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} password={password}
-          setUser={setUser} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
-          setPassword={setPassword} passwordConf={passwordConf} setPasswordConf={setPasswordConf}
-          email={email} setEmail={setEmail} accountType={accountType} setAccountType={setAccountType}
-          username={username} setUsername={setUsername}
-        />
+        <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
+          userInfo={userInfo} setUserInfo={setUserInfo} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />
       )
     case 1:
       return (
@@ -147,157 +129,35 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setCosts, setA
       )
     case 2:
       return (
-        <AccountSelection currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} accountType={accountType}
-          setAccountType={setAccountType} setShowAlert={setShowAlert} setAlertMsg={setAlertMsg}
-        />
+        <AccountSelection currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
+          setShowAlert={setShowAlert} setAlertMsg={setAlertMsg} userInfo={userInfo} setUserInfo={setUserInfo}/>
       )
     case 3:
       return (
-        <FixedCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          laborAmount={laborAmount} payrollAmount={payrollAmount} dispatchAmount={dispatchAmount}
-          factorAmount={factorAmount} mpgAmount={mpgAmount} odcAmount={odcAmount}
-          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} setAccountType={setAccountType}
-          setLaborAmount={setLaborAmount} setPayrollAmount={setPayrollAmount} setDispatchAmount={setDispatchAmount}
-          setFactorAmount={setFactorAmount} setMpgAmount={setMpgAmount} setOdcAmount={setOdcAmount} overheadAmount={overheadAmount}
-          setOverheadAmount={setOverheadAmount} tractorNum={tractorNum} setTractorNum={setTractorNum}
-        />
+        <FixedCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} costs={costs} setCosts={setCosts}
+          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} userInfo={userInfo} setUserInfo={setUserInfo}/>
       )
     case 4:
       return (
         <OperationalCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          insuranceType={insuranceType} setInsuranceType={setInsuranceType} insuranceAmount={insuranceAmount}
-          setInsuranceAmount={setInsuranceAmount} trailerAmount={trailerAmount} setTrailerAmount={setTrailerAmount}
-          tractorAmount={tractorAmount} setTractorAmount={setTractorAmount} parkingAmount={parkingAmount}
-          setParkingAmount={setParkingAmount} gandaAmount={gandaAmount} setGandaAmount={setGandaAmount}
-          createAccount={createAccount} accountType={accountType} setShowAlert={setShowAlert} setAlertMsg={setAlertMsg}
-          repairsAmount={repairsAmount} setRepairsAmount={setRepairsAmount} loanAmount={loanAmount} setLoanAmount={setLoanAmount}
-        />
+          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} costs={costs} setCosts={setCosts}
+          userInfo={userInfo} createAccount={createAccount}/>
       )
     case 5:
       return (
         <AddDrivers currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          createAccount={createAccount} drivers={drivers} setDrivers={setDrivers} />
+          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+          drivers={drivers} setDrivers={setDrivers} />
       )
     case 6:
       return (
-        <SelectManager selectedAdmin={selectedAdmin} setSelectedAdmin={setSelectedAdmin} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          createAccount={createAccount} />
+        <AddDispatcher currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+        dispatcher={dispatcher} setDispatcher={setDispatcher} userInfo={userInfo} />
       )
     case 7:
       return (
-        <div className="pageContainer">
-          <div className='slideTitle'>
-            <h3>Confirm Details</h3>
-          </div>
-          <div className='confirmDetailsSlide'>
-            <div className="detailsGroup">
-              <p className="detailsGroupLabel">User Details</p>
-              <div className="detailsItemGroup">
-                <div className="detailsItem">
-                  <p className="detailsLabel">Email: </p>
-                  <p className="detailsValue">{email}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Username: </p>
-                  <p className="detailsValue">{username}</p>
-                </div>
-              </div>
-            </div>
-            <div className="detailsGroup">
-              <p className="detailsGroupLabel">Fixed Costs</p>
-              <div className="detailsItemGroup">
-                <div className="detailsItem">
-                  <p className="detailsLabel">Labor Rate</p>
-                  <p className="detailsValue">{laborAmount}%</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Payroll Tax</p>
-                  <p className="detailsValue">{payrollAmount}%</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Dispatch Fee</p>
-                  <p className="detailsValue">{dispatchAmount}%</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Factor Fee</p>
-                  <p className="detailsValue">{factorAmount}%</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">MPG</p>
-                  <p className="detailsValue">{mpgAmount}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Number of Tractors</p>
-                  <p className="detailsValue">{tractorNum}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">ODC</p>
-                  <p className="detailsValue">{odcAmount}%</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Overhead</p>
-                  <p className="detailsValue">{overheadAmount}%</p>
-                </div>
-              </div>
-            </div>
-            <div className="detailsGroup">
-              <p className="detailsGroupLabel">Operational Costs</p>
-              <div className="detailsItemGroup">
-                <div className="detailsItem">
-                  <p className="detailsLabel">Insurance Payment</p>
-                  <p className="detailsValue">${insuranceAmount}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Tractor Lease</p>
-                  <p className="detailsValue">${tractorAmount}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Trailer Lease</p>
-                  <p className="detailsValue">${trailerAmount}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Repairs</p>
-                  <p className="detailsValue">${repairsAmount}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Loan Payments</p>
-                  <p className="detailsValue">${loanAmount}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">Parking</p>
-                  <p className="detailsValue">${parkingAmount}</p>
-                </div>
-                <div className="detailsItem">
-                  <p className="detailsLabel">G&A</p>
-                  <p className="detailsValue">${gandaAmount}</p>
-                </div>
-              </div>
-            </div>
-            <div className="detailsGroup">
-              <p className="detailsGroupLabel">Drivers</p>
-              <div className="detailsItemGroup">
-                {drivers.map((driver, i) => {
-                  return (
-                    <div className="driverItem" key={i}>
-                      <p className="driverLabel">Driver {i + 1}</p>
-                      <div className="displayDriver">
-                        <p className="driverDetailsLabel">Name:</p>
-                        <p className="driverValue">{driver.name}</p>
-                      </div>
-                    </div>)
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="btnContainerSignUp">
-            <button className="btnSignUp" onClick={() => {
-              setCurrentSlide(currentSlide - 2)
-            }}>Back</button>
-            <button className="btnSignUp" onClick={() => {
-              createAccount()
-            }}>Submit</button>
-          </div>
-        </div>
+        <ConfirmDetails currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
+        userInfo={userInfo} costs={costs} drivers={drivers} createAccount={createAccount} dispatcher={dispatcher}/>
       )
   }
 }

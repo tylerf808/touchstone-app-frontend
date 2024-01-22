@@ -1,7 +1,7 @@
-import { CircularProgress, Alert, Modal, Box } from "@mui/material";
-import { Container } from "@mui/system";
+import { CircularProgress } from "@mui/material";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
+import CurrencyFormat from 'react-currency-format';
 import { useNavigate } from "react-router-dom";
 import './addJobStyles.css'
 
@@ -20,10 +20,19 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    let userID
+
+    if(user.accountType === 'dispatcher'){
+      userID = user.admin
+    } else {
+      userID = user.username
+    }
+
     if (!loggedIn) {
       navigate('/')
     }
-    async function getDrivers() {
+    async function getDrivers(user) {
       const response = await fetch(apiUrl + '/api/user/getDrivers', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -31,7 +40,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       }).then((res) => res.json())
       setDrivers(response)
     }
-    getDrivers()
+    getDrivers(userID)
   }, [])
 
   const { isLoaded } = useJsApiLoader({
@@ -47,7 +56,17 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
 
     e.preventDefault()
 
-    document.getElementById('job-results').style.height = '100vh'
+    let userID
+
+    if(user.accountType === 'dispatcher'){
+      userID = user.admin
+    } else {
+      userID = user.username
+    }
+
+    setTimeout(() => {
+      document.getElementById('loading-progress-msg').innerHTML = 'Fetching gas costs'
+    }, 3000)
 
     const start = document.getElementById("start").value
     const pickUp = document.getElementById("pick-up").value
@@ -78,6 +97,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       return;
     }
 
+    document.getElementById('job-results').style.display = 'inline'
     setShowJobBtn(false)
     setShowLoading(true)
     setShowResults(true)
@@ -104,9 +124,17 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
         state1: statesArray[0],
         state2: statesArray[1],
         state3: statesArray[2],
-        username: user
+        username: userID
       })
     }).then((data) => data.json());
+
+    setTimeout(() => {
+      if (showLoading !== false) {
+        document.getElementById('loading-progress-msg').innerHTML = 'Calculating total cost'
+      } else {
+
+      }
+    }, 3000)
 
     const grossProfitCosts =
       parseFloat((checkRes.odc) +
@@ -117,8 +145,8 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
         checkRes.gasCost);
     const operationProfitCosts =
       parseFloat(checkRes.insurance +
-        checkRes.tractorLease +
-        checkRes.trailerLease +
+        (checkRes.tractorLease / checkRes.tractorNum) +
+        (checkRes.trailerLease / checkRes.tractorNum) +
         checkRes.gAndA);
     const netProfitCosts =
       parseFloat(
@@ -137,38 +165,41 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       operatingProfitPercentage:
         (((pay - (operationProfitCosts + grossProfitCosts)) / pay) * 100).toFixed(2) + "%",
       netProfitPercentage: (((pay - totalCost) / pay) * 100).toFixed(2) + "%",
-      distance: checkRes.distance,
+      distance: checkRes.distance.toFixed(2),
       date: date,
       user_id: user,
-      gasCost: checkRes.gasCost,
-      factor: parseFloat((checkRes.factor * pay)),
-      gAndA: parseFloat(checkRes.gAndA),
-      loan: parseFloat(checkRes.loan),
-      odc: parseFloat(checkRes.odc),
-      repairs: parseFloat(checkRes.repairs),
-      ratePerMile: parseFloat((pay / checkRes.distance)),
-      labor: parseFloat((checkRes.laborRate * pay)),
-      payrollTax: parseFloat((checkRes.payrollTax * (checkRes.laborRate * pay))),
-      netProfit: parseFloat((pay - totalCost)),
-      grossProfit: parseFloat((pay - grossProfitCosts)),
-      operatingProfit: parseFloat((pay - (operationProfitCosts + grossProfitCosts))),
-      insurance: parseFloat((checkRes.insurance)),
-      dispatch: parseFloat((pay * checkRes.dispatch)),
+      gasCost: checkRes.gasCost.toFixed(2),
+      factor: parseFloat((checkRes.factor * pay).toFixed(2)),
+      gAndA: parseFloat(checkRes.gAndA).toFixed(2),
+      loan: parseFloat(checkRes.loan).toFixed(2),
+      odc: parseFloat(checkRes.odc * pay).toFixed(2),
+      repairs: parseFloat((checkRes.repairs / checkRes.tractorNum)).toFixed(2),
+      ratePerMile: parseFloat((pay / checkRes.distance).toFixed(2)),
+      labor: parseFloat((checkRes.laborRate * pay).toFixed(2)),
+      payrollTax: parseFloat((checkRes.payrollTax * (checkRes.laborRate * pay)).toFixed(2)),
+      netProfit: parseFloat((pay - totalCost)).toFixed(2),
+      grossProfit: parseFloat((pay - grossProfitCosts).toFixed(2)),
+      operatingProfit: parseFloat((pay - (operationProfitCosts + grossProfitCosts)).toFixed(2)),
+      insurance: parseFloat((checkRes.insurance / checkRes.tractorNum).toFixed(2)),
+      dispatch: parseFloat((pay * checkRes.dispatch).toFixed(2)),
       laborRatePercent: checkRes.laborRate * 100 + "%",
-      trailer: parseFloat((checkRes.trailerLease)),
-      tractor: parseFloat((checkRes.tractorLease)),
+      trailer: parseFloat((checkRes.trailerLease / checkRes.tractorNum).toFixed(2)),
+      tractor: parseFloat((checkRes.tractorLease / checkRes.tractorNum).toFixed(2)),
       totalFixedCost: parseFloat((
         checkRes.tractorLease +
         checkRes.trailerLease +
         checkRes.insurance +
         checkRes.gAndA
       ).toFixed(2)),
-      tolls: parseFloat(checkRes.tolls),
+      totalCost: totalCost.toFixed(2),
+      tolls: parseFloat(checkRes.tolls * 8).toFixed(2),
       client: client,
       driver: driver,
-      admin: user,
+      admin: user.admin,
       driveTime: checkRes.duration
     }
+
+    console.log(newJob)
 
     setJob(newJob)
 
@@ -193,6 +224,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
     }).then((res) => res.json());
     setShowJobBtn(false);
     setShowResults(false);
+    document.getElementById('job-results').style.display = 'none'
     document.getElementById("start").value = ''
     document.getElementById("pick-up").value = ''
     document.getElementById("drop-off").value = ''
@@ -204,7 +236,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
 
   const clearResults = () => {
     setShowResults(false)
-    document.getElementById('job-results').style.height = '0vh'
+    document.getElementById('job-results').style.display = 'none'
     document.getElementById("start").value = ''
     document.getElementById("pick-up").value = ''
     document.getElementById("drop-off").value = ''
@@ -216,70 +248,60 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
 
   return (
     <div className="pageContainer">
-      <div className="headerContainer">
-        <h1>Check Job</h1>
-      </div>
       <form className="jobInputsForm" id="check-job-form">
-        <div className="jobInputHeadersContainer">
-          <div style={{ width: '100%', marginTop: '1em' }} className="jobInputsHeader">
-            <h2 style={{ color: '#7a7979' }}>Route</h2>
+        <div className="routeInputsContainer">
+          <div className="jobInputsHeader">
+            <h2 style={{ color: 'orange' }}>Route</h2>
           </div>
-          <div style={{
-            width: '50%', marginTop: '1em', borderLeft: '.1em solid #7a7979',
-            borderRight: '.1em solid #7a7979'
-          }} className="jobInputsHeader">
-            <h2 style={{ color: '#7a7979' }}>Revenue</h2>
+          <div className="routeInputsItem">
+            <p className="jobInputsLabel">Start</p>
+            <Autocomplete className="autocompleteContainer">
+              <input className="addressInput" name="start" id="start" type="text" />
+            </Autocomplete>
           </div>
-          <div style={{ width: '100%', marginTop: '1em' }} className="jobInputsHeader">
-            <h2 style={{ color: '#7a7979' }}>Details</h2>
+          <div className="routeInputsItem">
+            <p className="jobInputsLabel">Pick Up</p>
+            <Autocomplete className="autocompleteContainer">
+              <input className="addressInput" name="pickUp" id="pick-up" type="text" />
+            </Autocomplete>
+          </div>
+          <div className="routeInputsItem" id="bottom-item">
+            <p className="jobInputsLabel">Drop Off</p>
+            <Autocomplete className="autocompleteContainer" id='drop-off-auto'>
+              <input className="addressInput" name="dropOff" id="drop-off" type="text" />
+            </Autocomplete>
           </div>
         </div>
-        <div className="jobInputsContainer">
-          <div className="routeInputsContainer">
-            <div className="routeInputsItem">
-              <p className="jobInputsLabel">Start</p>
-              <Autocomplete className="autocompleteContainer">
-                <input className="addressInput" name="start" id="start" type="text" />
-              </Autocomplete>
-            </div>
-            <div className="routeInputsItem">
-              <p className="jobInputsLabel">Pick Up</p>
-              <Autocomplete className="autocompleteContainer">
-                <input className="addressInput" name="pickUp" id="pick-up" type="text" />
-              </Autocomplete>
-            </div>
-            <div className="routeInputsItem">
-              <p className="jobInputsLabel">Drop Off</p>
-              <Autocomplete className="autocompleteContainer" id='drop-off-auto'>
-                <input className="addressInput" name="dropOff" id="drop-off" type="text" />
-              </Autocomplete>
-            </div>
+        <div className="revenueInputContainer">
+          <div className="jobInputsHeader">
+            <h2 style={{ color: 'orange' }}>Revenue</h2>
           </div>
-          <div className="revenueInputContainer">
-            <div className="inputContainer" >
-              <p className="jobInputsLabel">$</p>
-              <input className="textInput" type='number' placeholder="Enter Dollar Amount" name="revenue" id='revenue' />
-            </div>
+          <div style={{ marginTop: '2rem' }} className="inputContainer" id="bottom-item">
+            <p className="jobInputsLabel">$</p>
+            <input className="textInput" type='number' placeholder="Enter Dollar Amount" name="revenue" id='revenue' />
           </div>
-          <div className="detailInputsContainer">
-            <div className="detailInputsItem">
-              <p className="jobInputsLabel">Date</p>
-              <input className="textInput" type='date' name="date" id='date' />
-            </div>
-            <div className="detailInputsItem">
-              <p className="jobInputsLabel">Client</p>
-              <input className="textInput" id="client" placeholder="Enter Clients Name" name="client" ></input>
-            </div>
-            <div className="detailInputsItem">
-              <p className="jobInputsLabel">Driver</p>
-              <select className="textInput" id="driver" name="driver" >
-                {drivers.map((el, i) => {
-                  return (
-                    <option key={i} value={el.name}>{el.name}</option>
-                  )
-                })}
-              </select>
-            </div>
+        </div>
+        <div className="detailInputsContainer">
+          <div className="jobInputsHeader">
+            <h2 style={{ color: 'orange' }}>Details</h2>
+          </div>
+          <div className="detailInputsItem">
+            <p className="jobInputsLabel">Date</p>
+            <input className="textInput" type='date' name="date" id='date' />
+          </div>
+          <div className="detailInputsItem">
+            <p className="jobInputsLabel">Client</p>
+            <input className="textInput" id="client" placeholder="Enter Clients Name" name="client" ></input>
+          </div>
+          <div className="detailInputsItem" id="bottom-item">
+            <p className="jobInputsLabel">Driver</p>
+            <select className="textInput" id="driver" name="driver" >
+              {drivers.map((el, i) => {
+                return (
+                  <option key={i} value={el.name}>{el.name}</option>
+                )
+              })}
+            </select>
           </div>
         </div>
       </form>
@@ -292,95 +314,106 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
             {showLoading ?
               <div className="loadingCircleContainer">
                 <CircularProgress size='4em' sx={{ color: 'orange' }}></CircularProgress>
+                <p id="loading-progress-msg" style={{ marginTop: '1rem' }}>Checking route</p>
               </div>
               :
               <div className="jobResultsContainer">
-                <div className="headerContainer" >
-                  {profitable ? <h1 style={{ color: 'lightgreen' }}>Job is Profitable</h1> : <h1 style={{ color: 'maroon' }}>Job is NOT Profitable</h1>}
+                <div className="resultsHeaderContainer" >
+                  {profitable ? <h1 style={{ color: 'green' }}>Job is Profitable</h1> : <h1 style={{ color: 'maroon' }}>Job is NOT Profitable</h1>}
                 </div>
                 <div className="checkJobDisplay" >
                   <div id="profit-label" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
                     <p>Revenue</p>
                   </div>
                   <div id="profit-number" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
-                    <p>${job?.revenue}</p>
+                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.revenue} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Labor</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.labor}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.labor} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Payroll Tax</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.payrollTax}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.payrollTax} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Dispatch</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.dispatch}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.dispatch} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Factor</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.factor}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.factor} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Fuel</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.gasCost}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.gasCost} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Tolls</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.tolls}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tolls} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>ODC</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.odc}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.odc} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div id="profit-label" className="jobDisplayItem" >
                     <p>Gross Profit</p>
                   </div>
                   <div id="profit-number" className="jobDisplayItem" >
-                    <p>${job?.grossProfit}</p>
+                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.grossProfit} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Fixed Costs</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.totalFixedCost}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.totalFixedCost} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div id="profit-label" className="jobDisplayItem">
                     <p>Operating Profit</p>
                   </div>
                   <div id="profit-number" className="jobDisplayItem">
-                    <p>${(job?.operatingProfit)}</p>
+                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.operatingProfit} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>Repairs and Dep.</p>
+                    <p>Insurance</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>[${job?.repairs}]</p>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.insurance} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <p>Tractor & Trailer Lease</p>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tractor + job.trailer} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div id="net-profit-label" className="jobDisplayItem">
                     <p style={{ fontWeight: 'bold' }}>Net Profit</p>
                   </div>
                   <div id="net-profit-number" className="jobDisplayItem">
-                    <p style={{ fontWeight: 'bold' }}>${job?.netProfit}</p>
+                    <CurrencyFormat displayType="text" value={job?.netProfit} fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} prefix="$" />
                   </div>
                 </div>
-                <div className="btnContainer" style={{ marginTop: 50 }}>
-                  <button onClick={addJob} className="addJobBtn">Add Job</button>
-                  <button onClick={clearResults} className="btn2">Clear</button>
+                <div className="btnContainer">
+                  {profitable ?
+                    <button style={{ cursor: 'pointer' }} onClick={addJob} className="addJobBtn">Add Job</button>
+                    :
+                    <button disabled onClick={addJob} className="addJobBtn">Add Job</button>
+                  }
+                  <button style={{ cursor: 'pointer' }} onClick={clearResults} className="btn2">Clear</button>
                 </div>
               </div>
             }
@@ -389,109 +422,6 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
           null
         }
       </div>
-      {/* <div className="jobResults">           
-        {showLoading ? <CircularProgress sx={{ color: 'orange', position: 'relative', left: '44%', top: '43%' }}></CircularProgress> : null}
-        {showResults ?
-          <div className="jobModalContainer">
-            <div className="headerContainer" >
-              {profitable ? <h2 >Job is Profitable</h2> : <h2>Job is NOT Profitable</h2>}
-            </div>
-            <div className="checkJobDisplay" >
-              <div id="profit-label" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
-                <p>Revenue</p>
-              </div>
-              <div id="profit-number" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
-                <p>${job?.revenue}</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Labor</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.labor}]</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Payroll Tax</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.payrollTax}]</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Dispatch</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.dispatch}]</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Factor</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.factor}]</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Fuel</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.gasCost}]</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Tolls</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.tolls}]</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>ODC</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.odc}]</p>
-              </div>
-              <div id="profit-label" className="jobDisplayItem" >
-                <p>Gross Profit</p>
-              </div>
-              <div id="profit-number" className="jobDisplayItem" >
-                <p>${job?.grossProfit}</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Fixed Costs</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.totalFixedCost}]</p>
-              </div>
-              <div id="profit-label" className="jobDisplayItem">
-                <p>Operating Profit</p>
-              </div>
-              <div id="profit-number" className="jobDisplayItem">
-                <p>${(job?.operatingProfit)}</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>Repairs and Dep.</p>
-              </div>
-              <div className="jobDisplayItem">
-                <p>[${job?.repairs}]</p>
-              </div>
-              <div id="net-profit-label" className="jobDisplayItem">
-                <p style={{ fontWeight: 'bold' }}>Net Profit</p>
-              </div>
-              <div id="net-profit-number" className="jobDisplayItem">
-                <p style={{ fontWeight: 'bold' }}>${job?.netProfit}</p>
-              </div>
-            </div>
-            <div className="btnContainer" style={{ marginTop: 50 }}>
-              <button onClick={addJob} className="addJobBtn">Add Job</button>
-              <button onClick={() => {
-                document.getElementById('modal').style.display = 'none';
-                document.getElementById("start").value = ''
-                document.getElementById("pick-up").value = ''
-                document.getElementById("drop-off").value = ''
-                document.getElementById("revenue").value = ''
-                document.getElementById("date").value = ''
-                document.getElementById("client").value = ''
-                document.getElementById("driver").value = ''
-              }} className="btn2">Clear</button>
-            </div>
-          </div> : null}
-      </div> */}
     </div>
-
   )
 }
