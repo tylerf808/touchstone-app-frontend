@@ -1,33 +1,58 @@
-import { Typography } from "@mui/material";
-import { Container } from "@mui/system";
 import { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { CSVLink, CSVDownload } from 'react-csv'
+import { useNavigate } from 'react-router-dom';
+import './viewJobsStyles.css'
 
-const {apiUrl} = require('../urls.json')
+const { apiUrl } = require('../../urls.json')
 
-export default function ViewJobs({ user }) {
+export default function ViewJobs({ user, loggedIn }) {
 
-    let [jobs, setJobs] = useState()
+    const navigate = useNavigate();
+
+    let [jobs, setJobs] = useState([])
+    let [noJobs, setNoJobs] = useState(false)
 
     const getJobs = async () => {
+
+        let userID
+
+        if(user.accountType === 'dispatcher'){
+            userID = user.admin
+        } else {
+            userID = user.username
+        }
+
         const jobs = await fetch(apiUrl + '/api/jobs/allJobs',
             {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    admin: user
+                    admin: userID
                 })
-            }).then((res) => res.json()).then((data) => {return data})
+            }).then((res) => res.json()).then((data) => {
+                console.log(data)
+                return data
+            })
         setJobs(jobs)
+        if (jobs.length === 0) {
+            
+            setNoJobs(true)
+        } else {
+            setNoJobs(false)
+        }
     }
 
     useEffect(() => {
-        getJobs()
+        if(loggedIn === false){
+            navigate('/')
+        } else {
+            getJobs()
+        }  
     }, [])
 
     const columns = [
-        { field: '_id', headerName: 'Job ID', width: 80 },
+        
         { field: 'date', headerName: 'Date', width: 120 },
         { field: 'client', headerName: 'Client', width: 120 },
         { field: 'driver', headerName: 'Driver', width: 120 },
@@ -56,19 +81,20 @@ export default function ViewJobs({ user }) {
         { field: 'operatingProfit', headerName: 'Operating Profit', width: 120 },
         { field: 'loan', headerName: 'Loan', width: 120 },
         { field: 'repairs', headerName: 'Repairs', width: 120 },
-        { field: 'depreciation', headerName: 'Depreciation', width: 120 },        
         { field: 'netProfit', headerName: 'Net Profit', width: 120 },
+        { field: '_id', headerName: 'Job ID', width: 100 },
     ]
 
     return (
         <div className="pageContainer">
-            <div style={{ marginTop: 20, height: '60vh', width: '80vw' }}>
-                {jobs ? <>
+            {noJobs ?
+                <p style={{ marginTop: '3rem' }}>No previous jobs</p>
+                :
+                <div className="previousJobsDisplay">
                     <DataGrid style={{ backgroundColor: 'white' }} getRowId={(row) => row._id} rows={jobs} columns={columns} pageSize={30} rowsPerPageOptions={[30]} />
-                    <CSVLink style={{ marginTop: 2, display: 'flex', flexDirection: 'row', justifyContent: 'center' }} data={jobs} >Download Excel Sheet</CSVLink>
-                </>
-                    : <p>No previous jobs</p>}
-            </div>
+                    <CSVLink style={{ marginTop: '3rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', fontSize: '1.2rem'}} data={jobs}>Download Excel Sheet</CSVLink>
+                </div>
+            }
         </div>
     )
 }

@@ -1,0 +1,118 @@
+.usersDisplay {
+   margin: 1rem;
+   width: 80%;
+   height: auto;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   gap: 2rem;
+}
+
+.pageHeaderContainer {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   margin: 1rem;
+}
+
+.headerContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   margin: 1rem
+}
+
+.driversDisplay {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 50%;
+}
+
+.dispatcherDisplay {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 50%;
+}
+
+.dispatcherItem {
+   display: grid;
+   grid-template-columns: 50% 50%;
+   align-items: center;
+   justify-content: center;
+   border: .1em solid black;
+   background-color: white;
+   border-radius: 5px;
+   width: 80%;
+   padding: 1rem;
+}
+
+.editDriversInput {
+   margin: .5em;
+   background-color: #f4ddc3;
+}
+
+.displayDriversItem {
+   display: grid;
+   grid-template-columns: 50% 50%;
+   align-items: center;
+   justify-content: center;
+   padding: 1rem;
+   border: .1em solid black;
+   background-color: white;
+   border-radius: 5px;
+   width: 80%;
+}
+
+.btnAddDriver {
+   margin: 1em;
+   width: 6em;
+   height: 2em;
+   border: .05em solid black;
+   border-radius: 5%;
+   background-color: rgb(233, 220, 208);
+}
+
+.btnAddDriver:hover {
+   box-shadow: 2px 2px 3px rgb(77, 77, 77)
+}
+
+@media screen and (max-width: 1000px) {
+   .usersDisplay {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+   }
+
+   .headerContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      width: 100%;
+   }
+
+   .dispatcherItem {
+      width: 100%;
+   }
+
+   .dispatcherItem p{
+      font-size: 1rem;
+   }
+
+   .displayDriversItem {
+      width: 100%;
+   }
+
+   .displayDriversItem p{
+      width: 100%;
+      font-size: 1rem;
+   }
+}

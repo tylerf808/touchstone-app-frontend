@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import './loginStyles.css'
 
-const { apiUrl } = require('../urls.json')
+const { apiUrl } = require('../../urls.json')
 
-export default function LogIn({ user, userType, setUserType, setUser, costs, setCosts, setLoggedIn, setShowAlert, setAlertMsg }) {
-
-    const [showPassword, setShowPassword] = useState(false);
+export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg, setUserType }) {
 
     const navigate = useNavigate();
 
@@ -16,6 +14,17 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
         } else {
             password.type = 'password'
         }
+    }
+
+    const getCosts = async () => {
+        await fetch(apiUrl + '/api/costs/',{
+            method: 'POST',
+            body: JSON.stringify({
+                username: user
+            })
+        }).then((res) => res.json()).then((data) => {
+            setCosts(data[0])})
+        navigate('/dashboard')
     }
 
     const logIn = async () => {
@@ -35,24 +44,15 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json())
             if (response.msg) {
-                console.log(response.msg)
+                setShowAlert(true)
+                setAlertMsg(response.msg)
                 return
             } else {
                 setShowAlert(false)
                 setUser(response);
+                setUserType(response.accountType)
                 setLoggedIn(true);
-
-                await fetch(apiUrl + "/api/costs", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        username: response.username
-                    })
-                })
-                    .then((res) => res.json())
-                    .then((data) => setCosts(data[0]));
-                navigate('dashboard')
             }
-
         } else {
             const response = await fetch(apiUrl + "/api/user/usernameLogin", {
                 method: "POST",
@@ -60,46 +60,29 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json())
             if (response.msg) {
-                console.log('Wrong Password')
+                setShowAlert(true)
+                setAlertMsg(response.msg)
                 return
             } else {
                 setShowAlert(false)
                 setUser(response);
+                setUserType(response.accountType)
                 setLoggedIn(true);
-
-                await fetch(apiUrl + "/api/costs", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        username: response.username
-                    })
-                })
-                    .then((res) => res.json())
-                    .then((data) => setCosts(data[0]));
-                navigate('dashboard')
             }
         }
+        getCosts()
     };
 
     return (
         <div className='pageContainer'>
-            <div className='headerContainer'>
-                <h1>Log In</h1>
-            </div>
             <div className='logInContainer'>
-                <div className="logInFormItem">
-                    <div className='logInLabelContainer'>
-                        <p>Email or Username</p>
-                    </div>
-                    <input className='textInput' type='emailOrUsername' id="email-login"></input>
+                <div className='logInHeader'>
+                    <h2>Log In</h2>
                 </div>
-                <div className="logInFormItem">
-                    <div className='logInLabelContainer'>
-                        <p>Password</p>
-                    </div>
-                    <input className='textInput' type='password' id="password-login"></input>
-                </div>
-                <div className='showPasswordContainer'>
-                    <p>Show Password</p>
+                <input placeholder='Enter your email or username' className='emailAndPasswordInput' type='emailOrUsername' id="email-login"></input>
+                <input placeholder='Enter you password' className='emailAndPasswordInput' type='password' id="password-login"></input>
+                <div className='logInShowPassword'>
+                    <p style={{color: 'black', fontSize: '1em'}}>Show Password</p>
                     <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
                 </div>
                 <div className='btnContainer'>
@@ -107,9 +90,8 @@ export default function LogIn({ user, userType, setUserType, setUser, costs, set
                 </div>
             </div>
             <div className='signUpLinkContainer'>
-                <p >Don't have an account? <Link id='sign-up-link' to="/signup">Sign up here!</Link></p>
+                <p >Don't have an account? <Link id='sign-up-link' to="/signup" onClick={() => setShowAlert(false)}>Sign up here!</Link></p>
             </div>
-
         </div>
     )
 }

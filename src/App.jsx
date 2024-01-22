@@ -1,5 +1,5 @@
 import { useState, useEffect, StrictMode } from "react";
-import Toolbar from "./routes/Toolbar";
+import Toolbar from "./components/Toolbar";
 import {
   BrowserRouter as Router,
   Route,
@@ -7,16 +7,15 @@ import {
   Routes
 } from "react-router-dom";
 import { Alert } from "@mui/material";
-import AddJob from "./routes/AddJob";
-import LogIn from "./routes/LogIn";
-import CostsPage from "./routes/CostsPage";
-import SignUp from "./routes/SignUp";
-import ViewJobs from './routes/ViewJobs'
-import Drivers from './routes/Drivers'
-import Dashboard from "./routes/Dashboard";
+import AddJob from "./pages/addJob/AddJob";
+import LogIn from "./pages/logIn/LogIn";
+import CostsPage from "./pages/costsPage/CostsPage";
+import SignUp from "./pages/signUp/SignUp";
+import ViewJobs from './pages/viewJobs/ViewJobs'
+import Drivers from './pages/drivers/Drivers'
+import Dashboard from "./pages/dashboard/Dashboard";
 
 const library = ["places"];
-const {apiUrl} = require('./urls.json')
 
 export default function App() {
 
@@ -40,37 +39,19 @@ export default function App() {
   const [loanValue, setLoanValue] = useState()
   const [repairsValue, setRepairsValue] = useState()
 
-  const signUp = async () => {
-    const email = document.getElementById("email-signup").value;
-    const password = document.getElementById("password-signup").value;
-    const passwordConf = document.getElementById("password-signup-conf").value;
-
-    if (email || password === '' || passwordConf === '') {
-      return
-    }
-
-    if (password !== passwordConf) {
-      return
-    }
-
-    const response = await fetch(apiUrl + "/api/user", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-Type": "application/json" },
-    }).then((res) => res.json());
-    setUser(response.user_id);
-  };
 
   return (
       <Router>
-        <Toolbar user={user} costs={costs} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} setCosts={setCosts} />
+        <Toolbar setShowAlert={setShowAlert} user={user} costs={costs} userType={userType} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} setCosts={setCosts} />
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
-          <Route path='dashboard' element={<Dashboard />} />
+          <Route path='dashboard' element={<Dashboard user={user} loggedIn={loggedIn} userType={userType}/>} />
           <Route path="addjob" element={<AddJob loggedIn={loggedIn} library={library} user={user} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />} />
-          <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs} setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
-          <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType}/>} />
-          <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} signUp={signUp} loggedIn={loggedIn} />} />
+          <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs}
+           setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+          <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType} loggedIn={loggedIn}/>} />
+          <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+           setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
           <Route path="costs"  element={<CostsPage userType={userType} insuranceType={insuranceType} setInsuranceType={setInsuranceType}
           insuranceValue={insuranceValue} setInsuranceValue={setInsuranceValue}
           tractorValue={tractorValue} setTractorValue={setTractorValue} trailerValue={trailerValue}
@@ -80,7 +61,7 @@ export default function App() {
           factorValue={factorValue} setFactorValue={setFactorValue} odcValue={odcValue} setOdcValue={setOdcValue}
           gAndAValue={gAndAValue} setGAndAValue={setGAndAValue} loanValue={loanValue} setLoanValue={setLoanValue}
           repairsValue={repairsValue} setRepairsValue={setRepairsValue}
-          loggedIn={loggedIn} user={user} costs={costs} setCosts={setCosts} />} />
+          loggedIn={loggedIn} user={user} />} />
           <Route path="drivers" element={<Drivers userType={userType} user={user}/>} />
         </Routes>
         

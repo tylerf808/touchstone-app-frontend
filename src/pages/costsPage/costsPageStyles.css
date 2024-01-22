@@ -1,0 +1,132 @@
+.costsInputContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.costsInput {
+    width: 5rem;
+    font-size: 1em;
+    background-color: rgb(236, 223, 213)
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30vw;
+    height: 30rem;
+}
+
+.graphContainer {
+    background-color: white;
+    border: .1rem solid black;
+    border-radius: .5em;
+    width: 30vw;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.costsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 4rem;
+    width: 100%;
+    height: 100%;
+    margin-top: 3rem;
+}
+
+.operatingCostsContainer {
+    background-color: white;
+    border-top: .1rem solid black;
+    border-right: .1rem solid rgb(124, 81, 81);
+    border-left: .1rem solid black;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+    padding: 1rem;
+    width: 100%;
+}
+
+.fixedCostsContainer {
+    background-color: white;
+    border-right: .1rem solid black;
+    border-left: .1rem solid black;
+    border-bottom: .1rem solid black;
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    padding: 1rem;
+    width: 100%;
+}
+
+.costsHeaderContainer {
+    margin: auto;
+    width: 50%;
+}
+
+.costsItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .6em;
+}
+
+.costsLabel {
+    margin-left: 2em;
+
+    font-size: 1.2em;
+}
+
+.inputInstructions {
+
+    font-size: 1.2em;
+}
+
+.subHeaderContainer {
+    margin-bottom: .5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#edit-btn:hover {
+    cursor: pointer;
+}
+
+.cancelX {
+    color: red;
+    font-size: 1.7rem;
+}
+
+.confirmCheck {
+    color: green;
+    font-size: 1.7rem;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .costsContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .graphContainer {
+        width: 80%;
+        height: 16rem;
+        margin-bottom: 1rem;
+    }
+
+    .infoContainer {
+        width: 80%;
+    }
+}

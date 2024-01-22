@@ -1,0 +1,17 @@
+.previousJobsDisplay {
+    width: 80vw;
+    height: 60vh;
+    margin-top: 2rem;
+    border: .1rem solid black;
+        border-radius: 5px;
+}
+
+@media screen and (max-width: 1000px) {
+    
+    .previousJobsDisplay{
+        width: 95%;
+        height: 75vh;
+        border: .1rem solid black;
+        border-radius: 5px;
+    }
+}
