@@ -4,7 +4,7 @@ import CurrencyFormat from 'react-currency-format'
 import './dashboardStyles.css'
 import { Chart } from "react-google-charts"
 
-const { apiUrl } = require('../../urls.json')
+const { apiUrlLocal } = require('../../urls.json')
 
 export default function Dashboard({ user, loggedIn, userType }) {
 
@@ -40,7 +40,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
             userID = user.username
         }
 
-        await fetch(apiUrl + '/api/user/getDrivers', {
+        await fetch(apiUrlLocal + '/api/user/getDrivers', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -48,7 +48,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
             })
         }).then((res) => res.json()).then((data) => setDrivers(data))
 
-        await fetch(apiUrl + '/api/costs', {
+        await fetch(apiUrlLocal + '/api/costs', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -59,7 +59,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
 
         })
 
-        await fetch(apiUrl + '/api/jobs/allJobs', {
+        await fetch(apiUrlLocal + '/api/jobs/allJobs', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

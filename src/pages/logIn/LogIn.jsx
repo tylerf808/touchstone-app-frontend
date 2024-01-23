@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import './loginStyles.css'
 
-const { apiUrl } = require('../../urls.json')
+const { apiUrlLocal } = require('../../urls.json')
 
 export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg, setUserType }) {
 
@@ -17,7 +17,7 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
     }
 
     const getCosts = async () => {
-        await fetch(apiUrl + '/api/costs/',{
+        await fetch(apiUrlLocal + '/api/costs/',{
             method: 'POST',
             body: JSON.stringify({
                 username: user
@@ -36,41 +36,54 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
             setShowAlert(true)
             return
         }
+        
+        const tokens = await fetch(apiUrlLocal + "/login", {
+            method: "POST",
+            body: JSON.stringify({ username: emailOrUsername}),
+            headers: { "Content-Type": "application/json"},
+        }).then((res) => res.json()).then((data) => {return data})
 
-        if (emailOrUsername.includes('@')) {
-            const response = await fetch(apiUrl + "/api/user/emailLogin", {
-                method: "POST",
-                body: JSON.stringify({ email: emailOrUsername, password: password }),
-                headers: { "Content-Type": "application/json" },
-            }).then((res) => res.json())
-            if (response.msg) {
-                setShowAlert(true)
-                setAlertMsg(response.msg)
-                return
-            } else {
-                setShowAlert(false)
-                setUser(response);
-                setUserType(response.accountType)
-                setLoggedIn(true);
-            }
-        } else {
-            const response = await fetch(apiUrl + "/api/user/usernameLogin", {
-                method: "POST",
-                body: JSON.stringify({ username: emailOrUsername, password: password }),
-                headers: { "Content-Type": "application/json" },
-            }).then((res) => res.json())
-            if (response.msg) {
-                setShowAlert(true)
-                setAlertMsg(response.msg)
-                return
-            } else {
-                setShowAlert(false)
-                setUser(response);
-                setUserType(response.accountType)
-                setLoggedIn(true);
-            }
+        if(tokens){
+            localStorage.setItem('accessToken', tokens.accessToken)
         }
-        getCosts()
+
+       
+        
+
+        // if (emailOrUsername.includes('@')) {
+        //     const response = await fetch(apiUrl + "/api/user/emailLogin", {
+        //         method: "POST",
+        //         body: JSON.stringify({ email: emailOrUsername, password: password }),
+        //         headers: { "Content-Type": "application/json" },
+        //     }).then((res) => res.json())
+        //     if (response.msg) {
+        //         setShowAlert(true)
+        //         setAlertMsg(response.msg)
+        //         return
+        //     } else {
+        //         setShowAlert(false)
+        //         setUser(response);
+        //         setUserType(response.accountType)
+        //         setLoggedIn(true);
+        //     }
+        // } else {
+        //     const response = await fetch(apiUrl + "/api/user/usernameLogin", {
+        //         method: "POST",
+        //         body: JSON.stringify({ username: emailOrUsername, password: password }),
+        //         headers: { "Content-Type": "application/json" },
+        //     }).then((res) => res.json())
+        //     if (response.msg) {
+        //         setShowAlert(true)
+        //         setAlertMsg(response.msg)
+        //         return
+        //     } else {
+        //         setShowAlert(false)
+        //         setUser(response);
+        //         setUserType(response.accountType)
+        //         setLoggedIn(true);
+        //     }
+        // }
+        
     };
 
     return (
