@@ -134,7 +134,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       } else {
 
       }
-    }, 3000)
+    }, 2000)
 
     const grossProfitCosts =
       parseFloat((checkRes.odc) +
@@ -155,6 +155,8 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
     const totalCost = (operationProfitCosts) + (grossProfitCosts) + (netProfitCosts);
 
     setShowLoading(false);
+
+    console.log(checkRes)
 
     const newJob = {
       start: start,

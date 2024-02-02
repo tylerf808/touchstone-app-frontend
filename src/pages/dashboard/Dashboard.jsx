@@ -83,6 +83,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
             setRevenue(revenue.toFixed(2))
             setProfit(profit.toFixed(2))
             setTotalCosts(costsMoney.toFixed(2))
+            data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
             data.forEach((el, i) => {
                 setLineChartData(prevData => [
                     ...prevData,
@@ -90,13 +91,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
                 ])
             })
             formatCostsData(data)
-            setActiveJobs()
         })
-    }
-
-    const setActiveJobs = () => {
-        const now = new Date()
-        console.log(now.getUTCDate())
     }
 
     const formatCostsData = (data) => {
@@ -179,6 +174,12 @@ export default function Dashboard({ user, loggedIn, userType }) {
                     <div className="pieChartContainer">
                         <div className="chartHeaderContainer">
                             <h2 style={{ color: 'black' }}>Expended Costs</h2>
+                            <select style={{ justifySelf: 'flex-end', alignSelf: 'center' }}>
+                                <option value="" disabled selected>Select Time frame</option>
+                                <option>Week</option>
+                                <option>Month</option>
+                                <option>Year</option>
+                            </select>
                         </div>
                         <Chart chartType="PieChart" width="100%" height="100%" data={pieChartData} options={pieOptions} />
                     </div>
