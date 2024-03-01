@@ -18,14 +18,16 @@
   margin-top: 2em;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 80%;
+  padding: .3rem;
+  background-color: white;
+  border: .1rem solid black;
+  border-radius: .5rem;
 }
 
 .moneyBarItem {
-  border: .1em solid black;
-  border-radius: .5em;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -118,7 +120,6 @@
   }
 
   .moneyBarItem {
-    border: .1em solid black;
     border-radius: .5em;
     background-color: white;
     display: flex;

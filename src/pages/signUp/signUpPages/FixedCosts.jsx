@@ -97,7 +97,7 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                     <div className="slideItem">
                         <p className="slideLabel">Enter your MPG.</p>
                         <div className="slideInputContainer">
-                            <input style={{width: '2.5em'}} defaultValue={costs?.mpgAmount} className="newCostInput" type="number" onChange={(e) => {
+                            <input style={{width: '2.5em'}} defaultValue={costs?.mpgAmount} className="newCostInputPercent" type="number" onChange={(e) => {
                                         setCosts({...costs, mpgAmount: e.target.value})
                                     }} />
                         </div>
@@ -109,7 +109,7 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                             <>
                                 <p className="slideLabel">Enter number of tractors (It will calculate costs per tractor).</p>
                                 <div className="slideInputContainer">
-                                    <input defaultValue={costs?.tractorNum} className="newCostInput" type="number" style={{width: '2.5em'}} onChange={(e) => {
+                                    <input defaultValue={costs?.tractorNum} className="newCostInputPercent" type="number" style={{width: '2.5em'}} onChange={(e) => {
                                         setCosts({...costs, tractorNum: e.target.value})
                                     }} />
                                 </div>

@@ -36,7 +36,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       const response = await fetch(apiUrl + '/api/user/getDrivers', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ manager: user })
+        body: JSON.stringify({ admin: user })
       }).then((res) => res.json())
       setDrivers(response)
     }
@@ -137,22 +137,22 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
     }, 2000)
 
     const grossProfitCosts =
-      parseFloat((checkRes.odc) +
-        (checkRes.factor * pay) +
-        (checkRes.laborRate * pay) +
-        (checkRes.payrollTax * (checkRes.laborRate * pay)) +
-        (checkRes.dispatch * pay) +
+      parseFloat((checkRes.costs.odc) +
+        (checkRes.costs.factor * pay) +
+        (checkRes.costs.laborRate * pay) +
+        (checkRes.costs.payrollTax * (checkRes.costs.laborRate * pay)) +
+        (checkRes.costs.dispatch * pay) +
         checkRes.gasCost);
     const operationProfitCosts =
-      parseFloat(checkRes.insurance +
-        (checkRes.tractorLease / checkRes.tractorNum) +
-        (checkRes.trailerLease / checkRes.tractorNum) +
-        checkRes.gAndA);
+      parseFloat(checkRes.costs.insurance +
+        (checkRes.costs.tractorLease / checkRes.costs.tractorNum) +
+        (checkRes.costs.trailerLease / checkRes.costs.tractorNum) +
+        checkRes.costs.gAndA);
     const netProfitCosts =
       parseFloat(
-        checkRes.repairs +
-        checkRes.loan);
-    const totalCost = (operationProfitCosts) + (grossProfitCosts) + (netProfitCosts);
+        checkRes.costs.repairs +
+        checkRes.costs.loan);
+    const totalCost = ((operationProfitCosts) + (grossProfitCosts) + (netProfitCosts)).toFixed(2);
 
     setShowLoading(false);
 
@@ -171,33 +171,33 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       date: date,
       user_id: user,
       gasCost: checkRes.gasCost.toFixed(2),
-      factor: parseFloat((checkRes.factor * pay).toFixed(2)),
-      gAndA: parseFloat(checkRes.gAndA).toFixed(2),
-      loan: parseFloat(checkRes.loan).toFixed(2),
-      odc: parseFloat(checkRes.odc * pay).toFixed(2),
-      repairs: parseFloat((checkRes.repairs / checkRes.tractorNum)).toFixed(2),
+      factor: parseFloat((checkRes.costs.factor * pay).toFixed(2)),
+      gAndA: parseFloat(checkRes.costs.gAndA).toFixed(2),
+      loan: parseFloat(checkRes.costs.loan).toFixed(2),
+      odc: parseFloat(checkRes.costs.odc * pay).toFixed(2),
+      repairs: parseFloat((checkRes.costs.repairs / checkRes.costs.tractorNum)).toFixed(2),
       ratePerMile: parseFloat((pay / checkRes.distance).toFixed(2)),
-      labor: parseFloat((checkRes.laborRate * pay).toFixed(2)),
-      payrollTax: parseFloat((checkRes.payrollTax * (checkRes.laborRate * pay)).toFixed(2)),
+      labor: parseFloat((checkRes.costs.laborRate * pay).toFixed(2)),
+      payrollTax: parseFloat((checkRes.costs.payrollTax * (checkRes.costs.laborRate * pay)).toFixed(2)),
       netProfit: parseFloat((pay - totalCost)).toFixed(2),
       grossProfit: parseFloat((pay - grossProfitCosts).toFixed(2)),
       operatingProfit: parseFloat((pay - (operationProfitCosts + grossProfitCosts)).toFixed(2)),
-      insurance: parseFloat((checkRes.insurance / checkRes.tractorNum).toFixed(2)),
-      dispatch: parseFloat((pay * checkRes.dispatch).toFixed(2)),
-      laborRatePercent: checkRes.laborRate * 100 + "%",
-      trailer: parseFloat((checkRes.trailerLease / checkRes.tractorNum).toFixed(2)),
-      tractor: parseFloat((checkRes.tractorLease / checkRes.tractorNum).toFixed(2)),
+      insurance: checkRes.costs.insurance / checkRes.costs.tractorNum,
+      dispatch: parseFloat((pay * checkRes.costs.dispatch).toFixed(2)),
+      laborRatePercent: checkRes.costs.laborRate * 100 + "%",
+      trailer: parseFloat((checkRes.costs.trailerLease / checkRes.costs.tractorNum).toFixed(2)),
+      tractor: parseFloat((checkRes.costs.tractorLease / checkRes.costs.tractorNum).toFixed(2)),
       totalFixedCost: parseFloat((
-        checkRes.tractorLease +
-        checkRes.trailerLease +
-        checkRes.insurance +
-        checkRes.gAndA
+        checkRes.costs.tractorLease +
+        checkRes.costs.trailerLease +
+        checkRes.costs.insurance +
+        checkRes.costs.gAndA
       ).toFixed(2)),
-      totalCost: totalCost.toFixed(2),
       tolls: parseFloat(checkRes.tolls * 8).toFixed(2),
       client: client,
       driver: driver,
-      admin: user.admin,
+      admin: userID,
+      totalCost: parseFloat(totalCost),
       driveTime: checkRes.duration
     }
 
@@ -205,7 +205,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
 
     setJob(newJob)
 
-    if (totalCost > pay) {
+    if (parseFloat(totalCost) > pay) {
       setProfitable(false);
       setShowJobBtn(false);
       setShowResults(true);
@@ -215,7 +215,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       setProfitable(true);
     }
   };
-
+  
   const addJob = async () => {
     await fetch(apiUrl + "/api/jobs/newJob", {
       method: "POST",
