@@ -24,7 +24,7 @@ export default function CostsPage(props) {
 
     let userID
 
-    if(props.user.accountType === 'dispatcher'){
+    if (props.user.accountType === 'dispatcher') {
       userID = props.user.admin
     } else {
       userID = props.user.username
@@ -58,28 +58,26 @@ export default function CostsPage(props) {
   }
 
   const updateCosts = async () => {
-    console.log(costs)
 
-    await fetch(apiUrl + "/api/costs/update", {
-      method: "POST",
-      body: JSON.stringify(costs),
+    let userID
+
+    if (props.user.accountType === 'dispatcher') {
+      userID = props.user.admin
+    } else {
+      userID = props.user.username
+    }
+
+    await fetch(apiUrl + "/api/costs/updateCosts", {
+      method: "put",
+      body: JSON.stringify({ ...costs, username: userID }),
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => res.json()).then((data) => setCosts(data))
       .catch((err) => console.log(err))
 
-    await fetch(apiUrl + "/api/costs/", {
-      method: "POST",
-      body: JSON.stringify({ username: props.user }),
-      headers: {
-        "Content-Type": "application/json",
-      }
-    }).then((res) => res.json())
-      .then((data) => {
-        setCosts(data[0])
-      })
+
   };
 
   const options = {
@@ -102,9 +100,18 @@ export default function CostsPage(props) {
                   setEditCosts(false)
                 }}>&#10006;</span>
                 <span id="edit-btn" className="confirmCheck" onClick={() => {
-                  updateCosts()
-                  setEditCosts(false)
+                  document.getElementById('confirm-changes-container').style.display = 'block'
                 }}>&#10003;</span>
+                <div className="confirmChangesContainer" id="confirm-changes-container" style={{position: 'absolute', backgroundColor: 'white', display: 'none'}}>
+                  <p style={{fontWeight: 'bold'}}>Confirm Changes:</p><button style={{color: 'white', backgroundColor: 'green', marginLeft: '1rem'}} onClick={() => {
+                    updateCosts()
+                    setEditCosts(false)
+                    document.getElementById('confirm-changes-container').style.display = 'none'
+                  }}>Confirm</button><button style={{color: 'white', backgroundColor: 'red', marginLeft: '1rem'}} onClick={() => {
+                    document.getElementById('confirm-changes-container').style.display = 'none'
+                    setEditCosts(false)
+                  }}>Discard</button>
+                </div>
               </div>
               :
               <i id="edit-btn" class="fa fa-pencil" style={{ fontSize: '1.5em' }} onClick={() => {
@@ -116,62 +123,62 @@ export default function CostsPage(props) {
             <>
               <div className="costsItem">
                 <p className="inputInstructions">Annual insurance payment</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value)/240).toFixed(2) })} />
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value) / 240).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Monthly trailer lease payment</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value/30).toFixed(2) })} />
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Monthly tractor lease payment</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value/30).toFixed(2) })} />
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Amount spent on repairs each month</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, repairs: (e.target.value/30).toFixed(2) })} />
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, repairs: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Monthly loan payments</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, loan: (e.target.value/30).toFixed(2) })} />
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, loan: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Amount spent on parking each month</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, parking: (e.target.value/30).toFixed(2) })} />
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, parking: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Amount spend on G&A each month</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value/30).toFixed(2) })} />
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value / 30).toFixed(2) })} />
               </div>
             </>
             :
             <>
               <div className="costsItem">
                 <p className="costsLabel">Insurance</p>
-                <p className="costsNum">{costs?.insurance.toFixed(2)}</p>
+                <p className="costsNum">{costs?.insurance}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Trailer Lease</p>
-                <p className="costsNum">{costs?.trailerLease.toFixed(2)}</p>
+                <p className="costsNum">{costs?.trailerLease}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Tractor Lease</p>
-                <p className="costsNum">{costs?.tractorLease.toFixed(2)}</p>
+                <p className="costsNum">{costs?.tractorLease}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Repairs</p>
-                <p className="costsNum">{costs?.repairs.toFixed(2)}</p>
+                <p className="costsNum">{costs?.repairs}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Loan</p>
-                <p className="costsNum">{costs?.loan.toFixed(2)}</p>
+                <p className="costsNum">{costs?.loan}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Parking</p>
-                <p className="costsNum">{costs?.parking.toFixed(2)}</p>
+                <p className="costsNum">{costs?.parking}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">G&A</p>
-                <p className="costsNum">{costs?.gAndA.toFixed(2)}</p>
+                <p className="costsNum">{costs?.gAndA}</p>
               </div>
             </>
           }
@@ -184,27 +191,27 @@ export default function CostsPage(props) {
             <>
               <div className="costsItem">
                 <p className="inputInstructions">Labor Rate</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, laborRate: e.target.value })}/>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, laborRate: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Payroll Tax Rate</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, payrollTax: e.target.value })}/>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, payrollTax: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Dispatch</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, dispatch: e.target.value })}/>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, dispatch: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Factor</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, factor: e.target.value })}/>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, factor: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">MPG</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, mpg: e.target.value })}/>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Num. of Tractor</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })}/>
+                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })} />
               </div>
             </>
             :

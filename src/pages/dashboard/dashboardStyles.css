@@ -14,24 +14,43 @@
   width: 50%;
 }
 
-.moneyBar {
+.topBanner {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: .3rem;
+  background-color: white;
+  border: .1rem solid black;
+  border-radius: .5rem;
   margin-top: 2em;
+}
+
+.timeSelectContainer {
+  height: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.moneyBar {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .moneyBarItem {
-  border: .1em solid black;
-  border-radius: .5em;
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 2em;
   width: 12%;
 }
 
@@ -87,10 +106,10 @@
 }
 
 .chartHeaderContainer {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 50% 50%;
   width: 100%;
-  justify-content: center;
+  justify-items: center;
 }
 
 @media screen and (max-width: 1000px) {
@@ -118,7 +137,6 @@
   }
 
   .moneyBarItem {
-    border: .1em solid black;
     border-radius: .5em;
     background-color: white;
     display: flex;

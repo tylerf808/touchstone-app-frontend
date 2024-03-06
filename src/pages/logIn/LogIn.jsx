@@ -1,11 +1,18 @@
 import { useNavigate, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import './loginStyles.css'
 
 const { apiUrl } = require('../../urls.json')
 
-export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg, setUserType }) {
+export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg, setUserType, loggedIn }) {
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(loggedIn){
+            navigate('/dashboard')
+        }
+    }, [])
 
     const togglePassword = () => {
         let password = document.getElementById('password-login')
