@@ -302,9 +302,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
                         <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={profit} prefix="$" style={{ fontSize: '1.2rem' }} />
                     </div>
                 </div>
-
             </div>
-
             {noJobs ?
                 <p>Job data will appear here once you add jobs</p>
                 :
