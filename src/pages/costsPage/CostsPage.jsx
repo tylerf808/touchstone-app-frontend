@@ -210,12 +210,12 @@ export default function CostsPage(props) {
                 <input className="costsInput" defaultValue={costs.odc*100} onChange={(e) => setCosts({ ...costs, odc: e.target.value/100 })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">MPG (enter average fleet mpg)</p>
-                <input className="costsInput" defaultValue={costs.mpg} onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
-              </div>
-              <div className="costsItem">
                 <p className="inputInstructions">Number of Tractors (enter total tractors)</p>
                 <input className="costsInput" defaultValue={costs.tractorNum} onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">MPG (enter average fleet mpg)</p>
+                <input className="costsInput" defaultValue={costs.mpg} onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
               </div>
             </>
             :
