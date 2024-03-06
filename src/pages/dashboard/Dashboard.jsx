@@ -87,12 +87,21 @@ export default function Dashboard({ user, loggedIn, userType }) {
             setProfit(profit.toFixed(2))
             setTotalCosts(costsMoney.toFixed(2))
             data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-            data.forEach((el, i) => {
-                setLineChartData(prevData => [
-                    ...prevData,
-                    [el.date, el.revenue, el.netProfit]
-                ])
+            const sortedArray = [["Date", "Revenue", "Profit"]]
+            data.forEach((jobA, iA) => {
+                let dayRevenue = jobA.revenue
+                let dayProfit = jobA.netProfit
+                data.forEach((jobB, iB) => {
+                    if (iA !== iB && jobA.date === jobB.date) {
+                        dayProfit += jobB.netProfit
+                        dayRevenue += jobB.revenue
+                    }
+                })
+                if (!sortedArray.some((el) => el.includes(jobA.date))) {
+                    sortedArray.push([jobA.date, dayRevenue, dayProfit])
+                }
             })
+            setLineChartData(sortedArray)
             formatCostsData(data)
             formatCompletedJobs(data)
         })
@@ -172,16 +181,23 @@ export default function Dashboard({ user, loggedIn, userType }) {
 
         switch (selection) {
             case 'daily':
-                setLineChartData(sortedArray)
-                jobs.forEach((el, i) => {
-                    setLineChartData(prevData => [
-                        ...prevData,
-                        [el.date, el.revenue, el.netProfit]
-                    ])
+                jobs.forEach((jobA, iA) => {
+                    let dayRevenue = jobA.revenue
+                    let dayProfit = jobA.netProfit
+                    jobs.forEach((jobB, iB) => {
+                        if (iA !== iB && jobA.date === jobB.date) {
+                            dayProfit += jobB.netProfit
+                            dayRevenue += jobB.revenue
+                        }
+                    })
+                    if (!sortedArray.some((el) => el.includes(jobA.date))) {
+                        sortedArray.push([jobA.date, dayRevenue, dayProfit])
+                    }
                 })
+                setLineChartData(sortedArray)
                 break;
             case 'weekly':
-
+                
                 break;
             case 'monthly':
                 jobs.forEach((jobA, iA) => {
@@ -205,7 +221,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
                 break;
             default:
                 break;
-        }        
+        }
     }
 
     const formatCostsData = (data) => {
@@ -253,37 +269,42 @@ export default function Dashboard({ user, loggedIn, userType }) {
 
     const pieOptions = {
         legend: { position: "bottom" },
-
     };
 
     return (
         <div className="pageContainer">
-            <div className="moneyBar">
-                <div className="moneyBarItem">
-                    <h2 className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</h2>
-                    <p className="moneyBarLabel">Total: {totalJobs}</p>
-                    <p className="moneyBarLabel">Completed: {completedJobs.length}</p>
+            <div className="topBanner">
+                <div className="timeSelectContainer">
+                    <select id="pie-time-select" onChange={selectPieTime}>
+                        <option value="" disabled selected>Select Time frame</option>
+                        <option value={0}>Week</option>
+                        <option value={1}>Month</option>
+                        <option value={2}>Year</option>
+                        <option value={3}>All</option>
+                    </select>
                 </div>
-                <div className="moneyBarItem">
-                    <h2 className="moneyBarLabel">Revenue</h2>
-                    <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={revenue} prefix="$" style={{ fontSize: '1.2rem' }} />
+                <div className="moneyBar">
+                    <div className="moneyBarItem">
+                        <h2 className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</h2>
+                        <p className="moneyBarLabel">Total: {totalJobs}</p>
+                        <p className="moneyBarLabel">Completed: {completedJobs.length}</p>
+                    </div>
+                    <div className="moneyBarItem">
+                        <h2 className="moneyBarLabel">Revenue</h2>
+                        <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={revenue} prefix="$" style={{ fontSize: '1.2rem' }} />
+                    </div>
+                    <div className="moneyBarItem">
+                        <h2 className="moneyBarLabel">Cost</h2>
+                        <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={totalCosts} prefix="$" style={{ fontSize: '1.2rem' }} />
+                    </div>
+                    <div className="moneyBarItem">
+                        <h2 className="moneyBarLabel">Profit</h2>
+                        <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={profit} prefix="$" style={{ fontSize: '1.2rem' }} />
+                    </div>
                 </div>
-                <div className="moneyBarItem">
-                    <h2 className="moneyBarLabel">Cost</h2>
-                    <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={totalCosts} prefix="$" style={{ fontSize: '1.2rem' }} />
-                </div>
-                <div className="moneyBarItem">
-                    <h2 className="moneyBarLabel">Profit</h2>
-                    <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={profit} prefix="$" style={{ fontSize: '1.2rem' }} />
-                </div>
-                <select id="pie-time-select" onChange={selectPieTime} style={{ justifySelf: 'flex-end', alignSelf: 'center' }}>
-                    <option value="" disabled selected>Select Time frame</option>
-                    <option value={0}>Week</option>
-                    <option value={1}>Month</option>
-                    <option value={2}>Year</option>
-                    <option value={3}>All</option>
-                </select>
+
             </div>
+
             {noJobs ?
                 <p>Job data will appear here once you add jobs</p>
                 :
