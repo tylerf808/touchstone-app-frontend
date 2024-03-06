@@ -6,9 +6,12 @@
 }
 
 .costsInput {
-    width: 5rem;
-    font-size: 1em;
-    background-color: rgb(236, 223, 213)
+    width: 4rem;
+    font-size: 1rem;
+    background-color: rgb(255, 250, 241);
+    border: .1rem solid black;
+    border-radius: .2rem;
+    padding: .1rem;
 }
 
 .infoContainer {
@@ -17,7 +20,11 @@
     align-items: center;
     justify-content: center;
     width: 30vw;
-    height: 30rem;
+    height: auto;
+    border: .1rem solid black;
+    border-radius: .5rem;
+    background-color: white;
+    padding: 1rem;
 }
 
 .graphContainer {
@@ -29,6 +36,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-self: flex-start;
     padding: 1rem;
 }
 
@@ -44,24 +52,10 @@
 }
 
 .operatingCostsContainer {
-    background-color: white;
-    border-top: .1rem solid black;
-    border-right: .1rem solid rgb(124, 81, 81);
-    border-left: .1rem solid black;
-    border-top-left-radius: .5rem;
-    border-top-right-radius: .5rem;
-    padding: 1rem;
     width: 100%;
 }
 
 .fixedCostsContainer {
-    background-color: white;
-    border-right: .1rem solid black;
-    border-left: .1rem solid black;
-    border-bottom: .1rem solid black;
-    border-bottom-left-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    padding: 1rem;
     width: 100%;
 }
 
@@ -79,14 +73,12 @@
 }
 
 .costsLabel {
-    margin-left: 2em;
-
-    font-size: 1.2em;
+    margin-left: 2rem;
+    font-size: 1.2rem;
 }
 
 .inputInstructions {
-
-    font-size: 1.2em;
+    font-size: 1rem;
 }
 
 .subHeaderContainer {

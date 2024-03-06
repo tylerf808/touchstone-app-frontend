@@ -91,9 +91,9 @@ export default function CostsPage(props) {
         <Chart chartType="PieChart" width="100%" height="100%" data={pieChartData} options={options} />
       </div>
       <div className="infoContainer">
-        <div className="operatingCostsContainer">
+        <div className="fixedCostsContainer">
           <div className="subHeaderContainer">
-            <h2 style={{ color: 'orange' }}>Operating Costs</h2>
+            <h2 style={{ color: 'orange' }}>Fixed Costs</h2>
             {editCosts ?
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
                 <span id="edit-btn" className="cancelX" onClick={() => {
@@ -122,96 +122,100 @@ export default function CostsPage(props) {
           {editCosts ?
             <>
               <div className="costsItem">
-                <p className="inputInstructions">Annual insurance payment</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value) / 240).toFixed(2) })} />
+                <p className="inputInstructions">Total Annual Cost of Insurance (enter in $)</p>
+                <input className="costsInput" defaultValue={Math.round(costs.insurance * 240)} onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value) / 240).toFixed(2) })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Monthly trailer lease payment</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30).toFixed(2) })} />
+                <p className="inputInstructions">Trailer Lease (Enter monthly pmt, if more than one trailer enter average for all trailers)</p>
+                <input className="costsInput" defaultValue={Math.round(costs.trailerLease * 30)} onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Monthly tractor lease payment</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value / 30).toFixed(2) })} />
+                <p className="inputInstructions">Tractor Lease (Enter monthly pmt, if more than one tractor enter average for all tractors)</p>
+                <input className="costsInput" defaultValue={Math.round(costs.tractorLease * 30)} onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Amount spent on repairs each month</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, repairs: (e.target.value / 30).toFixed(2) })} />
+                <input className="costsInput" defaultValue={Math.round(costs.repairs * 30)} onChange={(e) => setCosts({ ...costs, repairs: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Monthly loan payments</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, loan: (e.target.value / 30).toFixed(2) })} />
+                <input className="costsInput" defaultValue={Math.round(costs.loan * 30)} onChange={(e) => setCosts({ ...costs, loan: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Amount spent on parking each month</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, parking: (e.target.value / 30).toFixed(2) })} />
+                <p className="inputInstructions">Parking (Enter monthly pmt for parking , if any)</p>
+                <input className="costsInput" defaultValue={Math.round(costs.parking * 30)} onChange={(e) => setCosts({ ...costs, parking: (e.target.value / 30).toFixed(2) })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Amount spend on G&A each month</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value / 30).toFixed(2) })} />
+                <p className="inputInstructions">G&A (Enter as a percentage eg 4% is 4)</p>
+                <input className="costsInput" defaultValue={Math.round(costs.gAndA * 30)} onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value / 100).toFixed(2) })} />
               </div>
             </>
             :
             <>
               <div className="costsItem">
                 <p className="costsLabel">Insurance</p>
-                <p className="costsNum">{costs?.insurance}</p>
+                <p className="costsNum">${costs?.insurance}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Trailer Lease</p>
-                <p className="costsNum">{costs?.trailerLease}</p>
+                <p className="costsNum">${costs?.trailerLease}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Tractor Lease</p>
-                <p className="costsNum">{costs?.tractorLease}</p>
+                <p className="costsNum">${costs?.tractorLease}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Repairs</p>
-                <p className="costsNum">{costs?.repairs}</p>
+                <p className="costsNum">${costs?.repairs}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Loan</p>
-                <p className="costsNum">{costs?.loan}</p>
+                <p className="costsNum">${costs?.loan}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Parking</p>
-                <p className="costsNum">{costs?.parking}</p>
+                <p className="costsNum">${costs?.parking}</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">G&A</p>
-                <p className="costsNum">{costs?.gAndA}</p>
+                <p className="costsNum">${costs?.gAndA}</p>
               </div>
             </>
           }
         </div>
-        <div className="fixedCostsContainer">
+        <div className="operatingCostsContainer">
           <div className="subHeaderContainer">
-            <h2 style={{ color: 'orange' }}>Fixed Costs</h2>
+            <h2 style={{ color: 'orange' }}>Operating Costs</h2>
           </div>
           {editCosts ?
             <>
               <div className="costsItem">
-                <p className="inputInstructions">Labor Rate</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, laborRate: e.target.value/100 })} />
+                <p className="inputInstructions">Labor Rate (enter as percentage eg. 25% is 25)</p>
+                <input className="costsInput" defaultValue={costs.laborRate*100} onChange={(e) => setCosts({ ...costs, laborRate: e.target.value/100 })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Payroll Tax Rate</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, payrollTax: e.target.value/100 })} />
+                <p className="inputInstructions">Payroll Tax Rate (enter as percentage eg. 2% is 2)</p>
+                <input className="costsInput" defaultValue={costs.payrollTax*100} onChange={(e) => setCosts({ ...costs, payrollTax: e.target.value/100 })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Dispatch</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, dispatch: e.target.value/100 })} />
+                <p className="inputInstructions">Dispatch Rate (enter as percentage eg. 5% is 5)</p>
+                <input className="costsInput" defaultValue={costs.dispatch*100} onChange={(e) => setCosts({ ...costs, dispatch: e.target.value/100 })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Factor</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, factor: e.target.value/100 })} />
+                <p className="inputInstructions">Factor Rate (enter as percentage eg. 2% is 2)</p>
+                <input className="costsInput" defaultValue={costs.factor*100} onChange={(e) => setCosts({ ...costs, factor: e.target.value/100 })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">MPG</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
+                <p className="inputInstructions">ODC (enter as percentage eg 2% is 2)</p>
+                <input className="costsInput" defaultValue={costs.odc*100} onChange={(e) => setCosts({ ...costs, odc: e.target.value/100 })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Num. of Tractor</p>
-                <input className="costsInput" onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })} />
+                <p className="inputInstructions">MPG (enter average fleet mpg)</p>
+                <input className="costsInput" defaultValue={costs.mpg} onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
+              </div>
+              <div className="costsItem">
+                <p className="inputInstructions">Number of Tractors (enter total tractors)</p>
+                <input className="costsInput" defaultValue={costs.tractorNum} onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })} />
               </div>
             </>
             :
@@ -233,12 +237,16 @@ export default function CostsPage(props) {
                 <p className="costsNum">{costs?.factor * 100}%</p>
               </div>
               <div className="costsItem">
-                <p className="costsLabel">MPG</p>
-                <p className="costsNum">{costs?.mpg}</p>
+                <p className="costsLabel">ODC</p>
+                <p className="costsNum">{costs?.odc * 100}%</p>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Num. of Tractors</p>
                 <p className="costsNum">{costs?.tractorNum}</p>
+              </div>
+              <div className="costsItem">
+                <p className="costsLabel">MPG</p>
+                <p className="costsNum">{costs?.mpg}</p>
               </div>
             </>
           }
