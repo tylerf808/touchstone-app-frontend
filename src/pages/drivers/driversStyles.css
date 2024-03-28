@@ -37,6 +37,14 @@ p {
    padding: 1rem;
 }
 
+.addNewUserContainer {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   
+}
+
 #edit-pencil:hover {
    cursor: pointer;
 }

@@ -10,6 +10,10 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
         }
     }, [])
 
+    useEffect(() => {
+        console.log(costs)
+    }, [costs])
+
     const checkForm = () => {
         setShowAlert(false)
         let missingItems
@@ -77,7 +81,7 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                     </div>
                     <div className="slideItem">
                         <div className="slideLabelContainer">
-                            <p className="slideLabel">Enter your average monthly spending on repairs for all tractors.</p>
+                            <p className="slideLabel">Enter your repairs costs in cents per mile (eg. 10 cents is .10).</p>
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>

@@ -23,7 +23,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
 
     let userID
 
-    if(user.accountType === 'dispatcher'){
+    if (user.accountType === 'dispatcher') {
       userID = user.admin
     } else {
       userID = user.username
@@ -58,15 +58,15 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
 
     let userID
 
-    if(user.accountType === 'dispatcher'){
+    if (user.accountType === 'dispatcher') {
       userID = user.admin
     } else {
       userID = user.username
     }
 
     setTimeout(() => {
-      document.getElementById('loading-progress-msg').innerHTML = 'Fetching gas costs'
-    }, 3000)
+      document.getElementById('loading-progress-msg').innerHTML = 'Calculating gas and tolls...'
+    }, 2000)
 
     const start = document.getElementById("start").value
     const pickUp = document.getElementById("pick-up").value
@@ -130,33 +130,31 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
 
     setTimeout(() => {
       if (showLoading !== false) {
-        document.getElementById('loading-progress-msg').innerHTML = 'Calculating total cost'
+        document.getElementById('loading-progress-msg').innerHTML = 'Calculating total cost...'
       } else {
 
       }
     }, 2000)
 
     const grossProfitCosts =
-      parseFloat((checkRes.costs.odc) +
+      parseFloat((checkRes.costs.odc * pay) +
         (checkRes.costs.factor * pay) +
         (checkRes.costs.laborRate * pay) +
-        (checkRes.costs.payrollTax * (checkRes.costs.laborRate * pay)) +
+        (checkRes.costs.payrollTax * pay) +
         (checkRes.costs.dispatch * pay) +
-        checkRes.gasCost);
+        checkRes.gasCost + checkRes.tolls);
     const operationProfitCosts =
       parseFloat(checkRes.costs.insurance +
-        (checkRes.costs.tractorLease / checkRes.costs.tractorNum) +
-        (checkRes.costs.trailerLease / checkRes.costs.tractorNum) +
-        checkRes.costs.gAndA);
+        (checkRes.costs.tractorLease) +
+        (checkRes.costs.trailerLease) +
+        (checkRes.costs.gAndA * pay)+ checkRes.costs.parking);
     const netProfitCosts =
       parseFloat(
-        checkRes.costs.repairs +
+        (checkRes.costs.repairs * checkRes.distance) +
         checkRes.costs.loan);
     const totalCost = ((operationProfitCosts) + (grossProfitCosts) + (netProfitCosts)).toFixed(2);
 
     setShowLoading(false);
-
-    console.log(checkRes)
 
     const newJob = {
       start: start,
@@ -172,26 +170,26 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       user_id: user,
       gasCost: checkRes.gasCost.toFixed(2),
       factor: parseFloat((checkRes.costs.factor * pay).toFixed(2)),
-      gAndA: parseFloat(checkRes.costs.gAndA).toFixed(2),
+      gAndA: parseFloat(checkRes.costs.gAndA * pay).toFixed(2),
       loan: parseFloat(checkRes.costs.loan).toFixed(2),
       odc: parseFloat(checkRes.costs.odc * pay).toFixed(2),
-      repairs: parseFloat((checkRes.costs.repairs / checkRes.costs.tractorNum)).toFixed(2),
+      parking: checkRes.costs.parking,
+      repairs: parseFloat((checkRes.costs.repairs * checkRes.distance)).toFixed(2),
       ratePerMile: parseFloat((pay / checkRes.distance).toFixed(2)),
       labor: parseFloat((checkRes.costs.laborRate * pay).toFixed(2)),
-      payrollTax: parseFloat((checkRes.costs.payrollTax * (checkRes.costs.laborRate * pay)).toFixed(2)),
+      payrollTax: parseFloat((checkRes.costs.payrollTax * pay).toFixed(2)),
       netProfit: parseFloat((pay - totalCost)).toFixed(2),
       grossProfit: parseFloat((pay - grossProfitCosts).toFixed(2)),
       operatingProfit: parseFloat((pay - (operationProfitCosts + grossProfitCosts)).toFixed(2)),
-      insurance: checkRes.costs.insurance / checkRes.costs.tractorNum,
+      insurance: checkRes.costs.insurance,
       dispatch: parseFloat((pay * checkRes.costs.dispatch).toFixed(2)),
       laborRatePercent: checkRes.costs.laborRate * 100 + "%",
-      trailer: parseFloat((checkRes.costs.trailerLease / checkRes.costs.tractorNum).toFixed(2)),
-      tractor: parseFloat((checkRes.costs.tractorLease / checkRes.costs.tractorNum).toFixed(2)),
-      totalFixedCost: parseFloat((
+      trailer: parseFloat((checkRes.costs.trailerLease).toFixed(2)),
+      tractor: parseFloat((checkRes.costs.tractorLease).toFixed(2)),
+      totalFixedCost: parseFloat((checkRes.costs.insurance + 
         checkRes.costs.tractorLease +
         checkRes.costs.trailerLease +
-        checkRes.costs.insurance +
-        checkRes.costs.gAndA
+        (checkRes.costs.gAndA * pay)+ checkRes.costs.parking
       ).toFixed(2)),
       tolls: parseFloat(checkRes.tolls * 8).toFixed(2),
       client: client,
@@ -200,8 +198,6 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       totalCost: parseFloat(totalCost),
       driveTime: checkRes.duration
     }
-
-    console.log(newJob)
 
     setJob(newJob)
 
@@ -215,7 +211,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       setProfitable(true);
     }
   };
-  
+
   const addJob = async () => {
     await fetch(apiUrl + "/api/jobs/newJob", {
       method: "POST",
@@ -378,17 +374,11 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
                   <div id="profit-number" className="jobDisplayItem" >
                     <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.grossProfit} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
                   </div>
-                  <div className="jobDisplayItem">
-                    <p>Fixed Costs</p>
+                  <div className="jobDisplayItem" style={{ marginLeft: '0rem' }}>
+                    <p>Fixed Costs Total</p>
                   </div>
                   <div className="jobDisplayItem">
                     <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.totalFixedCost} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
-                  </div>
-                  <div id="profit-label" className="jobDisplayItem">
-                    <p>Operating Profit</p>
-                  </div>
-                  <div id="profit-number" className="jobDisplayItem">
-                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.operatingProfit} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Insurance</p>
@@ -397,10 +387,46 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
                     <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.insurance} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
-                    <p>Tractor & Trailer Lease</p>
+                    <p>Tractor Lease</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tractor + job.trailer} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tractor} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <p>Trailer Lease</p>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.trailer} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <p>G&A</p>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.gAndA} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <p>Parking</p>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.parking} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                  </div>
+                  <div id="profit-label" className="jobDisplayItem">
+                    <p>Operating Profit</p>
+                  </div>
+                  <div id="profit-number" className="jobDisplayItem">
+                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.operatingProfit} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <p>Repairs</p>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.repairs} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <p>Loan</p>
+                  </div>
+                  <div className="jobDisplayItem">
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.loan} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div id="net-profit-label" className="jobDisplayItem">
                     <p style={{ fontWeight: 'bold' }}>Net Profit</p>
