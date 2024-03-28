@@ -1,9 +1,8 @@
-import { useState, useEffect, StrictMode } from "react";
+import { useState } from "react";
 import Toolbar from "./components/Toolbar";
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Routes
 } from "react-router-dom";
 import { Alert } from "@mui/material";
@@ -25,19 +24,6 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const [insuranceType, setInsuranceType] = useState()
-  const [insuranceValue, setInsuranceValue] = useState()
-  const [tractorValue, setTractorValue] = useState()
-  const [trailerValue, setTrailerValue] = useState()
-  const [mpgValue, setMpgValue] = useState()
-  const [laborValue, setLaborValue] = useState()
-  const [payrollValue, setPayrollValue] = useState()
-  const [dispatchValue, setDispatchValue] = useState()
-  const [factorValue, setFactorValue] = useState()
-  const [odcValue, setOdcValue] = useState()
-  const [gAndAValue, setGAndAValue] = useState()
-  const [loanValue, setLoanValue] = useState()
-  const [repairsValue, setRepairsValue] = useState()
 
 
   return (
@@ -52,16 +38,7 @@ export default function App() {
           <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType} loggedIn={loggedIn}/>} />
           <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
            setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
-          <Route path="costs"  element={<CostsPage userType={userType} insuranceType={insuranceType} setInsuranceType={setInsuranceType}
-          insuranceValue={insuranceValue} setInsuranceValue={setInsuranceValue}
-          tractorValue={tractorValue} setTractorValue={setTractorValue} trailerValue={trailerValue}
-          setTrailerValue={setTrailerValue} mpgValue={mpgValue} setMpgValue={setMpgValue}
-          laborValue={laborValue} setLaborValue={setLaborValue} payrollValue={payrollValue}
-          setPayrollValue={setPayrollValue} dispatchValue={dispatchValue} setDispatchValue={setDispatchValue}
-          factorValue={factorValue} setFactorValue={setFactorValue} odcValue={odcValue} setOdcValue={setOdcValue}
-          gAndAValue={gAndAValue} setGAndAValue={setGAndAValue} loanValue={loanValue} setLoanValue={setLoanValue}
-          repairsValue={repairsValue} setRepairsValue={setRepairsValue}
-          loggedIn={loggedIn} user={user} />} />
+          <Route path="costs"  element={<CostsPage loggedIn={loggedIn} user={user} />} />
           <Route path="drivers" element={<Drivers userType={userType} user={user}/>} />
         </Routes>
         

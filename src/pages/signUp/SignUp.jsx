@@ -33,8 +33,6 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, s
       return
     }
 
-    console.log(drivers, dispatcher, userInfo)
-
     const dailyInsurance = (costs.insuranceAmount / 240) / costs.tractorNum
 
     if (showAlert === false) {
@@ -94,7 +92,6 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, s
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json()).then((data) => {return data})
-        console.log(response)
         setUser(response[0].username);
         setCosts(response[1])
         setLoggedIn(true)

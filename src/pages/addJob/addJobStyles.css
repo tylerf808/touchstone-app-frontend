@@ -53,6 +53,7 @@
 
 .btnContainer {
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .checkJobBtnContainer {
@@ -157,7 +158,7 @@
 .checkJobDisplay {
     display: grid;
     grid-template-columns: 50% 50%;
-    height: 40rem;
+    height: auto;
     width: 35rem;
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Chart } from 'react-google-charts'
+import CurrencyFormat from 'react-currency-format'
 import './costsPageStyles.css'
 
 const { apiUrl } = require('../../urls.json')
@@ -40,6 +41,7 @@ export default function CostsPage(props) {
       })
     }).then((res) => res.json()).then((data) => {
       setCosts(data[0])
+      console.log(data)
       setPieChartData([
         ["Cost", "Amount"],
         ["Insurance", data[0].insurance],
@@ -51,8 +53,7 @@ export default function CostsPage(props) {
         ['Loan', data[0].loan],
         ['Parking', data[0].parking],
         ['ODC', data[0].odc],
-        ['Dispatch', data[0].dispatch],
-        ['Repairs', data[0].repairs]
+        ['Dispatch', data[0].dispatch]
       ])
     })
   }
@@ -76,8 +77,6 @@ export default function CostsPage(props) {
     })
       .then((res) => res.json()).then((data) => setCosts(data))
       .catch((err) => console.log(err))
-
-
   };
 
   const options = {
@@ -123,62 +122,62 @@ export default function CostsPage(props) {
             <>
               <div className="costsItem">
                 <p className="inputInstructions">Total Annual Cost of Insurance (enter in $)</p>
-                <input className="costsInput" defaultValue={Math.round(costs.insurance * 240)} onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value) / 240).toFixed(2) })} />
+                <input className="costsInput" defaultValue={(costs.insurance * 240)} onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value) / 240) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Trailer Lease (Enter monthly pmt, if more than one trailer enter average for all trailers)</p>
-                <input className="costsInput" defaultValue={Math.round(costs.trailerLease * 30)} onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30).toFixed(2) })} />
+                <input className="costsInput" defaultValue={(costs.trailerLease * 30)} onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Tractor Lease (Enter monthly pmt, if more than one tractor enter average for all tractors)</p>
-                <input className="costsInput" defaultValue={Math.round(costs.tractorLease * 30)} onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value / 30).toFixed(2) })} />
+                <input className="costsInput" defaultValue={(costs.tractorLease * 30)} onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value / 30) })} />
               </div>
               <div className="costsItem">
-                <p className="inputInstructions">Amount spent on repairs each month</p>
-                <input className="costsInput" defaultValue={Math.round(costs.repairs * 30)} onChange={(e) => setCosts({ ...costs, repairs: (e.target.value / 30).toFixed(2) })} />
+                <p className="inputInstructions">Repairs (Cents per mile; eg. 10 cents is 0.1)</p>
+                <input className="costsInput" defaultValue={costs.repairs} onChange={(e) => setCosts({ ...costs, repairs: e.target.value})} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Monthly loan payments</p>
-                <input className="costsInput" defaultValue={Math.round(costs.loan * 30)} onChange={(e) => setCosts({ ...costs, loan: (e.target.value / 30).toFixed(2) })} />
+                <input className="costsInput" defaultValue={(costs.loan * 30)} onChange={(e) => setCosts({ ...costs, loan: (e.target.value / 30) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Parking (Enter monthly pmt for parking , if any)</p>
-                <input className="costsInput" defaultValue={Math.round(costs.parking * 30)} onChange={(e) => setCosts({ ...costs, parking: (e.target.value / 30).toFixed(2) })} />
+                <input className="costsInput" defaultValue={(costs.parking * 30)} onChange={(e) => setCosts({ ...costs, parking: (e.target.value / 30) })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">G&A (Enter as a percentage eg 4% is 4)</p>
-                <input className="costsInput" defaultValue={Math.round(costs.gAndA * 30)} onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value / 100).toFixed(2) })} />
+                <input className="costsInput" defaultValue={(costs.gAndA * 30)} onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value / 100) })} />
               </div>
             </>
             :
             <>
               <div className="costsItem">
                 <p className="costsLabel">Insurance</p>
-                <p className="costsNum">${costs?.insurance}</p>
+                <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.insurance * 240} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Year"/>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Trailer Lease</p>
-                <p className="costsNum">${costs?.trailerLease}</p>
+                <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.trailerLease * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month"/>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Tractor Lease</p>
-                <p className="costsNum">${costs?.tractorLease}</p>
+                <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.tractorLease * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month"/>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Repairs</p>
-                <p className="costsNum">${costs?.repairs}</p>
+                <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.repairs} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Mile"/>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Loan</p>
-                <p className="costsNum">${costs?.loan}</p>
+                <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.loan * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month"/>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">Parking</p>
-                <p className="costsNum">${costs?.parking}</p>
+                <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.parking * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month"/>
               </div>
               <div className="costsItem">
                 <p className="costsLabel">G&A</p>
-                <p className="costsNum">${costs?.gAndA}</p>
+                <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.gAndA * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month"/>
               </div>
             </>
           }
@@ -191,31 +190,31 @@ export default function CostsPage(props) {
             <>
               <div className="costsItem">
                 <p className="inputInstructions">Labor Rate (enter as percentage eg. 25% is 25)</p>
-                <input className="costsInput" defaultValue={costs.laborRate*100} onChange={(e) => setCosts({ ...costs, laborRate: e.target.value/100 })} />
+                <input className="costsInput" defaultValue={costs?.laborRate*100} onChange={(e) => setCosts({ ...costs, laborRate: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Payroll Tax Rate (enter as percentage eg. 2% is 2)</p>
-                <input className="costsInput" defaultValue={costs.payrollTax*100} onChange={(e) => setCosts({ ...costs, payrollTax: e.target.value/100 })} />
+                <input className="costsInput" defaultValue={costs?.payrollTax*100} onChange={(e) => setCosts({ ...costs, payrollTax: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Dispatch Rate (enter as percentage eg. 5% is 5)</p>
-                <input className="costsInput" defaultValue={costs.dispatch*100} onChange={(e) => setCosts({ ...costs, dispatch: e.target.value/100 })} />
+                <input className="costsInput" defaultValue={costs?.dispatch*100} onChange={(e) => setCosts({ ...costs, dispatch: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Factor Rate (enter as percentage eg. 2% is 2)</p>
-                <input className="costsInput" defaultValue={costs.factor*100} onChange={(e) => setCosts({ ...costs, factor: e.target.value/100 })} />
+                <input className="costsInput" defaultValue={costs?.factor*100} onChange={(e) => setCosts({ ...costs, factor: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">ODC (enter as percentage eg 2% is 2)</p>
-                <input className="costsInput" defaultValue={costs.odc*100} onChange={(e) => setCosts({ ...costs, odc: e.target.value/100 })} />
+                <input className="costsInput" defaultValue={costs?.odc*100} onChange={(e) => setCosts({ ...costs, odc: e.target.value/100 })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">Number of Tractors (enter total tractors)</p>
-                <input className="costsInput" defaultValue={costs.tractorNum} onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })} />
+                <input className="costsInput" defaultValue={costs?.tractorNum} onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })} />
               </div>
               <div className="costsItem">
                 <p className="inputInstructions">MPG (enter average fleet mpg)</p>
-                <input className="costsInput" defaultValue={costs.mpg} onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
+                <input className="costsInput" defaultValue={costs?.mpg} onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
               </div>
             </>
             :
