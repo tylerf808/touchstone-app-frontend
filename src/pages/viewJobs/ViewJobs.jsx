@@ -35,7 +35,7 @@ export default function ViewJobs({ user, loggedIn }) {
                 const formattedCsvJobs = []
                 data.forEach((el, i) => {
                     const job = {
-                        id: i + 1,
+                        _id: el._id,
                         data: el.date.toString(),
                         client: el.client.toString(),
                         driver: el.driver.toString(),
@@ -73,13 +73,14 @@ export default function ViewJobs({ user, loggedIn }) {
                 })
                 setCsvJobs(formattedCsvJobs)
                 setJobs(data)
-                if (jobs.length === 0) {
+                if (data.length === 0) {
                     setNoJobs(true)
                 } else {
                     setNoJobs(false)
                 }
             })
         
+
     }
 
     useEffect(() => {
@@ -131,7 +132,11 @@ export default function ViewJobs({ user, loggedIn }) {
                 :
                 <div className="previousJobsDisplay">
                     <DataGrid style={{ backgroundColor: 'white' }} getRowId={(row) => row._id} rows={jobs} columns={columns} pageSize={30} rowsPerPageOptions={[30]} />
-                    <CSVLink style={{ marginTop: '3rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', fontSize: '1.2rem' }} data={csvJobs}>Download Excel Sheet</CSVLink>
+                    {csvJobs ?
+                        <CSVLink style={{ marginTop: '3rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', fontSize: '1.2rem' }} data={csvJobs}>Download Excel Sheet</CSVLink>
+                        :
+                        null
+                    }
                 </div>
             }
         </div>
