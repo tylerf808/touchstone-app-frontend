@@ -13,11 +13,10 @@ import './signUpStyles.css'
 
 const { apiUrl } = require('../../urls.json')
 
-export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, setShowAlert }) {
+export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, setShowAlert, costs, setCosts }) {
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [userInfo, setUserInfo] = useState({name: '', email: '', username: '', password: '', accountType: ''})
-  const [costs, setCosts] = useState({})
   const [drivers, setDrivers] = useState([])
   const [dispatcher, setDispatcher] = useState({email: '', username: '', name: '', company: '', password: '', accountType: 'dispatcher'})
 
@@ -61,7 +60,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, s
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
-        setUser(response[0].username);
+        setUser(response[0]);
         setCosts(response[1])
         setLoggedIn(true)
         navigate('/dashboard')
@@ -92,7 +91,7 @@ export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, s
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json()).then((data) => {return data})
-        setUser(response[0].username);
+        setUser(response[0]);
         setCosts(response[1])
         setLoggedIn(true)
         navigate('/dashboard')
