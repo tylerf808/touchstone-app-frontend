@@ -7,6 +7,20 @@
   margin-left: 40%
 }
 
+.dashboardContainer {
+  position: relative;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: .1rem solid black;
+  margin-top: 2rem;
+  width: 95%;
+  left: 2.5%;
+  border-radius: .5rem;
+}
+
 .dashboardDrivers {
   display: flex;
   flex-direction: column;
@@ -21,10 +35,8 @@
   justify-content: center;
   align-items: center;
   padding: .3rem;
-  background-color: white;
-  border: .1rem solid black;
-  border-radius: .5rem;
-  margin-top: 2em;
+  border-bottom: .1rem solid black;
+  width: 99%;
 }
 
 .timeSelectContainer {
@@ -68,10 +80,9 @@
 }
 
 .chartContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-items: center;
   width: 100%;
 }
 
@@ -81,13 +92,10 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 5em;
-  width: 35%;
-  height: 400px;
-  background-color: white;
-  border: .1em solid black;
-  border-radius: 1em;
+  width: 500px;
+  height: 500px;
   padding: 1em;
+  border-right: .1rem solid black;
 }
 
 .pieChartContainer {
@@ -96,11 +104,8 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 5em;
-  width: 35%;
-  height: 400px;
-  background-color: white;
-  border: .1em solid black;
+  width: 500px;
+  height: 500px;
   border-radius: 1em;
   padding: 1em;
 }
@@ -120,7 +125,7 @@
     justify-content: center;
   }
 
-  .pageContainer {
+  .dashboardContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
