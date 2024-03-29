@@ -272,7 +272,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
     };
 
     return (
-        <div className="pageContainer">
+        <div className="dashboardContainer">
             <div className="topBanner">
                 <div className="timeSelectContainer">
                     <select id="pie-time-select" onChange={selectPieTime}>
