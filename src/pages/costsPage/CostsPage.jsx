@@ -152,7 +152,7 @@ export default function CostsPage(props) {
             :
             <>
               <div className="costsItem">
-                <p className="costsLabel">Insurance</p>
+                <p className="costsLabel">Insurance per Tractor</p>
                 <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.insurance * 240} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Year"/>
               </div>
               <div className="costsItem">

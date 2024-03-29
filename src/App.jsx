@@ -36,8 +36,8 @@ export default function App() {
           <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs}
            setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType} loggedIn={loggedIn}/>} />
-          <Route path="signup"  element={<SignUp setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
-           setCosts={setCosts} setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
+          <Route path="signup"  element={<SignUp costs={costs} setCosts={setCosts} setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+          setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
           <Route path="costs"  element={<CostsPage loggedIn={loggedIn} user={user} />} />
           <Route path="drivers" element={<Drivers userType={userType} user={user}/>} />
         </Routes>
