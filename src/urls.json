@@ -1,4 +1,4 @@
 {
-    "apiUrl": "http://localhost:8080",
+    "apiUrl": "https://touchstone-api.onrender.com",
     "mapsApiKey": "AIzaSyDcXIOrxmAOOPEvqjLEXVeZb9mdTyUqS6k"
 }
