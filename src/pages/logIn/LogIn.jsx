@@ -56,8 +56,7 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
                 return
             } else {
                 setShowAlert(false)
-                localStorage.setItem('token', response);
-                // setUserType(response.accountType)
+                setUserType(response.accountType)
                 setLoggedIn(true);
                 navigate('/dashboard')
             }
@@ -78,7 +77,7 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
                 setLoggedIn(true);
             }
         }
-        // getCosts()
+        getCosts()
     };
 
     return (
