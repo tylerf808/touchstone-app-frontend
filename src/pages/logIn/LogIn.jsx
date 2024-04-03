@@ -56,9 +56,10 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
                 return
             } else {
                 setShowAlert(false)
-                setUser(response);
-                setUserType(response.accountType)
+                localStorage.setItem('token', response);
+                // setUserType(response.accountType)
                 setLoggedIn(true);
+                navigate('/dashboard')
             }
         } else {
             const response = await fetch(apiUrl + "/api/user/usernameLogin", {
@@ -77,7 +78,7 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
                 setLoggedIn(true);
             }
         }
-        getCosts()
+        // getCosts()
     };
 
     return (
