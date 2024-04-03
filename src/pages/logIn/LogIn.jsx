@@ -27,7 +27,7 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
         await fetch(apiUrl + '/api/costs/',{
             method: 'POST',
             body: JSON.stringify({
-                username: user
+                username: user.username
             })
         }).then((res) => res.json()).then((data) => {
             setCosts(data[0])})
@@ -56,9 +56,10 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
                 return
             } else {
                 setShowAlert(false)
+                setUser(response)
                 setUserType(response.accountType)
-                setLoggedIn(true);
-                navigate('/dashboard')
+                setLoggedIn(true)
+                console.log(response)
             }
         } else {
             const response = await fetch(apiUrl + "/api/user/usernameLogin", {
@@ -77,7 +78,7 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
                 setLoggedIn(true);
             }
         }
-        getCosts()
+        navigate('/dashboard')
     };
 
     return (

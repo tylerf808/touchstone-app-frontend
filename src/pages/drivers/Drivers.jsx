@@ -7,6 +7,7 @@ const { apiUrl } = require('../../urls.json')
 export default function Drivers({ user }) {
 
     const [users, setUsers] = useState([])
+    const [addNewUser, setAddNewUser] = useState(false)
     const [edit, setEdit] = useState(false)
 
     const navigate = useNavigate()
@@ -32,7 +33,10 @@ export default function Drivers({ user }) {
                 <div className="editButtonsContainer">
                     <h2 style={{ color: 'orange' }}>Drivers & Dispatcher</h2>
                     {edit ?
-                        <><button onClick={() => setEdit(false)}>Confirm</button><button onClick={() => setEdit(false)}>Discard</button></>
+                        <div className="confirmBtnContainer">
+                            <button className="confirmBtn" onClick={() => setEdit(false)}>Confirm</button>
+                            <button className="discardBtn" onClick={() => setEdit(false)}>Discard</button>
+                        </div>
                         :
                         <i id="edit-pencil" class="fa fa-pencil" style={{ fontSize: '2rem' }} onClick={() => {
                             setEdit(true)
@@ -162,13 +166,16 @@ export default function Drivers({ user }) {
                 }
                 {edit ?
                     <div className="addNewUserContainer" style={{borderTop: '.1rem solid black', height: '4rem'}}>
-                        <h1 style={{ color: 'green'}}>+</h1><p style={{marginLeft: '1rem'}}>Add User</p>
+                        {addNewUser ?
+                        <></>
+                        :
+                        <><h1 style={{ color: 'green'}}>+</h1><p style={{marginLeft: '1rem'}}>Add User</p></>
+                    } 
                     </div>
                     :
                     null
                 }
             </div>
-
         </div>
     )
 }
