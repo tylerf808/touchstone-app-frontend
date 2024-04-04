@@ -92,7 +92,7 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  width: 500px;
+  width: 40vw;
   height: 500px;
   padding: 1em;
   border-right: .1rem solid black;
@@ -104,7 +104,7 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  width: 500px;
+  width: 40vw;
   height: 500px;
   border-radius: 1em;
   padding: 1em;

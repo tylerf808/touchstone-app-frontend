@@ -85,7 +85,7 @@ export default function CostsPage(props) {
       <div className="costsContainer">
         <div className="graphContainer">
           <h2 style={{ color: 'orange' }}>Monthly Fixed Costs</h2>
-          <Chart chartType="PieChart" width="100%" height="100%" data={pieChartData} options={options} />
+          <Chart chartType="PieChart" width="95%" height="100%" data={pieChartData} options={options} />
         </div>
         <div className="infoContainer">
           <div className="fixedCostsContainer">

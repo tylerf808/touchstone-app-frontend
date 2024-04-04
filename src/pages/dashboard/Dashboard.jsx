@@ -182,7 +182,13 @@ export default function Dashboard({ user, loggedIn, userType }) {
                 setLineChartData(sortedArray)
                 break;
             case 'weekly':
+                const week1 = []
+                const week2 = []
+                const week3 = []
+                const week4 = []
+                jobs.forEach((job) => {
 
+                })
                 break;
             case 'monthly':
                 jobs.forEach((jobA, iA) => {
@@ -289,7 +295,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
                 </div>
             </div>
             {noJobs ?
-                <p>Job data will appear here once you add jobs</p>
+                <p style={{justifySelf: 'center', alignSelf: 'center'}}>Job data will appear here once you add jobs</p>
                 :
                 <div className="chartContainer">
                     <div className="lineChartContainer">
