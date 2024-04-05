@@ -47,7 +47,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
 
         await fetch(apiUrl + '/api/jobs/allJobs', {
             method: 'POST',
-            headers:{
+            headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -107,7 +107,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
         setCompletedJobs(completedJobs)
     }
 
-    const selectPieTime = () => {
+    const selectBarTime = () => {
 
         const currentTime = Date.now()
         const selectedOption = document.getElementById('pie-time-select').value
@@ -182,13 +182,31 @@ export default function Dashboard({ user, loggedIn, userType }) {
                 setLineChartData(sortedArray)
                 break;
             case 'weekly':
-                const week1 = []
-                const week2 = []
-                const week3 = []
-                const week4 = []
-                jobs.forEach((job) => {
+                const weeklyTotals = jobs.reduce((acc, job) => {
+                    const weekStart = new Date(job.date)
+                    weekStart.setHours(0, 0, 0, 0)
+                    weekStart.setDate(weekStart.getDate() - weekStart.getDay())
 
+                    const weekEnd = new Date(weekStart)
+                    weekEnd.setDate(weekEnd.getDate() + 6)
+
+                    const weekKey = weekStart.toDateString()
+
+                    if (!acc[weekKey]) {
+                        acc[weekKey] = [ weekStart.toDateString(), 0,  0 ]
+                    }
+
+                    acc[weekKey][1] += job.revenue
+                    acc[weekKey][2] += job.netProfit
+
+                    return acc
+                }, {})
+                const weeklyTotalsArray = Object.values(weeklyTotals)
+                weeklyTotalsArray.forEach((el) => {
+                    sortedArray.push(el)
                 })
+                console.log(sortedArray)
+                setLineChartData(sortedArray)
                 break;
             case 'monthly':
                 jobs.forEach((jobA, iA) => {
@@ -266,7 +284,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
         <div className="dashboardContainer">
             <div className="topBanner">
                 <div className="timeSelectContainer">
-                    <select id="pie-time-select" onChange={selectPieTime}>
+                    <select id="pie-time-select" onChange={selectBarTime}>
                         <option value="" disabled selected>Select Time frame</option>
                         <option value={0}>Week</option>
                         <option value={1}>Month</option>
@@ -295,7 +313,7 @@ export default function Dashboard({ user, loggedIn, userType }) {
                 </div>
             </div>
             {noJobs ?
-                <p style={{justifySelf: 'center', alignSelf: 'center'}}>Job data will appear here once you add jobs</p>
+                <p style={{ justifySelf: 'center', alignSelf: 'center' }}>Job data will appear here once you add jobs</p>
                 :
                 <div className="chartContainer">
                     <div className="lineChartContainer">

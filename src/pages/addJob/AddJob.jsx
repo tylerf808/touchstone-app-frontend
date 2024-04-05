@@ -147,7 +147,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       parseFloat(checkRes.costs.insurance +
         (checkRes.costs.tractorLease) +
         (checkRes.costs.trailerLease) +
-        (checkRes.costs.gAndA * pay)+ checkRes.costs.parking);
+        (checkRes.costs.gAndA * pay) + checkRes.costs.parking);
     const netProfitCosts =
       parseFloat(
         (checkRes.costs.repairs * checkRes.distance) +
@@ -186,10 +186,10 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
       laborRatePercent: checkRes.costs.laborRate * 100 + "%",
       trailer: parseFloat((checkRes.costs.trailerLease).toFixed(2)),
       tractor: parseFloat((checkRes.costs.tractorLease).toFixed(2)),
-      totalFixedCost: parseFloat((checkRes.costs.insurance + 
+      totalFixedCost: parseFloat((checkRes.costs.insurance +
         checkRes.costs.tractorLease +
         checkRes.costs.trailerLease +
-        (checkRes.costs.gAndA * pay)+ checkRes.costs.parking
+        (checkRes.costs.gAndA * pay) + checkRes.costs.parking
       ).toFixed(2)),
       tolls: parseFloat(checkRes.tolls * 8).toFixed(2),
       client: client,

@@ -41,7 +41,6 @@ export default function CostsPage(props) {
       })
     }).then((res) => res.json()).then((data) => {
       setCosts(data[0])
-      console.log(data)
       setPieChartData([
         ["Cost", "Amount"],
         ["Insurance", data[0].insurance],
