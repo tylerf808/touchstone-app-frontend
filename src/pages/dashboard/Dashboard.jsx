@@ -1,17 +1,20 @@
 import { useNavigate } from "react-router-dom"
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import './dashboardStyles.css'
 import { Chart } from "react-google-charts"
+import UserContext from "../../helpers/Context"
 
 const { apiUrl } = require('../../urls.json')
 
-export default function Dashboard({ user, loggedIn, userType }) {
+export default function Dashboard() {
 
     const currentDateObj = new Date()
     const currentDate = currentDateObj.getFullYear() + '-' + (parseInt(currentDateObj.getMonth()) + 1) + '-' + currentDateObj.getDate()
 
     const navigate = useNavigate()
+
+    const {user, setUser, loggedIn, setLoggedIn} = useContext(UserContext)
 
     const [drivers, setDrivers] = useState([])
     const [totalCosts, setTotalCosts] = useState()
@@ -205,7 +208,6 @@ export default function Dashboard({ user, loggedIn, userType }) {
                 weeklyTotalsArray.forEach((el) => {
                     sortedArray.push(el)
                 })
-                console.log(sortedArray)
                 setLineChartData(sortedArray)
                 break;
             case 'monthly':

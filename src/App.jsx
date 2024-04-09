@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import Toolbar from "./components/Toolbar";
 import {
   BrowserRouter as Router,
@@ -13,6 +13,7 @@ import SignUp from "./pages/signUp/SignUp";
 import ViewJobs from './pages/viewJobs/ViewJobs'
 import Drivers from './pages/drivers/Drivers'
 import Dashboard from "./pages/dashboard/Dashboard";
+import UserContext from "./helpers/Context";
 
 const library = ["places"];
 
@@ -25,23 +26,22 @@ export default function App() {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
 
-
   return (
+    <UserContext.Provider value={{user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType}}>
       <Router>
         <Toolbar setShowAlert={setShowAlert} user={user} costs={costs} userType={userType} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} setCosts={setCosts} />
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
-          <Route path='dashboard' element={<Dashboard user={user} loggedIn={loggedIn} userType={userType}/>} />
-          <Route path="addjob" element={<AddJob loggedIn={loggedIn} library={library} user={user} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />} />
-          <Route path="/" element={<LogIn setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} user={user} setUser={setUser} userType={userType} setUserType={setUserType} costs={costs}
-           setCosts={setCosts} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
-          <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType} loggedIn={loggedIn}/>} />
-          <Route path="signup"  element={<SignUp costs={costs} setCosts={setCosts} setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
-          setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
-          <Route path="costs"  element={<CostsPage loggedIn={loggedIn} user={user} />} />
-          <Route path="drivers" element={<Drivers userType={userType} user={user}/>} />
+          <Route path='dashboard' element={<Dashboard />} />
+          <Route path="addjob" element={<AddJob library={library} />} />
+          <Route path="/" element={<LogIn />} />
+          <Route path="jobs" element={<ViewJobs user={user} costs={costs} setCosts={setCosts} userType={userType} loggedIn={loggedIn} />} />
+          <Route path="signup" element={<SignUp costs={costs} setCosts={setCosts} setUserType={setUserType} userType={userType} user={user} showAlert={showAlert} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+            setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
+          <Route path="costs" element={<CostsPage loggedIn={loggedIn} user={user} />} />
+          <Route path="drivers" element={<Drivers userType={userType} user={user} />} />
         </Routes>
-        
       </Router>
+    </UserContext.Provider>
   );
 }

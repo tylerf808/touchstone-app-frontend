@@ -1,13 +1,14 @@
 import { CircularProgress } from "@mui/material";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CurrencyFormat from 'react-currency-format';
 import { useNavigate } from "react-router-dom";
 import './addJobStyles.css'
+import UserContext from "../../helpers/Context";
 
 const { apiUrl, mapsApiKey } = require('../../urls.json')
 
-export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, library }) {
+export default function AddJob({ library }) {
 
   const [showJobBtn, setShowJobBtn] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
@@ -18,6 +19,8 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
   const statesArray = [];
 
   const navigate = useNavigate();
+
+  const {user, loggedIn, setShowAlert, setAlertMsg} = useContext(UserContext)
 
   useEffect(() => {
 
