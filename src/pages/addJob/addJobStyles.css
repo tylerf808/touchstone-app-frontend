@@ -146,8 +146,6 @@
 
 .jobDisplayItem {
     padding: 6px;
-    margin-top: .2em;
-    margin-bottom: .2em;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;

@@ -14,7 +14,7 @@ export default function Dashboard() {
 
     const navigate = useNavigate()
 
-    const {user, setUser, loggedIn, setLoggedIn} = useContext(UserContext)
+    const {user, loggedIn} = useContext(UserContext)
 
     const [drivers, setDrivers] = useState([])
     const [totalCosts, setTotalCosts] = useState()

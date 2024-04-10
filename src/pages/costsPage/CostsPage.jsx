@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Chart } from 'react-google-charts'
 import CurrencyFormat from 'react-currency-format'
 import './costsPageStyles.css'
+import UserContext from "../../helpers/Context";
 
 const { apiUrl } = require('../../urls.json')
 
-export default function CostsPage(props) {
+export default function CostsPage() {
 
   const [editCosts, setEditCosts] = useState(false)
   const [pieChartData, setPieChartData] = useState()
@@ -14,8 +15,10 @@ export default function CostsPage(props) {
 
   const navigate = useNavigate()
 
+  const { user, loggedIn } = useContext(UserContext)
+
   useEffect(() => {
-    if (!props.loggedIn) {
+    if (!loggedIn) {
       navigate('/')
     }
     getCosts()
@@ -25,10 +28,10 @@ export default function CostsPage(props) {
 
     let userID
 
-    if (props.user.accountType === 'dispatcher') {
-      userID = props.user.admin
+    if (user.accountType === 'dispatcher') {
+      userID = user.admin
     } else {
-      userID = props.user.username
+      userID = user.username
     }
 
     await fetch(apiUrl + '/api/costs', {
@@ -56,10 +59,10 @@ export default function CostsPage(props) {
 
     let userID
 
-    if (props.user.accountType === 'dispatcher') {
-      userID = props.user.admin
+    if (user.accountType === 'dispatcher') {
+      userID = user.admin
     } else {
-      userID = props.user.username
+      userID = user.username
     }
 
     await fetch(apiUrl + "/api/costs/updateCosts", {
@@ -110,7 +113,7 @@ export default function CostsPage(props) {
                   </div>
                 </div>
                 :
-                <i id="edit-btn" class="fa fa-pencil" style={{ fontSize: '1.5em' }} onClick={() => {
+                <i id="edit-btn" className="fa fa-pencil" style={{ fontSize: '1.5em' }} onClick={() => {
                   setEditCosts(true)
                 }}></i>
               }
