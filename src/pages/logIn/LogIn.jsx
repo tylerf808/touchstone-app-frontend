@@ -1,12 +1,16 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import UserContext from '../../helpers/Context';
 import './loginStyles.css'
+import { useContext } from 'react';
 
 const { apiUrl } = require('../../urls.json')
 
-export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAlert, setAlertMsg, setUserType, loggedIn }) {
+export default function LogIn() {
 
     const navigate = useNavigate();
+
+    const { setUser, setLoggedIn, setShowAlert, setAlertMsg, setUserType, loggedIn } = useContext(UserContext)
 
     useEffect(() => {
         if(loggedIn){
@@ -21,17 +25,6 @@ export default function LogIn({ user, setUser, setCosts, setLoggedIn, setShowAle
         } else {
             password.type = 'password'
         }
-    }
-
-    const getCosts = async () => {
-        await fetch(apiUrl + '/api/costs/',{
-            method: 'POST',
-            body: JSON.stringify({
-                username: user.username
-            })
-        }).then((res) => res.json()).then((data) => {
-            setCosts(data[0])})
-        navigate('/dashboard')
     }
 
     const logIn = async () => {

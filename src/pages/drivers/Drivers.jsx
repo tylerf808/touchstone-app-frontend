@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import './driversStyles.css'
+import UserContext from "../../helpers/Context";
 
 const { apiUrl } = require('../../urls.json')
 
-export default function Drivers({ user }) {
+export default function Drivers() {
 
     const [users, setUsers] = useState([])
     const [addNewUser, setAddNewUser] = useState(false)
     const [edit, setEdit] = useState(false)
+
+    const {user, loggedIn} = useContext(UserContext)
 
     const navigate = useNavigate()
 

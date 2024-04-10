@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { CSVLink, CSVDownload } from 'react-csv'
 import { useNavigate } from 'react-router-dom';
 import './viewJobsStyles.css'
+import UserContext from '../../helpers/Context';
 
 const { apiUrl } = require('../../urls.json')
 
-export default function ViewJobs({ user, loggedIn }) {
+export default function ViewJobs() {
 
+    const { user, loggedIn} = useContext(UserContext)
     const navigate = useNavigate();
 
     const [jobs, setJobs] = useState([])

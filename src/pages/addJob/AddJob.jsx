@@ -1,23 +1,27 @@
 import { CircularProgress } from "@mui/material";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CurrencyFormat from 'react-currency-format';
 import { useNavigate } from "react-router-dom";
 import './addJobStyles.css'
+import UserContext from "../../helpers/Context";
 
 const { apiUrl, mapsApiKey } = require('../../urls.json')
 
-export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, library }) {
+export default function AddJob({ library }) {
 
-  const [showJobBtn, setShowJobBtn] = useState(false);
-  const [showLoading, setShowLoading] = useState(false);
-  const [showResults, setShowResults] = useState(false);
+  const [showJobBtn, setShowJobBtn] = useState(false)
+  const [showLoading, setShowLoading] = useState(false)
+  const [showResults, setShowResults] = useState(false)
   const [drivers, setDrivers] = useState([])
-  const [profitable, setProfitable] = useState(false);
-  const [job, setJob] = useState({});
+  const [profitable, setProfitable] = useState(false)
+  const [job, setJob] = useState({})
+  const [costs, setCosts] = useState()
   const statesArray = [];
 
   const navigate = useNavigate();
+
+  const { user, loggedIn, setShowAlert, setAlertMsg } = useContext(UserContext)
 
   useEffect(() => {
 
@@ -51,6 +55,8 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
   if (!isLoaded) {
     return <CircularProgress />;
   }
+
+  
 
   const checkJob = async (e) => {
 
@@ -317,7 +323,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
               :
               <div className="jobResultsContainer">
                 <div className="resultsHeaderContainer" >
-                  {profitable ? <h1 style={{ color: 'green' }}>Job is Profitable</h1> : <h1 style={{ color: 'maroon' }}>Job is NOT Profitable</h1>}
+                  {profitable ? <h1 style={{ color: 'green', marginBottom: '1rem' }}>Job is Profitable</h1> : <h1 style={{ color: 'maroon', marginBottom: '1rem' }}>Job is NOT Profitable</h1>}
                 </div>
                 <div className="checkJobDisplay" >
                   <div id="profit-label" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
@@ -429,7 +435,7 @@ export default function AddJob({ user, loggedIn, setShowAlert, setAlertMsg, libr
                     <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.loan} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div id="net-profit-label" className="jobDisplayItem">
-                    <p style={{ fontWeight: 'bold' }}>Net Profit</p>
+                    <p style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>Net Profit</p>
                   </div>
                   <div id="net-profit-number" className="jobDisplayItem">
                     <CurrencyFormat displayType="text" value={job?.netProfit} fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} prefix="$" />
