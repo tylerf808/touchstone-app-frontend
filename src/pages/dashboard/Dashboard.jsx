@@ -14,9 +14,6 @@ export default function Dashboard() {
 
     const navigate = useNavigate()
 
-    const {user, loggedIn} = useContext(UserContext)
-
-    const [drivers, setDrivers] = useState([])
     const [totalCosts, setTotalCosts] = useState()
     const [costs, setCosts] = useState([])
     const [lineChartData, setLineChartData] = useState([["Date", "Revenue", "Profit"]])
@@ -29,33 +26,33 @@ export default function Dashboard() {
     const [completedJobs, setCompletedJobs] = useState([])
 
     useEffect(() => {
-        if (!loggedIn) {
+        const token = localStorage.getItem('token')
+        if (!token) {
             navigate('/')
         }
         setLineChartData([["Date", "Revenue", "Profit"]])
-        getInfo()
+        getInfo(token)
     }, [])
 
-    const getInfo = async () => {
+    const getInfo = async (token) => {
 
         await fetch(apiUrl + '/api/costs/', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": token
             },
-            body: JSON.stringify({
-                username: user.username
-            })
-        }).then((res) => res.json()).then((data) => setCosts(data))
+        }).then((res) => res.json()).then((data) => {
+            setCosts(data)
+            console.log(data)
+        })
 
         await fetch(apiUrl + '/api/jobs/allJobs', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                admin: user.username
-            })
+                "Authorization": token
+            }
         }).then((res) => res.json()).then((data) => {
             setJobs(data)
             if (data.length === 0) {
@@ -196,7 +193,7 @@ export default function Dashboard() {
                     const weekKey = weekStart.toDateString()
 
                     if (!acc[weekKey]) {
-                        acc[weekKey] = [ weekStart.toDateString(), 0,  0 ]
+                        acc[weekKey] = [weekStart.toDateString(), 0, 0]
                     }
 
                     acc[weekKey][1] += job.revenue

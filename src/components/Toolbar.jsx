@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import './toolbarStyles.css'
 
-export default function Toolbar({ loggedIn, user, setLoggedIn, setUser, setCosts, userType, setShowAlert }) {
+export default function Toolbar({ loggedIn, user, setLoggedIn, setCosts, setShowAlert, accountType }) {
 
   const handleLogOut = () => {
+    localStorage.removeItem('token')
     setShowAlert(false)
     setLoggedIn(false)
     setCosts()
-    setUser()
     closeNav()
   };
 

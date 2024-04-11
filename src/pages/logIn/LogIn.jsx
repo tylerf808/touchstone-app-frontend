@@ -10,10 +10,11 @@ export default function LogIn() {
 
     const navigate = useNavigate();
 
-    const { setUser, setLoggedIn, setShowAlert, setAlertMsg, setUserType, loggedIn } = useContext(UserContext)
+    const { setLoggedIn, setShowAlert, setAlertMsg, loggedIn, setAccountType } = useContext(UserContext)
 
     useEffect(() => {
-        if(loggedIn){
+        const token = localStorage.getItem('token')
+        if(token){
             navigate('/dashboard')
         }
     }, [])
@@ -48,11 +49,9 @@ export default function LogIn() {
                 setAlertMsg(response.msg)
                 return
             } else {
-                setShowAlert(false)
-                setUser(response)
-                setUserType(response.accountType)
+                setAccountType(response.user.accountType)
+                localStorage.setItem('token', response)
                 setLoggedIn(true)
-                console.log(response)
             }
         } else {
             const response = await fetch(apiUrl + "/api/user/usernameLogin", {
@@ -65,14 +64,13 @@ export default function LogIn() {
                 setAlertMsg(response.msg)
                 return
             } else {
-                setShowAlert(false)
-                setUser(response);
-                setUserType(response.accountType)
+                setAccountType(response.user.accountType)
+                localStorage.setItem('token', response)
                 setLoggedIn(true);
             }
         }
         navigate('/dashboard')
-    };
+    }
 
     return (
         <div className='pageContainer'>

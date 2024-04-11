@@ -13,12 +13,22 @@ import ViewJobs from './pages/viewJobs/ViewJobs'
 import Drivers from './pages/drivers/Drivers'
 import Dashboard from "./pages/dashboard/Dashboard";
 import UserContext, { useUserContext } from "./helpers/Context";
+import { useEffect } from "react";
 
 const library = ["places"];
 
 export default function App() {
 
   const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType } = useUserContext()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if(!token){
+      setLoggedIn(false)
+    } else {
+      setLoggedIn(true)
+    }
+  }, [])
 
   return (
     <UserContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType }}>
