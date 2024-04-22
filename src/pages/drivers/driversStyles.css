@@ -46,9 +46,14 @@ p {
 
 .addNewUserContainer {
    display: flex;
-   flex-direction: row;
+   flex-direction: column;
    justify-content: center;
    align-items: center;
+   height: auto;
+}
+
+.addNewUserContainer:hover {
+   cursor: pointer;
 }
 
 .confirmBtn {

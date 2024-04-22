@@ -97,6 +97,10 @@ export default function Dashboard() {
         setCompletedJobs(completedJobs)
     }
 
+    const percentageChange = (jobs) => {
+        
+    }
+
     const selectBarTime = () => {
 
         const currentTime = Date.now()
