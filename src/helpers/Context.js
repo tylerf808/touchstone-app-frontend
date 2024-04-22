@@ -13,8 +13,7 @@ export const useUserContext = () => {
 
     return {
         user, setUser, userType, setUserType, costs, setCosts, loggedIn, setLoggedIn,
-        showAlert, setShowAlert, alertMsg, setAlertMsg
-    }
+        showAlert, setShowAlert, alertMsg, setAlertMsg }
 }
 
 export default UserContext

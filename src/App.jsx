@@ -13,6 +13,9 @@ import ViewJobs from './pages/viewJobs/ViewJobs'
 import Drivers from './pages/drivers/Drivers'
 import Dashboard from "./pages/dashboard/Dashboard";
 import UserContext, { useUserContext } from "./helpers/Context";
+import { useEffect } from "react";
+
+const {apiUrl} = require('./urls.json')
 
 const library = ["places"];
 
@@ -20,11 +23,32 @@ export default function App() {
 
   const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType } = useUserContext()
 
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if(!token){
+      setLoggedIn(false)
+    } else {
+      fetchUser(token)
+    }
+  }, [])
+
+  const fetchUser = async (token) => {
+    await fetch(apiUrl + '/api/user/getUser', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    }).then((res) => res.json()).then((data) => {
+      setLoggedIn(true)
+      setUser(data)
+    })
+  }
+
   return (
     <UserContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType }}>
       <Router>
-        <Toolbar setShowAlert={setShowAlert} user={user} userType={userType}
-         loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} />
+        <Toolbar setShowAlert={setShowAlert} user={user} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
           <Route path='dashboard' element={<Dashboard />} />

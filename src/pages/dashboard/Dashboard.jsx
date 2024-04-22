@@ -14,9 +14,6 @@ export default function Dashboard() {
 
     const navigate = useNavigate()
 
-    const {user, loggedIn} = useContext(UserContext)
-
-    const [drivers, setDrivers] = useState([])
     const [totalCosts, setTotalCosts] = useState()
     const [costs, setCosts] = useState([])
     const [lineChartData, setLineChartData] = useState([["Date", "Revenue", "Profit"]])
@@ -27,35 +24,25 @@ export default function Dashboard() {
     const [noJobs, setNoJobs] = useState(true)
     const [totalJobs, setTotalJobs] = useState()
     const [completedJobs, setCompletedJobs] = useState([])
+    const [options, setOptions] = useState({lineChartTime: 'daily', pieChartTime: ''})
 
     useEffect(() => {
-        if (!loggedIn) {
+        const token = localStorage.getItem('token')
+        if (!token) {
             navigate('/')
         }
         setLineChartData([["Date", "Revenue", "Profit"]])
-        getInfo()
+        getInfo(token)
     }, [])
 
-    const getInfo = async () => {
-
-        await fetch(apiUrl + '/api/costs/', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: user.username
-            })
-        }).then((res) => res.json()).then((data) => setCosts(data))
+    const getInfo = async (token) => {
 
         await fetch(apiUrl + '/api/jobs/allJobs', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                admin: user.username
-            })
+                "Authorization": token
+            }
         }).then((res) => res.json()).then((data) => {
             setJobs(data)
             if (data.length === 0) {
@@ -196,7 +183,7 @@ export default function Dashboard() {
                     const weekKey = weekStart.toDateString()
 
                     if (!acc[weekKey]) {
-                        acc[weekKey] = [ weekStart.toDateString(), 0,  0 ]
+                        acc[weekKey] = [weekStart.toDateString(), 0, 0]
                     }
 
                     acc[weekKey][1] += job.revenue
@@ -236,42 +223,19 @@ export default function Dashboard() {
     }
 
     const formatCostsData = (data) => {
-
-        let dispatchTotal = 0
-        let gasTotal = 0
-        let factorTotal = 0
-        let laborTotal = 0
-        let odcTotal = 0
-        let insuranceTotal = 0
-        let trailerTotal = 0
-        let payrollTaxTotal = 0
-        let tractorTotal = 0
-        let gAndATotal = 0
-
-        data.forEach((el) => {
-            dispatchTotal += el.dispatch
-            gasTotal += el.gasCost
-            factorTotal += el.factor
-            laborTotal += el.labor
-            odcTotal += el.odc
-            insuranceTotal += el.insurance
-            trailerTotal += el.trailer
-            payrollTaxTotal += el.payrollTax
-            tractorTotal += el.tractor
-            gAndATotal += el.gAndA
-        })
-        setPieChartData([
+        const categories = ["dispatch", "gasCost", "factor", "labor", "odc", "insurance", "trailer", "payrollTax", "tractor", "gAndA"];
+    
+        const totals = categories.reduce((acc, category) => {
+            acc[category + "Total"] = data.reduce((sum, el) => sum + el[category], 0);
+            return acc;
+        }, {});
+    
+        const pieChartData = [
             ["Cost", "Amount"],
-            ["Dispatch", dispatchTotal],
-            ["Fuel", gasTotal],
-            ["Factor", factorTotal],
-            ["Labor", laborTotal],
-            ["ODC", odcTotal],
-            ["Insurance", insuranceTotal],
-            ["Trailer", trailerTotal],
-            ["Tractor", tractorTotal],
-            ["G&A", gAndATotal]
-        ])
+            ...categories.map(category => [category.charAt(0).toUpperCase() + category.slice(1), totals[category + "Total"]])
+        ];
+        pieChartData[10][0] = "G&A"
+        setPieChartData(pieChartData);
     }
 
     const lineOptions = {
@@ -321,8 +285,8 @@ export default function Dashboard() {
                     <div className="lineChartContainer">
                         <div className="chartHeaderContainer">
                             <h2 style={{ color: 'black' }}>Revenue & Profit</h2>
-                            <select onChange={selectLineTime} id="line-time-select">
-                                <option selected={true} value='daily'>Daily</option>
+                            <select  onChange={selectLineTime} id="line-time-select">
+                                <option value='daily'>Daily</option>
                                 <option value='weekly'>Weekly</option>
                                 <option value='monthly'>Monthly</option>
                             </select>
