@@ -18,58 +18,52 @@ export default function ViewJobs() {
 
     const getJobs = async () => {
 
-        let userID
-
-        if (user.accountType === 'dispatcher') {
-            userID = user.admin
-        } else {
-            userID = user.username
-        }
+        const token = localStorage.getItem('token')
 
         await fetch(apiUrl + '/api/jobs/allJobs',
             {
                 method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    admin: userID
-                })
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                 },
             }).then((res) => res.json()).then((data) => {
                 const formattedCsvJobs = []
                 data.forEach((el, i) => {
                     const job = {
                         _id: el._id,
-                        data: el.date.toString(),
-                        client: el.client.toString(),
-                        driver: el.driver.toString(),
-                        start: el.start.toString(),
-                        pickUp: el.pickUp.toString(),
-                        dropOff: el.dropOff.toString(),
-                        driveTime: (el.driveTime / 60).toString(),
-                        revenue: el.revenue.toString(),
-                        ratePerMile: el.ratePerMile.toString(),
-                        grossProfit: el.grossProfit.toString(),
-                        grossProfitPercentage: el.grossProfitPercentage.toString(),
-                        operatingProfit: el.operatingProfit.toString(),
-                        operatingProfitPercentage: el.operatingProfitPercentage.toString(),
-                        netProfit: el.netProfit.toString(),
-                        netProfitPercentage: el.netProfitPercentage.toString(),
-                        distance: el.distance.toString(),
-                        laborRatePercent: el.laborRatePercent.toString(),
-                        labor: el.labor.toString(),
-                        payrollTax: el.payrollTax.toString(),
-                        dispatch: el.dispatch.toString(),
-                        factor: el.factor.toString(),
-                        fuel: el.gasCost.toString(),
-                        tolls: el.tolls.toString(),
-                        odc: el.odc.toString(),
-                        insurance: el.insurance.toString(),
-                        trailer: el.trailer.toString(),
-                        tractor: el.tractor.toString(),
-                        gAndA: el.gAndA.toString(),
-                        loan: el.loan.toString(),
-                        repairs: el.repairs.toString(),
-                        totalFixedCost: el.totalFixedCost.toString(),
-                        totalCost: el.totalCost.toString()
+                        data: el.date,
+                        client: el.client,
+                        driver: el.driver,
+                        start: el.start,
+                        pickUp: el.pickUp,
+                        dropOff: el.dropOff,
+                        driveTime: (el.driveTime / 60),
+                        revenue: el.revenue,
+                        ratePerMile: el.ratePerMile,
+                        grossProfit: el.grossProfit,
+                        grossProfitPercentage: el.grossProfitPercentage,
+                        operatingProfit: el.operatingProfit,
+                        operatingProfitPercentage: el.operatingProfitPercentage,
+                        netProfit: el.netProfit,
+                        netProfitPercentage: el.netProfitPercentage,
+                        distance: el.distance,
+                        laborRatePercent: el.laborRatePercent,
+                        labor: el.labor,
+                        payrollTax: el.payrollTax,
+                        dispatch: el.dispatch,
+                        factor: el.factor,
+                        fuel: el.gasCost,
+                        tolls: el.tolls,
+                        odc: el.odc,
+                        insurance: el.insurance,
+                        trailer: el.trailer,
+                        tractor: el.tractor,
+                        gAndA: el.gAndA,
+                        loan: el.loan,
+                        repairs: el.repairs,
+                        totalFixedCost: el.totalFixedCost,
+                        totalCost: el.totalCost
                     }
                     formattedCsvJobs.push(job)
                 })
@@ -86,7 +80,8 @@ export default function ViewJobs() {
     }
 
     useEffect(() => {
-        if (loggedIn === false) {
+        const token = localStorage.getItem('token')
+        if (!token) {
             navigate('/')
         } else {
             getJobs()

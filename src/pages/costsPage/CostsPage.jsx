@@ -18,30 +18,24 @@ export default function CostsPage() {
   const { user, loggedIn } = useContext(UserContext)
 
   useEffect(() => {
-    if (!loggedIn) {
+    const token = localStorage.getItem('token') 
+    if (!token) {
       navigate('/')
+    } else {
+      getCosts()
     }
-    getCosts()
   }, [])
 
   const getCosts = async () => {
 
-    let userID
-
-    if (user.accountType === 'dispatcher') {
-      userID = user.admin
-    } else {
-      userID = user.username
-    }
+    const token = localStorage.getItem('token')
 
     await fetch(apiUrl + '/api/costs', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: userID
-      })
+        "Authorization": token
+      }
     }).then((res) => res.json()).then((data) => {
       setCosts(data[0])
       setPieChartData([

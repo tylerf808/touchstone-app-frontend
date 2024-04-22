@@ -1,5 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import UserContext from '../../helpers/Context';
 import './loginStyles.css'
 import { useContext } from 'react';
@@ -7,6 +7,8 @@ import { useContext } from 'react';
 const { apiUrl } = require('../../urls.json')
 
 export default function LogIn() {
+
+    const [credentials, setCredentials] = useState({emailOrUsername: '', password: ''})
 
     const navigate = useNavigate();
 
@@ -29,46 +31,27 @@ export default function LogIn() {
     }
 
     const logIn = async () => {
-        const emailOrUsername = document.getElementById("email-login").value;
-        const password = document.getElementById("password-login").value;
 
-        if (emailOrUsername === '' || password === '') {
+        if (credentials.emailOrUsername === '' || credentials.password === '') {
             setAlertMsg('missing and entry')
             setShowAlert(true)
             return
         }
 
-        if (emailOrUsername.includes('@')) {
-            const response = await fetch(apiUrl + "/api/user/emailLogin", {
-                method: "POST",
-                body: JSON.stringify({ email: emailOrUsername, password: password }),
-                headers: { "Content-Type": "application/json" },
-            }).then((res) => res.json())
-            if (response.msg) {
-                setShowAlert(true)
-                setAlertMsg(response.msg)
-                return
-            } else {
-                setAccountType(response.user.accountType)
-                localStorage.setItem('token', response)
-                setLoggedIn(true)
-            }
+        const response = await fetch(apiUrl + "/api/user/login", {
+            method: "POST",
+            body: JSON.stringify({ emailOrUsername: credentials.emailOrUsername, password: credentials.password }),
+            headers: { "Content-Type": "application/json" },
+        }).then((res) => res.json())
+        if (response.msg) {
+            setShowAlert(true)
+            setAlertMsg(response.msg)
+            return
         } else {
-            const response = await fetch(apiUrl + "/api/user/usernameLogin", {
-                method: "POST",
-                body: JSON.stringify({ username: emailOrUsername, password: password }),
-                headers: { "Content-Type": "application/json" },
-            }).then((res) => res.json())
-            if (response.msg) {
-                setShowAlert(true)
-                setAlertMsg(response.msg)
-                return
-            } else {
-                setAccountType(response.user.accountType)
-                localStorage.setItem('token', response)
-                setLoggedIn(true);
-            }
+            localStorage.setItem('token', response)
+            setLoggedIn(true)
         }
+
         navigate('/dashboard')
     }
 
@@ -78,8 +61,8 @@ export default function LogIn() {
                 <div className='logInHeader'>
                     <h2>Log In</h2>
                 </div>
-                <input placeholder='Enter your email or username' className='emailAndPasswordInput' type='emailOrUsername' id="email-login"></input>
-                <input placeholder='Enter you password' className='emailAndPasswordInput' type='password' id="password-login"></input>
+                <input placeholder='Enter your email or username' className='emailAndPasswordInput' type='emailOrUsername' id="email-login" onChange={(e) => setCredentials({...credentials, emailOrUsername: e.target.value})}></input>
+                <input placeholder='Enter you password' className='emailAndPasswordInput' type='password' id="password-login" onChange={(e) => setCredentials({...credentials, password: e.target.value})}></input>
                 <div className='logInShowPassword'>
                     <p style={{color: 'black', fontSize: '1em'}}>Show Password</p>
                     <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
