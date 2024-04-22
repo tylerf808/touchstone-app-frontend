@@ -50,8 +50,9 @@ export default function LogIn() {
         } else {
             localStorage.setItem('token', response)
             setLoggedIn(true)
+            setShowAlert(false)
         }
-
+        
         navigate('/dashboard')
     }
 

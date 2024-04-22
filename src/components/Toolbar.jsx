@@ -7,10 +7,10 @@ export default function Toolbar({ loggedIn, user, setLoggedIn, setCosts, setShow
 
   const handleLogOut = () => {
     localStorage.removeItem('token')
+    closeNav()
     setShowAlert(false)
     setLoggedIn(false)
-    setCosts()
-    closeNav()
+    
   };
 
   const [isAdmin, setIsAdmin] = useState(false)

@@ -11,19 +11,24 @@ export default function Drivers() {
     const [addNewUser, setAddNewUser] = useState(false)
     const [edit, setEdit] = useState(false)
 
-    const {user, loggedIn} = useContext(UserContext)
+    const { user, loggedIn } = useContext(UserContext)
+
+    const token = localStorage.getItem('token')
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (user === null || user === undefined) {
+
+        if (!token) {
             navigate('/')
         }
         async function getUsers() {
             const response = await fetch(apiUrl + '/api/user/getUsers', {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ admin: user.username })
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
             }).then((res) => res.json())
             setUsers(response)
         }
@@ -168,12 +173,12 @@ export default function Drivers() {
                     </div>
                 }
                 {edit ?
-                    <div className="addNewUserContainer" style={{borderTop: '.1rem solid black', height: '4rem'}}>
+                    <div className="addNewUserContainer" style={{ borderTop: '.1rem solid black', height: '4rem' }}>
                         {addNewUser ?
-                        <></>
-                        :
-                        <><h1 style={{ color: 'green'}}>+</h1><p style={{marginLeft: '1rem'}}>Add User</p></>
-                    } 
+                            <></>
+                            :
+                            <><h1 style={{ color: 'green' }}>+</h1><p style={{ marginLeft: '1rem' }}>Add User</p></>
+                        }
                     </div>
                     :
                     null

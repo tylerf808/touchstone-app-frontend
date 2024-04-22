@@ -10,6 +10,8 @@ const { apiUrl, mapsApiKey } = require('../../urls.json')
 
 export default function AddJob({ library }) {
 
+  const token = localStorage.getItem('token')
+
   const [showJobBtn, setShowJobBtn] = useState(false)
   const [showLoading, setShowLoading] = useState(false)
   const [showResults, setShowResults] = useState(false)
@@ -25,27 +27,24 @@ export default function AddJob({ library }) {
 
   useEffect(() => {
 
-    let userID
-
-    if (user.accountType === 'dispatcher') {
-      userID = user.admin
-    } else {
-      userID = user.username
-    }
-
-    if (!loggedIn) {
+    if (!token) {
       navigate('/')
+    } else {
+      fetchDrivers(token)
     }
-    async function getDrivers(user) {
-      const response = await fetch(apiUrl + '/api/user/getDrivers', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ admin: user })
-      }).then((res) => res.json())
-      setDrivers(response)
-    }
-    getDrivers(userID)
+    
   }, [])
+
+  const fetchDrivers = async (token) => {
+      
+      await fetch(apiUrl + '/api/user/getDrivers', {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      }).then((res) => res.json().then((data) => setDrivers(data)))
+  }
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: mapsApiKey,
@@ -53,22 +52,12 @@ export default function AddJob({ library }) {
   });
 
   if (!isLoaded) {
-    return <CircularProgress />;
+    return (<CircularProgress />);
   }
-
-  
 
   const checkJob = async (e) => {
 
     e.preventDefault()
-
-    let userID
-
-    if (user.accountType === 'dispatcher') {
-      userID = user.admin
-    } else {
-      userID = user.username
-    }
 
     setTimeout(() => {
       document.getElementById('loading-progress-msg').innerHTML = 'Calculating gas and tolls...'
@@ -122,15 +111,14 @@ export default function AddJob({ library }) {
 
     const checkRes = await fetch(apiUrl + "/api/costs/check", {
       method: 'POST',
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": token },
       body: JSON.stringify({
         start: start,
         pick_up: pickUp,
         drop_off: dropOff,
         state1: statesArray[0],
         state2: statesArray[1],
-        state3: statesArray[2],
-        username: userID
+        state3: statesArray[2]
       })
     }).then((data) => data.json());
 
@@ -200,7 +188,7 @@ export default function AddJob({ library }) {
       tolls: parseFloat(checkRes.tolls * 8).toFixed(2),
       client: client,
       driver: driver,
-      admin: userID,
+      admin: user.username,
       totalCost: parseFloat(totalCost),
       driveTime: checkRes.duration
     }
@@ -224,6 +212,7 @@ export default function AddJob({ library }) {
       body: JSON.stringify(job),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": token,
       },
     }).then((res) => res.json());
     setShowJobBtn(false);

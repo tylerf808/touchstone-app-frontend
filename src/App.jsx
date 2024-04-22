@@ -40,8 +40,8 @@ export default function App() {
         "Authorization": token
       }
     }).then((res) => res.json()).then((data) => {
-      setUser(data)
       setLoggedIn(true)
+      setUser(data)
     })
   }
 
