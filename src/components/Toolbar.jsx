@@ -15,7 +15,7 @@ export default function Toolbar({ loggedIn, user, setLoggedIn, setCosts, setShow
 
   const [isAdmin, setIsAdmin] = useState(false)
 
-  function openNav() {
+  function openNav(user) {
     setShowAlert(false)
     if(window.screen.width <= 1000){
       document.getElementById("mySidenav").style.left = '0%';
@@ -43,7 +43,7 @@ export default function Toolbar({ loggedIn, user, setLoggedIn, setCosts, setShow
 
   return (
     <div className='toolbar'>
-      {loggedIn ? <span id='menu-icon' onClick={openNav}>&#9776;</span> : null}
+      {loggedIn ? <span id='menu-icon' onClick={() => {openNav(user)}}>&#9776;</span> : null}
       <div id="mySidenav" className='sidenav' >
         <span className='closebtn' onClick={closeNav}>&times;</span>
         <div className='sideNavLink' onClick={closeNav}><Link to='/dashboard'>Dashboard</Link></div>

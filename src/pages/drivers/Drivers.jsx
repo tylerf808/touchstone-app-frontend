@@ -7,11 +7,13 @@ const { apiUrl } = require('../../urls.json')
 
 export default function Drivers() {
 
-    const [users, setUsers] = useState([])
-    const [addNewUser, setAddNewUser] = useState(false)
-    const [edit, setEdit] = useState(false)
+    const {user} = useContext(UserContext)
 
-    const { user, loggedIn } = useContext(UserContext)
+    const [users, setUsers] = useState([])
+    const [edit, setEdit] = useState(false)
+    const [showNewUser, setShowNewUser] = useState(false)
+    const [newUser, setNewUser] = useState({ email: '', username: '', name: '', password: '', accountType: 'driver'})
+
 
     const token = localStorage.getItem('token')
 
@@ -35,6 +37,18 @@ export default function Drivers() {
         getUsers()
     }, [])
 
+    const updateUsers = async () => {
+
+        await fetch(apiUrl + '/api/user/setUsers', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify([...users, newUser])
+        }).then((res) => res.json()).then((data) => setUsers(data))
+    }
+
     return (
         <div className="pageContainer">
             <div className="usersContainer">
@@ -42,8 +56,14 @@ export default function Drivers() {
                     <h2 style={{ color: 'orange' }}>Drivers & Dispatcher</h2>
                     {edit ?
                         <div className="confirmBtnContainer">
-                            <button className="confirmBtn" onClick={() => setEdit(false)}>Confirm</button>
-                            <button className="discardBtn" onClick={() => setEdit(false)}>Discard</button>
+                            <button className="confirmBtn" onClick={() => {
+                                updateUsers()
+                                setEdit(false)
+                                }}>Confirm</button>
+                            <button className="discardBtn" onClick={() => {
+                                setUsers(users.filter((user) => user.username !== newUser.username))
+                                setEdit(false)
+                                }}>Discard</button>
                         </div>
                         :
                         <i id="edit-pencil" class="fa fa-pencil" style={{ fontSize: '2rem' }} onClick={() => {
@@ -173,11 +193,22 @@ export default function Drivers() {
                     </div>
                 }
                 {edit ?
-                    <div className="addNewUserContainer" style={{ borderTop: '.1rem solid black', height: '4rem' }}>
-                        {addNewUser ?
-                            <></>
+                    <div className="addNewUserContainer" style={{ borderTop: '.1rem solid black' }}>
+                        {showNewUser ?
+                            <div className="newUserInputContainer">
+                                <div className="newUserInputItem"><p>Email:</p><input onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} type="text"></input></div>
+                                <div className="newUserInputItem"><p>Username:</p><input onChange={(e) => setNewUser({ ...newUser, username: e.target.value })} type="text"></input></div>
+                                <div className="newUserInputItem"><p>Name:</p><input onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} type="text"></input></div>
+                                <div className="newUserInputItem"><p>Password:</p><input onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} type="text"></input></div>
+                                <div className="newUserBtnContainer">
+                                    <button onClick={() => {
+                                        setShowNewUser(false)}}>Cancel</button>
+                                </div>
+                            </div>
                             :
-                            <><h1 style={{ color: 'green' }}>+</h1><p style={{ marginLeft: '1rem' }}>Add User</p></>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} onClick={() => setShowNewUser(true)}>
+                                <h1 style={{ color: 'green' }}>+</h1><p style={{ marginLeft: '1rem' }} >Add User</p>
+                            </div>
                         }
                     </div>
                     :
