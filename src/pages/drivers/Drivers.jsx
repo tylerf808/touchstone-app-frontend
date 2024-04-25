@@ -7,10 +7,13 @@ const { apiUrl } = require('../../urls.json')
 
 export default function Drivers() {
 
+    const {user} = useContext(UserContext)
+
     const [users, setUsers] = useState([])
     const [edit, setEdit] = useState(false)
     const [showNewUser, setShowNewUser] = useState(false)
-    const [newUser, setNewUser] = useState({ email: '', username: '', name: '', password: '' })
+    const [newUser, setNewUser] = useState({ email: '', username: '', name: '', password: '', accountType: 'driver'})
+
 
     const token = localStorage.getItem('token')
 
@@ -35,7 +38,15 @@ export default function Drivers() {
     }, [])
 
     const updateUsers = async () => {
-        
+
+        await fetch(apiUrl + '/api/user/setUsers', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify([...users, newUser])
+        }).then((res) => res.json()).then((data) => setUsers(data))
     }
 
     return (
@@ -45,7 +56,10 @@ export default function Drivers() {
                     <h2 style={{ color: 'orange' }}>Drivers & Dispatcher</h2>
                     {edit ?
                         <div className="confirmBtnContainer">
-                            <button className="confirmBtn" onClick={() => setEdit(false)}>Confirm</button>
+                            <button className="confirmBtn" onClick={() => {
+                                updateUsers()
+                                setEdit(false)
+                                }}>Confirm</button>
                             <button className="discardBtn" onClick={() => {
                                 setUsers(users.filter((user) => user.username !== newUser.username))
                                 setEdit(false)
@@ -188,10 +202,7 @@ export default function Drivers() {
                                 <div className="newUserInputItem"><p>Password:</p><input onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} type="text"></input></div>
                                 <div className="newUserBtnContainer">
                                     <button onClick={() => {
-                                        setUsers([...users, newUser])
-                                        setShowNewUser(false)
-                                    }}>Confirm</button>
-                                    <button onClick={() => setShowNewUser(false)}>Cancel</button>
+                                        setShowNewUser(false)}}>Cancel</button>
                                 </div>
                             </div>
                             :
