@@ -7,213 +7,119 @@ const { apiUrl } = require('../../urls.json')
 
 export default function Drivers() {
 
-    const {user} = useContext(UserContext)
+    const { user } = useContext(UserContext)
 
-    const [users, setUsers] = useState([])
+    const [dispatchers, setDispatchers] = useState([])
+    const [drivers, setDrivers] = useState([])
+    const [tractors, setTractors] = useState([])
     const [edit, setEdit] = useState(false)
-    const [showNewUser, setShowNewUser] = useState(false)
-    const [newUser, setNewUser] = useState({ email: '', username: '', name: '', password: '', accountType: 'driver'})
-
-
+    
     const token = localStorage.getItem('token')
 
     const navigate = useNavigate()
 
     useEffect(() => {
-
         if (!token) {
             navigate('/')
+        } else {
+            getUsers()
+            getTractors()
         }
-        async function getUsers() {
-            const response = await fetch(apiUrl + '/api/user/getUsers', {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token
-                },
-            }).then((res) => res.json())
-            setUsers(response)
-        }
-        getUsers()
     }, [])
 
-    const updateUsers = async () => {
-
-        await fetch(apiUrl + '/api/user/setUsers', {
-            method: 'POST',
+    const getUsers = async () => {
+        const response = await fetch(apiUrl + '/api/user/getUsers', {
+            method: 'GET',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": token
             },
-            body: JSON.stringify([...users, newUser])
-        }).then((res) => res.json()).then((data) => setUsers(data))
+        }).then((res) => res.json())
+        response.forEach((user) => {
+            if(user.accountType === 'driver'){
+                setDrivers((prev) => [...prev, user])
+            } else {
+                setDispatchers((prev) => [...prev, user])
+            }
+        })
+        console.log(drivers)
     }
+
+    const getTractors = async () => {
+        const response = await fetch(apiUrl + '/api/tractor/getTractors', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+        }).then((res) => res.json())
+        setTractors(response)
+    }
+
+
+    // const updateUsers = async () => {
+
+    //     await fetch(apiUrl + '/api/user/setUsers', {
+    //         method: 'POST',
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Authorization": token
+    //         },
+    //         body: JSON.stringify([...users, newUser])
+    //     }).then((res) => res.json()).then((data) => setUsers(data))
+    // }
 
     return (
         <div className="pageContainer">
             <div className="usersContainer">
-                <div className="editButtonsContainer">
-                    <h2 style={{ color: 'orange' }}>Drivers & Dispatcher</h2>
-                    {edit ?
-                        <div className="confirmBtnContainer">
-                            <button className="confirmBtn" onClick={() => {
-                                updateUsers()
-                                setEdit(false)
-                                }}>Confirm</button>
-                            <button className="discardBtn" onClick={() => {
-                                setUsers(users.filter((user) => user.username !== newUser.username))
-                                setEdit(false)
-                                }}>Discard</button>
-                        </div>
-                        :
-                        <i id="edit-pencil" class="fa fa-pencil" style={{ fontSize: '2rem' }} onClick={() => {
-                            setEdit(true)
-                        }}></i>
-                    }
-                </div>
-                {edit ?
-                    <div className="userGrid">
-                        {users.map((el, i) => {
-                            if (el.accountType === 'driver') {
-                                if (i % 2 === 0) {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem" style={{ borderRight: '.1rem solid black' }}>
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                            <button className="userDeleteBtn">Delete</button>
-                                        </div>
-                                    )
-                                } else {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem">
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                            <button className="userDeleteBtn">Delete</button>
-                                        </div>
-                                    )
-                                }
-                            } else {
-                                if (i % 2 === 0) {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem" style={{ borderRight: '.1rem solid black' }}>
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                            <button className="userDeleteBtn">Delete</button>
-                                        </div>
-                                    )
-                                } else {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem">
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                            <button className="userDeleteBtn">Delete</button>
-                                        </div>
-                                    )
-                                }
-                            }
-                        })}
+                <div className="container" id="tractors-container">
+                    <div className="header">
+                        <h1 style={{ color: 'orange' }}>Tractors</h1>
                     </div>
-                    :
-                    <div className="userGrid">
-                        {users.map((el, i) => {
-                            if (el.accountType === 'driver') {
-                                if (i % 2 === 0) {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem" style={{ borderRight: '.1rem solid black' }}>
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                        </div>
-                                    )
-                                } else {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem">
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            } else {
-                                if (i % 2 === 0) {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem" style={{ borderRight: '.1rem solid black' }}>
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                        </div>
-                                    )
-                                } else {
-                                    return (
-                                        <div key={el.driver_id} className="displayDriversItem">
-                                            <h3 style={{ justifySelf: 'center' }}>{el.name}</h3>
-                                            <div className="driverInfo">
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Email:</span> {el.email}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Username:</span> {el.username}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>Full Name:</span> {el.name}</p>
-                                                <p><span style={{ fontWeight: 'bold', margin: '1rem' }}>User Type:</span> {el.accountType}</p>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            }
-                        })}
-                    </div>
-                }
-                {edit ?
-                    <div className="addNewUserContainer" style={{ borderTop: '.1rem solid black' }}>
-                        {showNewUser ?
-                            <div className="newUserInputContainer">
-                                <div className="newUserInputItem"><p>Email:</p><input onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} type="text"></input></div>
-                                <div className="newUserInputItem"><p>Username:</p><input onChange={(e) => setNewUser({ ...newUser, username: e.target.value })} type="text"></input></div>
-                                <div className="newUserInputItem"><p>Name:</p><input onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} type="text"></input></div>
-                                <div className="newUserInputItem"><p>Password:</p><input onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} type="text"></input></div>
-                                <div className="newUserBtnContainer">
-                                    <button onClick={() => {
-                                        setShowNewUser(false)}}>Cancel</button>
+                    <div className="list">
+                        {tractors.map((tractor) => {
+                            return (
+                                <div className="item" id="tractor-itme">
+                                    <p className="label" id="tractor-label">Internal Num:</p><span>{tractor.internalNum}</span>
+                                    <p className="label" id="tractor-label">VIN:</p><span>{tractor.vin}</span>
+                                    <p className="label" id="tractor-label">MPG:</p><span>{tractor.mpg}</span>
                                 </div>
-                            </div>
-                            :
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} onClick={() => setShowNewUser(true)}>
-                                <h1 style={{ color: 'green' }}>+</h1><p style={{ marginLeft: '1rem' }} >Add User</p>
-                            </div>
-                        }
+                            )
+                        })}
                     </div>
-                    :
-                    null
-                }
+                </div>
+                <div className="container">
+                    <div className="header">
+                        <h1 style={{ color: 'orange' }}>Drivers</h1>
+                    </div>
+                    <div className="list">
+                        {drivers.map((driver) => {
+                            return (
+                                <div className="item">
+                                    <p className="label">Name: </p><span>{driver.name}</span>
+                                    <p className="label">Email: </p><span>{driver.email}</span>
+                                    <p className="label">Username: </p><span>{driver.username}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className="container" style={{borderBottom: 'none'}}>
+                    <div className="header">
+                        <h1 style={{ color: 'orange' }}>Dispatchers</h1>
+                    </div>
+                    <div className="list">
+                        {dispatchers.map((dispatcher) => {
+                            return (
+                                <div className="item">
+                                    <p className="label">Name: </p><span>{dispatcher.name}</span>
+                                    <p className="label">Email: </p><span>{dispatcher.email}</span>
+                                    <p className="label">Username: </p><span>{dispatcher.username}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     )
