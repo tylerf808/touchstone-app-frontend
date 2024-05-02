@@ -18,6 +18,8 @@ export default function AddJob({ library }) {
   const [drivers, setDrivers] = useState([])
   const [profitable, setProfitable] = useState(false)
   const [job, setJob] = useState({})
+  const [tractors, setTractors] = useState()
+  const [selectedTractor, setSelectedTractor] = useState()
   const [costs, setCosts] = useState()
   const statesArray = [];
 
@@ -30,21 +32,31 @@ export default function AddJob({ library }) {
     if (!token) {
       navigate('/')
     } else {
-      fetchDrivers(token)
+      fetchDriversTractors(token)
     }
-    
   }, [])
 
-  const fetchDrivers = async (token) => {
-      
-      await fetch(apiUrl + '/api/user/getDrivers', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token
-        }
-      }).then((res) => res.json().then((data) => setDrivers(data)))
+  const fetchDriversTractors = async (token) => {
+
+    await fetch(apiUrl + '/api/user/getDrivers', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    }).then((res) => res.json().then((data) => setDrivers(data)))
+
+    await fetch(apiUrl + '/api/tractor/getTractors', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    }).then((res) => res.json().then((data) => {
+      setTractors(data)
+    }))
   }
+  
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: mapsApiKey,
@@ -118,7 +130,8 @@ export default function AddJob({ library }) {
         drop_off: dropOff,
         state1: statesArray[0],
         state2: statesArray[1],
-        state3: statesArray[2]
+        state3: statesArray[2],
+        mpg: selectedTractor.mpg
       })
     }).then((data) => data.json());
 
@@ -190,7 +203,8 @@ export default function AddJob({ library }) {
       driver: driver,
       admin: user.username,
       totalCost: parseFloat(totalCost),
-      driveTime: checkRes.duration
+      driveTime: checkRes.duration,
+      tractor: selectedTractor.internalNum
     }
 
     setJob(newJob)
@@ -286,12 +300,22 @@ export default function AddJob({ library }) {
             <p className="jobInputsLabel">Client</p>
             <input className="textInput" id="client" placeholder="Enter Clients Name" name="client" ></input>
           </div>
-          <div className="detailInputsItem" id="bottom-item">
+          <div className="detailInputsItem">
             <p className="jobInputsLabel">Driver</p>
             <select className="textInput" id="driver" name="driver" >
-              {drivers.map((el, i) => {
+              {drivers?.map((el, i) => {
                 return (
                   <option key={i} value={el.name}>{el.name}</option>
+                )
+              })}
+            </select>
+          </div>
+          <div className="detailInputsItem" id="bottom-item">
+            <p className="jobInputsLabel">Tractor</p>
+            <select className="textInput" id="tractor" name="tractor" onClick={(e) => {setSelectedTractor(e.target.value)}}>
+              {tractors?.map((el, i) => {
+                return (
+                  <option key={i} value={el}>{el.internalNum}</option>
                 )
               })}
             </select>
