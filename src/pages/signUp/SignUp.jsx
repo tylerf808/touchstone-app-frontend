@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserInfo from "./signUpPages/UserInfo";
 import Instructions from "./signUpPages/Instructions";
@@ -6,14 +6,16 @@ import FixedCosts from "./signUpPages/FixedCosts";
 import OperationalCosts from "./signUpPages/OperationalCosts";
 import AddDrivers from "./signUpPages/AddDrivers";
 import AccountSelection from "./signUpPages/AccountSelection";
-import SelectManager from "./signUpPages/SelectManger";
 import ConfirmDetails from "./signUpPages/ConfirmDetails";
 import AddDispatcher from "./signUpPages/AddDispatcher";
+import UserContext from "../../helpers/Context"
 import './signUpStyles.css'
 
 const { apiUrl } = require('../../urls.json')
 
-export default function SignUp({ showAlert, setLoggedIn, setUser, setAlertMsg, setShowAlert, costs, setCosts }) {
+export default function SignUp() {
+
+  const {alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser} = useContext(UserContext)
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [userInfo, setUserInfo] = useState({name: '', email: '', username: '', password: '', accountType: ''})

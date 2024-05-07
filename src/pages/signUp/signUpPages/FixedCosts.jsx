@@ -93,31 +93,6 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                     </div>
                 </div>
                 <div className="slideItemGroup">
-                    <p className="slideGroupLabel">Tractor Details</p>
-                    <div className="slideItem">
-                        <p className="slideLabel">Enter your MPG.</p>
-                        <div className="slideInputContainer">
-                            <input style={{width: '2.5em'}} defaultValue={costs?.mpgAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setCosts({...costs, mpgAmount: e.target.value})
-                                    }} />
-                        </div>
-                    </div>
-                    <div className="slideItem">
-                        {isOwner ?
-                            null
-                            :
-                            <>
-                                <p className="slideLabel">Enter number of tractors (It will calculate costs per tractor).</p>
-                                <div className="slideInputContainer">
-                                    <input defaultValue={costs?.tractorNum} className="newCostInputPercent" type="number" style={{width: '2.5em'}} onChange={(e) => {
-                                        setCosts({...costs, tractorNum: e.target.value})
-                                    }} />
-                                </div>
-                            </>
-                        }
-                    </div>
-                </div>
-                <div className="slideItemGroup">
                     <p className="slideGroupLabel">Other</p>
                     <div className="slideItem">
                         <p className="slideLabel">Enter your other direct costs (ODC) as a percentage of revenue.</p>
