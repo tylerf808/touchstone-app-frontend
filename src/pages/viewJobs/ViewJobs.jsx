@@ -9,7 +9,7 @@ const { apiUrl } = require('../../urls.json')
 
 export default function ViewJobs() {
 
-    const { user, loggedIn} = useContext(UserContext)
+    const { user, loggedIn } = useContext(UserContext)
     const navigate = useNavigate();
 
     const [jobs, setJobs] = useState([])
@@ -23,10 +23,10 @@ export default function ViewJobs() {
         await fetch(apiUrl + '/api/jobs/allJobs',
             {
                 method: 'POST',
-                headers: { 
+                headers: {
                     "Content-Type": "application/json",
                     "Authorization": token
-                 },
+                },
             }).then((res) => res.json()).then((data) => {
                 const formattedCsvJobs = []
                 data.forEach((el, i) => {
@@ -75,7 +75,7 @@ export default function ViewJobs() {
                     setNoJobs(false)
                 }
             })
-        
+
 
     }
 
@@ -93,6 +93,7 @@ export default function ViewJobs() {
         { field: 'date', headerName: 'Date', width: 120 },
         { field: 'client', headerName: 'Client', width: 120 },
         { field: 'driver', headerName: 'Driver', width: 120 },
+        { field: 'tractor', headerName: 'Tractor', width: 120 },
         { field: 'start', headerName: 'Start', width: 200 },
         { field: 'pickUp', headerName: 'Pick Up', width: 200 },
         { field: 'dropOff', headerName: 'Drop Off', width: 200 },
@@ -112,8 +113,8 @@ export default function ViewJobs() {
         { field: 'tolls', headerName: 'Tolls', width: 100 },
         { field: 'odc', headerName: 'ODC', width: 120 },
         { field: 'insurance', headerName: 'Insurance', width: 120 },
-        { field: 'trailer', headerName: 'Lease - Trailer', width: 120 },
-        { field: 'tractor', headerName: 'Lease - Tractor', width: 120 },
+        { field: 'trailerLease', headerName: 'Lease - Trailer', width: 120 },
+        { field: 'tractorLease', headerName: 'Lease - Tractor', width: 120 },
         { field: 'gAndA', headerName: 'G&A', width: 120 },
         { field: 'operatingProfit', headerName: 'Operating Profit', width: 120 },
         { field: 'loan', headerName: 'Loan', width: 120 },

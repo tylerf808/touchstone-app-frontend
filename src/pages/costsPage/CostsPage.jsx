@@ -233,14 +233,6 @@ export default function CostsPage() {
                   <p className="costsLabel">ODC</p>
                   <p className="costsNum">{costs?.odc * 100}%</p>
                 </div>
-                <div className="costsItem">
-                  <p className="costsLabel">Num. of Tractors</p>
-                  <p className="costsNum">{costs?.tractorNum}</p>
-                </div>
-                <div className="costsItem">
-                  <p className="costsLabel">MPG</p>
-                  <p className="costsNum">{costs?.mpg}</p>
-                </div>
               </>
             }
           </div>
