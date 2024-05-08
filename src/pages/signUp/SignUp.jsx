@@ -10,17 +10,20 @@ import ConfirmDetails from "./signUpPages/ConfirmDetails";
 import AddDispatcher from "./signUpPages/AddDispatcher";
 import UserContext from "../../helpers/Context"
 import './signUpStyles.css'
+import AddTractors from "./signUpPages/AddTractors";
 
 const { apiUrl } = require('../../urls.json')
 
 export default function SignUp() {
 
-  const {alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser} = useContext(UserContext)
+  const { alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser } = useContext(UserContext)
 
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [userInfo, setUserInfo] = useState({name: '', email: '', username: '', password: '', accountType: ''})
+  const [userInfo, setUserInfo] = useState({ name: '', email: '', username: '', password: '', accountType: '' })
   const [drivers, setDrivers] = useState([])
-  const [dispatcher, setDispatcher] = useState({email: '', username: '', name: '', company: '', password: '', accountType: 'dispatcher'})
+  const [tractors, setTractors] = useState([])
+  const [newCosts, setNewCosts] = useState()
+  const [dispatcher, setDispatcher] = useState({ email: '', username: '', name: '', company: '', password: '', accountType: 'dispatcher' })
 
   const navigate = useNavigate();
 
@@ -92,7 +95,7 @@ export default function SignUp() {
             dispatcher: dispatcher
           }),
           headers: { "Content-Type": "application/json" },
-        }).then((res) => res.json()).then((data) => {return data})
+        }).then((res) => res.json()).then((data) => { return data })
         setUser(response[0]);
         setCosts(response[1])
         setLoggedIn(true)
@@ -128,18 +131,18 @@ export default function SignUp() {
     case 2:
       return (
         <AccountSelection currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          setShowAlert={setShowAlert} setAlertMsg={setAlertMsg} userInfo={userInfo} setUserInfo={setUserInfo}/>
+          setShowAlert={setShowAlert} setAlertMsg={setAlertMsg} userInfo={userInfo} setUserInfo={setUserInfo} />
       )
     case 3:
       return (
-        <FixedCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} costs={costs} setCosts={setCosts}
-          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} userInfo={userInfo} setUserInfo={setUserInfo}/>
+        <FixedCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} newCosts={newCosts} setNewCosts={setNewCosts}
+          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} userInfo={userInfo} setUserInfo={setUserInfo} />
       )
     case 4:
       return (
         <OperationalCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} costs={costs} setCosts={setCosts}
-          userInfo={userInfo} createAccount={createAccount}/>
+          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} newCosts={newCosts} setNewCosts={setNewCosts}
+          userInfo={userInfo} createAccount={createAccount} />
       )
     case 5:
       return (
@@ -149,13 +152,19 @@ export default function SignUp() {
       )
     case 6:
       return (
-        <AddDispatcher currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
-        dispatcher={dispatcher} setDispatcher={setDispatcher} userInfo={userInfo} />
+        <AddTractors currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
+          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+          tractors={tractors} setTractors={setTractors} />
       )
     case 7:
       return (
+        <AddDispatcher currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
+          dispatcher={dispatcher} setDispatcher={setDispatcher} userInfo={userInfo} />
+      )
+    case 8:
+      return (
         <ConfirmDetails currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-        userInfo={userInfo} costs={costs} drivers={drivers} createAccount={createAccount} dispatcher={dispatcher}/>
+          userInfo={userInfo} costs={costs} drivers={drivers} createAccount={createAccount} dispatcher={dispatcher} />
       )
   }
 }

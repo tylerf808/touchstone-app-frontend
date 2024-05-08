@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide}) {
+export default function ThirdPage({userInfo, newCosts, setNewCosts, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide}) {
 
     const [isOwner, setIsOwner] = useState(true)
 
@@ -53,8 +53,8 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                             <div className="slideItem">
                                 <p className="slideLabel">Enter your labor rate as a percentage of revenue.</p>
                                 <div className="slideInputContainer">
-                                    <input defaultValue={costs?.laborAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setCosts({...costs, laborAmount: e.target.value})
+                                    <input defaultValue={newCosts?.laborAmount} className="newCostInputPercent" type="number" onChange={(e) => {
+                                        setNewCosts({...newCosts, laborAmount: e.target.value})
                                     }} />
                                     <p className="percentageSign">%</p>
                                 </div>
@@ -62,8 +62,8 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                             <div className="slideItem">
                                 <p className="slideLabel">Enter your payroll tax rate.</p>
                                 <div className="slideInputContainer">
-                                    <input defaultValue={costs?.payrollAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setCosts({...costs, payrollAmount: e.target.value})
+                                    <input defaultValue={newCosts?.payrollAmount} className="newCostInputPercent" type="number" onChange={(e) => {
+                                        setNewCosts({...newCosts, payrollAmount: e.target.value})
                                     }} />
                                     <p className="percentageSign">%</p>
                                 </div>
@@ -76,8 +76,8 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                     <div className="slideItem">
                         <p className="slideLabel">Enter your dispatch fee as a percentage of revenue.</p>
                         <div className="slideInputContainer">
-                            <input defaultValue={costs?.dispatchAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setCosts({...costs, dispatchAmount: e.target.value})
+                            <input defaultValue={newCosts?.dispatchAmount} className="newCostInputPercent" type="number" onChange={(e) => {
+                                        setNewCosts({...newCosts, dispatchAmount: e.target.value})
                                     }} />
                             <p className="percentageSign">%</p>
                         </div>
@@ -85,8 +85,8 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                     <div className="slideItem">
                         <p className="slideLabel">Enter your factor fee as a percentage of revenue.</p>
                         <div className="slideInputContainer">
-                            <input defaultValue={costs?.factorAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setCosts({...costs, factorAmount: e.target.value})
+                            <input defaultValue={newCosts?.factorAmount} className="newCostInputPercent" type="number" onChange={(e) => {
+                                        setNewCosts({...newCosts, factorAmount: e.target.value})
                                     }} />
                             <p className="percentageSign">%</p>
                         </div>
@@ -97,8 +97,8 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                     <div className="slideItem">
                         <p className="slideLabel">Enter your other direct costs (ODC) as a percentage of revenue.</p>
                         <div className="slideInputContainer">
-                            <input defaultValue={costs?.odcAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setCosts({...costs, odcAmount: e.target.value})
+                            <input defaultValue={newCosts?.odcAmount} className="newCostInputPercent" type="number" onChange={(e) => {
+                                        setNewCosts({...newCosts, odcAmount: e.target.value})
                                     }} />
                             <p className="percentageSign">%</p>
                         </div>
@@ -106,8 +106,8 @@ export default function ThirdPage({userInfo, costs, setCosts, setShowAlert, setA
                     <div className="slideItem">
                         <p className="slideLabel">Enter your overhead as a percentage of revenue.</p>
                         <div className="slideInputContainer">
-                            <input defaultValue={costs?.overheadAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setCosts({...costs, overheadAmount: e.target.value})
+                            <input defaultValue={newCosts?.overheadAmount} className="newCostInputPercent" type="number" onChange={(e) => {
+                                        setNewCosts({...newCosts, overheadAmount: e.target.value})
                                     }} />
                             <p className="percentageSign">%</p>
                         </div>

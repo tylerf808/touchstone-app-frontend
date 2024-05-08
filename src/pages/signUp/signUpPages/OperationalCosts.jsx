@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide }) {
+export default function FourthPage({ userInfo, newCosts, setNewCosts, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide }) {
 
     const [isManager, setIsManager] = useState(false)
 
@@ -9,10 +9,6 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
             setIsManager(true)
         }
     }, [])
-
-    useEffect(() => {
-        console.log(costs)
-    }, [costs])
 
     const checkForm = () => {
         setShowAlert(false)
@@ -49,8 +45,8 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>
-                            <input defaultValue={costs.insuranceAmount} className="newCostInput" type="number" onChange={(e) => {
-                                setCosts({ ...costs, insuranceAmount: e.target.value })
+                            <input defaultValue={newCosts?.insuranceAmount} className="newCostInput" type="number" onChange={(e) => {
+                                setNewCosts({ ...newCosts, insuranceAmount: e.target.value })
                             }} />
                         </div>
                     </div>
@@ -63,8 +59,8 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>
-                            <input defaultValue={costs.trailerAmount} className="newCostInput" type="number" onChange={(e) => {
-                                setCosts({ ...costs, trailerAmount: e.target.value })
+                            <input defaultValue={newCosts?.trailerAmount} className="newCostInput" type="number" onChange={(e) => {
+                                setNewCosts({ ...newCosts, trailerAmount: e.target.value })
                             }} />
                         </div>
                     </div>
@@ -74,8 +70,8 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>
-                            <input defaultValue={costs.tractorAmount} className="newCostInput" type="number" onChange={(e) => {
-                                setCosts({ ...costs, tractorAmount: e.target.value })
+                            <input defaultValue={newCosts?.tractorAmount} className="newCostInput" type="number" onChange={(e) => {
+                                setNewCosts({ ...newCosts, tractorAmount: e.target.value })
                             }} />
                         </div>
                     </div>
@@ -85,8 +81,8 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>
-                            <input defaultValue={costs.repairsAmount} className="newCostInput" type="number" onChange={(e) => {
-                                setCosts({ ...costs, repairsAmount: e.target.value })
+                            <input defaultValue={newCosts?.repairsAmount} className="newCostInput" type="number" onChange={(e) => {
+                                setNewCosts({ ...newCosts, repairsAmount: e.target.value })
                             }} />
                         </div>
                     </div>
@@ -99,8 +95,8 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>
-                            <input defaultValue={costs.loanAmount} className="newCostInput" type="number" onChange={(e) => {
-                                setCosts({ ...costs, loanAmount: e.target.value })
+                            <input defaultValue={newCosts?.loanAmount} className="newCostInput" type="number" onChange={(e) => {
+                                setNewCosts({ ...newCosts, loanAmount: e.target.value })
                             }} />
                         </div>
                     </div>
@@ -110,8 +106,8 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>
-                            <input defaultValue={costs.parkingAmount} className="newCostInput" type="number" onChange={(e) => {
-                                setCosts({ ...costs, parkingAmount: e.target.value })
+                            <input defaultValue={newCosts?.parkingAmount} className="newCostInput" type="number" onChange={(e) => {
+                                setNewCosts({ ...newCosts, parkingAmount: e.target.value })
                             }} />
                         </div>
                     </div>
@@ -121,8 +117,8 @@ export default function FourthPage({ userInfo, costs, setCosts, setShowAlert, se
                         </div>
                         <div className="slideInputContainer">
                             <p className="moneySign">$</p>
-                            <input defaultValue={costs.gandaAmount} className="newCostInput" type="number" onChange={(e) => {
-                                setCosts({ ...costs, gandaAmount: e.target.value })
+                            <input defaultValue={newCosts?.gandaAmount} className="newCostInput" type="number" onChange={(e) => {
+                                setNewCosts({ ...newCosts, gandaAmount: e.target.value })
                             }} />
                         </div>
                     </div>
