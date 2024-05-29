@@ -16,16 +16,6 @@ export default function AddDrivers(props) {
         setDriverInputs(newArray)
     }, [numOfDrivers])
 
-    const togglePassword = () => {
-        const passwords = Array.from(document.getElementsByClassName('addDriversPassword'))
-        passwords.forEach((el) => {
-            if (el.type === 'password') {
-                el.type = 'text'
-            } else {
-                el.type = 'password'
-            }
-        })
-    }
 
     return (
         <div className="pageContainer">

@@ -54,6 +54,8 @@ export default function AddJob({ library }) {
       }
     }).then((res) => res.json().then((data) => {
       setTractors(data)
+      setSelectedTractor(data[0])
+      console.log(tractors, selectedTractor)
     }))
   }
   
@@ -191,8 +193,8 @@ export default function AddJob({ library }) {
       insurance: checkRes.costs.insurance,
       dispatch: parseFloat((pay * checkRes.costs.dispatch).toFixed(2)),
       laborRatePercent: checkRes.costs.laborRate * 100 + "%",
-      trailer: parseFloat((checkRes.costs.trailerLease).toFixed(2)),
-      tractor: parseFloat((checkRes.costs.tractorLease).toFixed(2)),
+      trailerLease: parseFloat((checkRes.costs.trailerLease).toFixed(2)),
+      tractorLease: parseFloat((checkRes.costs.tractorLease).toFixed(2)),
       totalFixedCost: parseFloat((checkRes.costs.insurance +
         checkRes.costs.tractorLease +
         checkRes.costs.trailerLease +
@@ -206,6 +208,7 @@ export default function AddJob({ library }) {
       driveTime: checkRes.duration,
       tractor: selectedTractor.internalNum
     }
+    console.log(newJob)
 
     setJob(newJob)
 
@@ -312,7 +315,7 @@ export default function AddJob({ library }) {
           </div>
           <div className="detailInputsItem" id="bottom-item">
             <p className="jobInputsLabel">Tractor</p>
-            <select className="textInput" id="tractor" name="tractor" onClick={(e) => {setSelectedTractor(e.target.value)}}>
+            <select className="textInput" id="tractor" name="tractor" onChange={(e) => {setSelectedTractor(e.target.value)}}>
               {tractors?.map((el, i) => {
                 return (
                   <option key={i} value={el}>{el.internalNum}</option>
@@ -409,13 +412,13 @@ export default function AddJob({ library }) {
                     <p>Tractor Lease</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tractor} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tractorLease} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Trailer Lease</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.trailer} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.trailerLease} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>G&A</p>

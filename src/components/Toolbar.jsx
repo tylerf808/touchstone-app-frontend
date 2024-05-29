@@ -51,7 +51,7 @@ export default function Toolbar({ loggedIn, user, setLoggedIn, setCosts, setShow
         <div className='sideNavLink' onClick={closeNav}><Link to='/jobs'>Accepted Loads</Link></div>
         <div className='sideNavLink' onClick={closeNav}><Link to='/costs'>Costs</Link></div>
         {isAdmin ?
-          <div className='sideNavLink' onClick={closeNav}><Link to='/drivers'>Users</Link></div>
+          <div className='sideNavLink' onClick={closeNav}><Link to='/drivers'>Tractors & Users</Link></div>
           :
           null
         }
