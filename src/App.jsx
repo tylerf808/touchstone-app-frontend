@@ -15,7 +15,13 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import UserContext, { useUserContext } from "./helpers/Context";
 import { useEffect } from "react";
 
-const {apiUrl} = require('./urls.json')
+let apiUrl
+
+if(process.env.ENVIRONMENT === 'development'){
+  apiUrl = process.env.DEVELOPMENT_API
+} else {
+  apiUrl = process.env.TEST_API
+}
 
 const library = ["places"];
 
