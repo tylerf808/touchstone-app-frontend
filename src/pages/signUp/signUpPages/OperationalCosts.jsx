@@ -131,6 +131,7 @@ export default function FourthPage({ userInfo, newCosts, setNewCosts, setShowAle
                     <span className='dot'></span>
                     <span className='dot'></span>
                     <span className='dot'></span>
+                    <span className='dot'></span>
                 </div>
                 <div className="btnContainerSignUp">
                     <button className="btnSignUp" onClick={() => {

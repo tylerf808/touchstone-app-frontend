@@ -39,6 +39,7 @@ export default function AddDrivers(props) {
                 <span className='currentDot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>
+                <span className='dot'></span>
             </div>
             <div className="btnContainerSignUp">
                 <button className="btnSignUp" onClick={() => {

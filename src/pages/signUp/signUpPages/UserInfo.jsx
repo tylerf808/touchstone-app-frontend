@@ -97,6 +97,7 @@ export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAler
                 <span className='dot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>
+                <span className='dot'></span>
             </div>
             <div className="btnContainer">
                 <button className="btnSignUp" onClick={() => {

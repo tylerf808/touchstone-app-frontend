@@ -121,6 +121,7 @@ export default function ThirdPage({userInfo, newCosts, setNewCosts, setShowAlert
                     <span className='dot'></span>
                     <span className='dot'></span>
                     <span className='dot'></span>
+                    <span className='dot'></span>
                 </div>
                 <div className="btnContainerSignUp">
                     <button className="btnSignUp" onClick={() => {

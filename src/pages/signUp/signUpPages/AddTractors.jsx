@@ -36,6 +36,7 @@ export default function AddTractors({ tractors, setTractors, currentSlide, setCu
                 <span className='dot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>
+                <span className='dot'></span>
                 <span className='currentDot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>

@@ -67,7 +67,7 @@ export default function ConfirmDetails({ userInfo, costs, drivers, currentSlide,
                         <div className="detailsItemGroup">
                             <div className="detailsItem">
                                 <p className="detailsLabel">Labor Rate</p>
-                                <p className="detailsValue">{costs.laborAmount}%</p>
+                                <p className="detailsValue">{costs.laborRate}%</p>
                             </div>
                             <div className="detailsItem">
                                 <p className="detailsLabel">Payroll Tax</p>
@@ -135,6 +135,7 @@ export default function ConfirmDetails({ userInfo, costs, drivers, currentSlide,
                 </div>
             </div>
             <div className='progressContainer'>
+                <span className='dot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>
