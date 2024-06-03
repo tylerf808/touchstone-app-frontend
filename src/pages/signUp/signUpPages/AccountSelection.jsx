@@ -46,6 +46,7 @@ export default function AccountSelection({ userInfo, setUserInfo, setShowAlert, 
                 <span className='dot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>
+                <span className='dot'></span>
             </div>
             <div className="btnContainerSignUp">
                 <button className="btnSignUp" onClick={() => {

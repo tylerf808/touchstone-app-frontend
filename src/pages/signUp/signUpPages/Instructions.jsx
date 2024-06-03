@@ -23,6 +23,7 @@ export default function SecondPage({ currentSlide, setCurrentSlide }) {
                 <span className='dot'></span>
                 <span className='dot'></span>
                 <span className='dot'></span>
+                <span className='dot'></span>
             </div>
             <div className="btnContainerSignUp">
                 <button className="btnSignUp" onClick={() => {
