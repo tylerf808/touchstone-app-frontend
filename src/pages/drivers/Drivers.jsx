@@ -3,17 +3,15 @@ import { useNavigate } from "react-router-dom";
 import './driversStyles.css'
 import UserContext from "../../helpers/Context";
 
-const { apiUrl } = require('../../urls.json')
-
 export default function Drivers() {
 
-    const { user } = useContext(UserContext)
+    const { user, apiUrl } = useContext(UserContext)
 
     const [dispatchers, setDispatchers] = useState([])
     const [drivers, setDrivers] = useState([])
     const [tractors, setTractors] = useState([])
     const [edit, setEdit] = useState(false)
-    
+
     const token = localStorage.getItem('token')
 
     const navigate = useNavigate()
@@ -36,7 +34,7 @@ export default function Drivers() {
             },
         }).then((res) => res.json())
         response.forEach((user) => {
-            if(user.accountType === 'driver'){
+            if (user.accountType === 'driver') {
                 setDrivers((prev) => [...prev, user])
             } else {
                 setDispatchers((prev) => [...prev, user])
@@ -72,9 +70,35 @@ export default function Drivers() {
     return (
         <div className="pageContainer">
             <div className="usersContainer">
+                <div className="editContainer">
+
+                </div>
                 <div className="container" id="tractors-container">
-                    <div className="header">
+                    <div className="header" id="tractors-header">
                         <h1 style={{ color: 'orange' }}>Tractors</h1>
+                        {edit ?
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
+                                <span id="edit-btn" className="cancelX" onClick={() => {
+                                    setEdit(false)
+                                }}>&#10006;</span>
+                                <span id="edit-btn" className="confirmCheck" onClick={() => {
+                                    document.getElementById('confirm-changes-container').style.display = 'block'
+                                }}>&#10003;</span>
+                                <div className="confirmChangesContainer" id="confirm-changes-container" style={{ position: 'absolute', backgroundColor: 'white', display: 'none' }}>
+                                    <p style={{ fontWeight: 'bold' }}>Confirm Changes:</p><button style={{ color: 'white', backgroundColor: 'green', marginLeft: '1rem' }} onClick={() => {
+                                        setEdit(false)
+                                        document.getElementById('confirm-changes-container').style.display = 'none'
+                                    }}>Confirm</button><button style={{ color: 'white', backgroundColor: 'red', marginLeft: '1rem' }} onClick={() => {
+                                        document.getElementById('confirm-changes-container').style.display = 'none'
+                                        setEdit(false)
+                                    }}>Discard</button>
+                                </div>
+                            </div>
+                            :
+                            <i id="edit-btn" className="fa fa-pencil" style={{ fontSize: '1.5em' }} onClick={() => {
+                                setEdit(true)
+                            }}></i>
+                        }
                     </div>
                     <div className="list">
                         {tractors.map((tractor) => {
@@ -104,7 +128,7 @@ export default function Drivers() {
                         })}
                     </div>
                 </div>
-                <div className="container" style={{borderBottom: 'none'}}>
+                <div className="container" style={{ borderBottom: 'none' }}>
                     <div className="header">
                         <h1 style={{ color: 'orange' }}>Dispatchers</h1>
                     </div>

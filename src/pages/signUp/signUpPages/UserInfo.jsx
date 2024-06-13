@@ -2,9 +2,7 @@ import { Link } from "react-router-dom"
 
 import '../signUpStyles.css'
 
-const { apiUrl } = require('../../../urls.json')
-
-export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide }) {
+export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide, apiUrl }) {
 
     const togglePassword = () => {
         let password = document.getElementById('password-signup')

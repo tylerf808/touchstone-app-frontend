@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import './addJobStyles.css'
 import UserContext from "../../helpers/Context";
 
-const { apiUrl, mapsApiKey } = require('../../urls.json')
-
 export default function AddJob({ library }) {
 
   const token = localStorage.getItem('token')
@@ -25,7 +23,7 @@ export default function AddJob({ library }) {
 
   const navigate = useNavigate();
 
-  const { user, loggedIn, setShowAlert, setAlertMsg } = useContext(UserContext)
+  const { user, loggedIn, setShowAlert, setAlertMsg, apiUrl, googleMapsApiKey } = useContext(UserContext)
 
   useEffect(() => {
 
@@ -61,7 +59,7 @@ export default function AddJob({ library }) {
   
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: mapsApiKey,
+    googleMapsApiKey: googleMapsApiKey,
     libraries: library,
   });
 

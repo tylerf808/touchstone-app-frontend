@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import './viewJobsStyles.css'
 import UserContext from '../../helpers/Context';
 
-const { apiUrl } = require('../../urls.json')
-
 export default function ViewJobs() {
 
-    const { user, loggedIn } = useContext(UserContext)
+    const { user, loggedIn, apiUrl } = useContext(UserContext)
+
     const navigate = useNavigate();
 
     const [jobs, setJobs] = useState([])
@@ -89,7 +88,6 @@ export default function ViewJobs() {
     }, [])
 
     const columns = [
-
         { field: 'date', headerName: 'Date', width: 120 },
         { field: 'client', headerName: 'Client', width: 120 },
         { field: 'driver', headerName: 'Driver', width: 120 },

@@ -4,15 +4,13 @@ import UserContext from '../../helpers/Context';
 import './loginStyles.css'
 import { useContext } from 'react';
 
-const { apiUrl } = require('../../urls.json')
-
 export default function LogIn() {
 
     const [credentials, setCredentials] = useState({emailOrUsername: '', password: ''})
 
     const navigate = useNavigate();
 
-    const { setLoggedIn, setShowAlert, setAlertMsg, loggedIn, setAccountType } = useContext(UserContext)
+    const { setLoggedIn, setShowAlert, setAlertMsg, loggedIn, setAccountType, apiUrl } = useContext(UserContext)
 
     useEffect(() => {
         const token = localStorage.getItem('token')

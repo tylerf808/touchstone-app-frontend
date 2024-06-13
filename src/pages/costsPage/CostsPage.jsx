@@ -5,8 +5,6 @@ import CurrencyFormat from 'react-currency-format'
 import './costsPageStyles.css'
 import UserContext from "../../helpers/Context";
 
-const { apiUrl } = require('../../urls.json')
-
 export default function CostsPage() {
 
   const [editCosts, setEditCosts] = useState(false)
@@ -15,7 +13,7 @@ export default function CostsPage() {
 
   const navigate = useNavigate()
 
-  const { user, loggedIn } = useContext(UserContext)
+  const { user, loggedIn, apiUrl } = useContext(UserContext)
 
   useEffect(() => {
     const token = localStorage.getItem('token') 

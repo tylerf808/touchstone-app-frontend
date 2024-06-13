@@ -15,19 +15,11 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import UserContext, { useUserContext } from "./helpers/Context";
 import { useEffect } from "react";
 
-let apiUrl
-
-if(process.env.ENVIRONMENT === 'development'){
-  apiUrl = process.env.DEVELOPMENT_API
-} else {
-  apiUrl = process.env.TEST_API
-}
-
 const library = ["places"];
 
 export default function App() {
 
-  const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType } = useUserContext()
+  const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, apiUrl } = useUserContext()
 
   useEffect(() => {
     const token = localStorage.getItem('token')

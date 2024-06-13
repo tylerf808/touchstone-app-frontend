@@ -5,14 +5,14 @@ import './dashboardStyles.css'
 import { Chart } from "react-google-charts"
 import UserContext from "../../helpers/Context"
 
-const { apiUrl } = require('../../urls.json')
-
 export default function Dashboard() {
 
     const currentDateObj = new Date()
     const currentDate = currentDateObj.getFullYear() + '-' + (parseInt(currentDateObj.getMonth()) + 1) + '-' + currentDateObj.getDate()
 
     const navigate = useNavigate()
+
+    const {apiUrl} = useContext(UserContext)
 
     const [totalCosts, setTotalCosts] = useState()
     const [costs, setCosts] = useState([])

@@ -53,8 +53,8 @@ export default function ThirdPage({userInfo, newCosts, setNewCosts, setShowAlert
                             <div className="slideItem">
                                 <p className="slideLabel">Enter your labor rate as a percentage of revenue.</p>
                                 <div className="slideInputContainer">
-                                    <input defaultValue={newCosts?.laborAmount} className="newCostInputPercent" type="number" onChange={(e) => {
-                                        setNewCosts({...newCosts, laborAmount: e.target.value})
+                                    <input defaultValue={newCosts?.laborRate} className="newCostInputPercent" type="number" onChange={(e) => {
+                                        setNewCosts({...newCosts, laborRate: e.target.value})
                                     }} />
                                     <p className="percentageSign">%</p>
                                 </div>

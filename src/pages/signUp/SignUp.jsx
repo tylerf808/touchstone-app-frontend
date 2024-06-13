@@ -12,11 +12,9 @@ import UserContext from "../../helpers/Context"
 import './signUpStyles.css'
 import AddTractors from "./signUpPages/AddTractors";
 
-const { apiUrl } = require('../../urls.json')
-
 export default function SignUp() {
 
-  const { alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser } = useContext(UserContext)
+  const { alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser, apiUrl } = useContext(UserContext)
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [userInfo, setUserInfo] = useState({ name: '', email: '', username: '', password: '', accountType: '' })
@@ -122,7 +120,7 @@ export default function SignUp() {
     case 0:
       return (
         <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          userInfo={userInfo} setUserInfo={setUserInfo} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} />
+          userInfo={userInfo} setUserInfo={setUserInfo} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} apiUrl={apiUrl} />
       )
     case 1:
       return (

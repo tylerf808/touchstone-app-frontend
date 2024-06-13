@@ -23,13 +23,17 @@
    border-bottom: .1rem solid black;
 }
 
+#tractors-container {
+   flex-direction: row;
+}
+
 .header {
    width: 100%;
    justify-self: flex-start;
 }
 
 .list {
-   width: 75%;
+   width: 90%;
    align-self: center;
    display: flex;
    flex-direction: row;
