@@ -35,7 +35,7 @@ export default function SignUp() {
       return
     }
 
-    const dailyInsurance = (costs.insuranceAmount / 240) / costs.tractorNum
+    const dailyInsurance = (newCosts.insuranceAmount / 240) / newCosts.tractorNum
 
     if (showAlert === false) {
       if (userInfo.accountType === 'owner') {
@@ -46,25 +46,25 @@ export default function SignUp() {
             password: userInfo.password,
             username: userInfo.username,
             insurance: dailyInsurance.toFixed(2),
-            tractorLease: (costs.tractorAmount / 30).toFixed(2),
-            trailerLease: (costs.trailerAmount / 30).toFixed(2),
-            dispatch: (costs.dispatchAmount / 100).toFixed(2),
-            mpg: costs.mpgAmount,
-            laborRate: (costs.laborAmount / 100).toFixed(2),
-            payrollTax: (costs.payrollAmount / 100).toFixed(2),
-            factor: (costs.factorAmount / 100).toFixed(2),
-            odc: (costs.odcAmount / 100).toFixed(2),
-            overhead: (costs.overheadAmount / 100).toFixed(2),
-            gAndA: (costs.gandaAmount / 30).toFixed(2),
-            loan: (costs.loanAmount / 30).toFixed(2),
-            repairs: (costs.repairsAmount / 30).toFixed(2),
-            parking: (costs.parkingAmount / 30).toFixed(2),
-            tractorNum: costs.tractorNum
+            tractorLease: (newCosts.tractorAmount / 30).toFixed(2),
+            trailerLease: (newCosts.trailerAmount / 30).toFixed(2),
+            dispatch: (newCosts.dispatchAmount / 100).toFixed(2),
+            mpg: newCosts.mpgAmount,
+            laborRate: (newCosts.laborAmount / 100).toFixed(2),
+            payrollTax: (newCosts.payrollAmount / 100).toFixed(2),
+            factor: (newCosts.factorAmount / 100).toFixed(2),
+            odc: (newCosts.odcAmount / 100).toFixed(2),
+            overhead: (newCosts.overheadAmount / 100).toFixed(2),
+            gAndA: (newCosts.gandaAmount / 30).toFixed(2),
+            loan: (newCosts.loanAmount / 30).toFixed(2),
+            repairs: (newCosts.repairsAmount / 30).toFixed(2),
+            parking: (newCosts.parkingAmount / 30).toFixed(2),
+            tractorNum: newCosts.tractorNum
           }),
           headers: { "Content-Type": "application/json" },
         }).then((res) => res.json())
         setUser(response[0]);
-        setCosts(response[1])
+        setNewCosts(response[1])
         setLoggedIn(true)
         navigate('/dashboard')
       } else {
@@ -75,20 +75,20 @@ export default function SignUp() {
             password: userInfo.password,
             username: userInfo.username,
             insurance: dailyInsurance.toFixed(2),
-            tractorLease: (costs.tractorAmount / 30).toFixed(2),
-            trailerLease: (costs.trailerAmount / 30).toFixed(2),
-            dispatch: (costs.dispatchAmount / 100).toFixed(2),
-            mpg: costs.mpgAmount,
-            laborRate: (costs.laborAmount / 100).toFixed(2),
-            payrollTax: (costs.payrollAmount / 100).toFixed(2),
-            factor: (costs.factorAmount / 100).toFixed(2),
-            odc: (costs.odcAmount / 100).toFixed(2),
-            overhead: (costs.overheadAmount / 100).toFixed(2),
-            gAndA: (costs.gandaAmount / 30).toFixed(2),
-            loan: (costs.loanAmount / 30).toFixed(2),
-            repairs: (costs.repairsAmount / 30).toFixed(2),
-            parking: (costs.parkingAmount / 30).toFixed(2),
-            tractorNum: costs.tractorNum,
+            tractorLease: (newCosts.tractorAmount / 30).toFixed(2),
+            trailerLease: (newCosts.trailerAmount / 30).toFixed(2),
+            dispatch: (newCosts.dispatchAmount / 100).toFixed(2),
+            mpg: newCosts.mpgAmount,
+            laborRate: (newCosts.laborAmount / 100).toFixed(2),
+            payrollTax: (newCosts.payrollAmount / 100).toFixed(2),
+            factor: (newCosts.factorAmount / 100).toFixed(2),
+            odc: (newCosts.odcAmount / 100).toFixed(2),
+            overhead: (newCosts.overheadAmount / 100).toFixed(2),
+            gAndA: (newCosts.gandaAmount / 30).toFixed(2),
+            loan: (newCosts.loanAmount / 30).toFixed(2),
+            repairs: (newCosts.repairsAmount / 30).toFixed(2),
+            parking: (newCosts.parkingAmount / 30).toFixed(2),
+            tractorNum: newCosts.tractorNum,
             drivers: drivers,
             dispatcher: dispatcher
           }),
@@ -119,7 +119,7 @@ export default function SignUp() {
   switch (currentSlide) {
     case 0:
       return (
-        <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
+        <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} 
           userInfo={userInfo} setUserInfo={setUserInfo} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} apiUrl={apiUrl} />
       )
     case 1:
@@ -161,8 +161,8 @@ export default function SignUp() {
       )
     case 8:
       return (
-        <ConfirmDetails currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          userInfo={userInfo} costs={costs} drivers={drivers} createAccount={createAccount} dispatcher={dispatcher} />
+        <ConfirmDetails currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} tractors={tractors}
+          userInfo={userInfo} newCosts={newCosts} drivers={drivers} createAccount={createAccount} dispatcher={dispatcher} />
       )
   }
 }
