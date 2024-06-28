@@ -7,13 +7,11 @@ export const useUserContext = () => {
 
     let apiUrl
 
-    if (process.env.ENVIRONMENT === 'development') {
-        apiUrl = process.env.DEVELOPMENT_API
+    if (process.env.REACT_APP_ENVIRONMENT === 'development') {
+        apiUrl = process.env.REACT_APP_DEVELOPMENT_API
     } else {
-        apiUrl = process.env.TEST_API
+        apiUrl = process.env.REACT_APP_TEST_API
     }
-
-    const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY
 
     const [user, setUser] = useState()
     const [userType, setUserType] = useState()
@@ -24,7 +22,7 @@ export const useUserContext = () => {
 
     return {
         user, setUser, userType, setUserType, costs, setCosts, loggedIn, setLoggedIn,
-        showAlert, setShowAlert, alertMsg, setAlertMsg, apiUrl, googleMapsApiKey
+        showAlert, setShowAlert, alertMsg, setAlertMsg, apiUrl
     }
 }
 

@@ -19,7 +19,7 @@ const library = ["places"];
 
 export default function App() {
 
-  const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, apiUrl } = useUserContext()
+  const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, apiUrl, costs, setCosts} = useUserContext()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -44,7 +44,7 @@ export default function App() {
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType }}>
+    <UserContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, costs, setCosts, apiUrl }}>
       <Router>
         <Toolbar setShowAlert={setShowAlert} user={user} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>

@@ -25,6 +25,8 @@ export default function AddJob({ library }) {
 
   const { user, loggedIn, setShowAlert, setAlertMsg, apiUrl, googleMapsApiKey } = useContext(UserContext)
 
+  console.log(user)
+
   useEffect(() => {
 
     if (!token) {

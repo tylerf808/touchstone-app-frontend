@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-
+import { useEffect } from "react"
 import '../signUpStyles.css'
 
 export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAlertMsg, currentSlide, setCurrentSlide, apiUrl }) {
@@ -20,7 +20,7 @@ export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAler
 
         setShowAlert(false)
 
-        if (userInfo.email === '' || userInfo.username === '' || userInfo.password === '' || userInfo.passwordConf === '') {
+        if (userInfo.email === '' || userInfo.username === '' || userInfo.password === '' || userInfo.passwordConf === '' || userInfo.name=== '' ){
             setAlertMsg('Missing an Entry')
             setShowAlert(true)
             return
@@ -58,6 +58,12 @@ export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAler
                 <h3 style={{color: 'orange'}}>Create an Account</h3>
             </div>
             <div className="userInfoSlide">
+            <div className="slideItemInfo">
+                    <p className="slideLabel">Full Name</p>
+                    <input defaultValue={userInfo.name} className="emailInputSignUp" onChange={(e) => {
+                        setUserInfo({...userInfo, name: e.target.value})
+                    }} type="email" />
+                </div>
                 <div className="slideItemInfo">
                     <p className="slideLabel">Email</p>
                     <input defaultValue={userInfo.email} className="emailInputSignUp" onChange={(e) => {

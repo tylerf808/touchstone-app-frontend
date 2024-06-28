@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserInfo from "./signUpPages/UserInfo";
 import Instructions from "./signUpPages/Instructions";
@@ -14,14 +14,23 @@ import AddTractors from "./signUpPages/AddTractors";
 
 export default function SignUp() {
 
-  const { alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser, apiUrl } = useContext(UserContext)
+  const { alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser } = useContext(UserContext)
+
+  let apiUrl
+
+    if (process.env.REACT_APP_ENVIRONMENT === 'development') {
+        apiUrl = process.env.REACT_APP_DEVELOPMENT_API
+    } else {
+        apiUrl = process.env.REACT_APP_TEST_API
+    }
+
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [userInfo, setUserInfo] = useState({ name: '', email: '', username: '', password: '', accountType: '' })
   const [drivers, setDrivers] = useState([])
   const [tractors, setTractors] = useState([])
   const [newCosts, setNewCosts] = useState()
-  const [dispatcher, setDispatcher] = useState({ email: '', username: '', name: '', company: '', password: '', accountType: 'dispatcher' })
+  const [dispatcher, setDispatcher] = useState({ email: '', username: '', name: '', company: '', password: ''})
 
   const navigate = useNavigate();
 
@@ -37,11 +46,14 @@ export default function SignUp() {
 
     const dailyInsurance = (newCosts.insuranceAmount / 240) / newCosts.tractorNum
 
+    console.log(dailyInsurance)
+
     if (showAlert === false) {
       if (userInfo.accountType === 'owner') {
         const response = await fetch(apiUrl + "/api/user/newOwner", {
           method: "POST",
           body: JSON.stringify({
+            name: userInfo.name,
             email: userInfo.email,
             password: userInfo.password,
             username: userInfo.username,
@@ -71,6 +83,7 @@ export default function SignUp() {
         const response = await fetch(apiUrl + "/api/user/newAdmin", {
           method: "POST",
           body: JSON.stringify({
+            name: userInfo.name,
             email: userInfo.email,
             password: userInfo.password,
             username: userInfo.username,
