@@ -29,6 +29,10 @@ export default function ThirdPage({userInfo, newCosts, setNewCosts, setShowAlert
         }
     }, [])
 
+    useEffect(() => {
+        console.log(newCosts)
+    }, [newCosts])
+
     return (
         <div className="pageContainer">
             <div className="slideTitle">

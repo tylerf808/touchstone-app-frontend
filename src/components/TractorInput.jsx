@@ -41,14 +41,14 @@ export default function TractorInput({ num, tractors, setTractors, setNumOfTract
                 <div className="addDriversInputRow">
                     <div className="addDriversItem">
                         <p>MPG</p>
-                        <input defaultValue={tractors[num]?.email} className="addDriversInput" type="number" onChange={(e) => {
+                        <input defaultValue={tractors[num]?.mpg} className="addDriversInput" type="number" onChange={(e) => {
                             setNewMpg(e.target.value)
                             updateTractorInfo()
                         }}></input>
                     </div>
                     <div className="addDriversItem">
                         <p>Annual Insurance Payment</p>
-                        <input defaultValue={tractors[num]?.username} className="addDriversInput" type="number" onChange={(e) => {
+                        <input defaultValue={tractors[num]?.insurance} className="addDriversInput" type="number" onChange={(e) => {
                             setNewInsurance(e.target.value)
                             updateTractorInfo()
                         }}></input>
@@ -57,14 +57,14 @@ export default function TractorInput({ num, tractors, setTractors, setNumOfTract
                 <div className="addDriversInputRow">
                     <div className="addDriversItem">
                         <p>VIN</p>
-                        <input defaultValue={tractors[num]?.name} className="addDriversInput" type="number" onChange={(e) => {
+                        <input defaultValue={tractors[num]?.vin} className="addDriversInput" type="number" onChange={(e) => {
                             setNewVin(e.target.value)
                             updateTractorInfo()
                         }}></input>
                     </div>
                     <div className="addDriversItem">
                         <p>Internal Number</p>
-                        <input defaultValue={tractors[num]?.password} className="addDriversPassword" type="number" onChange={(e) => {
+                        <input defaultValue={tractors[num]?.internalNum} className="addDriversPassword" type="number" onChange={(e) => {
                             setInternalNum(e.target.value)
                             updateTractorInfo()
                         }}></input>

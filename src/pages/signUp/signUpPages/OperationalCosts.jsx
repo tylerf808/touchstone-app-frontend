@@ -10,6 +10,10 @@ export default function FourthPage({ userInfo, newCosts, setNewCosts, setShowAle
         }
     }, [])
 
+    useEffect(() => {
+        console.log(newCosts)
+    }, [newCosts])
+
     const checkForm = () => {
         setShowAlert(false)
         let missingItems
