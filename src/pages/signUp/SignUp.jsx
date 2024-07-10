@@ -14,25 +14,18 @@ import AddTractors from "./signUpPages/AddTractors";
 
 export default function SignUp() {
 
-  const { alertMsg, setAlertMsg, showAlert, setShowAlert, costs, setCosts, setLoggedIn, user, setUser } = useContext(UserContext)
-
-  let apiUrl
-
-    if (process.env.REACT_APP_ENVIRONMENT === 'development') {
-        apiUrl = process.env.REACT_APP_DEVELOPMENT_API
-    } else {
-        apiUrl = process.env.REACT_APP_TEST_API
-    }
-
+  const { alertMsg, setAlertMsg, showAlert, setShowAlert, setCosts, setLoggedIn, user, setUser, apiUrl } = useContext(UserContext)
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [userInfo, setUserInfo] = useState({ name: '', email: '', username: '', password: '', accountType: '' })
   const [drivers, setDrivers] = useState([])
   const [tractors, setTractors] = useState([])
   const [newCosts, setNewCosts] = useState()
-  const [dispatcher, setDispatcher] = useState({ email: '', username: '', name: '', company: '', password: ''})
+  const [dispatcher, setDispatcher] = useState({ email: '', username: '', name: '', company: '', password: '' })
 
   const navigate = useNavigate();
+
+  console.log(apiUrl)
 
   const createAccount = async () => {
 
@@ -95,13 +88,13 @@ export default function SignUp() {
             repairs: (newCosts.repairsAmount / 30).toFixed(2),
             parking: (newCosts.parkingAmount / 30).toFixed(2),
             drivers: drivers,
-            dispatcher: dispatcher
+            dispatcher: dispatcher,
+            tractors: tractors
           }),
           headers: { "Content-Type": "application/json" },
-        }).then((res) => res.json()).then((data) => { return data })
-        setUser(response[0]);
-        setCosts(response[1])
+        }).then((res) => res.json())
         setLoggedIn(true)
+        localStorage.setItem('token', response)
         navigate('/dashboard')
       }
     } else {
@@ -114,9 +107,8 @@ export default function SignUp() {
         }),
         headers: { "Content-Type": "application/json" },
       }).then((res) => res.json())
-      setUser(response[0]);
-      setCosts(response[1])
       setLoggedIn(true)
+      localStorage.setItem('token', response)
       navigate('/dashboard')
     }
   }
@@ -124,7 +116,7 @@ export default function SignUp() {
   switch (currentSlide) {
     case 0:
       return (
-        <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} 
+        <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
           userInfo={userInfo} setUserInfo={setUserInfo} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} apiUrl={apiUrl} />
       )
     case 1:
