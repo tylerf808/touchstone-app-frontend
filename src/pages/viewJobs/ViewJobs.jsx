@@ -13,7 +13,7 @@ export default function ViewJobs() {
 
     const [jobs, setJobs] = useState([])
     const [csvJobs, setCsvJobs] = useState()
-    const [noJobs, setNoJobs] = useState(false)
+    const [noJobs, setNoJobs] = useState(true)
 
     const getJobs = async () => {
 
@@ -124,7 +124,10 @@ export default function ViewJobs() {
     return (
         <div className="pageContainer">
             {noJobs ?
-                <p style={{ marginTop: '3rem' }}>No previous jobs</p>
+            <div className='previousJobsDisplay' style={{backgroundColor: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'center', 
+                alignItems: 'center'}}>
+                <p style={{ fontSize: '1.3rem'}}>No previous jobs</p>
+            </div>
                 :
                 <div className="previousJobsDisplay">
                     <DataGrid style={{ backgroundColor: 'white' }} getRowId={(row) => row._id} rows={jobs} columns={columns} pageSize={30} rowsPerPageOptions={[30]} />

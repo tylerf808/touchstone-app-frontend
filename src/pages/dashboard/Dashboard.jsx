@@ -12,7 +12,7 @@ export default function Dashboard() {
 
     const navigate = useNavigate()
 
-    const {apiUrl} = useContext(UserContext)
+    const { apiUrl } = useContext(UserContext)
 
     const [totalCosts, setTotalCosts] = useState()
     const [costs, setCosts] = useState([])
@@ -24,7 +24,7 @@ export default function Dashboard() {
     const [noJobs, setNoJobs] = useState(true)
     const [totalJobs, setTotalJobs] = useState()
     const [completedJobs, setCompletedJobs] = useState([])
-    const [options, setOptions] = useState({lineChartTime: 'daily', pieChartTime: ''})
+    const [options, setOptions] = useState({ lineChartTime: 'daily', pieChartTime: '' })
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -98,7 +98,7 @@ export default function Dashboard() {
     }
 
     const percentageChange = (jobs) => {
-        
+
     }
 
     const selectBarTime = () => {
@@ -228,12 +228,12 @@ export default function Dashboard() {
 
     const formatCostsData = (data) => {
         const categories = ["dispatch", "gasCost", "factor", "labor", "odc", "insurance", "trailer", "payrollTax", "tractor", "gAndA"];
-    
+
         const totals = categories.reduce((acc, category) => {
             acc[category + "Total"] = data.reduce((sum, el) => sum + el[category], 0);
             return acc;
         }, {});
-    
+
         const pieChartData = [
             ["Cost", "Amount"],
             ...categories.map(category => [category.charAt(0).toUpperCase() + category.slice(1), totals[category + "Total"]])
@@ -283,13 +283,17 @@ export default function Dashboard() {
                 </div>
             </div>
             {noJobs ?
-                <p style={{ justifySelf: 'center', alignSelf: 'center' }}>Job data will appear here once you add jobs</p>
+                <div className="chartContainer">
+                    <p style={{position: 'absolute', left: '35%', top: '50%', fontSize: '1.3rem', backgroundColor: 'white', padding: '2rem'}}>Job data will appear here when you add jobs</p>
+                    <div className="lineChartContainer"></div>
+                    <div className="pieChartContainer"></div>
+                </div>
                 :
                 <div className="chartContainer">
                     <div className="lineChartContainer">
                         <div className="chartHeaderContainer">
                             <h2 style={{ color: 'black' }}>Revenue & Profit</h2>
-                            <select  onChange={selectLineTime} id="line-time-select">
+                            <select onChange={selectLineTime} id="line-time-select">
                                 <option value='daily'>Daily</option>
                                 <option value='weekly'>Weekly</option>
                                 <option value='monthly'>Monthly</option>
