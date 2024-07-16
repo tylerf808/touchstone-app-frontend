@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from "react";
+import { useState, us } from "react";
 
 const UserContext = React.createContext()
 
@@ -12,6 +12,7 @@ export const useUserContext = () => {
     } else {
         apiUrl = process.env.REACT_APP_TEST_API
     }
+
 
     const [user, setUser] = useState()
     const [userType, setUserType] = useState()

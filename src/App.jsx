@@ -14,16 +14,17 @@ import Drivers from './pages/drivers/Drivers'
 import Dashboard from "./pages/dashboard/Dashboard";
 import UserContext, { useUserContext } from "./helpers/Context";
 import { useEffect } from "react";
+import './components/toolbarStyles.css'
 
 const library = ["places"];
 
 export default function App() {
 
-  const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, apiUrl, costs, setCosts} = useUserContext()
+  const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, apiUrl, costs, setCosts } = useUserContext()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    if(!token){
+    if (!token) {
       setLoggedIn(false)
     } else {
       fetchUser(token)
@@ -38,6 +39,7 @@ export default function App() {
         "Authorization": token
       }
     }).then((res) => res.json()).then((data) => {
+      console.log(data)
       setLoggedIn(true)
       setUser(data)
     })
@@ -46,7 +48,9 @@ export default function App() {
   return (
     <UserContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, costs, setCosts, apiUrl }}>
       <Router>
-        <Toolbar setShowAlert={setShowAlert} user={user} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
+        {loggedIn ? <Toolbar setShowAlert={setShowAlert} user={user} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
+          :
+          <div className="toolbar"><h1 className='toolbarHeader' id='toolbar-header'>TOUCHSTONE LOGISTICS</h1></div>}
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
           <Route path='dashboard' element={<Dashboard />} />

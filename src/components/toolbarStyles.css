@@ -3,7 +3,7 @@
     background: linear-gradient(180deg, rgb(255, 140, 0), rgb(228, 228, 228) 160%);
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     height: 6rem;
     width: 100%;
@@ -11,63 +11,31 @@
 
 .toolbarHeader {
     color: rgb(242, 242, 242);
-    font-weight: 300;
-    font-size: 1.3em;
-    position: relative;
-    left: 10px;
+    justify-self: flex-start;
+    margin: 1rem;
 }
 
-/* Side Menu */
- .sidenav {
-    height: 100%;
-    width: 250px;
-    position: fixed;
-    opacity: 0;
-    z-index: 1;
-    top: 0px;
-    left: -250px;
-    background: linear-gradient(180deg, rgb(255, 140, 0), rgb(228, 228, 228) 130%);
-    overflow-x:hidden;
-    transition-property: left;
-    transition-duration: .6s;
-    padding-top: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    opacity: 1;
- }
-
- .sideNavLink {
-   margin: 1em;
+.menu {
+   width: 50%;
    display: flex;
    flex-direction: row;
-   justify-content: center;
+   justify-content: space-evenly;
    align-items: center;
-   flex-wrap: wrap;
-   width: 100%;
- }
+}
 
- .sidenav a {
-    text-decoration: none;
-    font-size: 32px;
-    color: #030303;
- }
+.toolbarItem {
 
- .sidenav a:hover {
-    color: #f1f1f1;
- }
+}
 
- .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
- }
+.link {
+   text-decoration: none;
+   color: white;
+   font-size: 1.2rem;
+}
 
- .sidenav .closebtn:hover {
-    cursor: pointer;
- }
+.link:hover {
+   cursor: pointer;
+}
 
 @media screen and (max-width: 1000px) {
    .toolbar {
