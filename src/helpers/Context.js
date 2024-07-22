@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, us } from "react";
+import { useState, useEffect } from "react";
 
 const UserContext = React.createContext()
 
@@ -21,9 +21,31 @@ export const useUserContext = () => {
     const [showAlert, setShowAlert] = useState(false)
     const [alertMsg, setAlertMsg] = useState("")
 
+
+    const fetchUser = async () => {
+
+        const token = localStorage.getItem('token')
+
+        if (!token) {
+            setLoggedIn(false)
+        } else {
+            await fetch(apiUrl + '/api/user/getUser', {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                }
+            }).then((res) => res.json()).then((data) => {
+                console.log(data)
+                setLoggedIn(true)
+                setUser(data)
+            })
+        }
+    }
+
     return {
         user, setUser, userType, setUserType, costs, setCosts, loggedIn, setLoggedIn,
-        showAlert, setShowAlert, alertMsg, setAlertMsg, apiUrl
+        showAlert, setShowAlert, alertMsg, setAlertMsg, apiUrl, fetchUser
     }
 }
 
