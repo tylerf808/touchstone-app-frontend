@@ -10,7 +10,7 @@ export default function LogIn() {
 
     const navigate = useNavigate();
 
-    const { setLoggedIn, setShowAlert, setAlertMsg, loggedIn, setAccountType, apiUrl } = useContext(UserContext)
+    const { setLoggedIn, setShowAlert, setAlertMsg, loggedIn, setAccountType, apiUrl, setUser } = useContext(UserContext)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -46,9 +46,10 @@ export default function LogIn() {
             setAlertMsg(response.msg)
             return
         } else {
-            localStorage.setItem('token', response)
+            localStorage.setItem('token', response.token)
             setLoggedIn(true)
             setShowAlert(false)
+            setUser(response.user)
         }
         
         navigate('/dashboard')

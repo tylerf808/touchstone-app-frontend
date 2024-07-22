@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import './toolbarStyles.css'
 import { useNavigate } from 'react-router-dom';
 
-export default function Toolbar({ loggedIn, user, setLoggedIn, setCosts, setShowAlert }) {
+export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, setCosts, setShowAlert }) {
 
   const navigate = useNavigate();
 
@@ -12,13 +12,15 @@ export default function Toolbar({ loggedIn, user, setLoggedIn, setCosts, setShow
     localStorage.removeItem('token')
     setShowAlert(false)
     setLoggedIn(false)
+    setUser({})
     navigate('/')
   };
 
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
-    if (user.accountType === 'admin') {
+    console.log(user)
+    if (user.accountType == 'admin') {
       setIsAdmin(true)
     }
   }, [])
