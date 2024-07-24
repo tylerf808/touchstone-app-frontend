@@ -10,6 +10,8 @@ export default function CostsPage() {
   const [editCosts, setEditCosts] = useState(false)
   const [pieChartData, setPieChartData] = useState()
   const [costs, setCosts] = useState()
+  const [tractors, setTractors] = useState()
+  const [tractorTotal, setTractorTotal] = useState(0)
 
   const navigate = useNavigate()
 
@@ -28,21 +30,27 @@ export default function CostsPage() {
 
     const token = localStorage.getItem('token')
 
-    await fetch(apiUrl + '/api/costs', {
+    await fetch(apiUrl + '/api/costs/coststractors', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
         "Authorization": token
       }
     }).then((res) => res.json()).then((data) => {
-      setCosts(data[0])
+      setCosts(data.costs[0])
+      setTractors(data.tractors)
+      let total = 0
+      data.tractors.forEach((tractor) => {
+        total += tractor.insurance
+      })
+      setTractorTotal(total)
       setPieChartData([
         ["Cost", "Amount"],
-        ["Insurance", data[0].insurance],
-        ['Tractor', data[0].tractorLease],
-        ['Trailer', data[0].trailerLease],
-        ['Loan', data[0].loan],
-        ['Parking', data[0].parking]
+        ["Insurance", data.costs[0].insurance],
+        ['Tractor', data.costs[0].tractorLease],
+        ['Trailer', data.costs[0].trailerLease],
+        ['Loan', data.costs[0].loan],
+        ['Parking', data.costs[0].parking]
       ])
     })
   }
@@ -140,17 +148,20 @@ export default function CostsPage() {
               :
               <>
                 <div className="tractorContainer">
-                  <div className="costsItem" style={{width: "100%"}}>
-                    <p className="costsLabel">Insurance per Tractor</p>
-                    <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.trailerLease * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
+                  <div className="costsItem" style={{ width: "100%" }}>
+                    <p className="costsLabel">Insurance</p>
+                    <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={tractorTotal} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
                   </div>
                   <div className="tractorSubContainer">
-                    <div className="tractor">
-                      <p>Tractor 1</p><p>[Variables]</p>
-                    </div>
-                    <div className="tractor">
-                      <p>Tractor 1</p><p>[Variables]</p>
-                    </div>
+                    {
+                      tractors?.map((tractor, i) => {
+                        return (
+                          <div key={i} className="tractor">
+                            <p>Internal Num: {tractor.internalNum}</p><p>${tractor.insurance}/Month</p>
+                          </div>
+                        )
+                      })
+                    }
                   </div>
                 </div>
                 <div className="costsItem">
