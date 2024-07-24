@@ -8,6 +8,8 @@ import UserContext from "../../helpers/Context";
 
 export default function AddJob({ library }) {
 
+  const { user, setShowAlert, setAlertMsg, apiUrl } = useContext(UserContext)
+
   const token = localStorage.getItem('token')
 
   const [showJobBtn, setShowJobBtn] = useState(false)
@@ -18,14 +20,9 @@ export default function AddJob({ library }) {
   const [job, setJob] = useState({})
   const [tractors, setTractors] = useState()
   const [selectedTractor, setSelectedTractor] = useState()
-  const [costs, setCosts] = useState()
   const statesArray = [];
 
   const navigate = useNavigate();
-
-  const { user, loggedIn, setShowAlert, setAlertMsg, apiUrl, googleMapsApiKey } = useContext(UserContext)
-
-  console.log(user)
 
   useEffect(() => {
 
@@ -55,13 +52,11 @@ export default function AddJob({ library }) {
     }).then((res) => res.json().then((data) => {
       setTractors(data)
       setSelectedTractor(data[0])
-      console.log(tractors, selectedTractor)
     }))
   }
-  
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: googleMapsApiKey,
+    googleMapsApiKey:  process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: library,
   });
 
@@ -74,8 +69,13 @@ export default function AddJob({ library }) {
     e.preventDefault()
 
     setTimeout(() => {
-      document.getElementById('loading-progress-msg').innerHTML = 'Calculating gas and tolls...'
+      if (showLoading !== false) {
+        document.getElementById('loading-progress-msg').innerHTML = 'Calculating total cost...'
+      } else {
+
+      }
     }, 2000)
+
 
     const start = document.getElementById("start").value
     const pickUp = document.getElementById("pick-up").value

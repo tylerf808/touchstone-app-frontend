@@ -13,14 +13,12 @@ export const useUserContext = () => {
         apiUrl = process.env.REACT_APP_TEST_API
     }
 
-
     const [user, setUser] = useState()
     const [userType, setUserType] = useState()
     const [costs, setCosts] = useState()
     const [loggedIn, setLoggedIn] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
-    const [alertMsg, setAlertMsg] = useState("")
-
+    const [alertMsg, setAlertMsg] = useState("")    
 
     const fetchUser = async () => {
 
@@ -36,7 +34,6 @@ export const useUserContext = () => {
                     "Authorization": token
                 }
             }).then((res) => res.json()).then((data) => {
-                console.log(data)
                 setLoggedIn(true)
                 setUser(data)
             })

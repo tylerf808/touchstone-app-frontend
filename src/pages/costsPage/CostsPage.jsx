@@ -16,7 +16,7 @@ export default function CostsPage() {
   const { user, loggedIn, apiUrl } = useContext(UserContext)
 
   useEffect(() => {
-    const token = localStorage.getItem('token') 
+    const token = localStorage.getItem('token')
     if (!token) {
       navigate('/')
     } else {
@@ -113,10 +113,6 @@ export default function CostsPage() {
             {editCosts ?
               <>
                 <div className="costsItem">
-                  <p className="inputInstructions">Total Annual Cost of Insurance (enter in $)</p>
-                  <input className="costsInput" defaultValue={(costs.insurance * 240)} onChange={(e) => setCosts({ ...costs, insurance: ((e.target.value) / 240) })} />
-                </div>
-                <div className="costsItem">
                   <p className="inputInstructions">Trailer Lease (Enter monthly pmt, if more than one trailer enter average for all trailers)</p>
                   <input className="costsInput" defaultValue={(costs.trailerLease * 30)} onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30) })} />
                 </div>
@@ -143,9 +139,19 @@ export default function CostsPage() {
               </>
               :
               <>
-                <div className="costsItem">
-                  <p className="costsLabel">Insurance per Tractor</p>
-                  <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.insurance * 240} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Year" />
+                <div className="tractorContainer">
+                  <div className="costsItem" style={{width: "100%"}}>
+                    <p className="costsLabel">Insurance per Tractor</p>
+                    <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.trailerLease * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
+                  </div>
+                  <div className="tractorSubContainer">
+                    <div className="tractor">
+                      <p>Tractor 1</p><p>[Variables]</p>
+                    </div>
+                    <div className="tractor">
+                      <p>Tractor 1</p><p>[Variables]</p>
+                    </div>
+                  </div>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Trailer Lease</p>
