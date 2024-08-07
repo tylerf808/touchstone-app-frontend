@@ -70,7 +70,7 @@ export default function AddJob({ library }) {
 
     setTimeout(() => {
       if (showLoading !== false) {
-        document.getElementById('loading-progress-msg').innerHTML = 'Calculating total cost...'
+        document.getElementById('loading-progress-msg').innerHTML = 'Calculating route'
       } else {
 
       }
@@ -139,7 +139,7 @@ export default function AddJob({ library }) {
 
     setTimeout(() => {
       if (showLoading !== false) {
-        document.getElementById('loading-progress-msg').innerHTML = 'Calculating total cost...'
+        document.getElementById('loading-progress-msg').innerHTML = 'Calculating total cost'
       } else {
 
       }
@@ -153,7 +153,7 @@ export default function AddJob({ library }) {
         (checkRes.costs.dispatch * pay) +
         checkRes.gasCost + checkRes.tolls);
     const operationProfitCosts =
-      parseFloat(checkRes.costs.insurance +
+      parseFloat((selectedTractor.insurance / 365) +
         (checkRes.costs.tractorLease) +
         (checkRes.costs.trailerLease) +
         (checkRes.costs.gAndA * pay) + checkRes.costs.parking);
@@ -162,6 +162,7 @@ export default function AddJob({ library }) {
         (checkRes.costs.repairs * checkRes.distance) +
         checkRes.costs.loan);
     const totalCost = ((operationProfitCosts) + (grossProfitCosts) + (netProfitCosts)).toFixed(2);
+    console.log(totalCost)
 
     setShowLoading(false);
 
@@ -177,34 +178,34 @@ export default function AddJob({ library }) {
       distance: checkRes.distance.toFixed(2),
       date: date,
       user_id: user,
-      gasCost: checkRes.gasCost.toFixed(2),
-      factor: parseFloat((checkRes.costs.factor * pay).toFixed(2)),
-      gAndA: parseFloat(checkRes.costs.gAndA * pay).toFixed(2),
-      loan: parseFloat(checkRes.costs.loan).toFixed(2),
-      odc: parseFloat(checkRes.costs.odc * pay).toFixed(2),
+      gasCost: checkRes.gasCost,
+      factor: parseFloat((checkRes.costs.factor * pay)),
+      gAndA: parseFloat(checkRes.costs.gAndA * pay),
+      loan: parseFloat(checkRes.costs.loan),
+      odc: parseFloat(checkRes.costs.odc * pay),
       parking: checkRes.costs.parking,
-      repairs: parseFloat((checkRes.costs.repairs * checkRes.distance)).toFixed(2),
-      ratePerMile: parseFloat((pay / checkRes.distance).toFixed(2)),
-      labor: parseFloat((checkRes.costs.laborRate * pay).toFixed(2)),
-      payrollTax: parseFloat((checkRes.costs.payrollTax * pay).toFixed(2)),
-      netProfit: parseFloat((pay - totalCost)).toFixed(2),
-      grossProfit: parseFloat((pay - grossProfitCosts).toFixed(2)),
-      operatingProfit: parseFloat((pay - (operationProfitCosts + grossProfitCosts)).toFixed(2)),
-      insurance: checkRes.costs.insurance,
-      dispatch: parseFloat((pay * checkRes.costs.dispatch).toFixed(2)),
+      repairs: parseFloat((checkRes.costs.repairs * checkRes.distance)),
+      ratePerMile: parseFloat((pay / checkRes.distance)),
+      labor: parseFloat((checkRes.costs.laborRate * pay)),
+      payrollTax: parseFloat((checkRes.costs.payrollTax * pay)),
+      netProfit: parseFloat((pay - totalCost)),
+      grossProfit: parseFloat((pay - grossProfitCosts)),
+      operatingProfit: parseFloat((pay - (operationProfitCosts + grossProfitCosts))),
+      insurance: (selectedTractor.insurance / 365),
+      dispatch: parseFloat((pay * checkRes.costs.dispatch)),
       laborRatePercent: checkRes.costs.laborRate * 100 + "%",
-      trailerLease: parseFloat((checkRes.costs.trailerLease).toFixed(2)),
-      tractorLease: parseFloat((checkRes.costs.tractorLease).toFixed(2)),
-      totalFixedCost: parseFloat((checkRes.costs.insurance +
+      trailerLease: parseFloat((checkRes.costs.trailerLease)),
+      tractorLease: parseFloat((checkRes.costs.tractorLease)),
+      totalFixedCost: parseFloat(((selectedTractor.insurance / 365) +
         checkRes.costs.tractorLease +
         checkRes.costs.trailerLease +
         (checkRes.costs.gAndA * pay) + checkRes.costs.parking
-      ).toFixed(2)),
-      tolls: parseFloat(checkRes.tolls * 8).toFixed(2),
+      )),
+      tolls: parseFloat(checkRes.tolls * 8),
       client: client,
       driver: driver,
       admin: user.username,
-      totalCost: parseFloat(totalCost),
+      totalCost: totalCost,
       driveTime: checkRes.duration,
       tractor: selectedTractor.internalNum
     }
