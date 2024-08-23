@@ -10,12 +10,12 @@ export default function Drivers() {
     const [dispatchers, setDispatchers] = useState([])
     const [drivers, setDrivers] = useState([])
     const [tractors, setTractors] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState('category1')
+    const [selectedCategory, setSelectedCategory] = useState('drivers')
 
     const categories = {
-        category1: drivers,
-        category2: tractors,
-        category3: dispatchers
+        drivers: drivers,
+        tractors: tractors,
+        dispatchers: dispatchers
     }
 
     const handleCategorySelect = (category) => {
@@ -24,7 +24,7 @@ export default function Drivers() {
 
     const renderObject = (item) => {
         switch (selectedCategory) {
-            case 'category1':
+            case 'drivers':
                 return (
                     <div>
                         <h3>{item.name}</h3>
@@ -33,16 +33,17 @@ export default function Drivers() {
                     </div>
                 )
                 break;
-            case 'category2':
+            case 'tractors':
                 return (
                     <div>
                         <h3>{item.internalNum}</h3>
                         <p>MPG: {item.mpg}</p>
                         <p>Insurance: {item.insurance}</p>
+                        <p>VIN: {item.vin}</p>
                     </div>
                 )
                 break;
-            case 'category3':
+            case 'dispatchers':
                 return (
                     <div>
                         <h3>{item.name}</h3>
@@ -71,6 +72,8 @@ export default function Drivers() {
     }, [])
 
     const getUsers = async () => {
+        setDrivers([])
+        setDispatchers([])
         const response = await fetch(apiUrl + '/api/user/getUsers', {
             method: 'GET',
             headers: {
@@ -88,6 +91,7 @@ export default function Drivers() {
     }
 
     const getTractors = async () => {
+        setTractors([])
         const response = await fetch(apiUrl + '/api/tractor/getTractors', {
             method: 'GET',
             headers: {
@@ -114,7 +118,7 @@ export default function Drivers() {
     return (
         <div className="displayContainer">
             <div className="categories">
-                {Object.keys(categories).map((category) => (
+                {Object.keys(categories)?.map((category) => (
                     <button
                         key={category}
                         onClick={() => handleCategorySelect(category)}
@@ -125,7 +129,7 @@ export default function Drivers() {
                 ))}
             </div>
             <div className="objects">
-                {categories[selectedCategory].map((item) => (
+                {categories[selectedCategory]?.map((item) => (
                     <div key={item._id} className="object-item">
                         {renderObject(item)}
                     </div>
