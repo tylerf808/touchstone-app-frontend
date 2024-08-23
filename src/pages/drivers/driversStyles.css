@@ -1,26 +1,89 @@
-.pageContainer {
+.displayContainer {
    display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-}
-
-.usersContainer {
-   width: 80%;
-   border: .1rem solid black;
-   border-radius: .25rem;
-   background-color: white;
-   align-self: center;
-   margin-top: 2rem;
-}
-
-.container {
-   padding: 1.5rem;
-   display: flex;
-   flex-direction: column;
+   flex-direction: row;
    justify-content: center;
    align-items: center;
-   border-bottom: .1rem solid black;
+   height: 90vh;
+}
+
+.categories {
+   display: flex;
+   flex-direction: column;
+   width: 150px;
+   padding: 20px;
+   background-color: #f0f0f0;
+ }
+ 
+ .categories button {
+   margin-bottom: 10px;
+   padding: 10px;
+   background-color: #ffffff;
+   border: 1px solid #ddd;
+   cursor: pointer;
+   text-align: left;
+   font-size: 16px;
+ }
+ 
+ .categories button.active {
+   background-color: #e0e0e0;
+   font-weight: bold;
+ }
+ 
+ .objects {
+   flex-grow: 1;
+   padding: 20px;
+ }
+ 
+ .object-item {
+   margin-bottom: 20px;
+   padding: 15px;
+   background-color: #f9f9f9;
+   border: 1px solid #ddd;
+   border-radius: 4px;
+ }
+ 
+ .object-item h3 {
+   margin-top: 0;
+   margin-bottom: 10px;
+ }
+ 
+ .object-item p {
+   margin: 5px 0;
+ }
+
+.headerContainer {
+   height: 90%;
+   border-right: .1rem solid orange;
+}
+
+.itemsContainer {
+   width: 60%;
+   height: 90%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+}
+
+.itemsSubContainer {
+   margin-top: 5rem;
+}
+
+.tractorItem {
+   display: flex;
+   flex-direction: row;
+}
+
+.selectedHeader {
+   margin-top: 5rem;
+   margin-right: 2rem;
+   background-color: lightgray;
+   border-left: .2rem solid orange;
+}
+
+.header {
+   margin-top: 5rem;
+   margin-right: 2rem;
 }
 
 #tractors-container {
