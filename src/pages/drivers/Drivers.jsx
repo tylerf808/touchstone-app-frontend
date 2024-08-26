@@ -27,7 +27,9 @@ export default function Drivers() {
             case 'drivers':
                 return (
                     <div>
-                        <h3>{item.name}</h3>
+                        <div className="object-item-header">
+                            <h3>{item.name}</h3><i id="edit-btn" className="fa fa-pencil" style={{ fontSize: '1.5em' }} ></i>
+                        </div>
                         <p>Email: {item.email}</p>
                         <p>Username: {item.username}</p>
                     </div>
@@ -36,7 +38,9 @@ export default function Drivers() {
             case 'tractors':
                 return (
                     <div>
-                        <h3>{item.internalNum}</h3>
+                        <div className="object-item-header">
+                            <h3>{item.internalNum}</h3><i id="edit-btn" className="fa fa-pencil" style={{ fontSize: '1.5em' }} ></i>
+                        </div>
                         <p>MPG: {item.mpg}</p>
                         <p>Insurance: {item.insurance}</p>
                         <p>VIN: {item.vin}</p>
@@ -46,7 +50,9 @@ export default function Drivers() {
             case 'dispatchers':
                 return (
                     <div>
-                        <h3>{item.name}</h3>
+                        <div className="object-item-header">
+                            <h3>{item.name}</h3><i id="edit-btn" className="fa fa-pencil" style={{ fontSize: '1.5em' }} ></i>
+                        </div>
                         <p>Email: {item.email}</p>
                         <p>Username: {item.username}</p>
                     </div>
@@ -129,11 +135,16 @@ export default function Drivers() {
                 ))}
             </div>
             <div className="objects">
+
                 {categories[selectedCategory]?.map((item) => (
                     <div key={item._id} className="object-item">
                         {renderObject(item)}
                     </div>
                 ))}
+            </div>
+            <div className="overlay"></div>
+            <div className="edit-modal">
+
             </div>
         </div>
     )
