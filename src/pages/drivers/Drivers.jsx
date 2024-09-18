@@ -2,15 +2,16 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import './driversStyles.css'
 import UserContext from "../../helpers/Context";
+import EditModal from "./EditModal"
 
 export default function Drivers() {
 
     const { user, apiUrl } = useContext(UserContext)
 
-    const [dispatchers, setDispatchers] = useState([])
-    const [drivers, setDrivers] = useState([])
-    const [tractors, setTractors] = useState([])
-    const [edit, setEdit] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState('drivers')
+    const [modalOpen, setModalOpen] = useState(false);
+    const [editingItem, setEditingItem] = useState(null);
+    const [categories, setCategories] = useState({ drivers: [], tractors: [], dispatchers: [] })
 
     const token = localStorage.getItem('token')
 
@@ -20,38 +21,115 @@ export default function Drivers() {
         if (!token) {
             navigate('/')
         } else {
-            getUsers()
-            getTractors()
+            getItems()
         }
     }, [])
 
-    const getUsers = async () => {
-        const response = await fetch(apiUrl + '/api/user/getUsers', {
+    useEffect(() => {
+        console.log("Modal open:", modalOpen);
+    }, [modalOpen]);
+
+    useEffect(() => {
+        console.log("Editing item:", editingItem);
+    }, [editingItem]);
+
+    const getItems = async () => {
+
+        const usersAndTractors = await fetch(apiUrl + '/api/user/tractorsAndUsers', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": token
             },
         }).then((res) => res.json())
-        response.forEach((user) => {
-            if (user.accountType === 'driver') {
-                setDrivers((prev) => [...prev, user])
-            } else {
-                setDispatchers((prev) => [...prev, user])
-            }
-        })
-        console.log(drivers)
+
+        setCategories(usersAndTractors)
     }
 
-    const getTractors = async () => {
-        const response = await fetch(apiUrl + '/api/tractor/getTractors', {
-            method: 'GET',
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category)
+    }
+
+    const handleEditItem = (item) => {
+        setEditingItem(item);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setEditingItem(null);
+    };
+
+    const setUpdatedItem = async (updatedItem) => {
+
+        await fetch(apiUrl + '/api/user/updateTractorsAndUsers', {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": token
             },
-        }).then((res) => res.json())
-        setTractors(response)
+            body: JSON.stringify({
+                accountType: updatedItem.accountType,
+                updatedItem: updatedItem
+            })
+        }).then((res) => res.json()).then((data) => setCategories(data))
+    }
+
+    const handleSaveItem = async (updatedItem) => {
+        // setCategories(prevCategories => ({
+        //     ...prevCategories,
+        //     [selectedCategory]: prevCategories[selectedCategory].map(item =>
+        //         item.id === updatedItem.id ? updatedItem : item
+        //     )
+        // }))
+        setUpdatedItem(editingItem)
+    };
+
+    const renderObject = (item) => {
+        switch (selectedCategory) {
+            case 'drivers':
+                const name = item.name
+                return (
+                    <div>
+                        <div className="object-item-header">
+                            <h3>{name}</h3>
+                            <i id="edit-btn" className="fa fa-pencil"
+                                onClick={() => handleEditItem(item)} style={{ fontSize: '1.5em' }} ></i>
+                        </div>
+                        <p>Name: {item.name}</p>
+                        <p>Username: {item.username}</p>
+                        <p>Email: {item.email}</p>
+                        
+                    </div>
+                )
+            case 'tractors':
+                return (
+                    <div>
+                        <div className="object-item-header">
+                            <h3>{item.internalNum}</h3>
+                            <i id="edit-btn" className="fa fa-pencil"
+                                onClick={() => handleEditItem(item)} style={{ fontSize: '1.5em' }} ></i>
+                        </div>
+                        <p>MPG: {item.mpg}</p>
+                        <p>Insurance: {item.insurance}</p>
+                        <p>VIN: {item.vin}</p>
+                    </div>
+                )
+            case 'dispatchers':
+                return (
+                    <div>
+                        <div className="object-item-header">
+                            <h3>{item.name}</h3>
+                            <i id="edit-btn" className="fa fa-pencil"
+                                onClick={() => handleEditItem(item)} style={{ fontSize: '1.5em' }} ></i>
+                        </div>
+                        <p>Email: {item.email}</p>
+                        <p>Username: {item.username}</p>
+                    </div>
+                )
+            default:
+                return null
+        }
     }
 
 
@@ -69,81 +147,33 @@ export default function Drivers() {
 
     return (
         <div className="pageContainer">
-            <div className="usersContainer">
-                <div className="editContainer">
-
+            <div className="displayContainer">
+                <div className="categories">
+                    {Object.keys(categories)?.map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => handleCategorySelect(category)}
+                            className={selectedCategory === category ? 'active' : ''}
+                        >
+                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </button>
+                    ))}
                 </div>
-                <div className="container" id="tractors-container">
-                    <div className="header" id="tractors-header">
-                        <h1 style={{ color: 'orange' }}>Tractors</h1>
-                        {edit ?
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
-                                <span id="edit-btn" className="cancelX" onClick={() => {
-                                    setEdit(false)
-                                }}>&#10006;</span>
-                                <span id="edit-btn" className="confirmCheck" onClick={() => {
-                                    document.getElementById('confirm-changes-container').style.display = 'block'
-                                }}>&#10003;</span>
-                                <div className="confirmChangesContainer" id="confirm-changes-container" style={{ position: 'absolute', backgroundColor: 'white', display: 'none' }}>
-                                    <p style={{ fontWeight: 'bold' }}>Confirm Changes:</p><button style={{ color: 'white', backgroundColor: 'green', marginLeft: '1rem' }} onClick={() => {
-                                        setEdit(false)
-                                        document.getElementById('confirm-changes-container').style.display = 'none'
-                                    }}>Confirm</button><button style={{ color: 'white', backgroundColor: 'red', marginLeft: '1rem' }} onClick={() => {
-                                        document.getElementById('confirm-changes-container').style.display = 'none'
-                                        setEdit(false)
-                                    }}>Discard</button>
-                                </div>
-                            </div>
-                            :
-                            <i id="edit-btn" className="fa fa-pencil" style={{ fontSize: '1.5em' }} onClick={() => {
-                                setEdit(true)
-                            }}></i>
-                        }
-                    </div>
-                    <div className="list">
-                        {tractors.map((tractor) => {
-                            return (
-                                <div className="item" id="tractor-itme">
-                                    <p className="label" id="tractor-label">Internal Num:</p><span>{tractor.internalNum}</span>
-                                    <p className="label" id="tractor-label">VIN:</p><span>{tractor.vin}</span>
-                                    <p className="label" id="tractor-label">MPG:</p><span>{tractor.mpg}</span>
-                                </div>
-                            )
-                        })}
-                    </div>
+                <div className="objects">
+                    {categories[selectedCategory]?.map((item) => (
+                        <div key={item._id} className="object-item">
+                            {renderObject(item)}
+                        </div>
+                    ))}
                 </div>
-                <div className="container">
-                    <div className="header">
-                        <h1 style={{ color: 'orange' }}>Drivers</h1>
-                    </div>
-                    <div className="list">
-                        {drivers.map((driver) => {
-                            return (
-                                <div className="item">
-                                    <p className="label">Name: </p><span>{driver.name}</span>
-                                    <p className="label">Email: </p><span>{driver.email}</span>
-                                    <p className="label">Username: </p><span>{driver.username}</span>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-                <div className="container" style={{ borderBottom: 'none' }}>
-                    <div className="header">
-                        <h1 style={{ color: 'orange' }}>Dispatchers</h1>
-                    </div>
-                    <div className="list">
-                        {dispatchers.map((dispatcher) => {
-                            return (
-                                <div className="item">
-                                    <p className="label">Name: </p><span>{dispatcher.name}</span>
-                                    <p className="label">Email: </p><span>{dispatcher.email}</span>
-                                    <p className="label">Username: </p><span>{dispatcher.username}</span>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
+                <EditModal
+                    isOpen={modalOpen}
+                    onClose={handleCloseModal}
+                    editedItem={editingItem}
+                    setEditedItem={setEditingItem}
+                    category={selectedCategory}
+                    onSave={handleSaveItem}
+                />
             </div>
         </div>
     )
