@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import './driversStyles.css'
 import UserContext from "../../helpers/Context";
 import EditModal from "./EditModal"
+import NewItemModal from "./NewItemModal";
 
 export default function Drivers() {
 
@@ -11,6 +12,8 @@ export default function Drivers() {
     const [selectedCategory, setSelectedCategory] = useState('drivers')
     const [modalOpen, setModalOpen] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
+    const [newModalOpen, setNewModalOpen] = useState(false)
+    const [newItem, setNewItem] = useState()
     const [categories, setCategories] = useState({ drivers: [], tractors: [], dispatchers: [] })
 
     const token = localStorage.getItem('token')
@@ -42,7 +45,6 @@ export default function Drivers() {
                 "Authorization": token
             },
         }).then((res) => res.json())
-
         setCategories(usersAndTractors)
     }
 
@@ -55,10 +57,18 @@ export default function Drivers() {
         setModalOpen(true);
     };
 
+    const handleNewItem = (newItem) => {
+        
+    }
+
     const handleCloseModal = () => {
         setModalOpen(false);
         setEditingItem(null);
     };
+
+    const handleCloseNewModal = () => {
+        setNewModalOpen(false)
+    }
 
     const setUpdatedItem = async (updatedItem) => {
 
@@ -75,15 +85,17 @@ export default function Drivers() {
         }).then((res) => res.json()).then((data) => setCategories(data))
     }
 
-    const handleSaveItem = async (updatedItem) => {
-        // setCategories(prevCategories => ({
-        //     ...prevCategories,
-        //     [selectedCategory]: prevCategories[selectedCategory].map(item =>
-        //         item.id === updatedItem.id ? updatedItem : item
-        //     )
-        // }))
+    const setNewObject = async (newObj) => {
+
+    }
+
+    const handleSaveItem = async () => {
         setUpdatedItem(editingItem)
     };
+
+    const handleSaveNewItem = async () => {
+
+    }
 
     const renderObject = (item) => {
         switch (selectedCategory) {
@@ -96,10 +108,9 @@ export default function Drivers() {
                             <i id="edit-btn" className="fa fa-pencil"
                                 onClick={() => handleEditItem(item)} style={{ fontSize: '1.5em' }} ></i>
                         </div>
-                        <p>Name: {item.name}</p>
                         <p>Username: {item.username}</p>
                         <p>Email: {item.email}</p>
-                        
+
                     </div>
                 )
             case 'tractors':
@@ -125,25 +136,13 @@ export default function Drivers() {
                         </div>
                         <p>Email: {item.email}</p>
                         <p>Username: {item.username}</p>
+                        <p>Company: {item.company}</p>
                     </div>
                 )
             default:
                 return null
         }
     }
-
-
-    // const updateUsers = async () => {
-
-    //     await fetch(apiUrl + '/api/user/setUsers', {
-    //         method: 'POST',
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Authorization": token
-    //         },
-    //         body: JSON.stringify([...users, newUser])
-    //     }).then((res) => res.json()).then((data) => setUsers(data))
-    // }
 
     return (
         <div className="pageContainer">
@@ -165,6 +164,31 @@ export default function Drivers() {
                             {renderObject(item)}
                         </div>
                     ))}
+                    <div className="plus-object">
+                        {selectedCategory === 'drivers' && (
+                            <>
+                                <div className="add-item" id="add-driver">
+                                    <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
+                                </div>
+                            </>
+                        )}
+                        {selectedCategory === 'tractors' && (
+                            <>
+                                <div className="add-item" id="add-tractor">
+                                    <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
+                                </div>
+                            </>
+                        )}
+                        {selectedCategory === 'dispatchers' && (
+                            <>
+                                <div onClick={(e) => {
+
+                                }} className="add-item" id="add-dispatcher">
+                                    <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
                 <EditModal
                     isOpen={modalOpen}
@@ -173,6 +197,13 @@ export default function Drivers() {
                     setEditedItem={setEditingItem}
                     category={selectedCategory}
                     onSave={handleSaveItem}
+                />
+                <NewItemModal
+                    newItem={newItem}
+                    setNewItem={setNewItem}
+                    isOpen={newModalOpen}
+                    onClose={handleCloseNewModal}
+                    
                 />
             </div>
         </div>
