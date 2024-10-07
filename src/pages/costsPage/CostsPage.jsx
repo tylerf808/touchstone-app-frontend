@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Chart } from 'react-google-charts'
-import CurrencyFormat from 'react-currency-format'
 import './costsPageStyles.css'
 import UserContext from "../../helpers/Context";
 
