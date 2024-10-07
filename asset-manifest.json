@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/touchstone-app-frontend/static/css/main.f490c276.css",
-    "main.js": "/touchstone-app-frontend/static/js/main.e1ea372a.js",
+    "main.js": "/touchstone-app-frontend/static/js/main.4637927e.js",
     "index.html": "/touchstone-app-frontend/index.html",
     "main.f490c276.css.map": "/touchstone-app-frontend/static/css/main.f490c276.css.map",
-    "main.e1ea372a.js.map": "/touchstone-app-frontend/static/js/main.e1ea372a.js.map"
+    "main.4637927e.js.map": "/touchstone-app-frontend/static/js/main.4637927e.js.map"
   },
   "entrypoints": [
     "static/css/main.f490c276.css",
-    "static/js/main.e1ea372a.js"
+    "static/js/main.4637927e.js"
   ]
 }
