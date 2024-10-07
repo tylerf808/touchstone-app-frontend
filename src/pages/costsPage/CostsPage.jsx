@@ -150,7 +150,7 @@ export default function CostsPage() {
                 <div className="tractorContainer">
                   <div className="costsItem" style={{ width: "100%" }}>
                     <p className="costsLabel">Insurance</p>
-                    <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={tractorTotal} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
+
                   </div>
                   <div className="tractorSubContainer">
                     {
@@ -166,27 +166,21 @@ export default function CostsPage() {
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Trailer Lease</p>
-                  <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.trailerLease * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Tractor Lease</p>
-                  <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.tractorLease * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Repairs</p>
-                  <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.repairs} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Mile" />
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Loan</p>
-                  <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.loan * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Parking</p>
-                  <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.parking * 30} prefix="$" style={{ fontSize: '1.2rem' }} suffix="/Month" />
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">G&A</p>
-                  <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={costs?.gAndA * 30} style={{ fontSize: '1.2rem' }} suffix="% of Revenue" />
                 </div>
               </>
             }
