@@ -68,6 +68,32 @@
    margin: 5px 0;
  }
 
+ .add-item {
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+ }
+
+ .add-item:hover {
+  cursor: pointer;
+ }
+
+ #add-driver {
+  height: 7.25rem;
+ }
+
+ #add-tractor {
+  height: 8.6rem;
+ }
+
+ #add-dispatcher {
+  height: 8.6rem;
+ }
+
  .edit-modal {
    display: flex;
    flex-direction: column;
