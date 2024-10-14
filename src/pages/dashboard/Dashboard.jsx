@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState, useContext } from 'react'
-import CurrencyFormat from 'react-currency-format'
 import './dashboardStyles.css'
 import { Chart } from "react-google-charts"
 import UserContext from "../../helpers/Context"
@@ -270,15 +269,15 @@ export default function Dashboard() {
                     </div>
                     <div className="moneyBarItem">
                         <h2 className="moneyBarLabel">Revenue</h2>
-                        <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={revenue} prefix="$" style={{ fontSize: '1.2rem' }} />
+                        {revenue}
                     </div>
                     <div className="moneyBarItem">
                         <h2 className="moneyBarLabel">Cost</h2>
-                        <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={totalCosts} prefix="$" style={{ fontSize: '1.2rem' }} />
+                        {costs}
                     </div>
                     <div className="moneyBarItem">
                         <h2 className="moneyBarLabel">Profit</h2>
-                        <CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={profit} prefix="$" style={{ fontSize: '1.2rem' }} />
+                        {profit}
                     </div>
                 </div>
             </div>

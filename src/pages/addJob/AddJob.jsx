@@ -1,7 +1,6 @@
 import { CircularProgress } from "@mui/material";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useContext, useEffect, useState } from "react";
-import CurrencyFormat from 'react-currency-format';
 import { useNavigate } from "react-router-dom";
 import './addJobStyles.css'
 import UserContext from "../../helpers/Context";
@@ -347,115 +346,115 @@ export default function AddJob({ library }) {
                     <p>Revenue</p>
                   </div>
                   <div id="profit-number" className="jobDisplayItem" style={{ justifyContent: 'center', left: 20 }}>
-                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.revenue} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Labor</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.labor} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Payroll Tax</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.payrollTax} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Dispatch</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.dispatch} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Factor</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.factor} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Fuel</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.gasCost} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Tolls</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tolls} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>ODC</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.odc} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div id="profit-label" className="jobDisplayItem" >
                     <p>Gross Profit</p>
                   </div>
                   <div id="profit-number" className="jobDisplayItem" >
-                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.grossProfit} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem" style={{ marginLeft: '0rem' }}>
                     <p>Fixed Costs Total</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.totalFixedCost} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Insurance</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.insurance} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Tractor Lease</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.tractorLease} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Trailer Lease</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.trailerLease} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>G&A</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.gAndA} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Parking</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.parking} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div id="profit-label" className="jobDisplayItem">
                     <p>Operating Profit</p>
                   </div>
                   <div id="profit-number" className="jobDisplayItem">
-                    <span><CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.operatingProfit} prefix="$" style={{ fontSize: '1.2rem' }} /></span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Repairs</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.repairs} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div className="jobDisplayItem">
                     <p>Loan</p>
                   </div>
                   <div className="jobDisplayItem">
-                    <span>[<CurrencyFormat displayType="text" fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} value={job.loan} prefix="$" style={{ fontSize: '1.2rem' }} />]</span>
+                    <span></span>
                   </div>
                   <div id="net-profit-label" className="jobDisplayItem">
                     <p style={{ fontWeight: 'bold', fontSize: '1.5rem' }}>Net Profit</p>
                   </div>
                   <div id="net-profit-number" className="jobDisplayItem">
-                    <CurrencyFormat displayType="text" value={job?.netProfit} fixedDecimalScale={true} decimalScale={2} thousandSeparator={true} prefix="$" />
+                    
                   </div>
                 </div>
                 <div className="btnContainer">
