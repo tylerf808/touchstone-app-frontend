@@ -28,14 +28,6 @@ export default function Drivers() {
         }
     }, [])
 
-    useEffect(() => {
-        console.log("Modal open:", modalOpen);
-    }, [modalOpen]);
-
-    useEffect(() => {
-        console.log("Editing item:", editingItem);
-    }, [editingItem]);
-
     const getItems = async () => {
 
         const usersAndTractors = await fetch(apiUrl + '/api/user/tractorsAndUsers', {
@@ -57,8 +49,9 @@ export default function Drivers() {
         setModalOpen(true);
     };
 
-    const handleNewItem = (newItem) => {
-        
+    const handleNewItem = (accountType) => {
+        setNewItem({ ...newItem, accountType: accountType })
+        setNewModalOpen(true)
     }
 
     const handleCloseModal = () => {
@@ -85,16 +78,23 @@ export default function Drivers() {
         }).then((res) => res.json()).then((data) => setCategories(data))
     }
 
-    const setNewObject = async (newObj) => {
-
-    }
-
     const handleSaveItem = async () => {
         setUpdatedItem(editingItem)
-    };
+    }
 
     const handleSaveNewItem = async () => {
-
+       
+        await fetch(apiUrl + '/api/user/newTractorOrUser', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                accountType: newItem.accountType,
+                newItem: newItem
+            })
+        })
     }
 
     const renderObject = (item) => {
@@ -167,22 +167,26 @@ export default function Drivers() {
                     <div className="plus-object">
                         {selectedCategory === 'drivers' && (
                             <>
-                                <div className="add-item" id="add-driver">
+                                <div onClick={() => {
+                                    handleNewItem('driver')
+                                }} className="add-item" id="add-driver">
                                     <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
                                 </div>
                             </>
                         )}
                         {selectedCategory === 'tractors' && (
                             <>
-                                <div className="add-item" id="add-tractor">
+                                <div onClick={() => {
+                                    handleNewItem('tractor')
+                                }} className="add-item" id="add-tractor">
                                     <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
                                 </div>
                             </>
                         )}
                         {selectedCategory === 'dispatchers' && (
                             <>
-                                <div onClick={(e) => {
-
+                                <div onClick={() => {
+                                    handleNewItem('dispatcher')
                                 }} className="add-item" id="add-dispatcher">
                                     <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
                                 </div>
@@ -203,7 +207,7 @@ export default function Drivers() {
                     setNewItem={setNewItem}
                     isOpen={newModalOpen}
                     onClose={handleCloseNewModal}
-                    
+                    handleSaveNewItem={handleSaveNewItem}
                 />
             </div>
         </div>
