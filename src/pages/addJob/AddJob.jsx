@@ -9,12 +9,20 @@ import { useNavigate } from "react-router-dom";
 
 const AddJob = () => {
 
+  const [job, setJob] = useState(null);
   const [route, setRoute] = useState(null);
   const [error, setError] = useState(null);
   const [location, setLocation] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false)
   const [tractors, setTractors] = useState(null)
   const [drivers, setDrivers] = useState(null)
+  const [logistics, setLogistics] = useState({
+    revenue: 0,
+    driver: '',
+    tractor: '',
+    startDate: '',
+    client: ''
+  })
 
   const { user, setShowAlert, setAlertMsg, apiUrl } = useContext(UserContext)
 
@@ -26,7 +34,6 @@ const AddJob = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        console.log(latitude, longitude)
         setLocation({ lat: parseFloat(latitude), lng: parseFloat(longitude) })
       })
     } else {
@@ -34,14 +41,18 @@ const AddJob = () => {
     }
   }
 
-  const calculateRoute = async () => {
-    try {
-      setAlertMsg(null);
-      setShowAlert(false)
-    } catch (err) {
-      setAlertMsg(err.message);
-      setShowAlert(true)
-    }
+  const calculateRoute = async (details) => {
+    await fetch(apiUrl + '/api/costs/check', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify(details)
+    }).then((res) => res.json()).then((data) =>{
+      console.log(data)
+      setJob(data)})
+    console.log(job)
   };
 
   const fetchDriversAndTractors = async () => {
@@ -52,14 +63,23 @@ const AddJob = () => {
         "Authorization": token
       }
     }).then((res) => res.json()).then((data) => {
-      console.log(data)
       setDrivers(data[0])
       setTractors(data[1])
+      const newLogistics = logistics
+      newLogistics.driver = data[0][0]
+      newLogistics.tractor = data[0][0]
+      setLogistics(newLogistics)
     })
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (isExpanded) {
+      setIsExpanded(false)
+    } else {
+      setIsExpanded(true)
+    }
 
     const startValue = document.getElementById('start-input').value
     const pickUpValue = document.getElementById('pick-up-input').value
@@ -68,16 +88,12 @@ const AddJob = () => {
     const details = {
       addresses: {
         start: startValue,
-        pickUpV: pickUpValue,
+        pickUp: pickUpValue,
         dropOff: dropOffValue
       },
-      revenue: 0,
-      driver: '',
-      tractor: 0,
-      startDate: '',
-      endDate: '',
+      logistics
     }
-    calculateRoute();
+    calculateRoute(details);
   };
 
   useEffect(() => {
@@ -91,8 +107,8 @@ const AddJob = () => {
 
   return (
     <div className="calculator-container">
-      <DetailsInput calculateRoute={calculateRoute} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
-        tractors={tractors} drivers={drivers} />
+      <DetailsInput handleSubmit={handleSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
+        tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics} />
       <div className="map-container">
         <MapWithRoute
           apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}

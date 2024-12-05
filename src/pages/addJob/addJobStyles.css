@@ -49,6 +49,8 @@
     justify-content: center;
     padding: .5rem;
     gap: .5rem;
+    margin-bottom: 1rem;
+    margin-top: .5rem;
 }
 
 .logistics-inputs {
@@ -56,8 +58,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    width: 80%;
-    padding: .5rem;
+    width: 90%;
     gap: .5rem;
     border-top: .1rem solid rgb(200, 200, 200);
     border-bottom: .1rem solid rgb(200, 200, 200);

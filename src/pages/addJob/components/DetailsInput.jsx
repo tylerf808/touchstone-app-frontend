@@ -3,7 +3,7 @@ import { CircularProgress } from "@mui/material";
 import ResultsContainer from "./ResultsContainer";
 import zIndex from "@mui/material/styles/zIndex";
 
-export default function DetailsInput({ calculateRoute, setIsExpanded, isExpanded, tractors, drivers }) {
+export default function DetailsInput({ handleSubmit, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -13,8 +13,6 @@ export default function DetailsInput({ calculateRoute, setIsExpanded, isExpanded
     if (!isLoaded) {
         return (<CircularProgress />);
     }
-
-   
 
     const containerStyle = {
         height: isExpanded ? '50rem' : '22rem',
@@ -39,12 +37,10 @@ export default function DetailsInput({ calculateRoute, setIsExpanded, isExpanded
         justifyContent: 'flex-start'
     }
 
-
-
     return (
         <form style={containerStyle}>
             {isExpanded ?
-                <ResultsContainer isExpanded={isExpanded} setIsExpanded={setIsExpanded}/>
+                <ResultsContainer isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 :
                 <>
                     <div className="address-inputs">
@@ -59,39 +55,59 @@ export default function DetailsInput({ calculateRoute, setIsExpanded, isExpanded
                         </Autocomplete>
                     </div>
                     <div className="logistics-inputs">
-                        <label className="logistics-field" style={{ marginTop: '1rem' }}>Revenue: $<input style={{ width: '6rem' }} type='number'></input></label>
-                        <label className="logistics-field">Date of Departure: <input type="date"></input></label>
+                        <label className="logistics-field" style={{ marginTop: '1rem' }}>
+                            Client: <input style={{ width: '6rem' }} type='text' onChange={(e) => {
+                                const newLogistics = logistics
+                                newLogistics.client = e.target.value
+                                setLogistics(newLogistics)
+                            }}></input>
+                        </label>
+                        <label className="logistics-field">
+                            Revenue: $<input style={{ width: '6rem' }} type='number' onChange={(e) => {
+                                const newLogistics = logistics
+                                newLogistics.revenue = e.target.value
+                                setLogistics(newLogistics)
+                            }}></input>
+                        </label>
+                        <label className="logistics-field">
+                            Date of Departure: <input type="date" onChange={(e) => {
+                                const newLogistics = logistics
+                                newLogistics.startDate = e.target.value
+                                setLogistics(newLogistics)
+                                console.log(logistics)
+                            }}></input>
+                        </label>
                         <label className="logistics-field">Driver:
-                            <select>
-                                {drivers?.map((driver) => {
-                                    return(
-                                        <option>{driver.name}</option>
+                            <select onChange={(e) => {
+                                const newLogistics = logistics
+                                newLogistics.driver = e.target.value
+                                setLogistics(newLogistics)
+                            }}>
+                                {drivers?.map((driver, i) => {
+                                    return (
+                                        <option key={i}>{driver.name}</option>
                                     )
                                 })}
                             </select>
                         </label>
                         <label style={{ marginBottom: '1rem' }} className="logistics-field">Tractor:
-                             
-                             <select>
-                                {tractors?.map((tractor) => {
-                                    return(
-                                        <option>{tractor.internalNum}</option>
+                            <select onChange={(e) => {
+                                const newLogistics = logistics
+                                newLogistics.tractor = e.target.value
+                                setLogistics(newLogistics)
+                            }}>
+                                {tractors?.map((tractor, i) => {
+                                    return (
+                                        <option key={i}>{tractor.internalNum}</option>
                                     )
                                 })}
                             </select>
-                        
                         </label>
                     </div>
                     <button
                         className="calc-route-button"
                         type="submit"
-                        onClick={() => {
-                            if (isExpanded) {
-                                setIsExpanded(false)
-                            } else {
-                                setIsExpanded(true)
-                            }
-                        }}>
+                        onClick={handleSubmit}>
                         Calculate Route
                     </button>
                 </>
