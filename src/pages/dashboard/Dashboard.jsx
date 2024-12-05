@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from 'react'
 import './dashboardStyles.css'
 import { Chart } from "react-google-charts"
 import UserContext from "../../helpers/Context"
+import formatUSD  from "../../helpers/currencyFormatter"
 
 export default function Dashboard() {
 
@@ -269,15 +270,15 @@ export default function Dashboard() {
                     </div>
                     <div className="moneyBarItem">
                         <h2 className="moneyBarLabel">Revenue</h2>
-                        {revenue}
+                        {formatUSD(revenue)}
                     </div>
                     <div className="moneyBarItem">
                         <h2 className="moneyBarLabel">Cost</h2>
-                        {costs}
+                        {formatUSD(totalCosts)}
                     </div>
                     <div className="moneyBarItem">
                         <h2 className="moneyBarLabel">Profit</h2>
-                        {profit}
+                        {formatUSD(profit)}
                     </div>
                 </div>
             </div>

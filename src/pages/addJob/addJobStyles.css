@@ -1,262 +1,153 @@
-.resultsHeaderContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 3rem;
+.calculator-container {
+    width: 100%;
+    height: 100%;
 }
 
-.jobInputsForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 30vh;
-    width: 80%;
+.map-container {
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    padding: 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.select {
+    width: 128px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
     background-color: white;
-    border: .1em solid black;
-    border-radius: 1em;
-    margin-top: 3rem;
 }
 
-.jobInputHeadersContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+.input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    background-color: white;
 }
 
-.jobInputsHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    width: 100%;
+.address-field {
+    height: 1.2rem;
+    margin-left: 1rem;
+    width: 13rem;
 }
 
-.jobInputsContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 1em;
-}
 
-.jobInputsLabel {
-    color: rgb(122, 121, 121);
-    font-weight: 900;
-}
-
-.btnContainer {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.checkJobBtnContainer {
-    margin-top: 1.5em;
-    border-bottom: .2rem solid rgba(169, 169, 169, 0.733);
-    height: 8em;
-    width: 90%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.jobResults {
-    width: 100%;
-    height: 100vh;
-    display: none;
-}
-
-.routeInputsItem {
+.address-inputs {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     justify-content: center;
+    padding: .5rem;
+    gap: .5rem;
+}
+
+.logistics-inputs {
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    margin: .3em;
-}
-
-.revenueInputContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 20%;
-    border-right: .1em solid #7a7979;
-    height: 100%;
-
-}
-
-.routeInputsContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    border-right: .1em solid #7a7979;
-    width: 40%;
-    height: 100%;
-}
-
-.addressInput {
-    width: 225px;
-}
-
-.detailInputsItem {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    margin: .3em;
+    width: 80%;
+    padding: .5rem;
+    gap: .5rem;
+    border-top: .1rem solid rgb(200, 200, 200);
+    border-bottom: .1rem solid rgb(200, 200, 200);
 }
 
-.detailInputsContainer input {
-    width: 175px;
+.logistics-field {
+    margin-left: 3rem;
 }
 
-.detailInputsContainer select {
-    width: 175px;
-}
-
-.loadingCircleContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+.details-results {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    transition:  0.3s 
 }
 
-#revenue {
-    width: 140px;
-}
-
-.detailInputsContainer {
-    width: 40%;
+.results-container {
+    width: 100%;
     height: 100%;
+    border-radius: .5rem;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
 }
 
-.jobDisplayItem {
-    padding: 6px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%
-}
-
-.checkJobDisplay {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    height: auto;
-    width: 35rem;
-}
-
-.jobResultsContainer {
+.placeholder-container {
+    height: 100%;
+    width: 80%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
 }
 
-/* Buttons */
-.addJobBtn {
-    position: relative;
-    color: rgb(205, 239, 207);
-    background-color: rgb(30, 97, 17);
-    width: 160px;
-    height: 30px;
-    margin: 1em;
+.calc-route-button {
+    background-color: #eb9225;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    width: 7rem;
+    height: 3vh;
+    margin: 1rem;
 }
 
-.checkJobBtn {
-    position: relative;
-    background-color: rgb(233, 220, 208);
-    width: 160px;
-    height: 30px;
-    margin: 1em;
+.calc-route-button:hover {
+    background-color: #a9621b;
 }
 
-.checkJobBtn:hover {
-    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+.alert {
+    padding: 12px;
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    border-radius: 4px;
+    color: #dc2626;
 }
 
-#profit-label,
-#profit-number {
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    justify-content: center;
-    left: 20px;
-    padding: 6px;
+.route-info {
+    padding: 16px;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
 }
 
-#net-profit-label,
-#net-profit-number {
-    border-top: 2px solid black;
-    justify-content: center;
-    left: 20px;
-    padding: 15px;
-    font-size: 22px;
+.route-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
-@media screen and (max-width: 1000px) {
-    .jobInputsForm {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 90%;
-        height: 100%;
-        margin-bottom: 0em;
-        margin-top: 1rem;
-    }
+.route-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
-    .revenueInputContainer {
-        border-bottom: .1rem solid black;
-        border-right: none;
-        width: 100%;
-    }
+.input:focus,
+.select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
 
-    .routeInputsContainer {
-        border-bottom: .1rem solid black;
-        border-right: none;
-        width: 100%;
-    }
-
-    .detailInputsContainer {
-        margin-bottom: 0rem;
-    }
-
-    #bottom-item {
-        margin-bottom: 2rem;
-    }
-
-    .checkJobBtnContainer {
-        margin-top: 0;
-    }
-
-    .checkJobBtn {
-        margin-top: 0;
-    }
-
-    .checkJobDisplay {
-        width: 90%
-    }
-
-    #net-profit-label,
-    #net-profit-number {
-
-        justify-content: center;
-        width: 90%;
-        padding: 15px;
-        font-size: 22px;
-    }
+.calc-route-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }

@@ -19,6 +19,7 @@ export const useUserContext = () => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
     const [alertMsg, setAlertMsg] = useState("")    
+    const [showMenu, setShowMenu] = useState(false)
 
     const fetchUser = async () => {
 
@@ -42,7 +43,7 @@ export const useUserContext = () => {
 
     return {
         user, setUser, userType, setUserType, costs, setCosts, loggedIn, setLoggedIn,
-        showAlert, setShowAlert, alertMsg, setAlertMsg, apiUrl, fetchUser
+        showAlert, setShowAlert, alertMsg, setAlertMsg, apiUrl, fetchUser, showMenu, setShowMenu
     }
 }
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Chart } from 'react-google-charts'
 import './costsPageStyles.css'
 import UserContext from "../../helpers/Context";
+import { formatUSD} from '../../helpers/currencyFormatter'
 
 export default function CostsPage() {
 
@@ -149,22 +150,20 @@ export default function CostsPage() {
                 <div className="tractorContainer">
                   <div className="costsItem" style={{ width: "100%" }}>
                     <p className="costsLabel">Insurance</p>
-
                   </div>
                   <div className="tractorSubContainer">
-                    {
-                      tractors?.map((tractor, i) => {
+                    {tractors?.map((tractor, i) => {
                         return (
                           <div key={i} className="tractor">
                             <p>Internal Num: {tractor.internalNum}</p><p>${tractor.insurance}/Month</p>
                           </div>
-                        )
-                      })
+                        )})
                     }
                   </div>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Trailer Lease</p>
+                  <p>{costs?.trailer}</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Tractor Lease</p>

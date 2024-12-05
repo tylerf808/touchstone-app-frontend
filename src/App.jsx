@@ -15,12 +15,12 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import UserContext, { useUserContext } from "./helpers/Context";
 import { useEffect } from "react";
 import './components/toolbarStyles.css'
+import Confirmation from "./pages/signUp/Confirmation";
 
-const library = ["places"];
 
 export default function App() {
 
-  const { user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, apiUrl, costs, setCosts, fetchUser } = useUserContext()
+  const { setShowMenu, showMenu, user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, apiUrl, costs, setCosts, fetchUser } = useUserContext()
 
   useEffect(() => {
     fetchUser()
@@ -29,18 +29,19 @@ export default function App() {
   return (
     <UserContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg, setAlertMsg, userType, setUserType, costs, setCosts, apiUrl }}>
       <Router>
-        {loggedIn ? <Toolbar setShowAlert={setShowAlert} user={user} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
+        {loggedIn ? <Toolbar setShowMenu={setShowMenu} showMenu={showMenu} setShowAlert={setShowAlert} user={user} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
           :
           <div className="toolbar"><h1 className='toolbarHeader' id='toolbar-header'>TOUCHSTONE LOGISTICS</h1></div>}
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
           <Route path='dashboard' element={<Dashboard />} />
-          <Route path="addjob" element={<AddJob library={library} />} />
+          <Route path="addjob" element={<AddJob />} />
           <Route path="/" element={<LogIn />} />
           <Route path="jobs" element={<ViewJobs />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="costs" element={<CostsPage />} />
           <Route path="drivers" element={<Drivers />} />
+          <Route path="confirmation" element={<Confirmation />} />
         </Routes>
       </Router>
     </UserContext.Provider>
