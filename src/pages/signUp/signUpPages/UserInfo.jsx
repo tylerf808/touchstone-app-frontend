@@ -109,7 +109,7 @@ export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAler
                 }}>Next</button>
             </div>
             <div className="signUpLinkContainer">
-                <p>Already have an account? <Link id="sign-up-link" to='/' onClick={() => setShowAlert(false)}>Log in here!</Link></p>
+                <p>Already have an account? <Link id="sign-up-link" to='/login' onClick={() => setShowAlert(false)}>Log in here!</Link></p>
             </div>
         </div>
     )

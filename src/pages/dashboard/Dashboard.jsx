@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from 'react'
 import './dashboardStyles.css'
 import { Chart } from "react-google-charts"
 import UserContext from "../../helpers/Context"
-import formatUSD  from "../../helpers/currencyFormatter"
+import formatUSD from "../../helpers/currencyFormatter"
 
 export default function Dashboard() {
 
@@ -251,64 +251,68 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="dashboardContainer">
-            <div className="topBanner">
-                <div className="timeSelectContainer">
-                    <select id="pie-time-select" onChange={selectBarTime}>
-                        <option value="" disabled selected>Select Time frame</option>
-                        <option value={0}>Week</option>
-                        <option value={1}>Month</option>
-                        <option value={2}>Year</option>
-                        <option value={3}>All</option>
-                    </select>
+        <div className="dashboard-page-container">
+
+
+            <div className="dashboardContainer">
+                <div className="topBanner">
+                    <div className="timeSelectContainer">
+                        <select id="pie-time-select" onChange={selectBarTime}>
+                            <option value="" disabled selected>Select Time frame</option>
+                            <option value={0}>Week</option>
+                            <option value={1}>Month</option>
+                            <option value={2}>Year</option>
+                            <option value={3}>All</option>
+                        </select>
+                    </div>
+                    <div className="moneyBar">
+                        <div className="moneyBarItem">
+                            <h2 className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</h2>
+                            <p className="moneyBarLabel">Total: {totalJobs}</p>
+                            <p className="moneyBarLabel">Completed: {completedJobs.length}</p>
+                        </div>
+                        <div className="moneyBarItem">
+                            <h2 className="moneyBarLabel">Revenue</h2>
+                            {formatUSD(revenue)}
+                        </div>
+                        <div className="moneyBarItem">
+                            <h2 className="moneyBarLabel">Cost</h2>
+                            {formatUSD(totalCosts)}
+                        </div>
+                        <div className="moneyBarItem">
+                            <h2 className="moneyBarLabel">Profit</h2>
+                            {formatUSD(profit)}
+                        </div>
+                    </div>
                 </div>
-                <div className="moneyBar">
-                    <div className="moneyBarItem">
-                        <h2 className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</h2>
-                        <p className="moneyBarLabel">Total: {totalJobs}</p>
-                        <p className="moneyBarLabel">Completed: {completedJobs.length}</p>
+                {noJobs ?
+                    <div className="chartContainer">
+                        <p style={{ position: 'absolute', left: '35%', top: '50%', fontSize: '1.3rem', backgroundColor: 'white', padding: '2rem' }}>Job data will appear here when you add jobs</p>
+                        <div className="lineChartContainer"></div>
+                        <div className="pieChartContainer"></div>
                     </div>
-                    <div className="moneyBarItem">
-                        <h2 className="moneyBarLabel">Revenue</h2>
-                        {formatUSD(revenue)}
+                    :
+                    <div className="chartContainer">
+                        <div className="lineChartContainer">
+                            <div className="chartHeaderContainer">
+                                <h2 style={{ color: 'black' }}>Revenue & Profit</h2>
+                                <select onChange={selectLineTime} id="line-time-select">
+                                    <option value='daily'>Daily</option>
+                                    <option value='weekly'>Weekly</option>
+                                    <option value='monthly'>Monthly</option>
+                                </select>
+                            </div>
+                            <Chart chartType="LineChart" width="100%" height="100%" data={lineChartData} options={lineOptions} />
+                        </div>
+                        <div className="pieChartContainer">
+                            <div className="chartHeaderContainer">
+                                <h2 style={{ color: 'black' }}>Expended Costs</h2>
+                            </div>
+                            <Chart chartType="PieChart" width="100%" height="100%" data={pieChartData} options={pieOptions} />
+                        </div>
                     </div>
-                    <div className="moneyBarItem">
-                        <h2 className="moneyBarLabel">Cost</h2>
-                        {formatUSD(totalCosts)}
-                    </div>
-                    <div className="moneyBarItem">
-                        <h2 className="moneyBarLabel">Profit</h2>
-                        {formatUSD(profit)}
-                    </div>
-                </div>
+                }
             </div>
-            {noJobs ?
-                <div className="chartContainer">
-                    <p style={{position: 'absolute', left: '35%', top: '50%', fontSize: '1.3rem', backgroundColor: 'white', padding: '2rem'}}>Job data will appear here when you add jobs</p>
-                    <div className="lineChartContainer"></div>
-                    <div className="pieChartContainer"></div>
-                </div>
-                :
-                <div className="chartContainer">
-                    <div className="lineChartContainer">
-                        <div className="chartHeaderContainer">
-                            <h2 style={{ color: 'black' }}>Revenue & Profit</h2>
-                            <select onChange={selectLineTime} id="line-time-select">
-                                <option value='daily'>Daily</option>
-                                <option value='weekly'>Weekly</option>
-                                <option value='monthly'>Monthly</option>
-                            </select>
-                        </div>
-                        <Chart chartType="LineChart" width="100%" height="100%" data={lineChartData} options={lineOptions} />
-                    </div>
-                    <div className="pieChartContainer">
-                        <div className="chartHeaderContainer">
-                            <h2 style={{ color: 'black' }}>Expended Costs</h2>
-                        </div>
-                        <Chart chartType="PieChart" width="100%" height="100%" data={pieChartData} options={pieOptions} />
-                    </div>
-                </div>
-            }
         </div>
     )
 }

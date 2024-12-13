@@ -4,6 +4,7 @@ import { CSVLink, CSVDownload } from 'react-csv'
 import { useNavigate } from 'react-router-dom';
 import './viewJobsStyles.css'
 import UserContext from '../../helpers/Context';
+import JobsTable from './JobsTable';
 
 export default function ViewJobs() {
 
@@ -35,14 +36,14 @@ export default function ViewJobs() {
                         client: el.client,
                         driver: el.driver,
                         start: el.start,
-                        pickUp: el.pickUp,
-                        dropOff: el.dropOff,
-                        driveTime: (el.driveTime / 60),
-                        revenue: el.revenue,
-                        ratePerMile: el.ratePerMile,
-                        grossProfit: el.grossProfit,
-                        grossProfitPercentage: el.grossProfitPercentage,
-                        operatingProfit: el.operatingProfit,
+                        Pick_Up: el.pickUp,
+                        Drop_Off: el.dropOff,
+                        Drive_time: (el.driveTime / 60),
+                        Revenue: el.revenue,
+                        Rate_per_Mile: el.ratePerMile,
+                        Gross_Profit: el.grossProfit,
+                        Gross_Profit_Percentage: el.grossProfitPercentage,
+                        Operating_Profit: el.operatingProfit,
                         operatingProfitPercentage: el.operatingProfitPercentage,
                         netProfit: el.netProfit,
                         netProfitPercentage: el.netProfitPercentage,
@@ -87,57 +88,17 @@ export default function ViewJobs() {
         }
     }, [])
 
-    const columns = [
-        { field: 'date', headerName: 'Date', width: 120 },
-        { field: 'client', headerName: 'Client', width: 120 },
-        { field: 'driver', headerName: 'Driver', width: 120 },
-        { field: 'tractor', headerName: 'Tractor', width: 120 },
-        { field: 'start', headerName: 'Start', width: 200 },
-        { field: 'pickUp', headerName: 'Pick Up', width: 200 },
-        { field: 'dropOff', headerName: 'Drop Off', width: 200 },
-        { field: 'distance', headerName: 'Milage', width: 120 },
-        { field: 'driveTime', headerName: 'Drive Time', width: 120 },
-        { field: 'revenue', headerName: 'Revenue', width: 120 },
-        { field: 'ratePerMile', headerName: 'Rate Per Mile', width: 120 },
-        { field: 'grossProfitPercentage', headerName: 'Gross Profit %', width: 120 },
-        { field: 'operatingProfitPercentage', headerName: 'Operating Profit %', width: 120 },
-        { field: 'netProfitPercentage', headerName: 'Net Profit %', width: 120 },
-        { field: 'laborRatePercent', headerName: 'Labor %', width: 120 },
-        { field: 'labor', headerName: 'Labor', width: 120 },
-        { field: 'payrollTax', headerName: 'Payroll', width: 120 },
-        { field: 'dispatch', headerName: 'Dispatch', width: 120 },
-        { field: 'factor', headerName: 'Factor', width: 120 },
-        { field: 'gasCost', headerName: 'Fuel', width: 120 },
-        { field: 'tolls', headerName: 'Tolls', width: 100 },
-        { field: 'odc', headerName: 'ODC', width: 120 },
-        { field: 'insurance', headerName: 'Insurance', width: 120 },
-        { field: 'trailerLease', headerName: 'Lease - Trailer', width: 120 },
-        { field: 'tractorLease', headerName: 'Lease - Tractor', width: 120 },
-        { field: 'gAndA', headerName: 'G&A', width: 120 },
-        { field: 'operatingProfit', headerName: 'Operating Profit', width: 120 },
-        { field: 'loan', headerName: 'Loan', width: 120 },
-        { field: 'repairs', headerName: 'Repairs', width: 120 },
-        { field: 'netProfit', headerName: 'Net Profit', width: 120 },
-        { field: '_id', headerName: 'Job ID', width: 100 },
-    ]
-
     return (
-        <div className="pageContainer">
-            {noJobs ?
-            <div className='previousJobsDisplay' style={{backgroundColor: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'center', 
-                alignItems: 'center'}}>
-                <p style={{ fontSize: '1.3rem'}}>No previous jobs</p>
-            </div>
-                :
-                <div className="previousJobsDisplay">
-                    <DataGrid style={{ backgroundColor: 'white' }} getRowId={(row) => row._id} rows={jobs} columns={columns} pageSize={30} rowsPerPageOptions={[30]} />
-                    {csvJobs ?
-                        <CSVLink style={{ marginTop: '3rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', fontSize: '1.2rem' }} data={csvJobs}>Download Excel Sheet</CSVLink>
-                        :
-                        null
-                    }
+        <div className="jobs-page-container">
+            <div className="jobs-table-container">
+                <div className='view-jobs-toolbar'>
+                    <div className='view-jobs-menu'>
+
+                    </div>
+                    <i class="fa fa-download" style={{ fontSize: '1.2rem' }}>Download</i>
                 </div>
-            }
+                <JobsTable jobs={jobs} />
+            </div>
         </div>
     )
 }

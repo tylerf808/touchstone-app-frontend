@@ -1,13 +1,12 @@
  * {
     margin: 0;
     padding: 0;
-    scroll-behavior: smooth;
  }
 
  /*** Site Wide ***/
 
  body {
-    background-color: white;
+    background-color: rgb(217, 217, 217);
  }
 
  ::-webkit-scrollbar {

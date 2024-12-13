@@ -11,7 +11,7 @@ export default function Drivers() {
 
     const [selectedCategory, setSelectedCategory] = useState('drivers')
     const [modalOpen, setModalOpen] = useState(false);
-    const [editingItem, setEditingItem] = useState(null);
+    const [editingItem, setEditingItem] = useState(false);
     const [newModalOpen, setNewModalOpen] = useState(false)
     const [newItem, setNewItem] = useState()
     const [categories, setCategories] = useState({ drivers: [], tractors: [], dispatchers: [] })
@@ -37,7 +37,14 @@ export default function Drivers() {
                 "Authorization": token
             },
         }).then((res) => res.json())
-        setCategories(usersAndTractors)
+
+        const processedCategories = {
+            drivers: usersAndTractors[0],
+            tractors: usersAndTractors[1],
+            dispatchers: usersAndTractors[2]
+        }
+
+        setCategories(processedCategories)
     }
 
     const handleCategorySelect = (category) => {
@@ -83,7 +90,7 @@ export default function Drivers() {
     }
 
     const handleSaveNewItem = async () => {
-       
+
         await fetch(apiUrl + '/api/user/newTractorOrUser', {
             method: 'POST',
             headers: {
@@ -100,17 +107,15 @@ export default function Drivers() {
     const renderObject = (item) => {
         switch (selectedCategory) {
             case 'drivers':
-                const name = item.name
                 return (
                     <div>
                         <div className="object-item-header">
-                            <h3>{name}</h3>
+                            <h3>{item.name}</h3>
                             <i id="edit-btn" className="fa fa-pencil"
                                 onClick={() => handleEditItem(item)} style={{ fontSize: '1.5em' }} ></i>
                         </div>
                         <p>Username: {item.username}</p>
                         <p>Email: {item.email}</p>
-
                     </div>
                 )
             case 'tractors':
@@ -148,7 +153,7 @@ export default function Drivers() {
         <div className="pageContainer">
             <div className="displayContainer">
                 <div className="categories">
-                    {Object.keys(categories)?.map((category) => (
+                    {Object.keys(categories).map((category) => (
                         <button
                             key={category}
                             onClick={() => handleCategorySelect(category)}

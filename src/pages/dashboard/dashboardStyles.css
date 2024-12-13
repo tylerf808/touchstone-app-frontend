@@ -1,3 +1,8 @@
+.dashboard-page-container {
+  width: 100vw;
+  height: 90vh;
+}
+
 .subItemLabel {
   color: black
 }
@@ -9,7 +14,7 @@
 
 .dashboardContainer {
   position: relative;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
   align-items: center;
