@@ -129,7 +129,7 @@
    cursor: pointer;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 768px) {
    .toolbar {
       height: 4rem;
    }
@@ -137,5 +137,9 @@
    .sidenav {
       width: 100%;
       left: -100%
+   }
+
+   .landing {
+     
    }
 }
