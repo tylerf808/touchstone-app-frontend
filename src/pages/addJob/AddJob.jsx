@@ -49,10 +49,10 @@ const AddJob = () => {
         "Authorization": token
       },
       body: JSON.stringify(details)
-    }).then((res) => res.json()).then((data) =>{
+    }).then((res) => res.json()).then((data) => {
       console.log(data)
-      setJob(data)})
-    console.log(job)
+      setJob(data)
+    })
   };
 
   const fetchDriversAndTractors = async () => {
@@ -85,12 +85,22 @@ const AddJob = () => {
     const pickUpValue = document.getElementById('pick-up-input').value
     const dropOffValue = document.getElementById('drop-off-input').value
 
+    const addresses = [startValue, pickUpValue, dropOffValue]
+
+    const states = []
+    
+    addresses.forEach((address) => {
+      const stateMatch = address.match(/,\s*([A-Z]{2})\s*/);
+      states.push(stateMatch ? stateMatch[1] : null)
+    })
+
     const details = {
-      addresses: {
-        start: startValue,
-        pickUp: pickUpValue,
-        dropOff: dropOffValue
-      },
+      addresses: [
+        startValue,
+        pickUpValue,
+        dropOffValue
+      ],
+      states,
       logistics
     }
     calculateRoute(details);

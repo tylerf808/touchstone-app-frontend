@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Chart } from 'react-google-charts'
 import './costsPageStyles.css'
 import UserContext from "../../helpers/Context";
-import { formatUSD} from '../../helpers/currencyFormatter'
+import formatUSD from '../../helpers/currencyFormatter'
 
 export default function CostsPage() {
 
@@ -52,6 +52,7 @@ export default function CostsPage() {
         ['Loan', data.costs[0].loan],
         ['Parking', data.costs[0].parking]
       ])
+      console.log(data)
     })
   }
 
@@ -163,22 +164,27 @@ export default function CostsPage() {
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Trailer Lease</p>
-                  <p>{costs?.trailer}</p>
+                  <p>{formatUSD(costs?.trailerLease)}</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Tractor Lease</p>
+                  <p>{formatUSD(costs?.tractorLease)}</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Repairs</p>
+                  <p>{formatUSD(costs?.repairs)}</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Loan</p>
+                  <p>{formatUSD(costs?.loan)}</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Parking</p>
+                  <p>{formatUSD(costs?.parking)}</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">G&A</p>
+                  <p>{formatUSD(costs?.gAndA)}</p>
                 </div>
               </>
             }
@@ -208,14 +214,6 @@ export default function CostsPage() {
                 <div className="costsItem">
                   <p className="inputInstructions">ODC (enter as percentage eg 2% is 2)</p>
                   <input className="costsInput" defaultValue={costs?.odc * 100} onChange={(e) => setCosts({ ...costs, odc: e.target.value / 100 })} />
-                </div>
-                <div className="costsItem">
-                  <p className="inputInstructions">Number of Tractors (enter total tractors)</p>
-                  <input className="costsInput" defaultValue={costs?.tractorNum} onChange={(e) => setCosts({ ...costs, tractorNum: e.target.value })} />
-                </div>
-                <div className="costsItem">
-                  <p className="inputInstructions">MPG (enter average fleet mpg)</p>
-                  <input className="costsInput" defaultValue={costs?.mpg} onChange={(e) => setCosts({ ...costs, mpg: e.target.value })} />
                 </div>
               </>
               :
