@@ -95,12 +95,45 @@ export default function Modal({ isOpen, onClose, editedItem, setEditedItem, cate
               </div>
               <div className="modal-input-row">
                 <label>
-                  Insurance:
+                  Insurance (Monthly):
                 </label>
                 <input
                   type="text"
                   name="insurance"
                   value={editedItem.insurance}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-input-row">
+                <label>
+                  Height (Feet and Inches):
+                </label>
+                <input
+                  type="text"
+                  name="height"
+                  value={editedItem.height}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-input-row">
+                <label>
+                  Width (Feet and Inches):
+                </label>
+                <input
+                  type="text"
+                  name="width"
+                  value={editedItem.width}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-input-row">
+                <label>
+                  Weight (lbs):
+                </label>
+                <input
+                  type="text"
+                  name="weight"
+                  value={editedItem.weight}
                   onChange={handleChange}
                 />
               </div>

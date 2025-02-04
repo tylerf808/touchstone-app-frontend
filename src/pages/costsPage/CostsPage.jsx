@@ -122,12 +122,8 @@ export default function CostsPage() {
             {editCosts ?
               <>
                 <div className="costsItem">
-                  <p className="inputInstructions">Trailer Lease (Enter monthly pmt, if more than one trailer enter average for all trailers)</p>
+                  <p className="inputInstructions">Trailer Lease (Enter monthly lease payment for all trailers)</p>
                   <input className="costsInput" defaultValue={(costs.trailerLease * 30)} onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30) })} />
-                </div>
-                <div className="costsItem">
-                  <p className="inputInstructions">Tractor Lease (Enter monthly pmt, if more than one tractor enter average for all tractors)</p>
-                  <input className="costsInput" defaultValue={(costs.tractorLease * 30)} onChange={(e) => setCosts({ ...costs, tractorLease: (e.target.value / 30) })} />
                 </div>
                 <div className="costsItem">
                   <p className="inputInstructions">Repairs (Cents per mile; eg. 10 cents is 0.1)</p>

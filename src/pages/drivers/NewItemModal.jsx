@@ -158,12 +158,45 @@ export default function NewItemModal({ newItem, setNewItem, isOpen, onClose, han
               </div>
               <div className="modal-input-row">
                 <label>
-                  Insurance:
+                  Insurance (Monthly):
                 </label>
                 <input
                   type="text"
                   name="insurance"
                   value={newItem?.insurance}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-input-row">
+                <label>
+                  Height (Feet and Inches):
+                </label>
+                <input
+                  type="text"
+                  name="height"
+                  value={newItem?.height}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-input-row">
+                <label>
+                  Width (Feet and Inches):
+                </label>
+                <input
+                  type="text"
+                  name="width"
+                  value={newItem?.width}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-input-row">
+                <label>
+                  Weight (lbs):
+                </label>
+                <input
+                  type="text"
+                  name="weight"
+                  value={newItem?.weight}
                   onChange={handleChange}
                 />
               </div>

@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 const AddJob = () => {
 
   const [job, setJob] = useState(null);
+  const [profitable, setProfitable] = useState(null)
+  const [loaded, setLoaded] = useState(false)
   const [route, setRoute] = useState(null);
   const [error, setError] = useState(null);
   const [location, setLocation] = useState(null);
@@ -34,12 +36,28 @@ const AddJob = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        setLocation({ lat: parseFloat(latitude), lng: parseFloat(longitude) })
+        setLocation([{ lat: parseFloat(latitude), lng: parseFloat(longitude) }, {lat: parseFloat(latitude) + 1, lng: parseFloat(longitude + 1)}])
       })
     } else {
       setError('Browser does not support geolocation')
     }
   }
+
+  // const getDefaultMap = async () => {
+  //     const formattedLatLng = []
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const { latitude, longitude } = position.coord
+  //       formattedLatLng = [{ lat: parseFloat(latitude), lng: parseFloat(longitude) }, {lat: parseFloat(latitude+ 1) , lng: parseFloat(longitude + 1)}]
+  //     })
+  //     await fetch(`https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/map?pt1=${formattedLatLng[0].lat}%2C${formattedLatLng[0].lng}&pt2=${formattedLatLng[1].lat}%2C${formattedLatLng[1].lng}&style=Modern&format=image%2Fjpeg&height=300&SRS=EPSG%3A900913&width=600&region=NA&dataset=Current`, {
+  //       method: 'GET',
+  //       headers: {
+  //         "Authorization": process.env.REACT_APP_TRIMBLE_API_KEY
+  //       }
+  //     }).then((res) => console.log(res))
+
+    
+  // }
 
   const calculateRoute = async (details) => {
     await fetch(apiUrl + '/api/costs/check', {
@@ -52,6 +70,8 @@ const AddJob = () => {
     }).then((res) => res.json()).then((data) => {
       console.log(data)
       setJob(data)
+      setLoaded(true)
+  
     })
   };
 
@@ -85,23 +105,15 @@ const AddJob = () => {
     const pickUpValue = document.getElementById('pick-up-input').value
     const dropOffValue = document.getElementById('drop-off-input').value
 
-    const addresses = [startValue, pickUpValue, dropOffValue]
-
-    const states = []
-    
-    addresses.forEach((address) => {
-      const stateMatch = address.match(/,\s*([A-Z]{2})\s*/);
-      states.push(stateMatch ? stateMatch[1] : null)
-    })
-
     const details = {
-      addresses: [
-        startValue,
-        pickUpValue,
-        dropOffValue
-      ],
-      states,
-      logistics
+      start: startValue,
+      pickUp: pickUpValue,
+      dropOff: dropOffValue,
+      tractor: logistics.tractor,
+      client: logistics.client,
+      driver: logistics.driver,
+      revenue: logistics.revenue,
+      startDate: logistics.startDate
     }
     calculateRoute(details);
   };
@@ -110,7 +122,8 @@ const AddJob = () => {
     if (!token) {
       navigate('/')
     } else {
-      getUserLocation()
+      // getUserLocation()
+      // getDefaultMap()
       fetchDriversAndTractors()
     }
   }, [])
@@ -118,14 +131,10 @@ const AddJob = () => {
   return (
     <div className="calculator-container">
       <DetailsInput handleSubmit={handleSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
-        tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics} />
+        tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics} 
+        profitable={profitable} loaded={loaded} job={job}/>
       <div className="map-container">
-        <MapWithRoute
-          apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-          origin={location}
-          center={location}
-          zoom={12}
-        />
+
       </div>
     </div>
   );
