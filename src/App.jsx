@@ -18,7 +18,6 @@ import { useEffect } from "react";
 import './components/toolbarStyles.css'
 import Confirmation from "./pages/signUp/Confirmation";
 
-
 export default function App() {
 
   const { setShowMenu, showMenu, user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg,

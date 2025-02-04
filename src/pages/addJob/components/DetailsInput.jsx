@@ -3,7 +3,7 @@ import { CircularProgress } from "@mui/material";
 import ResultsContainer from "./ResultsContainer";
 import zIndex from "@mui/material/styles/zIndex";
 
-export default function DetailsInput({ handleSubmit, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
+export default function DetailsInput({ loaded, job, handleSubmit, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -40,7 +40,7 @@ export default function DetailsInput({ handleSubmit, setIsExpanded, isExpanded, 
     return (
         <form style={containerStyle}>
             {isExpanded ?
-                <ResultsContainer isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                <ResultsContainer job={job} loaded={loaded} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 :
                 <>
                     <div className="address-inputs">
@@ -91,7 +91,7 @@ export default function DetailsInput({ handleSubmit, setIsExpanded, isExpanded, 
                             </select>
                         </label>
                         <label style={{ marginBottom: '1rem' }} className="logistics-field">Tractor:
-                            <select onChange={(e) => {
+                            <select className="tractor-select" onChange={(e) => {
                                 const newLogistics = logistics
                                 newLogistics.tractor = e.target.value
                                 setLogistics(newLogistics)

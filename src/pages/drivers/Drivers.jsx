@@ -4,6 +4,7 @@ import './driversStyles.css'
 import UserContext from "../../helpers/Context";
 import EditModal from "./EditModal"
 import NewItemModal from "./NewItemModal";
+import { computeColumnTypes } from "@mui/x-data-grid/hooks/features/columns/gridColumnsUtils";
 
 export default function Drivers() {
 
@@ -43,7 +44,7 @@ export default function Drivers() {
             tractors: usersAndTractors[1],
             dispatchers: usersAndTractors[2]
         }
-
+        console.log(processedCategories)
         setCategories(processedCategories)
     }
 
@@ -70,23 +71,45 @@ export default function Drivers() {
         setNewModalOpen(false)
     }
 
-    const setUpdatedItem = async (updatedItem) => {
-
-        await fetch(apiUrl + '/api/user/updateTractorsAndUsers', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
-            },
-            body: JSON.stringify({
-                accountType: updatedItem.accountType,
-                updatedItem: updatedItem
+    const handleSaveItem = async (editedItem) => {
+        if (editedItem.vin) {
+            await fetch(apiUrl + '/api/tractor/editTractor', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify({
+                    internalNum: editedItem.internalNum,
+                    tractor: editedItem
+                })
+            }).then((res) => res.json()).then((updatedTractor) => {
+                const filteredTractors = categories.tractors.filter((tractor) => tractor.internalNum !== updatedTractor.internalNum)
+                filteredTractors.push(updatedTractor)
+                setCategories({ drivers: categories.drivers, tractors: filteredTractors, dispatchers: categories.dispatchers })
             })
-        }).then((res) => res.json()).then((data) => setCategories(data))
-    }
-
-    const handleSaveItem = async () => {
-        setUpdatedItem(editingItem)
+        } else {
+            await fetch(apiUrl + '/api/user/editUser', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify({
+                    user: editedItem
+                })
+            }).then((res) => res.json()).then((updatedUser) => {
+                if (updatedUser.accountType === 'driver') {
+                    const filteredUsers = categories.drivers.filter((user) => user._id !== updatedUser._id)
+                    filteredUsers.push(updatedUser)
+                    setCategories({ drivers: filteredUsers, tractors: categories.tractors, dispatchers: categories.dispatchers })
+                } else {
+                    const filteredUsers = categories.dispatchers.filter((user) => user._id !== updatedUser._id)
+                    filteredUsers.push(updatedUser)
+                    setCategories({ drivers: categories.drivers, tractors: categories.tractors, dispatchers: filteredUsers })
+                }
+            })
+        }
     }
 
     const handleSaveNewItem = async () => {
@@ -129,6 +152,10 @@ export default function Drivers() {
                         <p>MPG: {item.mpg}</p>
                         <p>Insurance: {item.insurance}</p>
                         <p>VIN: {item.vin}</p>
+                        <p>Internal Number: {item.internalNum}</p>
+                        <p>Height: {item.height}</p>
+                        <p>Width: {item.width}</p>
+                        <p>Weight: {item.weight}</p>
                     </div>
                 )
             case 'dispatchers':
