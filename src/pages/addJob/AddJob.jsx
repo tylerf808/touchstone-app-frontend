@@ -21,7 +21,7 @@ const AddJob = () => {
   const [logistics, setLogistics] = useState({
     revenue: 0,
     driver: '',
-    tractor: '',
+    tractor: 0,
     startDate: '',
     client: ''
   })
@@ -87,7 +87,7 @@ const AddJob = () => {
       setTractors(data[1])
       const newLogistics = logistics
       newLogistics.driver = data[0][0]
-      newLogistics.tractor = data[0][0]
+      newLogistics.tractor = data[1][0].internalNum
       setLogistics(newLogistics)
     })
   }
@@ -109,12 +109,13 @@ const AddJob = () => {
       start: startValue,
       pickUp: pickUpValue,
       dropOff: dropOffValue,
-      tractor: logistics.tractor,
+      tractor: parseInt(logistics.tractor),
       client: logistics.client,
       driver: logistics.driver,
       revenue: logistics.revenue,
       startDate: logistics.startDate
     }
+    console.log(details)
     calculateRoute(details);
   };
 
