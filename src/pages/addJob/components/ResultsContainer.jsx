@@ -4,8 +4,6 @@ import formatUSD from "../../../helpers/currencyFormatter"
 
 export default function ResultsContainer({ profitable, job, loaded, setLoaded, setIsExpanded, isExpanded }) {
 
-    console.log(job)
-
     return (
         <div className="results-container">
             {loaded ?

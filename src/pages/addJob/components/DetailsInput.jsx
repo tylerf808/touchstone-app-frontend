@@ -29,7 +29,7 @@ export default function DetailsInput({ loaded, job, handleSubmit, setIsExpanded,
         position: 'absolute',
         zIndex: '100',
         boxShadow: '1px 2px 5px 0px rgba(0,0,0,0.75)'
-    };
+    }
 
     const addressInputStyle = {
         display: 'flex',
