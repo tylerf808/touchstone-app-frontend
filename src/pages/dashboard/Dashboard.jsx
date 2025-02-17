@@ -12,7 +12,7 @@ export default function Dashboard() {
 
     const navigate = useNavigate()
 
-    const { apiUrl } = useContext(UserContext)
+    const { apiUrl, location } = useContext(UserContext)
 
     const [totalCosts, setTotalCosts] = useState()
     const [costs, setCosts] = useState([])
@@ -33,6 +33,7 @@ export default function Dashboard() {
         }
         setLineChartData([["Date", "Revenue", "Profit"]])
         getInfo(token)
+
     }, [])
 
     const getInfo = async (token) => {
