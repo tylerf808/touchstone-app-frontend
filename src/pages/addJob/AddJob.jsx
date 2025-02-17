@@ -53,8 +53,8 @@ const AddJob = () => {
               ZoomRadiusSpecified: true,
               Region: 0
             },
-            Width: window.innerWidth - 20,
-            Height: window.innerHeight - 80,
+            Width: document.getElementById('map-container').clientWidth,
+            Height: document.getElementById('map-container').clientHeight,
           }
         })
       }).then((res) => res.blob())
@@ -73,6 +73,8 @@ const AddJob = () => {
     const pickUpObj = parseAddress(details.pickUp)
     const dropOffObj = parseAddress(details.dropOff)
 
+    let startCoords, pickUpCoords, dropOffCoords
+
     await fetch(apiUrl + '/api/costs/check', {
       method: 'POST',
       headers: {
@@ -81,7 +83,25 @@ const AddJob = () => {
       },
       body: JSON.stringify(details)
     }).then((res) => res.json()).then((data) => {
-      setJob(data)
+
+      console.log(data[1])
+
+      startCoords = {
+        Lat: data[1][0].ReportLines[0].Stop.Coords.Lat,
+        Lon: data[1][0].ReportLines[0].Stop.Coords.Lon
+      }
+
+      pickUpCoords = {
+        Lat: data[1][0].ReportLines[1].Stop.Coords.Lat,
+        Lon: data[1][0].ReportLines[1].Stop.Coords.Lon
+      }
+
+      dropOffCoords = {
+        Lat: data[1][0].ReportLines[2].Stop.Coords.Lat,
+        Lon: data[1][0].ReportLines[2].Stop.Coords.Lon
+      }
+
+      setJob(data[0])
       setLoaded(true)
     })
 
@@ -102,43 +122,52 @@ const AddJob = () => {
               CornerB: null,
               Region: 0
             },
-            Width: window.innerWidth - 20,
-            Height: window.innerHeight - 20,
+            Drawers: [8, 2, 11, 17, 15],
+            Width: document.getElementById('map-container').clientWidth,
+            Height: document.getElementById('map-container').clientHeight,
+            LegendDrawer: [
+              {
+                Type: 0,
+                DrawOnMap: true
+              }
+            ],
+            GeometryDrawer: null,
             PinDrawer: {
               Pins: [
                 {
-                  Point: {
-                    Lat: 41.63411,
-                    Lon: -87.96074
-                  },
+                  Point: startCoords,
                   Image: "ltruck_r"
                 },
                 {
-                  Point: {
-                    Lat: 25.75312,
-                    Lon: -80.29229
-                  },
+                  Point: pickUpCoords,
+                  Image: "lpackage"
+                },
+                {
+                  Point: dropOffCoords,
                   Image: "lbldg_bl"
                 }
               ]
-            },
-            Routes:
-              [
+            }
+          },
+          MapLayering: 3,
+          MapStyle: 6,
+          Routes: [
+            {
+              RouteId: null,
+              Stops: [
                 {
-                  Stops: [
-                    {
-                      Address: { startObj }
-                    },
-                    {
-                      Address: { pickUpObj }
-                    },
-                    {
-                      Address: { dropOffObj }
-                    }
-                  ]
+                  Address: startObj
+                },
+                {
+                  Address: pickUpObj
+                }
+                ,
+                {
+                  Address: dropOffObj
                 }
               ]
-          }
+            }
+          ]
         }
       )
 
@@ -210,8 +239,8 @@ const AddJob = () => {
     <div className="calculator-container">
       <DetailsInput handleSubmit={handleSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
         tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics}
-        profitable={profitable} loaded={loaded} job={job} />
-      <div className="map-container">
+        profitable={profitable} loaded={loaded} job={job} getDefaultMap={getDefaultMap} />
+      <div className="map-container" id='map-container'>
         <img id='mapImage' />
       </div>
     </div>

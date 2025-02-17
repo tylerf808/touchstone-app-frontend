@@ -2,7 +2,7 @@ import { useState } from "react"
 import { CircularProgress } from "@mui/material"
 import formatUSD from "../../../helpers/currencyFormatter"
 
-export default function ResultsContainer({ profitable, job, loaded, setLoaded, setIsExpanded, isExpanded }) {
+export default function ResultsContainer({ profitable, job, loaded, setLoaded, setIsExpanded, isExpanded, getDefaultMap }) {
 
     const profitableStyle = {
         color: job?.profitable ? 'green' : 'red'
@@ -12,9 +12,19 @@ export default function ResultsContainer({ profitable, job, loaded, setLoaded, s
         <div className="results-container">
             {loaded ?
                 <div className="results-info">
-                    <div className="results-row">
-                        <p>Profitable: </p>
-                        <p style={profitableStyle}>{(job?.profitable).toString().toUpperCase()}</p>
+                    <div className="result-header">
+                        <div className="results-row" style={{ marginBottom: '1.5rem', width: '70%', marginLeft: '3.25rem' }}>
+                            <h2 style={{ fontWeight: 'bold' }}>Profitable: </h2>
+                            <h2 style={profitableStyle}>{(job?.profitable).toString().toUpperCase()}</h2>
+                        </div>
+                    </div>
+                    <div className="results-tabs">
+                        <div className="tab" id="details-tab">
+                            <h4>Details</h4>
+                        </div>
+                        <div className="tab" id="results-tab">
+                            <h4>Route</h4>
+                        </div>
                     </div>
                     <div className="results-row">
                         <p>Start:</p>
@@ -132,8 +142,8 @@ export default function ResultsContainer({ profitable, job, loaded, setLoaded, s
                 :
                 <>
                     <CircularProgress style={{ color: 'orange' }} />
-                    <button className="calc-route-button" onClick={(e) => {
-                        e.preventDefault()
+                    <button className="calc-route-button" onClick={() => {
+                        getDefaultMap()
                         setIsExpanded(false)
                     }}>Cancel</button>
                 </>
