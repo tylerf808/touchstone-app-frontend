@@ -6,6 +6,7 @@ import DetailsInput from './components/DetailsInput';
 import ResultsContainer from './components/ResultsContainer';
 import UserContext from '../../helpers/Context'
 import { useNavigate } from "react-router-dom";
+import parseAddress from '../../helpers/parseAddress'
 
 const AddJob = () => {
 
@@ -14,7 +15,7 @@ const AddJob = () => {
   const [loaded, setLoaded] = useState(false)
   const [route, setRoute] = useState(null);
   const [error, setError] = useState(null);
-  const [location, setLocation] = useState(null);
+
   const [isExpanded, setIsExpanded] = useState(false)
   const [tractors, setTractors] = useState(null)
   const [drivers, setDrivers] = useState(null)
@@ -26,40 +27,52 @@ const AddJob = () => {
     client: ''
   })
 
-  const { user, setShowAlert, setAlertMsg, apiUrl } = useContext(UserContext)
+  const { user, setShowAlert, setAlertMsg, apiUrl, location } = useContext(UserContext)
 
   const token = localStorage.getItem('token')
 
   const navigate = useNavigate();
 
-  const getUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setLocation([{ lat: parseFloat(latitude), lng: parseFloat(longitude) }, {lat: parseFloat(latitude) + 1, lng: parseFloat(longitude + 1)}])
-      })
-    } else {
-      setError('Browser does not support geolocation')
-    }
+  const getDefaultMap = async () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords
+      fetch("https://pcmiler.alk.com/apis/rest/v1.0/service.svc/mapRoutes?dataset=Current", {
+        method: 'POST',
+        headers: {
+          "Authorization": process.env.REACT_APP_TRIMBLE_API_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          Map: {
+            Viewport: {
+              Center: {
+                Lat: latitude,
+                Lon: longitude
+              },
+              ZoomRadius: 200,
+              ZoomRadiusSpecified: true,
+              Region: 0
+            },
+            Width: window.innerWidth - 20,
+            Height: window.innerHeight - 80,
+          }
+        })
+      }).then((res) => res.blob())
+        .then((blob) => {
+          const imageUrl = URL.createObjectURL(blob)
+          document.getElementById('mapImage').src = imageUrl
+        })
+    })
   }
 
-  // const getDefaultMap = async () => {
-  //     const formattedLatLng = []
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       const { latitude, longitude } = position.coord
-  //       formattedLatLng = [{ lat: parseFloat(latitude), lng: parseFloat(longitude) }, {lat: parseFloat(latitude+ 1) , lng: parseFloat(longitude + 1)}]
-  //     })
-  //     await fetch(`https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/map?pt1=${formattedLatLng[0].lat}%2C${formattedLatLng[0].lng}&pt2=${formattedLatLng[1].lat}%2C${formattedLatLng[1].lng}&style=Modern&format=image%2Fjpeg&height=300&SRS=EPSG%3A900913&width=600&region=NA&dataset=Current`, {
-  //       method: 'GET',
-  //       headers: {
-  //         "Authorization": process.env.REACT_APP_TRIMBLE_API_KEY
-  //       }
-  //     }).then((res) => console.log(res))
-
-    
-  // }
-
   const calculateRoute = async (details) => {
+
+    console.log(details)
+
+    const startObj = parseAddress(details.start)
+    const pickUpObj = parseAddress(details.pickUp)
+    const dropOffObj = parseAddress(details.dropOff)
+
     await fetch(apiUrl + '/api/costs/check', {
       method: 'POST',
       headers: {
@@ -68,11 +81,74 @@ const AddJob = () => {
       },
       body: JSON.stringify(details)
     }).then((res) => res.json()).then((data) => {
-      console.log(data)
       setJob(data)
       setLoaded(true)
-  
     })
+
+    await fetch('https://pcmiler.alk.com/apis/rest/v1.0/service.svc/mapRoutes?dataset=Current', {
+      method: 'POST',
+      headers: {
+        "Authorization": process.env.REACT_APP_TRIMBLE_API_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(
+        {
+          Map: {
+            Viewport: {
+              Center: null,
+              ScreenCenter: null,
+              ZoomRadius: 0,
+              CornerA: null,
+              CornerB: null,
+              Region: 0
+            },
+            Width: window.innerWidth - 20,
+            Height: window.innerHeight - 20,
+            PinDrawer: {
+              Pins: [
+                {
+                  Point: {
+                    Lat: 41.63411,
+                    Lon: -87.96074
+                  },
+                  Image: "ltruck_r"
+                },
+                {
+                  Point: {
+                    Lat: 25.75312,
+                    Lon: -80.29229
+                  },
+                  Image: "lbldg_bl"
+                }
+              ]
+            },
+            Routes:
+              [
+                {
+                  Stops: [
+                    {
+                      Address: { startObj }
+                    },
+                    {
+                      Address: { pickUpObj }
+                    },
+                    {
+                      Address: { dropOffObj }
+                    }
+                  ]
+                }
+              ]
+          }
+        }
+      )
+
+    }).then((res) => {
+      return res.blob()
+    }).then((blob) => {
+      const imageUrl = URL.createObjectURL(blob); // Create object URL
+      document.getElementById("mapImage").src = imageUrl; // Set to an <img> tag
+    })
+
   };
 
   const fetchDriversAndTractors = async () => {
@@ -123,8 +199,9 @@ const AddJob = () => {
     if (!token) {
       navigate('/')
     } else {
-      // getUserLocation()
-      // getDefaultMap()
+      if (!job) {
+        getDefaultMap()
+      }
       fetchDriversAndTractors()
     }
   }, [])
@@ -132,10 +209,10 @@ const AddJob = () => {
   return (
     <div className="calculator-container">
       <DetailsInput handleSubmit={handleSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
-        tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics} 
-        profitable={profitable} loaded={loaded} job={job}/>
+        tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics}
+        profitable={profitable} loaded={loaded} job={job} />
       <div className="map-container">
-
+        <img id='mapImage' />
       </div>
     </div>
   );

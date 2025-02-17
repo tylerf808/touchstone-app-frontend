@@ -15,7 +15,7 @@ export default function DetailsInput({ loaded, job, handleSubmit, setIsExpanded,
     }
 
     const containerStyle = {
-        height: isExpanded ? '50rem' : '22rem',
+        height: isExpanded ? '52rem' : '22rem',
         transition: 'height 0.3s ease-in-out',
         backgroundColor: "rgba(240, 240, 240)",
         display: 'flex',

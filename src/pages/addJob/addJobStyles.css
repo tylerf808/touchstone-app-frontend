@@ -84,8 +84,19 @@
     border-radius: .5rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+}
+
+.results-row {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    margin-top: .3rem
+}
+
+.results-info {
+    width: 90%;
+    margin-top: 2rem;
 }
 
 .placeholder-container {

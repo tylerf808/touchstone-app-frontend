@@ -21,18 +21,20 @@ import Confirmation from "./pages/signUp/Confirmation";
 export default function App() {
 
   const { setShowMenu, showMenu, user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg,
-     setAlertMsg, userType, setUserType, apiUrl, costs, setCosts, fetchUser } = useUserContext()
+    setAlertMsg, userType, setUserType, apiUrl, costs, setCosts, fetchUser, location, setLocation } = useUserContext()
 
   useEffect(() => {
     fetchUser()
   }, [])
 
   return (
-    <UserContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg,
-     setAlertMsg, userType, setUserType, costs, setCosts, apiUrl }}>
+    <UserContext.Provider value={{
+      user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg,
+      setAlertMsg, userType, setUserType, costs, setCosts, apiUrl
+    }}>
       <Router>
         <Toolbar setShowMenu={setShowMenu} showMenu={showMenu} setShowAlert={setShowAlert} user={user}
-         loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
+          loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} />
         <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
         <Routes>
           <Route path='dashboard' element={<Dashboard />} />
