@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import MapWithRoute from './components/MapWithRoute';
 import './addJobStyles.css';
 import { CircularProgress } from "@mui/material";
 import DetailsInput from './components/DetailsInput';
@@ -15,7 +14,7 @@ const AddJob = () => {
   const [loaded, setLoaded] = useState(false)
   const [route, setRoute] = useState(null);
   const [error, setError] = useState(null);
-
+  const [localMap, setLocalMap] = useState(null)
   const [isExpanded, setIsExpanded] = useState(false)
   const [tractors, setTractors] = useState(null)
   const [drivers, setDrivers] = useState(null)
@@ -53,21 +52,21 @@ const AddJob = () => {
               ZoomRadiusSpecified: true,
               Region: 0
             },
-            Width: document.getElementById('map-container').clientWidth,
-            Height: document.getElementById('map-container').clientHeight,
+            Drawers: [8, 2, 11, 17, 15, 22],
+            Width: document.getElementById('map-container').clientWidth - 10,
+            Height: document.getElementById('map-container').clientHeight - 10,
           }
         })
       }).then((res) => res.blob())
         .then((blob) => {
           const imageUrl = URL.createObjectURL(blob)
+          setLocalMap(imageUrl)
           document.getElementById('mapImage').src = imageUrl
         })
     })
   }
 
   const calculateRoute = async (details) => {
-
-    console.log(details)
 
     const startObj = parseAddress(details.start)
     const pickUpObj = parseAddress(details.pickUp)
@@ -83,8 +82,6 @@ const AddJob = () => {
       },
       body: JSON.stringify(details)
     }).then((res) => res.json()).then((data) => {
-
-      console.log(data[1])
 
       startCoords = {
         Lat: data[1][0].ReportLines[0].Stop.Coords.Lat,
@@ -117,14 +114,15 @@ const AddJob = () => {
             Viewport: {
               Center: null,
               ScreenCenter: null,
-              ZoomRadius: 0,
+              ZoomRadius: 15,
+              ZoomRadiusSpecified: true,
               CornerA: null,
               CornerB: null,
               Region: 0
             },
-            Drawers: [8, 2, 11, 17, 15],
-            Width: document.getElementById('map-container').clientWidth,
-            Height: document.getElementById('map-container').clientHeight,
+            Drawers: [8, 2, 11, 17, 15, 22],
+            Width: document.getElementById('map-container').clientWidth - 10,
+            Height: document.getElementById('map-container').clientHeight - 10,
             LegendDrawer: [
               {
                 Type: 0,
@@ -220,9 +218,23 @@ const AddJob = () => {
       revenue: logistics.revenue,
       startDate: logistics.startDate
     }
-    console.log(details)
     calculateRoute(details);
   };
+
+  const addJob = async () => {
+    const response = await fetch(apiUrl + '/api/jobs/newJob', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify(job)
+    }).then((res) => res.json()).then(() => {
+      setJob(null)
+      document.getElementById("mapImage").src = localMap;
+    })
+    console.log(response)
+  }
 
   useEffect(() => {
     if (!token) {
@@ -239,7 +251,7 @@ const AddJob = () => {
     <div className="calculator-container">
       <DetailsInput handleSubmit={handleSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
         tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics}
-        profitable={profitable} loaded={loaded} job={job} getDefaultMap={getDefaultMap} />
+        profitable={profitable} loaded={loaded} job={job} localMap={localMap} addJob={addJob}/>
       <div className="map-container" id='map-container'>
         <img id='mapImage' />
       </div>

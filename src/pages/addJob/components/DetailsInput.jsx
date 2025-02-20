@@ -3,7 +3,7 @@ import { CircularProgress } from "@mui/material";
 import ResultsContainer from "./ResultsContainer";
 import zIndex from "@mui/material/styles/zIndex";
 
-export default function DetailsInput({ getDefaultMap, loaded, job, handleSubmit, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
+export default function DetailsInput({ addJob, localMap, loaded, job, handleSubmit, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -12,22 +12,6 @@ export default function DetailsInput({ getDefaultMap, loaded, job, handleSubmit,
 
     if (!isLoaded) {
         return (<CircularProgress />);
-    }
-
-    const containerStyle = {
-        height: '52rem',
-        backgroundColor: "rgba(240, 240, 240)",
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginTop: '1rem',
-        marginLeft: '1rem',
-        borderRadius: '.5rem',
-        width: '20rem',
-        position: 'absolute',
-        zIndex: '100',
-        boxShadow: '1px 2px 5px 0px rgba(0,0,0,0.75)'
     }
 
     const addressInputStyle = {
@@ -39,7 +23,7 @@ export default function DetailsInput({ getDefaultMap, loaded, job, handleSubmit,
     return (
         <form className="details-form">
             {isExpanded ?
-                <ResultsContainer getDefaultMap={getDefaultMap} job={job} loaded={loaded} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                <ResultsContainer addJob={addJob} localMap={localMap} job={job} loaded={loaded} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 :
                 <>
                     <div className="address-inputs">
