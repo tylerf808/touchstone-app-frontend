@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import MapWithRoute from './components/MapWithRoute';
 import './addJobStyles.css';
 import { CircularProgress } from "@mui/material";
 import DetailsInput from './components/DetailsInput';
@@ -15,7 +14,7 @@ const AddJob = () => {
   const [loaded, setLoaded] = useState(false)
   const [route, setRoute] = useState(null);
   const [error, setError] = useState(null);
-
+  const [localMap, setLocalMap] = useState(null)
   const [isExpanded, setIsExpanded] = useState(false)
   const [tractors, setTractors] = useState(null)
   const [drivers, setDrivers] = useState(null)
@@ -53,13 +52,15 @@ const AddJob = () => {
               ZoomRadiusSpecified: true,
               Region: 0
             },
-            Width: window.innerWidth - 20,
-            Height: window.innerHeight - 80,
+            Drawers: [8, 2, 11, 17, 15, 22],
+            Width: document.getElementById('map-container').clientWidth - 10,
+            Height: document.getElementById('map-container').clientHeight - 10,
           }
         })
       }).then((res) => res.blob())
         .then((blob) => {
           const imageUrl = URL.createObjectURL(blob)
+          setLocalMap(imageUrl)
           document.getElementById('mapImage').src = imageUrl
         })
     })
@@ -67,11 +68,11 @@ const AddJob = () => {
 
   const calculateRoute = async (details) => {
 
-    console.log(details)
-
     const startObj = parseAddress(details.start)
     const pickUpObj = parseAddress(details.pickUp)
     const dropOffObj = parseAddress(details.dropOff)
+
+    let startCoords, pickUpCoords, dropOffCoords
 
     await fetch(apiUrl + '/api/costs/check', {
       method: 'POST',
@@ -81,7 +82,23 @@ const AddJob = () => {
       },
       body: JSON.stringify(details)
     }).then((res) => res.json()).then((data) => {
-      setJob(data)
+
+      startCoords = {
+        Lat: data[1][0].ReportLines[0].Stop.Coords.Lat,
+        Lon: data[1][0].ReportLines[0].Stop.Coords.Lon
+      }
+
+      pickUpCoords = {
+        Lat: data[1][0].ReportLines[1].Stop.Coords.Lat,
+        Lon: data[1][0].ReportLines[1].Stop.Coords.Lon
+      }
+
+      dropOffCoords = {
+        Lat: data[1][0].ReportLines[2].Stop.Coords.Lat,
+        Lon: data[1][0].ReportLines[2].Stop.Coords.Lon
+      }
+
+      setJob(data[0])
       setLoaded(true)
     })
 
@@ -97,48 +114,58 @@ const AddJob = () => {
             Viewport: {
               Center: null,
               ScreenCenter: null,
-              ZoomRadius: 0,
+              ZoomRadius: 15,
+              ZoomRadiusSpecified: true,
               CornerA: null,
               CornerB: null,
               Region: 0
             },
-            Width: window.innerWidth - 20,
-            Height: window.innerHeight - 20,
+            Drawers: [8, 2, 11, 17, 15, 22],
+            Width: document.getElementById('map-container').clientWidth - 10,
+            Height: document.getElementById('map-container').clientHeight - 10,
+            LegendDrawer: [
+              {
+                Type: 0,
+                DrawOnMap: true
+              }
+            ],
+            GeometryDrawer: null,
             PinDrawer: {
               Pins: [
                 {
-                  Point: {
-                    Lat: 41.63411,
-                    Lon: -87.96074
-                  },
+                  Point: startCoords,
                   Image: "ltruck_r"
                 },
                 {
-                  Point: {
-                    Lat: 25.75312,
-                    Lon: -80.29229
-                  },
+                  Point: pickUpCoords,
+                  Image: "lpackage"
+                },
+                {
+                  Point: dropOffCoords,
                   Image: "lbldg_bl"
                 }
               ]
-            },
-            Routes:
-              [
+            }
+          },
+          MapLayering: 3,
+          MapStyle: 6,
+          Routes: [
+            {
+              RouteId: null,
+              Stops: [
                 {
-                  Stops: [
-                    {
-                      Address: { startObj }
-                    },
-                    {
-                      Address: { pickUpObj }
-                    },
-                    {
-                      Address: { dropOffObj }
-                    }
-                  ]
+                  Address: startObj
+                },
+                {
+                  Address: pickUpObj
+                }
+                ,
+                {
+                  Address: dropOffObj
                 }
               ]
-          }
+            }
+          ]
         }
       )
 
@@ -191,9 +218,23 @@ const AddJob = () => {
       revenue: logistics.revenue,
       startDate: logistics.startDate
     }
-    console.log(details)
     calculateRoute(details);
   };
+
+  const addJob = async () => {
+    const response = await fetch(apiUrl + '/api/jobs/newJob', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+      body: JSON.stringify(job)
+    }).then((res) => res.json()).then(() => {
+      setJob(null)
+      document.getElementById("mapImage").src = localMap;
+    })
+    console.log(response)
+  }
 
   useEffect(() => {
     if (!token) {
@@ -210,8 +251,8 @@ const AddJob = () => {
     <div className="calculator-container">
       <DetailsInput handleSubmit={handleSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
         tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics}
-        profitable={profitable} loaded={loaded} job={job} />
-      <div className="map-container">
+        profitable={profitable} loaded={loaded} job={job} localMap={localMap} addJob={addJob}/>
+      <div className="map-container" id='map-container'>
         <img id='mapImage' />
       </div>
     </div>

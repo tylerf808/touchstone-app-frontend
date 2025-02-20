@@ -10,10 +10,6 @@ export default function FourthPage({ userInfo, newCosts, setNewCosts, setShowAle
         }
     }, [])
 
-    useEffect(() => {
-        console.log(newCosts)
-    }, [newCosts])
-
     const checkForm = () => {
         setShowAlert(false)
         let missingItems
@@ -36,7 +32,7 @@ export default function FourthPage({ userInfo, newCosts, setNewCosts, setShowAle
     }
 
     return (
-        <div className="pageContainer">
+        <div className="operationalCostsSlide">
             <div className="slideTitle">
                 <h3 style={{ color: 'orange' }}>Operational Costs</h3>
             </div>
