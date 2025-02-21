@@ -199,7 +199,8 @@ export default function Drivers() {
                     <div className="plus-object">
                         {selectedCategory === 'drivers' && (
                             <>
-                                <div onClick={() => {
+                                <div onClick={(e) => {
+                                    e.preventDefault()
                                     handleNewItem('driver')
                                 }} className="add-item" id="add-driver">
                                     <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
@@ -208,7 +209,8 @@ export default function Drivers() {
                         )}
                         {selectedCategory === 'tractors' && (
                             <>
-                                <div onClick={() => {
+                                <div onClick={(e) => {
+                                    e.preventDefault()
                                     handleNewItem('tractor')
                                 }} className="add-item" id="add-tractor">
                                     <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
@@ -217,7 +219,8 @@ export default function Drivers() {
                         )}
                         {selectedCategory === 'dispatchers' && (
                             <>
-                                <div onClick={() => {
+                                <div onClick={(e) => {
+                                    e.preventDefault()
                                     handleNewItem('dispatcher')
                                 }} className="add-item" id="add-dispatcher">
                                     <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>&#43;</span>
