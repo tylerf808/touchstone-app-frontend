@@ -33,7 +33,6 @@ export default function Dashboard() {
         }
         setLineChartData([["Date", "Revenue", "Profit"]])
         getInfo(token)
-
     }, [])
 
     const getInfo = async (token) => {
@@ -46,44 +45,55 @@ export default function Dashboard() {
             }
         }).then((res) => res.json()).then((data) => {
             setJobs(data)
-            console.log(data)
             if (data.length === 0) {
                 setNoJobs(true)
+                setRevenue(0)
+                setProfit(0)
+                setCosts(0)
             } else {
                 setNoJobs(false)
-            }
-            setTotalJobs(data.length)
-            let revenue = 0
-            let profit = 0
-            let costsMoney = 0
-            data.forEach((job) => {
-                revenue = revenue + job.revenue
-                profit = job.netProfit + profit
-                costsMoney = costsMoney + job.totalCost
-            })
-            setRevenue(revenue.toFixed(2))
-            setProfit(profit.toFixed(2))
-            setTotalCosts(costsMoney.toFixed(2))
-            data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-            const sortedArray = [["Date", "Revenue", "Profit"]]
-            data.forEach((jobA, iA) => {
-                let dayRevenue = jobA.revenue
-                let dayProfit = jobA.netProfit
-                data.forEach((jobB, iB) => {
-                    if (iA !== iB && jobA.date === jobB.date) {
-                        dayProfit += jobB.netProfit
-                        dayRevenue += jobB.revenue
+                setTotalJobs(data.length)
+                let revenue = 0
+                let profit = 0
+                let costsMoney = 0
+                data.forEach((job) => {
+                    revenue = revenue + job.revenue
+                    profit = job.netProfit + profit
+                    costsMoney = costsMoney + job.totalCost
+                })
+                if (revenue === 0) {
+                    setRevenue(0)
+                }
+                setRevenue(revenue.toFixed(2))
+                setProfit(profit.toFixed(2))
+                setTotalCosts(costsMoney.toFixed(2))
+                data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
+                const sortedArray = [["Date", "Revenue", "Profit"]]
+                data.forEach((jobA, iA) => {
+                    let dayRevenue = jobA.revenue
+                    let dayProfit = jobA.netProfit
+                    data.forEach((jobB, iB) => {
+                        if (iA !== iB && jobA.date === jobB.date) {
+                            dayProfit += jobB.netProfit
+                            dayRevenue += jobB.revenue
+                        }
+                    })
+                    if (!sortedArray.some((el) => el.includes(jobA.date))) {
+                        sortedArray.push([jobA.date, dayRevenue, dayProfit])
                     }
                 })
-                if (!sortedArray.some((el) => el.includes(jobA.date))) {
-                    sortedArray.push([jobA.date, dayRevenue, dayProfit])
-                }
-            })
-            setLineChartData(sortedArray)
-            formatCostsData(data)
-            formatCompletedJobs(data)
-            // setTableData(tableArray)
-            // console.log(tableArray)
+                setLineChartData(sortedArray)
+                formatCostsData(data)
+                formatCompletedJobs(data)
+            }
+
+        }).catch((err) => {
+            setNoJobs(true)
+            setRevenue(0)
+            setProfit(0)
+            setTotalCosts(0)
+            setJobs([])
+            setTotalJobs(0)
         })
     }
 

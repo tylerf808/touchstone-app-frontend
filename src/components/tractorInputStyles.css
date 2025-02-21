@@ -1,0 +1,26 @@
+.addTractorsInputRow {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.tractorInputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.addTractorInputsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: .1rem solid grey;
+}
+
+.addTractorNumber {
+    background-color: rgb(236, 223, 213);
+    width: 4rem;
+}
