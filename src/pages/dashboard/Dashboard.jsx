@@ -49,7 +49,7 @@ export default function Dashboard() {
                 setNoJobs(true)
                 setRevenue(0)
                 setProfit(0)
-                setCosts(0)
+                setTotalCosts(0)
             } else {
                 setNoJobs(false)
                 setTotalJobs(data.length)

@@ -203,8 +203,7 @@ export default function NewItemModal({ newItem, setNewItem, isOpen, onClose, han
             </>
           )}
           <div className="modal-actions">
-            <button className="modal-btn" id="save-btn" type="submit" onClick={(e) => {
-              e.preventDefault()
+            <button className="modal-btn" id="save-btn" type="submit" onClick={() => {
               handleSaveNewItem()
             }
               }>Save</button>
