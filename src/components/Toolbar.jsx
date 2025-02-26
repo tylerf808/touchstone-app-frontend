@@ -57,7 +57,7 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, setCosts
             <div className='user-menu'>
               <div className='user-menu-item'><Link className='user-menu-link' to='/costs' onClick={() => setShowMenu(false)}>Costs</Link></div>
               {isAdmin ?
-                <div className='user-menu-item'><Link to='/drivers' className='user-menu-link' onClick={() => setShowMenu(false)}>Tractors & Users</Link></div>
+                <div className='user-menu-item'><Link to='/users' className='user-menu-link' onClick={() => setShowMenu(false)}>Tractors & Users</Link></div>
                 :
                 null
               }
