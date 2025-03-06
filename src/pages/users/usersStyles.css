@@ -1,16 +1,101 @@
-.users-display-container {
+button:hover, i:hover {
+    cursor: pointer;
+}
+
+.users-container {
     width: 70%;
     height: 93.7vh;
     background-color: rgb(241, 241, 241);
     justify-self: center;
-    box-shadow: 0px 20px 15px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 20px 15px 0px rgba(0, 0, 0, 0.75);
 }
 
-.user-list {
-    
+.users-header {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.5rem;
+    justify-self: center;
+}
+
+.users-header-text p,
+.users-header-text h2,
+.users-header-text h3,
+.users-header-inputs p,
+.users-header-inputs input,
+.users-header-inputs button {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.users-header-inputs {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 35rem;
+}
+
+.users-search-input {
+    border: none;
+    border-radius: .1rem;
+    height: 2.25rem;
+    box-shadow: 0px 1px 3px 0px;
+    padding: .1rem;
+}
+
+.add-user-btn {
+    color: white;
+    background-color: rgb(129, 18, 255);
+    padding: .5rem;
+    border: none;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 7rem;
+}
+
+.users-header-text {
+    margin-top: 2rem;
+}
+
+.users-list {
+    margin-top: 2rem;
+    width: 90%;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border-bottom: .1rem solid lightgray;
 }
 
 .user-item {
-    width: 10rem;
-    height: max-content;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 80% 20%;
+    height: 3rem;
+    border-top: .1rem solid lightgray;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 1rem
+}
+
+.user-item-btns {
+    justify-self: flex-end;
+    align-self: center;
+    margin-right: 1rem;
+}
+
+.user-info h3, .user-info p {
+    margin-right: 2rem;
+    font-size: 1.2rem;
 }

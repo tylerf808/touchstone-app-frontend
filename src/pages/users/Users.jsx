@@ -4,7 +4,6 @@ import './usersStyles.css'
 import UserContext from "../../helpers/Context";
 import EditModal from "./EditModal"
 import NewItemModal from "./NewItemModal";
-import { computeColumnTypes } from "@mui/x-data-grid/hooks/features/columns/gridColumnsUtils";
 
 export default function Users() {
 
@@ -16,6 +15,9 @@ export default function Users() {
     const [newModalOpen, setNewModalOpen] = useState(false)
     const [newItem, setNewItem] = useState()
     const [users, setUsers] = useState([])
+    const [drivers, setDrivers] = useState([])
+    const [dispatchers, setDispatchers] = useState([])
+    const [visibleUsers, setVisibleUsers] = useState([])
 
     const token = localStorage.getItem('token')
 
@@ -38,8 +40,12 @@ export default function Users() {
                 "Authorization": token
             },
         }).then((res) => res.json()).then((data) => {
-            console.log(data)
             setUsers(data)
+            setVisibleUsers(data)
+            const filteredDrivers = data.filter((user) => user.accountType === "driver")
+            setDrivers(filteredDrivers)
+            const filteredDispatchers = data.filter((user) => user.accountType === "dispatcher")
+            setDispatchers(filteredDispatchers)
         })
     }
 
@@ -137,34 +143,85 @@ export default function Users() {
         // })
     }
 
+    const handleSearch = (e) => {
+        if (e.target.value === '') {
+            setVisibleUsers(users)
+        } else if (e.key === 'Backspace') {
+            const searchedUsers = []
+            const search = e.target.value.toLowerCase()
+            users.forEach((user) => {
+                const usersName = user.name.toLowerCase()
+                if (usersName.includes(search)) {
+                    searchedUsers.push(user)
+                }
+            })
+            setVisibleUsers(searchedUsers)
+        } else {
+            const searchedUsers = []
+            const search = e.target.value.toLowerCase()
+            users.forEach((user) => {
+                const usersName = user.name.toLowerCase()
+                if (usersName.includes(search)) {
+                    searchedUsers.push(user)
+                }
+            })
+            setVisibleUsers(searchedUsers)
+        }
+    }
+
     return (
 
+        <div className="users-container">
+            <div className="users-header">
+                <div className="users-header-text">
+                    <h2 style={{ fontSize: '2rem' }}>Drivers and Dispatchers</h2>
+                </div>
+                <div className="users-header-inputs">
+                    <p style={{ fontWeight: 'bold' }}>{users.length} Users</p>
+                    <p>{drivers.length} Drivers</p>
+                    <p>{dispatchers.length} Dispatcher{dispatchers.length > 1 && <>s</>}</p>
+                    <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search" className="users-search-input"></input>
+                    <button className="add-user-btn">
+                        <span style={{ color: 'white', fontSize: '1.5rem', marginRight: '.2rem' }}>+</span>Add User
+                    </button>
+                </div>
+            </div>
             <div className="users-display-container">
                 <div className="users-list">
-                    {users?.map((user) => {
+                    {visibleUsers?.map((user) => {
                         return (
                             <div className="user-item">
-                                <h3>{user?.name}</h3>
+                                <div className="user-info">
+                                    <h3>{user?.name}</h3>
+                                    <p>{user?.email}</p>
+                                    <p>{user?.username}</p>
+                                </div>
+                                <div className="user-item-btns">
+                                    <i class="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
+                                    <i class="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '2rem' }}></i>
+                                </div>
                             </div>
                         )
                     })}
                 </div>
-
-                <EditModal
-                    isOpen={modalOpen}
-                    onClose={handleCloseModal}
-                    editedItem={editingItem}
-                    setEditedItem={setEditingItem}
-                    category={selectedCategory}
-                    onSave={handleSaveItem}
-                />
-                <NewItemModal
-                    newItem={newItem}
-                    setNewItem={setNewItem}
-                    isOpen={newModalOpen}
-                    onClose={handleCloseNewModal}
-                    handleSaveNewItem={handleSaveNewItem}
-                />
             </div>
+
+
+            <EditModal
+                isOpen={modalOpen}
+                onClose={handleCloseModal}
+                editedItem={editingItem}
+                setEditedItem={setEditingItem}
+                category={selectedCategory}
+                onSave={handleSaveItem}
+            />
+            <NewItemModal
+                newItem={newItem}
+                setNewItem={setNewItem}
+                isOpen={newModalOpen}
+                onClose={handleCloseNewModal}
+                handleSaveNewItem={handleSaveNewItem}
+            />
+        </div>
     )
 }
