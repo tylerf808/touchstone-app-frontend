@@ -4,6 +4,7 @@ import './usersStyles.css'
 import UserContext from "../../helpers/Context";
 import EditModal from "./EditModal"
 import NewItemModal from "./NewItemModal";
+import DeleteModal from "./DeleteModal";
 
 export default function Users() {
 
@@ -18,6 +19,7 @@ export default function Users() {
     const [drivers, setDrivers] = useState([])
     const [dispatchers, setDispatchers] = useState([])
     const [visibleUsers, setVisibleUsers] = useState([])
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
     const token = localStorage.getItem('token')
 
@@ -168,6 +170,19 @@ export default function Users() {
             setVisibleUsers(searchedUsers)
         }
     }
+    
+    const handleDeleteConfirmation = async() => {
+        console.log(editingItem)
+        await fetch(apiUrl + '/api/user/deleteUser', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({user: editingItem}) 
+        }).catch((err) => console.log(err))
+        getUsers()
+    }
 
     return (
 
@@ -180,7 +195,7 @@ export default function Users() {
                     <p style={{ fontWeight: 'bold' }}>{users.length} Users</p>
                     <p>{drivers.length} Drivers</p>
                     <p>{dispatchers.length} Dispatcher{dispatchers.length > 1 && <>s</>}</p>
-                    <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search" className="users-search-input"></input>
+                    <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search by name" className="users-search-input"></input>
                     <button className="add-user-btn">
                         <span style={{ color: 'white', fontSize: '1.5rem', marginRight: '.2rem' }}>+</span>Add User
                     </button>
@@ -198,15 +213,22 @@ export default function Users() {
                                 </div>
                                 <div className="user-item-btns">
                                     <i class="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
-                                    <i class="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '2rem' }}></i>
+                                    <i onClick={() => {
+                                        setEditingItem(user)
+                                        setShowDeleteModal(true)
+                                        }} class="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '2rem' }}></i>
                                 </div>
                             </div>
                         )
                     })}
                 </div>
             </div>
-
-
+            <DeleteModal
+                setShowDeleteModal={setShowDeleteModal}
+                user={editingItem}
+                handleDeleteConfirmation={handleDeleteConfirmation}
+                showDeleteModal={showDeleteModal}
+            />
             <EditModal
                 isOpen={modalOpen}
                 onClose={handleCloseModal}
