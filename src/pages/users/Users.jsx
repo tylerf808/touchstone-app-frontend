@@ -5,6 +5,8 @@ import UserContext from "../../helpers/Context";
 import EditModal from "./EditModal"
 import NewItemModal from "./NewItemModal";
 import DeleteModal from "./DeleteModal";
+import driverIcon from '../../images/driver-icon.png'
+import dispatcherIcon from '../../images/dispatcher-icon.png'
 
 export default function Users() {
 
@@ -70,81 +72,6 @@ export default function Users() {
         setNewModalOpen(false)
     }
 
-    const handleSaveItem = async (editedItem) => {
-        // if (editedItem.vin) {
-        //     await fetch(apiUrl + '/api/tractor/editTractor', {
-        //         method: 'POST',
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             "Authorization": token
-        //         },
-        //         body: JSON.stringify({
-        //             internalNum: editedItem.internalNum,
-        //             tractor: editedItem
-        //         })
-        //     }).then((res) => res.json()).then((updatedTractor) => {
-        //         const filteredTractors = categories.tractors.filter((tractor) => tractor.internalNum !== updatedTractor.internalNum)
-        //         filteredTractors.push(updatedTractor)
-        //         setCategories({ drivers: categories.drivers, tractors: filteredTractors, dispatchers: categories.dispatchers })
-
-        //     })
-        // } else {
-        //     await fetch(apiUrl + '/api/user/editUser', {
-        //         method: 'POST',
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             "Authorization": token
-        //         },
-        //         body: JSON.stringify({
-        //             user: editedItem
-        //         })
-        //     }).then((res) => res.json()).then((updatedUser) => {
-        //         if (updatedUser.accountType === 'driver') {
-        //             const filteredUsers = categories.drivers.filter((user) => user._id !== updatedUser._id)
-        //             filteredUsers.push(updatedUser)
-        //             setCategories({ drivers: filteredUsers, tractors: categories.tractors, dispatchers: categories.dispatchers })
-
-        //         } else {
-        //             const filteredUsers = categories.dispatchers.filter((user) => user._id !== updatedUser._id)
-        //             filteredUsers.push(updatedUser)
-        //             setCategories({ drivers: categories.drivers, tractors: categories.tractors, dispatchers: filteredUsers })
-
-        //         }
-        //     })
-        // }
-    }
-
-    const handleSaveNewItem = async () => {
-
-        // await fetch(apiUrl + '/api/user/newTractorOrUser', {
-        //     method: 'POST',
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Authorization": token
-        //     },
-        //     body: JSON.stringify({
-        //         accountType: newItem.accountType,
-        //         newItem: newItem
-        //     })
-        // }).then(() => {
-        //     switch (newItem.accountType) {
-        //         case 'driver':
-        //             const newDrivers = [...categories.drivers, newItem]
-        //             console.log(newDrivers)
-        //             setCategories({ drivers: newDrivers, tractors: categories.tractors, dispatchers: categories.dispatchers })
-        //             break;
-        //         case 'dispatcher':
-        //             const newDispatchers = [...categories.dispatchers, newItem]
-        //             setCategories({ drivers: newDrivers, tractors: categories.tractors, dispatchers: newDispatchers })
-        //             break;
-        //         default:
-        //             const newTractors = [...categories.tractors, newItem]
-        //             setCategories({ drivers: newDrivers, tractors: newTractors, dispatchers: categories.dispatchers })
-        //             break;
-        //     }
-        // })
-    }
-
     const handleSearch = (e) => {
         if (e.target.value === '') {
             setVisibleUsers(users)
@@ -170,8 +97,20 @@ export default function Users() {
             setVisibleUsers(searchedUsers)
         }
     }
-    
-    const handleDeleteConfirmation = async() => {
+
+    const handleEditConfirmation = async () => {
+        await fetch(apiUrl + '/api/user/editUser', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify(editingItem)
+        }).catch((err) => console.log(err))
+        getUsers()
+    }
+
+    const handleDeleteConfirmation = async () => {
         console.log(editingItem)
         await fetch(apiUrl + '/api/user/deleteUser', {
             method: 'POST',
@@ -179,7 +118,7 @@ export default function Users() {
                 "Content-Type": "application/json",
                 "Authorization": token
             },
-            body: JSON.stringify({user: editingItem}) 
+            body: JSON.stringify({ user: editingItem })
         }).catch((err) => console.log(err))
         getUsers()
     }
@@ -203,20 +142,22 @@ export default function Users() {
             </div>
             <div className="users-display-container">
                 <div className="users-list">
-                    {visibleUsers?.map((user) => {
+                    {visibleUsers?.map((user, i) => {
                         return (
-                            <div className="user-item">
+                            <div className="user-item" key={i}>
                                 <div className="user-info">
                                     <h3>{user?.name}</h3>
+                                    {user.accountType === 'driver' && <img style={{ height: '2.5rem', marginRight: '1rem' }} src={driverIcon}></img>}
+                                    {user.accountType === 'dispatcher' && <img style={{ height: '2rem', marginRight: '1rem'  }} src={dispatcherIcon}></img>}
                                     <p>{user?.email}</p>
                                     <p>{user?.username}</p>
                                 </div>
                                 <div className="user-item-btns">
-                                    <i class="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
+                                    <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
                                     <i onClick={() => {
                                         setEditingItem(user)
                                         setShowDeleteModal(true)
-                                        }} class="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '2rem' }}></i>
+                                    }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '2rem' }}></i>
                                 </div>
                             </div>
                         )
@@ -235,14 +176,14 @@ export default function Users() {
                 editedItem={editingItem}
                 setEditedItem={setEditingItem}
                 category={selectedCategory}
-                onSave={handleSaveItem}
+                onSave={handleEditConfirmation}
             />
             <NewItemModal
                 newItem={newItem}
                 setNewItem={setNewItem}
                 isOpen={newModalOpen}
                 onClose={handleCloseNewModal}
-                handleSaveNewItem={handleSaveNewItem}
+                // handleSaveNewItem={handleSaveNewItem}
             />
         </div>
     )
