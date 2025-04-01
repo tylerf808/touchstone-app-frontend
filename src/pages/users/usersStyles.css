@@ -150,6 +150,18 @@ i:hover {
     color: white;
 }
 
+.modal-form {
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(238, 238, 238);
+    border: none;
+    border-radius: .5rem;
+    padding: 1rem;
+}
+
 .overlay {
     position: fixed;
     top: 0;

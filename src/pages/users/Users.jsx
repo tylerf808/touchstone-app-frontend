@@ -98,6 +98,18 @@ export default function Users() {
         }
     }
 
+    const handleNewItemConfirmation = async () => {
+        await fetch(apiUrl + '/api/user/newPendingUser', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify(newItem)
+        }).catch((err) => console.log(err))
+        getUsers()
+    }
+
     const handleEditConfirmation = async () => {
         await fetch(apiUrl + '/api/user/editUser', {
             method: 'POST',
@@ -135,7 +147,7 @@ export default function Users() {
                     <p>{drivers.length} Drivers</p>
                     <p>{dispatchers.length} Dispatcher{dispatchers.length > 1 && <>s</>}</p>
                     <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search by name" className="users-search-input"></input>
-                    <button className="add-user-btn">
+                    <button onClick={() => setNewModalOpen(true)} className="add-user-btn">
                         <span style={{ color: 'white', fontSize: '1.5rem', marginRight: '.2rem' }}>+</span>Add User
                     </button>
                 </div>
@@ -146,9 +158,9 @@ export default function Users() {
                         return (
                             <div className="user-item" key={i}>
                                 <div className="user-info">
-                                    <h3>{user?.name}</h3>
                                     {user.accountType === 'driver' && <img style={{ height: '2.5rem', marginRight: '1rem' }} src={driverIcon}></img>}
-                                    {user.accountType === 'dispatcher' && <img style={{ height: '2rem', marginRight: '1rem'  }} src={dispatcherIcon}></img>}
+                                    {user.accountType === 'dispatcher' && <img style={{ height: '2rem', marginRight: '1.5rem' }} src={dispatcherIcon}></img>}
+                                    <h3>{user?.name}</h3>
                                     <p>{user?.email}</p>
                                     <p>{user?.username}</p>
                                 </div>
@@ -183,7 +195,7 @@ export default function Users() {
                 setNewItem={setNewItem}
                 isOpen={newModalOpen}
                 onClose={handleCloseNewModal}
-                // handleSaveNewItem={handleSaveNewItem}
+                handleSaveNewItem={handleNewItemConfirmation}
             />
         </div>
     )

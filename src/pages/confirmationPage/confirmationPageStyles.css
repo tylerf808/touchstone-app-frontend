@@ -1,0 +1,47 @@
+.page-container {
+    width: 60%;
+    height: 93.7vh;
+    background-color: rgb(242, 242, 242);
+    justify-self: center;
+}
+
+.confirmation-details-form {
+    width: 70%;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmation-details-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: flex-start;
+    margin: .5rem;
+}
+
+.confirmation-details-row input {
+    width: 20rem;
+    height: 3rem;
+    font-size: 2rem;
+}
+
+.confirmation-details-row label {
+    width: 16rem;
+    font-size: 2rem;
+}
+
+.confirmation-btn-container {
+    margin-top: 1rem;
+}
+
+button {
+    width: 5rem;
+    height: 2rem;
+    background-color: rgb(7, 176, 7);
+    color: white;
+    border: none;
+    border-radius: .5rem
+}
