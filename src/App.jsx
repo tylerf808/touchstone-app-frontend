@@ -16,7 +16,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import UserContext, { useUserContext } from "./helpers/Context";
 import { useEffect } from "react";
 import './components/toolbarStyles.css'
-import Confirmation from "./pages/signUp/Confirmation";
+import ConfirmationPage from "./pages/confirmationPage/ConfirmationPage";
 import Tractors from "./pages/tractors/Tractors";
 
 export default function App() {
@@ -47,7 +47,7 @@ export default function App() {
           <Route path="costs" element={<CostsPage />} />
           <Route path="users" element={<Users />} />
           <Route path="tractors" element={<Tractors />} />
-          <Route path="confirmation" element={<Confirmation />} />
+          <Route path="confirm" element={<ConfirmationPage />} />
         </Routes>
       </Router>
     </UserContext.Provider>
