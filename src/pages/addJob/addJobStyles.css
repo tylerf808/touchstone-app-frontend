@@ -6,10 +6,8 @@
 }
 
 .map-container {
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: row;
-    overflow: auto;
+    position: relative;
+    height: 99.5%;
 }
 
 .details-form {

@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import UserInfo from "./signUpPages/UserInfo";
 import Instructions from "./signUpPages/Instructions";
@@ -21,11 +22,60 @@ export default function SignUp() {
   const [drivers, setDrivers] = useState([])
   const [tractors, setTractors] = useState([])
   const [newCosts, setNewCosts] = useState()
+  const [submitted, setSubmitted] = useState(false)
   const [dispatcher, setDispatcher] = useState({ email: '', username: '', name: '', company: '', password: '' })
 
   const navigate = useNavigate();
 
-  console.log(apiUrl)
+  const togglePassword = () => {
+    let password = document.getElementById('password-signup')
+    let passwordConf = document.getElementById('password-conf-signup')
+    if (password.type === 'password') {
+      password.type = 'text'
+      passwordConf.type = 'text'
+    } else {
+      password.type = 'password'
+      passwordConf.type = 'password'
+    }
+  }
+
+  const checkUser = async () => {
+
+    setShowAlert(false)
+
+    if (userInfo.email === '' || userInfo.username === '' || userInfo.password === '' || userInfo.passwordConf === '' || userInfo.name === '') {
+      setAlertMsg('Missing an Entry')
+      setShowAlert(true)
+      return
+    }
+
+    if (userInfo.passwordConf !== userInfo.password) {
+      setAlertMsg("Passwords do not match")
+      setShowAlert(true)
+      return
+    }
+
+    await fetch(apiUrl + '/api/user/check', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: userInfo.email,
+        username: userInfo.username,
+        accountType: userInfo.accountType,
+        name: userInfo.name
+      })
+    }).then((response) => {
+      if (response.status === 404) {
+        setShowAlert(false)
+        setSubmitted(true)
+        return
+      } else {
+        setAlertMsg('User with that email and/or username already exists')
+        setShowAlert(true)
+        return
+      }
+    }).catch((err) => console.log(err))
+  }
 
   const createAccount = async () => {
 
@@ -113,53 +163,85 @@ export default function SignUp() {
     }
   }
 
-  switch (currentSlide) {
-    case 0:
-      return (
-        <UserInfo currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          userInfo={userInfo} setUserInfo={setUserInfo} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} apiUrl={apiUrl} />
-      )
-    case 1:
-      return (
-        <Instructions currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
-      )
-    case 2:
-      return (
-        <AccountSelection currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          setShowAlert={setShowAlert} setAlertMsg={setAlertMsg} userInfo={userInfo} setUserInfo={setUserInfo} />
-      )
-    case 3:
-      return (
-        <FixedCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} newCosts={newCosts} setNewCosts={setNewCosts}
-          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} userInfo={userInfo} setUserInfo={setUserInfo} />
-      )
-    case 4:
-      return (
-        <OperationalCosts currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert} newCosts={newCosts} setNewCosts={setNewCosts}
-          userInfo={userInfo} createAccount={createAccount} />
-      )
-    case 5:
-      return (
-        <AddDrivers currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
-          drivers={drivers} setDrivers={setDrivers} />
-      )
-    case 6:
-      return (
-        <AddTractors currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
-          setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
-          tractors={tractors} setTractors={setTractors} />
-      )
-    case 7:
-      return (
-        <AddDispatcher currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}
-          dispatcher={dispatcher} setDispatcher={setDispatcher} userInfo={userInfo} />
-      )
-    case 8:
-      return (
-        <ConfirmDetails currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} tractors={tractors}
-          userInfo={userInfo} newCosts={newCosts} drivers={drivers} createAccount={createAccount} dispatcher={dispatcher} />
-      )
-  }
+
+  return (
+
+
+    <div className="sign-up-container">
+      {submitted ?
+        <div style={{justifySelf: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4rem'}}>
+          <h3>Email Sent</h3>
+          <p>Check you email to continue the sign up process</p>
+        </div>
+        :
+        <>
+          <div className="slideTitle" style={{ justifySelf: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h3 style={{ color: 'orange' }}>Create an Account</h3>
+            <p style={{ fontSize: '1.2rem', }}>Enter your information and a confirmation email will be sent to the provided email</p>
+          </div>
+          <div className="userInfoSlide">
+            <div className="slideItemInfo">
+              <p className="slideLabel" style={{ alignSelf: 'center' }}>Account Type</p>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}>
+                <div className="radioItem">
+                  <p className="radioLabel">Owner/Operator</p>
+                  <input id="owner" className="radioInput" type="radio" name="accountType" value='owner' onClick={(e) => {
+                    setUserInfo({ ...userInfo, accountType: e.target.value })
+                  }}></input>
+                </div>
+                <div className="radioItem">
+                  <p className="radioLabel">Administrator</p>
+                  <input id="admin" className="radioInput" type="radio" name="accountType" value='admin' onClick={(e) => {
+                    setUserInfo({ ...userInfo, accountType: e.target.value })
+                  }}></input>
+                </div>
+              </div>
+            </div>
+            <div className="slideItemInfo">
+              <p className="slideLabel">Full Name</p>
+              <input defaultValue={userInfo.name} className="emailInputSignUp" onChange={(e) => {
+                setUserInfo({ ...userInfo, name: e.target.value })
+              }} type="email" />
+            </div>
+            <div className="slideItemInfo">
+              <p className="slideLabel">Email</p>
+              <input defaultValue={userInfo.email} className="emailInputSignUp" onChange={(e) => {
+                setUserInfo({ ...userInfo, email: e.target.value })
+              }} type="email" />
+            </div>
+            <div className="slideItemInfo">
+              <p className="slideLabel">Username</p>
+              <input defaultValue={userInfo.username} className="emailInputSignUp" onChange={(e) => {
+                setUserInfo({ ...userInfo, username: e.target.value })
+              }} type="text" />
+            </div>
+            <div className="slideItemInfo">
+              <p className="slideLabel">Password</p>
+              <input defaultValue={userInfo.password} className="passwordInputSignUp" id='password-signup' onChange={(e) => {
+                setUserInfo({ ...userInfo, password: e.target.value })
+              }} type="password" />
+            </div>
+            <div className="slideItemInfo">
+              <p className="slideLabel">Confirm Password</p>
+              <input defaultValue={userInfo.passwordConf} className="passwordInputSignUp" id="password-conf-signup" onChange={(e) => {
+                setUserInfo({ ...userInfo, passwordConf: e.target.value })
+              }} type="password" />
+            </div>
+            <div className='showPasswordContainer'>
+              <p style={{ color: 'rgb(84, 76, 59)' }}>Show Password</p>
+              <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
+            </div>
+          </div>
+          <div className="btnContainer">
+            <button className="btnSignUp" onClick={() => {
+              checkUser()
+            }}>Submit</button>
+          </div>
+          <div className="signUpLinkContainer">
+            <p>Already have an account? <Link id="sign-up-link" to='/login' onClick={() => setShowAlert(false)}>Log in here!</Link></p>
+          </div>
+        </>
+      }
+    </div>
+  )
 }

@@ -20,7 +20,7 @@ export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAler
 
         setShowAlert(false)
 
-        if (userInfo.email === '' || userInfo.username === '' || userInfo.password === '' || userInfo.passwordConf === '' || userInfo.name=== '' ){
+        if (userInfo.email === '' || userInfo.username === '' || userInfo.password === '' || userInfo.passwordConf === '' || userInfo.name === '') {
             setAlertMsg('Missing an Entry')
             setShowAlert(true)
             return
@@ -53,39 +53,39 @@ export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAler
     }
 
     return (
-        <div className="pageContainer">
-            <div className="slideTitle">
-                <h3 style={{color: 'orange'}}>Create an Account</h3>
+        <div className="sign-up-container">
+            <div className="slideTitle" style={{justifySelf: 'center'}}>
+                <h3 style={{ color: 'orange' }}>Create an Account</h3>
             </div>
             <div className="userInfoSlide">
-            <div className="slideItemInfo">
+                <div className="slideItemInfo">
                     <p className="slideLabel">Full Name</p>
                     <input defaultValue={userInfo.name} className="emailInputSignUp" onChange={(e) => {
-                        setUserInfo({...userInfo, name: e.target.value})
+                        setUserInfo({ ...userInfo, name: e.target.value })
                     }} type="email" />
                 </div>
                 <div className="slideItemInfo">
                     <p className="slideLabel">Email</p>
                     <input defaultValue={userInfo.email} className="emailInputSignUp" onChange={(e) => {
-                        setUserInfo({...userInfo,email: e.target.value})
+                        setUserInfo({ ...userInfo, email: e.target.value })
                     }} type="email" />
                 </div>
                 <div className="slideItemInfo">
                     <p className="slideLabel">Username</p>
                     <input defaultValue={userInfo.username} className="emailInputSignUp" onChange={(e) => {
-                        setUserInfo({...userInfo, username: e.target.value})
+                        setUserInfo({ ...userInfo, username: e.target.value })
                     }} type="text" />
                 </div>
                 <div className="slideItemInfo">
-                    <p  className="slideLabel">Password</p>
+                    <p className="slideLabel">Password</p>
                     <input defaultValue={userInfo.password} className="passwordInputSignUp" id='password-signup' onChange={(e) => {
-                        setUserInfo({...userInfo, password: e.target.value})
+                        setUserInfo({ ...userInfo, password: e.target.value })
                     }} type="password" />
                 </div>
                 <div className="slideItemInfo">
-                    <p  className="slideLabel">Confirm Password</p>
+                    <p className="slideLabel">Confirm Password</p>
                     <input defaultValue={userInfo.passwordConf} className="passwordInputSignUp" id="password-conf-signup" onChange={(e) => {
-                        setUserInfo({...userInfo, passwordConf: e.target.value})
+                        setUserInfo({ ...userInfo, passwordConf: e.target.value })
                     }} type="password" />
                 </div>
                 <div className='showPasswordContainer'>
@@ -93,20 +93,10 @@ export default function FirstPage({ userInfo, setUserInfo, setShowAlert, setAler
                     <input className='showPasswordInput' onClick={togglePassword} type='checkbox'></input>
                 </div>
             </div>
-            <div className='progressContainer'>
-                <span className='currentDot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-            </div>
             <div className="btnContainer">
                 <button className="btnSignUp" onClick={() => {
                     checkUser()
-                }}>Next</button>
+                }}>Submit</button>
             </div>
             <div className="signUpLinkContainer">
                 <p>Already have an account? <Link id="sign-up-link" to='/login' onClick={() => setShowAlert(false)}>Log in here!</Link></p>
