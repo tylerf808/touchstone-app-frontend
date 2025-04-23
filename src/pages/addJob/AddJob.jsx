@@ -2,258 +2,262 @@ import React, { useState, useEffect, useContext } from 'react';
 import './addJobStyles.css';
 import { CircularProgress } from "@mui/material";
 import DetailsInput from './components/DetailsInput';
-import ResultsContainer from './components/ResultsContainer';
 import UserContext from '../../helpers/Context'
 import { useNavigate } from "react-router-dom";
-import parseAddress from '../../helpers/parseAddress'
+import * as atlas from 'azure-maps-control'
+import "azure-maps-control/dist/atlas.min.css";
 
 const AddJob = () => {
-
   const [job, setJob] = useState(null);
-  const [profitable, setProfitable] = useState(null)
-  const [loaded, setLoaded] = useState(false)
+  const [profitable, setProfitable] = useState(null);
+  const [loaded, setLoaded] = useState(false);
   const [route, setRoute] = useState(null);
   const [error, setError] = useState(null);
-  const [localMap, setLocalMap] = useState(null)
-  const [isExpanded, setIsExpanded] = useState(false)
-  const [tractors, setTractors] = useState(null)
-  const [drivers, setDrivers] = useState(null)
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [tractors, setTractors] = useState(null);
+  const [drivers, setDrivers] = useState(null);
   const [logistics, setLogistics] = useState({
     revenue: 0,
     driver: '',
     tractor: 0,
     startDate: '',
     client: ''
-  })
+  });
+  const [routeInfo, setRouteInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const { user, setShowAlert, setAlertMsg, apiUrl, location } = useContext(UserContext)
-
-  const token = localStorage.getItem('token')
-
+  const { apiUrl, location } = useContext(UserContext);
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
-  const getDefaultMap = async () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords
-      fetch("https://pcmiler.alk.com/apis/rest/v1.0/service.svc/mapRoutes?dataset=Current", {
-        method: 'POST',
-        headers: {
-          "Authorization": process.env.REACT_APP_TRIMBLE_API_KEY,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          Map: {
-            Viewport: {
-              Center: {
-                Lat: latitude,
-                Lon: longitude
-              },
-              ZoomRadius: 200,
-              ZoomRadiusSpecified: true,
-              Region: 0
-            },
-            Drawers: [8, 2, 11, 17, 15, 22],
-            Width: document.getElementById('map-container').clientWidth - 10,
-            Height: document.getElementById('map-container').clientHeight - 10,
-          }
-        })
-      }).then((res) => res.blob())
-        .then((blob) => {
-          const imageUrl = URL.createObjectURL(blob)
-          setLocalMap(imageUrl)
-          document.getElementById('mapImage').src = imageUrl
-        })
-    })
-  }
-
-  const calculateRoute = async (details) => {
-
-    const startObj = parseAddress(details.start)
-    const pickUpObj = parseAddress(details.pickUp)
-    const dropOffObj = parseAddress(details.dropOff)
-
-    let startCoords, pickUpCoords, dropOffCoords
-
-    await fetch(apiUrl + '/api/costs/check', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token
-      },
-      body: JSON.stringify(details)
-    }).then((res) => res.json()).then((data) => {
-
-      startCoords = {
-        Lat: data[1][0].ReportLines[0].Stop.Coords.Lat,
-        Lon: data[1][0].ReportLines[0].Stop.Coords.Lon
-      }
-
-      pickUpCoords = {
-        Lat: data[1][0].ReportLines[1].Stop.Coords.Lat,
-        Lon: data[1][0].ReportLines[1].Stop.Coords.Lon
-      }
-
-      dropOffCoords = {
-        Lat: data[1][0].ReportLines[2].Stop.Coords.Lat,
-        Lon: data[1][0].ReportLines[2].Stop.Coords.Lon
-      }
-
-      setJob(data[0])
-      setLoaded(true)
-    })
-
-    await fetch('https://pcmiler.alk.com/apis/rest/v1.0/service.svc/mapRoutes?dataset=Current', {
-      method: 'POST',
-      headers: {
-        "Authorization": process.env.REACT_APP_TRIMBLE_API_KEY,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(
-        {
-          Map: {
-            Viewport: {
-              Center: null,
-              ScreenCenter: null,
-              ZoomRadius: 15,
-              ZoomRadiusSpecified: true,
-              CornerA: null,
-              CornerB: null,
-              Region: 0
-            },
-            Drawers: [8, 2, 11, 17, 15, 22],
-            Width: document.getElementById('map-container').clientWidth - 10,
-            Height: document.getElementById('map-container').clientHeight - 10,
-            LegendDrawer: [
-              {
-                Type: 0,
-                DrawOnMap: true
-              }
-            ],
-            GeometryDrawer: null,
-            PinDrawer: {
-              Pins: [
-                {
-                  Point: startCoords,
-                  Image: "ltruck_r"
-                },
-                {
-                  Point: pickUpCoords,
-                  Image: "lpackage"
-                },
-                {
-                  Point: dropOffCoords,
-                  Image: "lbldg_bl"
-                }
-              ]
-            }
-          },
-          MapLayering: 3,
-          MapStyle: 6,
-          Routes: [
-            {
-              RouteId: null,
-              Stops: [
-                {
-                  Address: startObj
-                },
-                {
-                  Address: pickUpObj
-                }
-                ,
-                {
-                  Address: dropOffObj
-                }
-              ]
-            }
-          ]
-        }
-      )
-
-    }).then((res) => {
-      return res.blob()
-    }).then((blob) => {
-      const imageUrl = URL.createObjectURL(blob); // Create object URL
-      document.getElementById("mapImage").src = imageUrl; // Set to an <img> tag
-    })
-
-  };
-
   const fetchDriversAndTractors = async () => {
-    await fetch(apiUrl + "/api/user/tractorsAndUsers", {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token
+    try {
+      const response = await fetch(`${apiUrl}/api/user/tractorsAndUsers`, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    }).then((res) => res.json()).then((data) => {
-      setDrivers(data[0])
-      setTractors(data[1])
-      const newLogistics = logistics
-      newLogistics.driver = data[0][0]
-      newLogistics.tractor = data[1][0].internalNum
-      setLogistics(newLogistics)
-    })
-  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+      const data = await response.json();
+      setDrivers(data[0]);
+      setTractors(data[1]);
 
-    if (isExpanded) {
-      setIsExpanded(false)
-    } else {
-      setIsExpanded(true)
+      setLogistics(prevLogistics => ({
+        ...prevLogistics,
+        driver: data[0][0],
+        tractor: data[1][0].internalNum
+      }));
+    } catch (err) {
+      console.error("Error fetching drivers and tractors:", err);
+      setError("Failed to load drivers and tractors data");
     }
-
-    const startValue = document.getElementById('start-input').value
-    const pickUpValue = document.getElementById('pick-up-input').value
-    const dropOffValue = document.getElementById('drop-off-input').value
-
-    const details = {
-      start: startValue,
-      pickUp: pickUpValue,
-      dropOff: dropOffValue,
-      tractor: parseInt(logistics.tractor),
-      client: logistics.client,
-      driver: logistics.driver,
-      revenue: logistics.revenue,
-      startDate: logistics.startDate
-    }
-    calculateRoute(details);
   };
 
   const addJob = async () => {
-    const response = await fetch(apiUrl + '/api/jobs/newJob', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token
-      },
-      body: JSON.stringify(job)
-    }).then((res) => res.json()).then(() => {
-      setJob(null)
-      document.getElementById("mapImage").src = localMap;
-    })
-    console.log(response)
-  }
+    try {
+      if (!job) {
+        throw new Error("No job data to submit");
+      }
+      
+      const response = await fetch(`${apiUrl}/api/jobs/newJob`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        },
+        body: JSON.stringify(job)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setJob(null);
+      return data;
+    } catch (err) {
+      console.error("Error adding job:", err);
+      setError("Failed to add job: " + err.message);
+      return null;
+    }
+  };
+
+  // Find route by sending addresses to backend
+  const findRoute = async (e) => {
+    // Prevent form submission default behavior
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Get addresses from input elements
+      const startElement = document.getElementById('start-input');
+      const pickupElement = document.getElementById('pick-up-input');
+      const dropoffElement = document.getElementById('drop-off-input');
+      
+      if (!startElement || !pickupElement || !dropoffElement) {
+        throw new Error('Could not find one or more address input elements');
+      }
+      
+      const startAddr = startElement.value;
+      const waypointAddr = pickupElement.value;
+      const endAddr = dropoffElement.value;
+      
+      // Validate addresses
+      if (!startAddr || !waypointAddr || !endAddr) {
+        throw new Error('Please enter all three addresses');
+      }
+      
+      // Create request payload
+      const payload = {
+        startAddress: startAddr,
+        pickupAddress: waypointAddr,
+        dropoffAddress: endAddr,
+        truckDetails: {
+          vehicleWidth: 2.5,      // 2.5 meters
+          vehicleHeight: 4,       // 4 meters
+          vehicleLength: 15,      // 15 meters
+          vehicleWeight: 15000,   // 15,000 kilograms
+          vehicleAxleWeight: 10000, // 10,000 kilograms
+          vehicleMaxSpeed: 90     // 90 km/hour
+        }
+      };
+      
+      // Make request to your backend
+      const response = await fetch(`${apiUrl}/api/costs/calculate`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (!data) {
+        throw new Error('No route data received from server');
+      }
+      
+      // Set route data
+      setRoute(data);
+      
+      // Extract route info
+      setRouteInfo({
+        distanceKm: data.distanceKm,
+        distanceMiles: data.distanceMiles,
+        hours: data.hours,
+        minutes: data.minutes,
+        trafficDelay: data.trafficDelay,
+        fuelConsumption: data.fuelConsumption,
+        co2Emissions: data.co2Emissions
+      });
+      
+      setLoaded(true);
+      
+      // Calculate profitability
+      const distance = parseFloat(data.distanceKm || 0);
+      const fuelConsumption = parseFloat(data.fuelConsumption || 0);
+      
+      // Estimate costs (adjust these factors for your business model)
+      const fuelCostPerGallon = 3.5; // Adjust based on current prices
+      const maintenanceCostPerMile = 0.15;
+      const driverCostPerHour = 25;
+      
+      const fuelCost = fuelConsumption * fuelCostPerGallon;
+      const maintenanceCost = (data.distanceMiles) * maintenanceCostPerMile;
+      const laborCost = (data.hours + (data.minutes / 60)) * driverCostPerHour;
+      
+      const totalCost = fuelCost + maintenanceCost + laborCost;
+      const revenue = parseFloat(logistics.revenue || 0);
+      
+      // Determine if job is profitable with 15% margin
+      setProfitable(revenue > (totalCost * 1.15));
+      
+      // Update job object with route information
+      const updatedJob = {
+        ...job,
+        route: data.route,
+        distanceKm: data.distanceKm,
+        distanceMiles: data.distanceMiles,
+        estimatedTime: `${data.hours}h ${data.minutes}m`,
+        fuelConsumption: data.fuelConsumption,
+        co2Emissions: data.co2Emissions,
+        estimatedCost: totalCost.toFixed(2)
+      };
+      setJob(updatedJob);
+      
+    } catch (err) {
+      setError(`Error calculating route: ${err.message}`);
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (!token) {
-      navigate('/')
-    } else {
-      if (!job) {
-        getDefaultMap()
-      }
-      fetchDriversAndTractors()
-    }
-  }, [])
+    // Fetch drivers and tractors when component mounts
+    fetchDriversAndTractors();
+  }, []);
 
   return (
     <div className="calculator-container">
-      <DetailsInput handleSubmit={handleSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded}
-        tractors={tractors} drivers={drivers} logistics={logistics} setLogistics={setLogistics}
-        profitable={profitable} loaded={loaded} job={job} localMap={localMap} addJob={addJob}/>
-      <div className="map-container" id='map-container'>
-        <img id='mapImage' />
+      <DetailsInput 
+        findRoute={findRoute} 
+        isExpanded={isExpanded} 
+        setIsExpanded={setIsExpanded}
+        tractors={tractors} 
+        drivers={drivers} 
+        logistics={logistics} 
+        setLogistics={setLogistics}
+        profitable={profitable} 
+        loaded={loaded} 
+        job={job} 
+        addJob={addJob} 
+      />
+      
+      <div className="results-container">
+        {loading && (
+          <div className="loading-container">
+            <CircularProgress />
+            <p>Calculating route...</p>
+          </div>
+        )}
+        
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+        
+        {routeInfo && (
+          <div className="route-info-container">
+            <h3>Route Information</h3>
+            <p>Distance: {routeInfo.distanceKm} km ({routeInfo.distanceMiles} mi)</p>
+            <p>Est. Time: {routeInfo.hours}h {routeInfo.minutes}m</p>
+            {routeInfo.trafficDelay > 0 && (
+              <p>Traffic Delay: {routeInfo.trafficDelay} min</p>
+            )}
+            <p>Fuel Est: {routeInfo.fuelConsumption} gal</p>
+            <p>CO₂: {routeInfo.co2Emissions} kg</p>
+          </div>
+        )}
+        
+        {/* If you want to render a map with the returned route data, 
+            you would add a MapDisplay component here that takes the route data as a prop */}
       </div>
     </div>
   );

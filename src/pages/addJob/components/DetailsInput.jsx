@@ -3,7 +3,7 @@ import { CircularProgress } from "@mui/material";
 import ResultsContainer from "./ResultsContainer";
 import zIndex from "@mui/material/styles/zIndex";
 
-export default function DetailsInput({ addJob, localMap, loaded, job, handleSubmit, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
+export default function DetailsInput({ addJob, localMap, loaded, job, findRoute, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -90,7 +90,7 @@ export default function DetailsInput({ addJob, localMap, loaded, job, handleSubm
                     <button
                         className="calc-route-button"
                         type="submit"
-                        onClick={handleSubmit}>
+                        onClick={(e) => findRoute(e)}>
                         Calculate Route
                     </button>
                 </>

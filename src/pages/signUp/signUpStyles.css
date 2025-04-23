@@ -1,3 +1,11 @@
+.sign-up-container {
+   width: 75rem;
+   height: 93.7vh;
+   background-color: rgb(239, 239, 239);
+   justify-self: center;
+   align-content: flex-start;
+}
+
 .signUpLinkContainer {
    display: flex;
    flex-direction: row;
@@ -28,6 +36,7 @@
    height: 3em;
    border: .05em solid black;
    border-radius: 5%;
+   color: rgb(0, 0, 0);
    background-color: rgb(233, 220, 208);
 }
 
@@ -121,36 +130,15 @@
    justify-content: center;
 }
 
-.progressContainer {
-   margin: .5rem
-}
-
-.dot {
-   height: .8rem;
-   width: .8rem;
-   background-color: white;
-   border: .1rem solid orange;
-   border-radius: 50%;
-   display: inline-block;
-   margin: .5rem;
-}
-
-.currentDot {
-   height: .8rem;
-   width: .8rem;
-   background-color: orange;
-   border: .1rem solid orange;
-   border-radius: 50%;
-   display: inline-block;
-   margin: .5rem;
-}
 
 .userInfoSlide {
+   width: 50%;
+   justify-self: center;
    background-color: rgb(255, 255, 255);
-   border: .1em solid black;
    border-radius: .5em;
    padding: 2em;
-   margin: 2em
+   margin: 2em;
+   box-shadow: 0px 0px 3px 0px;
 }
 
 .accountSelectionSlide {
