@@ -57,7 +57,6 @@ export default function DetailsInput({ addJob, localMap, loaded, job, findRoute,
                                 const newLogistics = logistics
                                 newLogistics.startDate = e.target.value
                                 setLogistics(newLogistics)
-                                console.log(logistics)
                             }}></input>
                         </label>
                         <label className="logistics-field">Driver:

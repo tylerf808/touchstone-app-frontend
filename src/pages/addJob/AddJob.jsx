@@ -107,6 +107,12 @@ const AddJob = () => {
       if (!startElement || !pickupElement || !dropoffElement) {
         throw new Error('Could not find one or more address input elements');
       }
+
+      const dateObj = new Date(logistics.startDate)
+
+      const formattedStartDate = dateObj.toISOString().split('.')[0] + 'Z';
+
+      console.log(formattedStartDate)
       
       const startAddr = startElement.value;
       const waypointAddr = pickupElement.value;
@@ -122,6 +128,7 @@ const AddJob = () => {
         startAddress: startAddr,
         pickupAddress: waypointAddr,
         dropoffAddress: endAddr,
+        startDate: formattedStartDate,
         truckDetails: {
           vehicleWidth: 2.5,      // 2.5 meters
           vehicleHeight: 4,       // 4 meters
@@ -152,53 +159,7 @@ const AddJob = () => {
         throw new Error('No route data received from server');
       }
       
-      // Set route data
-      setRoute(data);
-      
-      // Extract route info
-      setRouteInfo({
-        distanceKm: data.distanceKm,
-        distanceMiles: data.distanceMiles,
-        hours: data.hours,
-        minutes: data.minutes,
-        trafficDelay: data.trafficDelay,
-        fuelConsumption: data.fuelConsumption,
-        co2Emissions: data.co2Emissions
-      });
-      
-      setLoaded(true);
-      
-      // Calculate profitability
-      const distance = parseFloat(data.distanceKm || 0);
-      const fuelConsumption = parseFloat(data.fuelConsumption || 0);
-      
-      // Estimate costs (adjust these factors for your business model)
-      const fuelCostPerGallon = 3.5; // Adjust based on current prices
-      const maintenanceCostPerMile = 0.15;
-      const driverCostPerHour = 25;
-      
-      const fuelCost = fuelConsumption * fuelCostPerGallon;
-      const maintenanceCost = (data.distanceMiles) * maintenanceCostPerMile;
-      const laborCost = (data.hours + (data.minutes / 60)) * driverCostPerHour;
-      
-      const totalCost = fuelCost + maintenanceCost + laborCost;
-      const revenue = parseFloat(logistics.revenue || 0);
-      
-      // Determine if job is profitable with 15% margin
-      setProfitable(revenue > (totalCost * 1.15));
-      
-      // Update job object with route information
-      const updatedJob = {
-        ...job,
-        route: data.route,
-        distanceKm: data.distanceKm,
-        distanceMiles: data.distanceMiles,
-        estimatedTime: `${data.hours}h ${data.minutes}m`,
-        fuelConsumption: data.fuelConsumption,
-        co2Emissions: data.co2Emissions,
-        estimatedCost: totalCost.toFixed(2)
-      };
-      setJob(updatedJob);
+      console.log(data)
       
     } catch (err) {
       setError(`Error calculating route: ${err.message}`);

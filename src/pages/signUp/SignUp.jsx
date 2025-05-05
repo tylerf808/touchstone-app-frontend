@@ -1,17 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-import UserInfo from "./signUpPages/UserInfo";
-import Instructions from "./signUpPages/Instructions";
-import FixedCosts from "./signUpPages/FixedCosts";
-import OperationalCosts from "./signUpPages/OperationalCosts";
-import AddDrivers from "./signUpPages/AddDrivers";
-import AccountSelection from "./signUpPages/AccountSelection";
-import ConfirmDetails from "./signUpPages/ConfirmDetails";
-import AddDispatcher from "./signUpPages/AddDispatcher";
 import UserContext from "../../helpers/Context"
 import './signUpStyles.css'
-import AddTractors from "./signUpPages/AddTractors";
 
 export default function SignUp() {
 

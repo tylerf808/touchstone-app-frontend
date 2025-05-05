@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import './components/toolbarStyles.css'
 import ConfirmationPage from "./pages/confirmationPage/ConfirmationPage";
 import Tractors from "./pages/tractors/Tractors";
+import EnterDetails from "./pages/signUp/EnterDetails"
 
 export default function App() {
 
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="users" element={<Users />} />
           <Route path="tractors" element={<Tractors />} />
           <Route path="confirm" element={<ConfirmationPage />} />
+          <Route path="confirmSignUp" element={<EnterDetails />} />
         </Routes>
       </Router>
     </UserContext.Provider>
