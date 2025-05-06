@@ -49,7 +49,7 @@ export default function App() {
           <Route path="users" element={<Users />} />
           <Route path="tractors" element={<Tractors />} />
           <Route path="confirm" element={<ConfirmationPage />} />
-          <Route path="confirmSignUp" element={<EnterDetails />} />
+          <Route path="confirmPendingAccount" element={<EnterDetails />} />
         </Routes>
       </Router>
     </UserContext.Provider>

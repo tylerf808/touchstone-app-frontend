@@ -1,19 +1,3 @@
-.sign-up-container {
-   width: 75rem;
-   height: 93.7vh;
-   background-color: rgb(239, 239, 239);
-   justify-self: center;
-   align-content: flex-start;
-}
-
-.signUpLinkContainer {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   margin-top: 3em;
-}
-
 .tabbed-container {
    width: 100%;
    max-width: 500px;
@@ -22,6 +6,7 @@
    border-radius: 8px;
    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
    padding: 24px;
+   margin-top: 4rem;
    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
  }
  
@@ -30,6 +15,7 @@
    justify-content: space-between;
    border-bottom: 1px solid #e0e0e0;
    margin-bottom: 24px;
+   height: 3rem;
  }
  
  .tab-button {
@@ -41,10 +27,13 @@
    cursor: pointer;
    transition: all 0.2s ease;
    position: relative;
+   height: 3rem;
+   width: 4rem;
+   color: grey;
  }
  
  .tab-button.active {
-   color: #2563eb;
+   color: #eb9525;
  }
  
  .tab-button.active::after {
@@ -54,7 +43,7 @@
    left: 0;
    width: 100%;
    height: 2px;
-   background-color: #2563eb;
+   background-color: #eb9525;
  }
  
  .tab-button:hover:not(.active) {
@@ -69,8 +58,12 @@
  }
  
  .input-group {
-   display: flex;
-   flex-direction: column;
+   display: grid;
+   grid-template-columns: 50% 50%;
+ }
+
+ .fixed-group {
+   grid-template-columns: 70% 30%;
  }
  
  .input-label {
@@ -86,11 +79,18 @@
    border-radius: 4px;
    font-size: 14px;
  }
+
+ .fixed-group input {
+   width: 3rem;
+   margin-right: .5rem;
+   margin-left: 2rem;
+   justify-self: center;
+ }
  
  .input-field:focus {
    outline: none;
-   border-color: #2563eb;
-   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+   border-color: #eb9525;
+   box-shadow: 0 0 0 2px rgba(235, 169, 37, 0.1);
  }
  
  .checkbox-group {
@@ -114,7 +114,7 @@
    background: none;
    border: none;
    cursor: pointer;
-   color: #2563eb;
+   color: #eb9525;
  }
  
  .nav-button:disabled {
@@ -123,7 +123,7 @@
  }
  
  .nav-button:hover:not(:disabled) {
-   color: #1d4ed8;
+   color: #eb9525;
  }
  
  .arrow {
@@ -138,481 +138,3 @@
  .next-button .arrow {
    margin-left: 4px;
  }
-
-.btnContainerSignUp {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-}
-
-.signUpInstructionsContainer {
-   margin-top: 3em;
-   width: 40%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-}
-
-.btnSignUp {
-   margin: 2em;
-   width: 8em;
-   height: 3em;
-   border: .05em solid black;
-   border-radius: 5%;
-   color: rgb(0, 0, 0);
-   background-color: rgb(233, 220, 208);
-}
-
-.btnSignUp:hover {
-   box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-}
-
-.slideItemGroup {
-   background-color: rgb(255, 255, 255);
-   border: .1em solid black;
-   border-radius: .5em;
-   padding: 1em;
-   width: 100%;
-}
-
-.slideItemInfo {
-   display: grid;
-   grid-template-columns: 50% 50%;
-   margin: 2em;
-}
-
-.slideGroupLabel {
-   color: black;
-   font-weight: 600;
-}
-
-.slideItem {
-   display: grid;
-   grid-template-columns: 70% 30%;
-   margin: 1em;
-}
-
-.slideInputContainer {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-}
-
-.slideTitle {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   font-size: 2.3em;
-   margin-top: 1.5em;
-   margin-bottom: 1em;
-   width: 50%;
-}
-
-.subTitle {
-   margin-top: 1em;
-   font-size: .5em;
-}
-
-.slideLabelContainer {
-   display: flex;
-   flex-direction: row;
-   justify-content: flex-start;
-   align-items: center;
-   position: relative;
-   left: 1.5em;
-}
-
-.slideLabel {
-   font-size: 1.2em;
-   color: rgb(84, 76, 59);
-}
-
-.slideLabelContainerCreateAcct {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   width: 100%;
-}
-
-.slideLabelContainerCreateAcct p {
-   color: rgb(233, 220, 208);
-}
-
-.percentageSign {
-   color: black;
-   margin-left: .2em;
-}
-
-.fixedCostsSlide {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-}
-
-
-.userInfoSlide {
-   width: 50%;
-   justify-self: center;
-   background-color: rgb(255, 255, 255);
-   border-radius: .5em;
-   padding: 2em;
-   margin: 2em;
-   box-shadow: 0px 0px 3px 0px;
-}
-
-.accountSelectionSlide {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: center;
-}
-
-.addDispatcherSlide {
-   background-color: rgb(255, 255, 255);
-   border: .1em solid black;
-   border-radius: .5em;
-   padding: 1rem;
-   margin: 2em;
-}
-
-.dispatchItem {
-   margin: 2rem;
-   display: grid;
-   grid-template-columns: 50% 50%;
-}
-
-.showPasswordContainer {
-   display: flex;
-   flex-direction: row;
-   justify-content: flex-end;
-   margin-right: 3em;
-}
-
-.newCostInput {
-   margin-left: .8em;
-   background-color: rgb(236, 223, 213);
-   width: 6em;
-   height: 2em;
-}
-
-.newCostInputPercent {
-   margin-left: .8em;
-   background-color: rgb(236, 223, 213);
-   width: 4em;
-   height: 2em;
-}
-
-.passwordInputSignUp {
-   background-color: rgb(236, 223, 213);
-   width: 100%;
-   height: 1.5em;
-}
-
-.emailInputSignUp {
-   background-color: rgb(236, 223, 213);
-   width: 100%;
-   height: 1.5em;
-}
-
-.editNumOfDrivers {
-   margin: .7em;
-   width: 2em;
-   font-size: large;
-}
-
-.confirmDetailsSlide {
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   justify-content: center;
-   width: 60%;
-}
-
-.detailsItem {
-   display: grid;
-   grid-template-columns: 50% 50%;
-   grid-template-rows: 2em;
-}
-
-.detailsGroup {
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   justify-content: flex-start;
-   background-color: white;
-   border: .1em solid black;
-   border-radius: .5em;
-   padding: 1em;
-}
-
-.detailsRow {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   width: 100%;
-}
-
-.detailsItemGroup {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   width: 100%;
-}
-
-.detailsGroupLabel {
-   color: black;
-   font-weight: 700;
-   margin-bottom: .5em;
-}
-
-.detailsLabel {
-   justify-self: flex-start;
-   margin-left: 2em;
-   color: black;
-}
-
-.detailsValue {
-   justify-self: center;
-   color: black;
-   font-weight: 400;
-}
-
-.displayDriver {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: flex-start;
-}
-
-.dispatcherDetailsContainer {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   flex-wrap: wrap;
-}
-
-.driverLabel {
-   align-self: center;
-   color: black;
-}
-
-.driverValue {
-   color: black
-}
-
-.operationalCostsSlide {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   width: 40%;
-   justify-self: center;
-}
-
-.addDriversSlide {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-}
-
-.addDriversInstructions {
-   margin-bottom: 2rem;
-}
-
-.addDriversContainer {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   overflow-y: auto;
-}
-
-.drivers {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   width: 100%;
-   background-color: white;
-   border: .1rem solid black;
-   border-radius: .5rem;
-}
-
-.addDriverBtnContainer {
-   display: flex;
-   flex-direction: row;
-   justify-content: flex-end;
-   align-items: center;
-   width: 95%;
-}
-
-.addDriverBtn {
-   position: relative;
-   bottom: 1rem;
-   width: 2rem;
-   height: 2rem;
-   background-color: rgba(255, 166, 0, 0.676);
-   border: .1rem solid black;
-   border-top: none;
-   border-bottom-left-radius: 3px;
-   border-bottom-right-radius: 3px;
-}
-
-.radioLabel {
-   margin-right: .5em;
-}
-
-.radioItem {
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   margin: 1em;
-}
-
-.radioBtn {
-   margin: .2em;
-}
-
-.radioInput {
-   accent-color: orange;
-}
-
-.radioMenu {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: center;
-}
-
-@media screen and (max-width: 1000px) {
-
-   .pageContainer {
-      width: 100%;
-   }
-
-   .slideTitle {
-      font-size: 1.5rem;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-   }
-
-   .userInfoSlide {
-      margin-top: 0px;
-      width: 90%;
-      padding: .5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-   }
-
-   .slideItemInfo {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      width: 55%;
-      margin: .8rem;
-   }
-
-   .showPasswordContainer {
-      align-self: flex-end;
-   }
-
-   .signUpInstructionsContainer {
-      width: 90%;
-   }
-
-   .subTitle {
-      width: 80%;
-      font-size: 1rem;
-   }
-
-   .fixedCostsSlide {
-      width: 85%;
-   }
-
-   .operationalCostsSlide {
-      width: 85%;
-   }
-
-   .slideLabel {
-      width: 80%;
-   }
-
-   .addDriversSlide {
-      height: 100%;
-   }
-
-   .selectDriversAmount {
-      height: 10rem;
-      width: 80%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-   }
-
-   .editNumOfDrivers {
-      height: 2.5rem;
-      width: 3rem;
-   }
-
-   .confirmDetailsSlide {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-   }
-
-   .detailsRow {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 85%;
-   }
-
-   .detailsItem {
-      height: 3rem;
-      width: 100%
-   }
-
-   .detailsLabel {
-      margin-left: 0px;
-   }
-
-   .displayDriver {
-      display: grid;
-      grid-template-columns: 8rem 10rem;
-      gap: .5rem;
-      justify-items: center;
-   }
-
-   .driverItem {
-      margin-top: .5rem;
-      margin-bottom: .5rem;
-   }
-
-   .userInfoValue {
-      width: 2rem;
-   }
-
-   .dispatchItem p {
-      font-size: 1rem;
-   }
-}
