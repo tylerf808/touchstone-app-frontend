@@ -1,182 +1,121 @@
 import '../signUpStyles.css'
-import { useEffect } from 'react'
 
-export default function ConfirmDetails({ userInfo, newCosts, drivers, currentSlide, setCurrentSlide, createAccount, dispatcher, tractors }) {
-
-    useEffect(() => {
-        console.log(tractors)
-    }, [])
+export default function ConfirmDetails({ newAccount, newUsers, newTractors, operationalCosts, fixedCosts }) {
 
     return (
-        <div className="pageContainer">
-            <div className='slideTitle'>
-                <h3 style={{ color: 'orange' }}>Confirm Details</h3>
-            </div>
-            <div className='confirmDetailsSlide'>
-                <div className='detailsRow'>
-                    <div className="detailsGroup">
-                        <p className="detailsGroupLabel">User Details</p>
-                        <div className="detailsItemGroup">
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Email: </p>
-                                <p className="detailsValue">{userInfo.email}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Username: </p>
-                                <p className="detailsValue">{userInfo.username}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="detailsGroup">
-                        <p className="detailsGroupLabel">Drivers</p>
-                        <div className="detailsItemGroup">
-                            {drivers.map((driver, i) => {
-                                return (
-                                    <div className="driverItem" key={i}>
-                                        <p className="driverLabel">Driver {i + 1}</p>
-                                        <div className="displayDriver">
-                                            <p className="driverDetailsLabel">Name:</p>
-                                            <p className="driverValue">{driver.name}</p>
-                                            <p className='driverDetailsLabel'>Email:</p>
-                                            <p className="driverValue">{driver.name}</p>
-                                        </div>
-                                    </div>)
-                            })}
-                        </div>
-                    </div>
+        <div className="tab-content">
+            <div className='input-label' style={{ justifySelf: 'center', alignSelf: 'center', marginBottom: '.5rem', fontSize: '1rem' }}>Confirm details and click submit to finalize your account</div>
+            <div className="confirm-group">
+                <p style={{ borderBottom: '.1rem solid #e0e0e0', marginBottom: '1rem', height: '2rem' }}>Operational Costs</p>
+                <div className='confirm-row'>
+                    <label className="input-label">Tractor lease monthly payment</label>
+                    <p>${operationalCosts.tractorLease}</p>
                 </div>
-                <div className='detailsRow'>
-                    <div className='detailsGroup'>
-                        <p className='detailsGroupLabel'>Tractors</p>
-                        <div className="detailsItemGroup">
-                            {tractors.map((tractor, i) => {
-                                return (
-                                    <div className="driverItem" key={i}>
-                                        <p className="driverLabel">Driver {i + 1}</p>
-                                        <div className="displayDriver">
-                                            <p className="driverDetailsLabel">MPG:</p>
-                                            <p className="driverValue">{tractor.mpg}</p>
-                                            <p className='driverDetailsLabel'>Internal Num:</p>
-                                            <p className="driverValue">{tractor.internalNum}</p>
-                                        </div>
-                                    </div>)
-                            })}
-                        </div>
-                    </div>
-                    <div className='detailsGroup'>
-                        <p className='detailsGroupLabel'>Dispatcher</p>
-                        <div className='detailsItemGroup'>
-                            <div className='detailsItem'>
-                                <p className='detailsLabel'>Email: </p>
-                                <p className='detailsValue'>{dispatcher.email}</p>
-                            </div>
-                            <div className='detailsItem'>
-                                <p className='detailsLabel'>Username: </p>
-                                <p className='detailsValue'>{dispatcher.username}</p>
-                            </div>
-                            <div className='detailsItem'>
-                                <p className='detailsLabel'>Name: </p>
-                                <p className='detailsValue'>{dispatcher.name}</p>
-                            </div>
-                            <div className='detailsItem'>
-                                <p className='detailsLabel'>Company: </p>
-                                <p className='detailsValue'>{dispatcher.company}</p>
-                            </div>
-                        </div>
-                    </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Trailer lease monthly payment</label>
+                    <p>${operationalCosts.trailerLease}</p>
                 </div>
-                <div className='detailsRow'>
-                    <div className="detailsGroup">
-                        <p className="detailsGroupLabel">Fixed Costs</p>
-                        <div className="detailsItemGroup">
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Labor Rate</p>
-                                <p className="detailsValue">{newCosts.laborRate}%</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Payroll Tax</p>
-                                <p className="detailsValue">{newCosts.payrollAmount}%</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Dispatch Fee</p>
-                                <p className="detailsValue">{newCosts.dispatchAmount}%</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Factor Fee</p>
-                                <p className="detailsValue">{newCosts.factorAmount}%</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">MPG</p>
-                                <p className="detailsValue">{newCosts.mpgAmount}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Number of Tractors</p>
-                                <p className="detailsValue">{newCosts.tractorNum}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">ODC</p>
-                                <p className="detailsValue">{newCosts.odcAmount}%</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Overhead</p>
-                                <p className="detailsValue">{newCosts.overheadAmount}%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="detailsGroup">
-                        <p className="detailsGroupLabel">Operational Costs</p>
-                        <div className="detailsItemGroup">
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Insurance Payment</p>
-                                <p className="detailsValue">${newCosts.insuranceAmount}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Tractor Lease</p>
-                                <p className="detailsValue">${newCosts.tractorAmount}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Trailer Lease</p>
-                                <p className="detailsValue">${newCosts.trailerAmount}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Repairs</p>
-                                <p className="detailsValue">${newCosts.repairsAmount}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Loan Payments</p>
-                                <p className="detailsValue">${newCosts.loanAmount}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">Parking</p>
-                                <p className="detailsValue">${newCosts.parkingAmount}</p>
-                            </div>
-                            <div className="detailsItem">
-                                <p className="detailsLabel">G&A</p>
-                                <p className="detailsValue">${newCosts.gandaAmount}</p>
-                            </div>
-                        </div>
-                    </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Repairs cost in cents per mile</label>
+                    <p>${operationalCosts.repairs}</p>
+                </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Monthly loan payment</label>
+                    <p>${operationalCosts.loan}</p>
+                </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Monthly parking cost</label>
+                    <p>${operationalCosts.parking}</p>
+                </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Monthly G&A cost</label>
+                    <p>${operationalCosts.gAndA}</p>
                 </div>
             </div>
-            <div className='progressContainer'>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='dot'></span>
-                <span className='currentDot'></span>
-            </div>
-            <div className="signUpSlideControls">
-                <div className="btnContainerSignUp">
-                    <button className="btnSignUp" onClick={() => {
-                        setCurrentSlide(currentSlide - 1)
-                    }}>Back</button>
-                    <button className="btnSignUp" onClick={() => {
-                        createAccount()
-                    }}>Submit</button>
+            <div className="confirm-group">
+                <p style={{ borderBottom: '.1rem solid #e0e0e0', marginBottom: '1rem', height: '2rem' }}>Fixed Costs</p>
+                <div className='confirm-row'>
+                    <label className="input-label">Labor rate as a percentage of revenue</label>
+                    <p>{fixedCosts.labor}%</p>
                 </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Payroll tax rate</label>
+                    <p>{fixedCosts.payroll}%</p>
+                </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Dispatch Fee as a percentage of revenue</label>
+                    <p>{fixedCosts.dispatch}%</p>
+                </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Factor fee as a percentage of revenue</label>
+                    <p>{fixedCosts.factor}%</p>
+                </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Other direct costs (ODC) as percentage of revenue</label>
+                    <p>{fixedCosts.odc}%</p>
+                </div>
+                <div className='confirm-row'>
+                    <label className="input-label">Overhead costs as a percentage of revenue</label>
+                    <p>{fixedCosts.overhead}%</p>
+                </div>
+            </div>
+            <div className="confirm-group">
+                <p style={{ borderBottom: '.1rem solid #e0e0e0', marginBottom: '1rem', height: '2rem' }}>Users</p>
+                {newUsers.map((user, i) => {
+                    return (
+                    <div style={{width: '70%', justifySelf: 'center'}}>
+                        <p style={{justifySelf: 'center'}}>User {i + 1}</p>
+                        <div className='confirm-row'>
+                            <label className='input-label'>Name</label>
+                            <p>{user.name}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>Email</label>
+                            <p>{user.email}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>Account Type</label>
+                            <p>{user.accountType}</p>
+                        </div>
+                    </div>)
+                })}
+            </div>
+            <div className="confirm-group">
+                <p style={{ borderBottom: '.1rem solid #e0e0e0', marginBottom: '1rem', height: '2rem' }}>Tractors</p>
+                {newTractors.map((tractor, i) => {
+                    return (
+                    <div style={{width: '70%', justifySelf: 'center'}}>
+                        <p style={{justifySelf: 'center'}}>Tractor {i + 1}</p>
+                        <div className='confirm-row'>
+                            <label className='input-label'>Internal Number</label>
+                            <p>{tractor.internalNum}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>VIN</label>
+                            <p>{tractor.vin}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>Monthly Insurance</label>
+                            <p>${tractor.insurance}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>MPG</label>
+                            <p>{tractor.mpg}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>Height</label>
+                            <p>Ft. {tractor.height.ft} In. {tractor.height.in}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>MPG</label>
+                            <p>{tractor.mpg}</p>
+                        </div>
+                        <div className='confirm-row'>
+                            <label className='input-label'>MPG</label>
+                            <p>{tractor.mpg}</p>
+                        </div>
+                    </div>)
+                })}
             </div>
         </div>
     )

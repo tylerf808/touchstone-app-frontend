@@ -1,7 +1,12 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../helpers/Context';
+import AddUserForm from './signUpPages/AddUserForm';
 import './signUpStyles.css'
+import AddTractorForm from './signUpPages/AddTractorForm';
+import OperationalCostsTab from './signUpPages/OperationalCostsTab';
+import FixedCostsTab from './signUpPages/FixedCostsTab';
+import ConfirmDetails from './signUpPages/ConfirmDetails';
 
 const TabbedInputComponent = () => {
 
@@ -12,31 +17,61 @@ const TabbedInputComponent = () => {
   const params = new URLSearchParams(window.location.search)
   const code = params.get('code')
 
-  const [newUserInfo, setNewUserInfo] = useState({ name: '', username: '', password: '', passwordConf: '' })
-  const [confSuccess, setConfSuccess] = useState(false)
+  const [operationalCosts, setOperationalCosts] = useState({ tractorLease: '', trailerLease: '', repairs: '', loan: '', parking: '', gAndA: '' })
+  const [fixedCosts, setFixedCosts] = useState({ labor: '', payroll: '', dispatch: '', factor: '', odc: '', overhead: '' })
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Operational Costs", "Fixed Costs", "Add Drivers", "Add Tractors"];
+  const [password, setPassword] = useState('')
+  const [newUsers, setNewUsers] = useState([{ name: '', email: '', accountType: 'Driver' }])
+  const [newTractors, setNewTractors] = useState([{
+    internalNum: '', vin: '', mpg: '',
+    insurance: '', height: { ft: '', in: '' },
+    width: { ft: '', in: '' }, weight: ''
+  }])
+  const [newAccount, setNewAccount] = useState()
+  const tabs = ["Password", "Operational Costs", "Fixed Costs", "Add Users", "Add Tractors", "Confirm Details"];
 
-  const confirmPendingAccount = async (e) => {
-    e.preventDefault()
-    if (newUserInfo.password !== newUserInfo.passwordConf) {
-      alert('Passwords do not match')
+  const getPendingAccontDetails = async () => {
+    const response = await fetch(apiUrl + '/api/user/getPendingAccount', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: code })
+    }).then((res) => res.json())
+    const userData = response[0]
+    setNewAccount(userData)
+  }
+
+  const togglePassword = () => {
+    let password = document.getElementById('password')
+    let passwordConf = document.getElementById('password-conf')
+    if (password.type === 'password') {
+      password.type = 'text'
+      passwordConf.type = 'text'
     } else {
-      await fetch(apiUrl + `/api/user/confirmPendingAccount`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ...newUserInfo, confirmationCode: code })
-      }).catch((err) => console.log(err))
-      navigate('/login')
+      password.type = 'password'
+      passwordConf.type = 'password'
     }
   }
 
-  const handelChange = (e) => {
-    setNewUserInfo({ ...newUserInfo, [e.target.name]: e.target.value })
-  }
+  useEffect(() => {
+    getPendingAccontDetails()
+  }, [])
 
+  const confirmPendingAccount = async (e) => {
+    e.preventDefault()
+    await fetch(apiUrl + `/api/user/confirmPendingAccount`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        operationalCosts: operationalCosts, fixedCosts: fixedCosts,
+        users: newUsers, tractors: newTractors, confirmationCode: code, password: password
+      })
+    }).catch((err) => console.log(err))
+    setActiveTab(5)
+    setTimeout(function () { }, 3000)
+    navigate('/login')
+  }
 
   const nextTab = () => {
     if (activeTab < tabs.length - 1) {
@@ -50,196 +85,48 @@ const TabbedInputComponent = () => {
     }
   };
 
-  const OperationalCostsTab = () => (
-    <div className="tab-content">
-      <div className="input-group">
-        <label className="input-label">Tractor lease monthly payment</label>
-        <input
-          type="number"
-          className="input-field"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Trailer lease monthly payment</label>
-        <input
-          type="number"
-          className="input-field"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Repairs costs in cents per mile</label>
-        <input
-          type="number"
-          className="input-field"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Repairs costs in cents per mile</label>
-        <input
-          type="number"
-          className="input-field"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Monthly loan payment (leave blank if none)</label>
-        <input
-          type="number"
-          className="input-field"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Monthly parking cost</label>
-        <input
-          type="number"
-          className="input-field"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Monthly G&A cost</label>
-        <input
-          type="number"
-          className="input-field"
-        />
-      </div>
-    </div>
-  );
-
-  const FixedCostsTab = () => (
-    <div className="tab-content">
-      <div className="input-group fixed-group">
-        <label className="input-label">Labor rate as a percentage of revenue</label>
-        <div>
-          <input
-            type="number"
-            className="input-field"
-          />
-          <span >%</span>
-        </div>
-      </div>
-      <div className="input-group fixed-group">
-        <label className="input-label">Payroll tax rate</label>
-        <div>
-          <input
-            type="number"
-            className="input-field"
-          />
-          <span>%</span>
-        </div>
-      </div>
-      <div className="input-group fixed-group">
-        <label className="input-label">Dispatch fee as a percentage of revenue</label>
-        <div>
-          <input
-            type="number"
-            className="input-field"
-          />
-          <span>%</span>
-        </div>
-      </div>
-      <div className="input-group fixed-group">
-        <label className="input-label">Factor fee as a percentage of revenue</label>
-        <div>
-          <input
-            type="number"
-            className="input-field"
-          />
-          <span>%</span>
-        </div>
-      </div>
-      <div className="input-group fixed-group">
-        <label className="input-label">Other direct costs (ODC) as a percentage of revenue</label>
-        <div>
-          <input
-            type="number"
-            className="input-field"
-          />
-          <span>%</span>
-        </div>
-      </div>
-      <div className="input-group fixed-group">
-        <label className="input-label">Overhead as a percentage of revenue</label>
-        <div>
-          <input
-            type="number"
-            className="input-field"
-          />
-          <span>%</span>
-        </div>
-      </div>
-    </div>
-  );
-
   const AddUsersTab = () => (
     <div className="tab-content">
-      <div className="input-group">
-        <label className="input-label">Theme</label>
-        <select className="input-field">
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="system">System Default</option>
-        </select>
-      </div>
-      <div className="input-group">
-        <label className="input-label">Notifications</label>
-        <div className="checkbox-group">
-          <input type="checkbox" id="notifications" />
-          <label htmlFor="notifications">Enable notifications</label>
-        </div>
-      </div>
-      <div className="input-group">
-        <label className="input-label">Language</label>
-        <select className="input-field">
-          <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
-        </select>
+      <div className='input-label' style={{ justifySelf: 'center', alignSelf: 'center', marginBottom: '.1rem', fontSize: '1rem' }}>Add drivers and dispatchers (must enter at least one)</div>
+      <div className='input-label' style={{ justifySelf: 'center', alignSelf: 'center', marginBottom: '1rem', fontSize: '1rem' }}>A sign up link will be sent to their email.</div>
+      {newUsers?.map((user, i) => {
+        return <AddUserForm key={i} i={i} user={user} newUsers={newUsers} setNewUsers={setNewUsers} />
+      })}
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '.5rem' }}>
+        <button onClick={(e) => {
+          e.preventDefault()
+          const newArray = [...newUsers, { name: '', email: '', accountType: 'Driver' }]
+          setNewUsers(newArray)
+        }} style={{ backgroundColor: 'orange', lineHeight: '1.5rem', justifySelf: 'center' }}>
+          <span style={{ fontSize: '1.5rem' }}>+</span>
+          Add User
+        </button>
       </div>
     </div>
   );
 
   const AddTractorsTab = () => (
     <div className="tab-content">
-      <div className="input-group">
-        <label className="input-label">Theme</label>
-        <select className="input-field">
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="system">System Default</option>
-        </select>
-      </div>
-      <div className="input-group">
-        <label className="input-label">Notifications</label>
-        <div className="checkbox-group">
-          <input type="checkbox" id="notifications" />
-          <label htmlFor="notifications">Enable notifications</label>
-        </div>
-      </div>
-      <div className="input-group">
-        <label className="input-label">Language</label>
-        <select className="input-field">
-          <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
-        </select>
+      <div className='input-label' style={{ justifySelf: 'center', alignSelf: 'center', marginBottom: '.5rem', fontSize: '1rem' }}>Add tractors (must enter at least one)</div>
+      {newTractors?.map((tractor, i) => {
+        return <AddTractorForm key={i} i={i} tractor={tractor} newTractors={newTractors} setNewTractors={setNewTractors} />
+      })}
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '.5rem' }}>
+        <button onClick={(e) => {
+          e.preventDefault()
+          const newArray = [...newTractors, {
+            internalNum: '', vin: '', mpg: '',
+            insurance: '', height: { ft: '', in: '' },
+            width: { ft: '', in: '' }, weight: ''
+          }]
+          setNewTractors(newArray)
+        }} style={{ backgroundColor: 'orange', width: '6.5rem', justifySelf: 'center' }}>
+          <span style={{ fontSize: '1.5rem' }}>+</span>
+          Add Tractor
+        </button>
       </div>
     </div>
   );
-
-  // Render the appropriate tab content based on activeTab state
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 0:
-        return <OperationalCostsTab />;
-      case 1:
-        return <FixedCostsTab />;
-      case 2:
-        return <AddUsersTab />;
-      case 3:
-        return <AddTractorsTab />;
-      default:
-        return null;
-    }
-  };
 
   return (
     <div className="tabbed-container">
@@ -256,9 +143,43 @@ const TabbedInputComponent = () => {
         ))}
       </div>
       {/* Tab content */}
+
       <div>
-        {renderTabContent()}
+        <div style={{ display: activeTab === 0 ? 'block' : 'none' }}>
+          <form className='tab-content'>
+            <div className='input-group'>
+              <label className='input-label'>Password</label>
+              <input defaultValue={password} onChange={(e) => setPassword(e.target.value)} className='input-field' type='password' id='password'></input>
+            </div>
+            <div className='input-group'>
+              <label className='input-label'>Confirm Password</label>
+              <input className='input-field' type='password' id='password-conf'></input>
+            </div>
+            <div style={{width: '16rem', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', alignSelf: 'flex-end', marginRight: '0rem'}}>
+              <label className='input-label'>Show Password</label>
+              <input onClick={togglePassword} type='checkbox' style={{ accentColor: 'orange', height: '1rem', width: '1rem', alignSelf: 'center', marginLeft: '1rem'}}></input>
+            </div>
+          </form>
+        </div>
+        <div style={{ display: activeTab === 1 ? 'block' : 'none' }}>
+          <OperationalCostsTab operationalCosts={operationalCosts} setOperationalCosts={setOperationalCosts} />
+        </div>
+        <div style={{ display: activeTab === 2 ? 'block' : 'none' }}>
+          <FixedCostsTab fixedCosts={fixedCosts} setFixedCosts={setFixedCosts} />
+        </div>
+        <div style={{ display: activeTab === 3 ? 'block' : 'none' }}>
+          <AddUsersTab />
+        </div>
+        <div style={{ display: activeTab === 4 ? 'block' : 'none' }}>
+          <AddTractorsTab />
+        </div>
+        <div style={{ display: activeTab === 5 ? 'block' : 'none' }}>
+          <ConfirmDetails newAccount={newAccount} operationalCosts={operationalCosts}
+            fixedCosts={fixedCosts} newUsers={newUsers} newTractors={newTractors} />
+        </div>
       </div>
+
+
       {/* Navigation arrows */}
       <div className="navigation">
         <button
@@ -271,7 +192,7 @@ const TabbedInputComponent = () => {
           </svg>
           Previous
         </button>
-        <button
+        {activeTab === 5 ? <button style={{ backgroundColor: 'orange' }} onClick={confirmPendingAccount}>Submit</button> : <button
           className="nav-button next-button"
           onClick={nextTab}
           disabled={activeTab === tabs.length - 1}
@@ -280,7 +201,8 @@ const TabbedInputComponent = () => {
           <svg className="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
-        </button>
+        </button>}
+
       </div>
     </div>
   );

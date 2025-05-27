@@ -87,7 +87,7 @@ export default function Tractors() {
                 "Content-Type": "application/json",
                 "Authorization": token
             },
-            body: JSON.stringify({ internalNum: editingItem.internalNum })
+            body: JSON.stringify({ _id: editingItem._id })
         }).catch((err) => console.log(err))
         getTractors()
     }
@@ -128,8 +128,8 @@ export default function Tractors() {
                                 <p>VIN: {tractor?.vin}</p>
                                 <p>Insurance: {formatUSD(tractor?.insurance)}</p>
                                 <p>MPG: {tractor?.mpg}</p>
-                                <p>Height: {tractor?.height}</p>
-                                <p>Width: {tractor?.width}</p>
+                                <p>Height: {tractor?.height.ft} Ft. {tractor?.height.in} In.</p>
+                                <p>Height: {tractor?.width.ft} Ft. {tractor?.width.in} In.</p>
                                 <p>Weight: {tractor?.weight}</p>
                             </div>
                             <div className="user-item-btns">

@@ -16,12 +16,13 @@ const AddJob = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [tractors, setTractors] = useState(null);
   const [drivers, setDrivers] = useState(null);
+  const [selectedTractor, setSelectedTractor] = useState()
   const [logistics, setLogistics] = useState({
     revenue: 0,
     driver: '',
-    tractor: 0,
     startDate: '',
-    client: ''
+    client: '',
+    hazmat: []
   });
   const [routeInfo, setRouteInfo] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -47,11 +48,10 @@ const AddJob = () => {
       const data = await response.json();
       setDrivers(data[0]);
       setTractors(data[1]);
-
+      setSelectedTractor(data[1][0])
       setLogistics(prevLogistics => ({
         ...prevLogistics,
-        driver: data[0][0],
-        tractor: data[1][0].internalNum
+        driver: data[0][0]
       }));
     } catch (err) {
       console.error("Error fetching drivers and tractors:", err);
@@ -64,7 +64,7 @@ const AddJob = () => {
       if (!job) {
         throw new Error("No job data to submit");
       }
-      
+
       const response = await fetch(`${apiUrl}/api/jobs/newJob`, {
         method: 'POST',
         headers: {
@@ -94,16 +94,16 @@ const AddJob = () => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       // Get addresses from input elements
       const startElement = document.getElementById('start-input');
       const pickupElement = document.getElementById('pick-up-input');
       const dropoffElement = document.getElementById('drop-off-input');
-      
+
       if (!startElement || !pickupElement || !dropoffElement) {
         throw new Error('Could not find one or more address input elements');
       }
@@ -112,33 +112,26 @@ const AddJob = () => {
 
       const formattedStartDate = dateObj.toISOString().split('.')[0] + 'Z';
 
-      console.log(formattedStartDate)
-      
       const startAddr = startElement.value;
       const waypointAddr = pickupElement.value;
       const endAddr = dropoffElement.value;
-      
+
       // Validate addresses
       if (!startAddr || !waypointAddr || !endAddr) {
         throw new Error('Please enter all three addresses');
       }
-      
+
       // Create request payload
       const payload = {
         startAddress: startAddr,
         pickupAddress: waypointAddr,
         dropoffAddress: endAddr,
         startDate: formattedStartDate,
-        truckDetails: {
-          vehicleWidth: 2.5,      // 2.5 meters
-          vehicleHeight: 4,       // 4 meters
-          vehicleLength: 15,      // 15 meters
-          vehicleWeight: 15000,   // 15,000 kilograms
-          vehicleAxleWeight: 10000, // 10,000 kilograms
-          vehicleMaxSpeed: 90     // 90 km/hour
-        }
+        tractor: selectedTractor,
+        logistics: logistics
       };
-      
+      console.log(payload)
+
       // Make request to your backend
       const response = await fetch(`${apiUrl}/api/costs/calculate`, {
         method: 'POST',
@@ -148,22 +141,21 @@ const AddJob = () => {
         },
         body: JSON.stringify(payload)
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      
+
+      console.log(data)
+
       if (!data) {
         throw new Error('No route data received from server');
       }
-      
-      console.log(data)
-      
+
     } catch (err) {
       setError(`Error calculating route: ${err.message}`);
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -176,20 +168,22 @@ const AddJob = () => {
 
   return (
     <div className="calculator-container">
-      <DetailsInput 
-        findRoute={findRoute} 
-        isExpanded={isExpanded} 
+      <DetailsInput
+        findRoute={findRoute}
+        isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
-        tractors={tractors} 
-        drivers={drivers} 
-        logistics={logistics} 
+        tractors={tractors}
+        drivers={drivers}
+        logistics={logistics}
         setLogistics={setLogistics}
-        profitable={profitable} 
-        loaded={loaded} 
-        job={job} 
-        addJob={addJob} 
+        profitable={profitable}
+        loaded={loaded}
+        job={job}
+        addJob={addJob}
+        selectedTractor={selectedTractor}
+        setSelectedTractor={setSelectedTractor}
       />
-      
+
       <div className="results-container">
         {loading && (
           <div className="loading-container">
@@ -197,13 +191,13 @@ const AddJob = () => {
             <p>Calculating route...</p>
           </div>
         )}
-        
+
         {error && (
           <div className="error-message">
             {error}
           </div>
         )}
-        
+
         {routeInfo && (
           <div className="route-info-container">
             <h3>Route Information</h3>
@@ -216,7 +210,7 @@ const AddJob = () => {
             <p>CO₂: {routeInfo.co2Emissions} kg</p>
           </div>
         )}
-        
+
         {/* If you want to render a map with the returned route data, 
             you would add a MapDisplay component here that takes the route data as a prop */}
       </div>

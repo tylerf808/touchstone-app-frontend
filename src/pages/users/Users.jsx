@@ -18,6 +18,7 @@ export default function Users() {
     const [newModalOpen, setNewModalOpen] = useState(false)
     const [newItem, setNewItem] = useState()
     const [users, setUsers] = useState([])
+    const [pendingUsers, setPendingUsers] = useState([])
     const [drivers, setDrivers] = useState([])
     const [dispatchers, setDispatchers] = useState([])
     const [visibleUsers, setVisibleUsers] = useState([])
@@ -44,12 +45,18 @@ export default function Users() {
                 "Authorization": token
             },
         }).then((res) => res.json()).then((data) => {
-            setUsers(data)
-            setVisibleUsers(data)
-            const filteredDrivers = data.filter((user) => user.accountType === "driver")
-            setDrivers(filteredDrivers)
-            const filteredDispatchers = data.filter((user) => user.accountType === "dispatcher")
-            setDispatchers(filteredDispatchers)
+            setUsers(data.users)
+            setPendingUsers(data.pendingUsers)
+            const filteredDrivers = data.users.filter((user) => user.accountType === "driver" || user.accountType === 'Driver')
+            const filteredPendingDrivers = data.pendingUsers.filter((user) => user.accountType === 'driver' || user.accountType === 'Driver')
+            const allDrivers = filteredDrivers.concat(filteredPendingDrivers)
+            setDrivers(allDrivers)
+            const filteredDispatchers = data.users.filter((user) => user.accountType === "dispatcher" || user.accountType === 'Dispatcher')
+            const filteredPendingDispatchers = data.pendingUsers.filter((user) => user.accountType === 'dispatcher' || user.accountType === 'Dispatcher')
+            const allDispatchers = filteredDispatchers.concat(filteredPendingDispatchers)
+            setDispatchers(allDispatchers)
+            const allUsers = allDrivers.concat(allDispatchers)
+            setVisibleUsers(allUsers)
         })
     }
 
@@ -123,7 +130,6 @@ export default function Users() {
     }
 
     const handleDeleteConfirmation = async () => {
-        console.log(editingItem)
         await fetch(apiUrl + '/api/user/deleteUser', {
             method: 'POST',
             headers: {
@@ -158,11 +164,18 @@ export default function Users() {
                         return (
                             <div className="user-item" key={i}>
                                 <div className="user-info">
-                                    {user.accountType === 'driver' && <img style={{ height: '2.5rem', marginRight: '1rem' }} src={driverIcon}></img>}
+                                    {user.accountType === 'driver' || user.accountType === "Driver" && <img style={{ height: '2.5rem', marginRight: '1rem' }} src={driverIcon}></img>}
                                     {user.accountType === 'dispatcher' && <img style={{ height: '2rem', marginRight: '1.5rem' }} src={dispatcherIcon}></img>}
                                     <h3>{user?.name}</h3>
                                     <p>{user?.email}</p>
                                     <p>{user?.username}</p>
+                                    {user.confirmationCode ?
+                                        <div style={{ width: '60%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                            <p style={{ fontStyle: 'italic' }}>pending user</p>
+                                            <button style={{ width: '12rem', backgroundColor: 'orange' }}>Resend Varification Email</button>
+                                        </div>
+                                        :
+                                        null}
                                 </div>
                                 <div className="user-item-btns">
                                     <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>

@@ -27,42 +27,52 @@ export default function ConfirmationPage() {
                 },
                 body: JSON.stringify({ ...newUserInfo, confirmationCode: code })
             }).catch((err) => console.log(err))
-            navigate('/login')
+
         }
+        navigate('/login')
     }
 
     const handelChange = (e) => {
         setNewUserInfo({ ...newUserInfo, [e.target.name]: e.target.value })
     }
 
-    return (
-        <div className="page-container">
-            {confSuccess ?
-                <h3>Email Confirmed!</h3>
-                :
-                <form className="confirmation-details-form">
-                    <h3 style={{ marginTop: '6rem', marginBottom: '.5rem' }}>Enter Details</h3>
-                    <div className="confirmation-details-row">
-                        <label>Name:</label>
-                        <input type="text" name="name" onChange={(e) => handelChange(e)}></input>
-                    </div>
-                    <div className="confirmation-details-row">
-                        <label>Username:</label>
-                        <input name="username" onChange={(e) => handelChange(e)}></input>
-                    </div>
-                    <div className="confirmation-details-row">
-                        <label>Password:</label>
-                        <input type="password" name="password" onChange={(e) => handelChange(e)}></input>
-                    </div>
-                    <div className="confirmation-details-row">
-                        <label>Confirm Password:</label>
-                        <input type="password" name="passwordConf" onChange={(e) => handelChange(e)}></input>
-                    </div>
-                    <div className="confirmation-btn-container">
-                        <button onClick={(e) => confirmEmail(e)}>Confirm</button>
-                    </div>
-                </form>
-            }
-        </div>
-    )
+    if (!code) {
+        return (
+            <h1 style={{ justifySelf: 'center', marginTop: '10rem' }}>404</h1>
+        )
+    } else {
+        return (
+            <div className="page-container">
+                {confSuccess ?
+                    <h3>Email Confirmed!</h3>
+                    :
+                    <form className="confirmation-details-form">
+                        <div className="confirm-header-container">
+                            <h2>Enter Details</h2>
+                            <p className="input-label" style={{ fontSize: '1rem' }}>Create user details and a password to start using Touchstone Calculator</p>
+                        </div>
+                        <div className="confirmation-details-row">
+                            <label className="input-label">Name:</label>
+                            <input type="text" name="name" onChange={(e) => handelChange(e)}></input>
+                        </div>
+                        <div className="confirmation-details-row">
+                            <label className="input-label">Username:</label>
+                            <input name="username" onChange={(e) => handelChange(e)}></input>
+                        </div>
+                        <div className="confirmation-details-row">
+                            <label className="input-label">Password:</label>
+                            <input type="password" name="password" onChange={(e) => handelChange(e)}></input>
+                        </div>
+                        <div className="confirmation-details-row">
+                            <label className="input-label">Confirm Password:</label>
+                            <input type="password" name="passwordConf" onChange={(e) => handelChange(e)}></input>
+                        </div>
+                        <div className="confirmation-btn-container">
+                            <button onClick={(e) => confirmEmail(e)}>Confirm</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        )
+    }
 }
