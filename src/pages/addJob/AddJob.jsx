@@ -185,34 +185,16 @@ const AddJob = () => {
       />
 
       <div className="results-container">
-        {loading && (
+        {loading ?
           <div className="loading-container">
             <CircularProgress />
             <p>Calculating route...</p>
           </div>
-        )}
-
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
-
-        {routeInfo && (
+          :
           <div className="route-info-container">
-            <h3>Route Information</h3>
-            <p>Distance: {routeInfo.distanceKm} km ({routeInfo.distanceMiles} mi)</p>
-            <p>Est. Time: {routeInfo.hours}h {routeInfo.minutes}m</p>
-            {routeInfo.trafficDelay > 0 && (
-              <p>Traffic Delay: {routeInfo.trafficDelay} min</p>
-            )}
-            <p>Fuel Est: {routeInfo.fuelConsumption} gal</p>
-            <p>CO₂: {routeInfo.co2Emissions} kg</p>
+            
           </div>
-        )}
-
-        {/* If you want to render a map with the returned route data, 
-            you would add a MapDisplay component here that takes the route data as a prop */}
+        }
       </div>
     </div>
   );
