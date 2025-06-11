@@ -107,6 +107,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                 <button className="calc-route-button" onClick={(e) => {
                     e.preventDefault()
                     addJob()
+                    setShowResults(false)
                 }}>Add Job</button>
                 <button className="calc-route-button"  onClick={(e) => {
                     e.preventDefault()
