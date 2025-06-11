@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import './addJobStyles.css';
 import { CircularProgress } from "@mui/material";
 import DetailsInput from './components/DetailsInput';
+import ResultsContainer from './components/ResultsContainer';
 import UserContext from '../../helpers/Context'
 import { useNavigate } from "react-router-dom";
 import * as atlas from 'azure-maps-control'
@@ -9,10 +10,7 @@ import "azure-maps-control/dist/atlas.min.css";
 
 const AddJob = () => {
   const [job, setJob] = useState(null);
-  const [profitable, setProfitable] = useState(null);
-  const [loaded, setLoaded] = useState(false);
-  const [route, setRoute] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('')
   const [isExpanded, setIsExpanded] = useState(false);
   const [tractors, setTractors] = useState(null);
   const [drivers, setDrivers] = useState(null);
@@ -24,8 +22,8 @@ const AddJob = () => {
     client: '',
     hazmat: []
   });
-  const [routeInfo, setRouteInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   const { apiUrl, location } = useContext(UserContext);
   const token = localStorage.getItem('token');
@@ -130,7 +128,6 @@ const AddJob = () => {
         tractor: selectedTractor,
         logistics: logistics
       };
-      console.log(payload)
 
       // Make request to your backend
       const response = await fetch(`${apiUrl}/api/costs/calculate`, {
@@ -148,12 +145,13 @@ const AddJob = () => {
 
       const data = await response.json();
 
-      console.log(data)
-
       if (!data) {
         throw new Error('No route data received from server');
       }
 
+      setJob(data)
+      setShowResults(true);
+      setLoading(false)
     } catch (err) {
       setError(`Error calculating route: ${err.message}`);
     } finally {
@@ -168,33 +166,38 @@ const AddJob = () => {
 
   return (
     <div className="calculator-container">
-      <DetailsInput
-        findRoute={findRoute}
-        isExpanded={isExpanded}
-        setIsExpanded={setIsExpanded}
-        tractors={tractors}
-        drivers={drivers}
-        logistics={logistics}
-        setLogistics={setLogistics}
-        profitable={profitable}
-        loaded={loaded}
-        job={job}
-        addJob={addJob}
-        selectedTractor={selectedTractor}
-        setSelectedTractor={setSelectedTractor}
-      />
-
-      <div className="results-container">
-        {loading ?
-          <div className="loading-container">
-            <CircularProgress />
-            <p>Calculating route...</p>
-          </div>
-          :
-          <div className="route-info-container">
-            
-          </div>
-        }
+      <div className={`transition-container ${showResults ? 'expand' : ''}`}>
+        {!showResults ? (
+          loading ? (
+            <div style={{justifySelf: 'center', alignSelf: 'center', display: 'flex', flexDirection: 'column',
+             justifyContent: 'center', alignItems: 'center', marginTop: '6rem'}}>
+              <CircularProgress style={{color: 'orange'}}/>
+              <p style={{color: 'gray'}}>Calculating route...</p>
+            </div>
+          ) : (
+            <DetailsInput
+              findRoute={findRoute}
+              isExpanded={isExpanded}
+              setIsExpanded={setIsExpanded}
+              tractors={tractors}
+              drivers={drivers}
+              logistics={logistics}
+              setLogistics={setLogistics}
+              job={job}
+              addJob={addJob}
+              selectedTractor={selectedTractor}
+              setSelectedTractor={setSelectedTractor}
+            />
+          )
+        ) : (
+          <ResultsContainer
+            addJob={addJob}
+            job={job}
+            setJob={setJob}
+            setShowResults={setShowResults}
+            setError={setError}
+          />
+        )}
       </div>
     </div>
   );
