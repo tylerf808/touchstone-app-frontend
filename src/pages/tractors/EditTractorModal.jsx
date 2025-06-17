@@ -41,7 +41,7 @@ export default function EditTractorModal({ isOpen, editedItem, setEditedItem, on
                             VIN:
                         </label>
                         <input
-                            type="number"
+                            type="text"
                             name="vin"
                             value={editedItem?.vin}
                             onChange={handleChange}
@@ -74,6 +74,36 @@ export default function EditTractorModal({ isOpen, editedItem, setEditedItem, on
                             value={editedItem?.mpg}
                             onChange={handleChange}
                         />
+                    </div>
+                    <div className="modal-input-row">
+                        <label>
+                            Tractor Lease:
+                        </label>
+                        <div style={{justifySelf: 'flex-end'}}>
+                            <span style={{fontWeight: 'bold'}}>$ </span>
+                            <input
+                                style={{ width: '8rem' }}
+                                type="number"
+                                name="tractorLease"
+                                value={editedItem?.tractorLease}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="modal-input-row">
+                        <label>
+                            Trailer Lease:
+                        </label>
+                        <div style={{justifySelf: 'flex-end'}}>
+                            <span style={{fontWeight: 'bold'}}>$ </span>
+                            <input
+                                style={{ width: '8rem' }}
+                                type="number"
+                                name="trailerLease"
+                                value={editedItem?.trailerLease}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
                     <div className="modal-input-row">
                         <label>

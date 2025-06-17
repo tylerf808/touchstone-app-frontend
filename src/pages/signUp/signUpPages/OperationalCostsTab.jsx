@@ -4,37 +4,8 @@ export default function OperationalCostsTab({ operationalCosts, setOperationalCo
         <form className="tab-content">
             <div className='input-label' style={{ justifySelf: 'center', alignSelf: 'center', marginBottom: '.5rem', fontSize: '1rem' }}>Enter each of your monthly operational costs</div>
             <div className="input-group operational-group">
-                <label htmlFor="tractorLease" className="input-label">Tractor lease monthly payment</label>
-                <div style={{ justifySelf: 'flex-end' }}>
-                    <span>$</span>
-                    <input
-                        name="tractorLease"
-                        type='number'
-                        className="input-field"
-                        value={operationalCosts.tractorLease}
-                        onChange={(e) => setOperationalCosts({ ...operationalCosts, tractorLease: e.target.value })}
-                    />
-                </div>
-            </div>
-            <div className="input-group operational-group">
-                <label htmlFor="trailerLease" className="input-label">Trailer lease monthly payment</label>
-                <div style={{ justifySelf: 'flex-end' }}>
-                    <span>$</span>
-                    <input
-                        name="trailerLease"
-                        type='number'
-                        className="input-field"
-                        defaultValue={operationalCosts.trailerLease}
-                        onChange={(e) => {
-                            setOperationalCosts({ ...operationalCosts, trailerLease: e.target.value })
-                        }}
-                    />
-                </div>
-            </div>
-            <div className="input-group operational-group">
                 <label htmlFor="repairs" className="input-label">Repairs costs in cents per mile</label>
                 <div style={{ justifySelf: 'flex-end' }}>
-                    <span>$</span>
                     <input
                         name="repairs"
                         type='number'
@@ -42,6 +13,7 @@ export default function OperationalCostsTab({ operationalCosts, setOperationalCo
                         defaultValue={operationalCosts.repairs}
                         onChange={(e) => setOperationalCosts({ ...operationalCosts, repairs: e.target.value })}
                     />
+                    <span>¢</span>
                 </div>
             </div>
             <div className="input-group operational-group">

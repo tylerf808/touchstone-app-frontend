@@ -20,7 +20,7 @@ export default function AddTractorForm({ tractor, i, newTractors, setNewTractors
                 <label htmlFor="vin" className="input-label">VIN</label>
                 <input name="vin" defaultValue={tractor.vin} onChange={(e) => {
                     tractor.vin = e.target.value
-                }} className="tractor-input" type="number"></input>
+                }} className="tractor-input" type="text"></input>
             </div>
             <div className="tractor-input-group">
                 <label htmlFor="insurance" className="input-label">Monthly insurance payment</label>
@@ -32,6 +32,18 @@ export default function AddTractorForm({ tractor, i, newTractors, setNewTractors
                 <label htmlFor="mpg" className="input-label">MPG</label>
                 <input name="mpg" style={{ width: '3rem' }} defaultValue={tractor.mpg} onChange={(e) => {
                     tractor.mpg = e.target.value
+                }} className="tractor-input" type="number"></input>
+            </div>
+            <div className="tractor-input-group">
+                <label htmlFor="mpg" className="input-label">Tractor Lease</label>
+                <input name="mpg" style={{ width: '3rem' }} defaultValue={tractor.tractorLease} onChange={(e) => {
+                    tractor.tractorLease = e.target.value
+                }} className="tractor-input" type="number"></input>
+            </div>
+            <div className="tractor-input-group">
+                <label htmlFor="mpg" className="input-label">Trailer Lease</label>
+                <input name="mpg" style={{ width: '3rem' }} defaultValue={tractor.trailerLease} onChange={(e) => {
+                    tractor.trailerLease = e.target.value
                 }} className="tractor-input" type="number"></input>
             </div>
             <div className="tractor-input-group">

@@ -129,7 +129,7 @@ export default function Tractors() {
                                 <p>Insurance: {formatUSD(tractor?.insurance)}</p>
                                 <p>MPG: {tractor?.mpg}</p>
                                 <p>Height: {tractor?.height.ft} Ft. {tractor?.height.in} In.</p>
-                                <p>Height: {tractor?.width.ft} Ft. {tractor?.width.in} In.</p>
+                                <p>Width: {tractor?.width.ft} Ft. {tractor?.width.in} In.</p>
                                 <p>Weight: {tractor?.weight}</p>
                             </div>
                             <div className="user-item-btns">

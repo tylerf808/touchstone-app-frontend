@@ -2,7 +2,7 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { CircularProgress } from "@mui/material";
 import ResultsContainer from "./ResultsContainer";
 
-export default function DetailsInput({ addJob, localMap, loaded, job, findRoute, setSelectedTractor, setIsExpanded, isExpanded, tractors, drivers, logistics, setLogistics }) {
+export default function DetailsInput({findRoute, setSelectedTractor, tractors, drivers, logistics, setLogistics }) {
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -72,17 +72,16 @@ export default function DetailsInput({ addJob, localMap, loaded, job, findRoute,
                         <select defaultValue='none' onChange={(e) => {
                             setLogistics({ ...logistics, hazmat: e.target.value })
                         }}>
-                            <option value='none'>None</option>
-                            <option value='USHazmatClass1'>Explosives</option>
-                            <option value='USHazmatClass2'>Compressed Gas</option>
-                            <option value='USHazmatClass3'>Flammable Liquids</option>
-                            <option value='USHazmatClass4'>Flammable Solids</option>
-                            <option value='USHazmatClass5'>Oxidizers</option>
-                            <option value='USHazmatClass6'>Poisons</option>
-                            <option value='USHazmatClass7'>Radioactive</option>
-                            <option value='USHazmatClass8'>Corrosives</option>
-                            <option value='otherHazmatHarmfulToWater'>Harmful to Water</option>
-                            <option value='USHazmatClass9'>Miscellaneous</option>
+                            <option value={null}>None</option>
+                            <option value='Class1'>Explosives</option>
+                            <option value='Class2'>Compressed Gas</option>
+                            <option value='Class3'>Flammable Liquids</option>
+                            <option value='Class4'>Flammable Solids</option>
+                            <option value='Class5'>Oxidizers</option>
+                            <option value='Class6'>Poisons</option>
+                            <option value='Class7'>Radioactive</option>
+                            <option value='Class8'>Corrosives</option>
+                            <option value='Class9'>Miscellaneous</option>
                         </select>
                     </div>
                     <div className="logistics-row">

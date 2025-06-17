@@ -122,10 +122,6 @@ export default function CostsPage() {
             {editCosts ?
               <>
                 <div className="costsItem">
-                  <p className="inputInstructions">Trailer Lease (Enter monthly lease payment for all trailers)</p>
-                  <input className="costsInput" defaultValue={(costs.trailerLease * 30)} onChange={(e) => setCosts({ ...costs, trailerLease: (e.target.value / 30) })} />
-                </div>
-                <div className="costsItem">
                   <p className="inputInstructions">Repairs (Cents per mile; eg. 10 cents is 0.1)</p>
                   <input className="costsInput" defaultValue={costs.repairs} onChange={(e) => setCosts({ ...costs, repairs: e.target.value })} />
                 </div>
@@ -138,8 +134,8 @@ export default function CostsPage() {
                   <input className="costsInput" defaultValue={(costs.parking * 30)} onChange={(e) => setCosts({ ...costs, parking: (e.target.value / 30) })} />
                 </div>
                 <div className="costsItem">
-                  <p className="inputInstructions">G&A (Enter as a percentage eg 4% is 4)</p>
-                  <input className="costsInput" defaultValue={(costs.gAndA * 30)} onChange={(e) => setCosts({ ...costs, gAndA: (e.target.value / 100) })} />
+                  <p className="inputInstructions">Overhead (Enter as a percentage eg 4% is 4)</p>
+                  <input className="costsInput" defaultValue={(costs.gAndA * 30)} onChange={(e) => setCosts({ ...costs, overhead: (e.target.value / 100) })} />
                 </div>
               </>
               :
@@ -150,21 +146,44 @@ export default function CostsPage() {
                   </div>
                   <div className="tractorSubContainer">
                     {tractors?.map((tractor, i) => {
-                        return (
-                          <div key={i} className="tractor">
-                            <p>Internal Num: {tractor.internalNum}</p><p>${tractor.insurance}/Month</p>
-                          </div>
-                        )})
+                      return (
+                        <div key={i} className="tractor">
+                          <p>Internal Num: {tractor.internalNum}</p><p>${tractor.insurance}/Month</p>
+                        </div>
+                      )
+                    })
                     }
                   </div>
                 </div>
-                <div className="costsItem">
-                  <p className="costsLabel">Trailer Lease</p>
-                  <p>{formatUSD(costs?.trailerLease)}</p>
+                <div className="tractorContainer">
+                  <div className="costsItem" style={{ width: "100%" }}>
+                    <p className="costsLabel">Tractor Leases</p>
+                  </div>
+                  <div className="tractorSubContainer">
+                    {tractors?.map((tractor, i) => {
+                      return (
+                        <div key={i} className="tractor">
+                          <p>Internal Num: {tractor.internalNum}</p><p>${tractor.tractorLease}/Month</p>
+                        </div>
+                      )
+                    })
+                    }
+                  </div>
                 </div>
-                <div className="costsItem">
-                  <p className="costsLabel">Tractor Lease</p>
-                  <p>{formatUSD(costs?.tractorLease)}</p>
+                <div className="tractorContainer">
+                  <div className="costsItem" style={{ width: "100%" }}>
+                    <p className="costsLabel">Trailer Leases</p>
+                  </div>
+                  <div className="tractorSubContainer">
+                    {tractors?.map((tractor, i) => {
+                      return (
+                        <div key={i} className="tractor">
+                          <p>Internal Num: {tractor.internalNum}</p><p>${tractor.trailerLease}/Month</p>
+                        </div>
+                      )
+                    })
+                    }
+                  </div>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Repairs</p>
@@ -179,8 +198,8 @@ export default function CostsPage() {
                   <p>{formatUSD(costs?.parking)}</p>
                 </div>
                 <div className="costsItem">
-                  <p className="costsLabel">G&A</p>
-                  <p>{formatUSD(costs?.gAndA)}</p>
+                  <p className="costsLabel">Overhead</p>
+                  <p>{formatUSD(costs?.overhead)}</p>
                 </div>
               </>
             }
@@ -216,23 +235,23 @@ export default function CostsPage() {
               <>
                 <div className="costsItem">
                   <p className="costsLabel">Labor Rate</p>
-                  <p className="costsNum">{costs?.laborRate * 100}%</p>
+                  <p className="costsNum">{costs?.laborRate}%</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Payroll Tax Rate</p>
-                  <p className="costsNum">{costs?.payrollTax * 100}%</p>
+                  <p className="costsNum">{costs?.payrollTax}%</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Dispatch rate</p>
-                  <p className="costsNum">{costs?.dispatch * 100}%</p>
+                  <p className="costsNum">{costs?.dispatch}%</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">Factor rate</p>
-                  <p className="costsNum">{costs?.factor * 100}%</p>
+                  <p className="costsNum">{costs?.factor}%</p>
                 </div>
                 <div className="costsItem">
                   <p className="costsLabel">ODC</p>
-                  <p className="costsNum">{costs?.odc * 100}%</p>
+                  <p className="costsNum">{costs?.odc}%</p>
                 </div>
               </>
             }

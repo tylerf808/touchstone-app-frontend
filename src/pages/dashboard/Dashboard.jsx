@@ -166,80 +166,6 @@ export default function Dashboard() {
         setTotalCosts(costsMoney.toFixed(2))
     }
 
-    const selectLineTime = () => {
-
-        const sortedArray = [["Date", "Revenue", "Profit"]]
-
-        const selection = document.getElementById('line-time-select').value
-
-        switch (selection) {
-            case 'daily':
-                jobs.forEach((jobA, iA) => {
-                    let dayRevenue = jobA.revenue
-                    let dayProfit = jobA.netProfit
-                    jobs.forEach((jobB, iB) => {
-                        if (iA !== iB && jobA.date === jobB.date) {
-                            dayProfit += jobB.netProfit
-                            dayRevenue += jobB.revenue
-                        }
-                    })
-                    if (!sortedArray.some((el) => el.includes(jobA.date))) {
-                        sortedArray.push([jobA.date, dayRevenue, dayProfit])
-                    }
-                })
-                setLineChartData(sortedArray)
-                break;
-            case 'weekly':
-                const weeklyTotals = jobs.reduce((acc, job) => {
-                    const weekStart = new Date(job.date)
-                    weekStart.setHours(0, 0, 0, 0)
-                    weekStart.setDate(weekStart.getDate() - weekStart.getDay())
-
-                    const weekEnd = new Date(weekStart)
-                    weekEnd.setDate(weekEnd.getDate() + 6)
-
-                    const weekKey = weekStart.toDateString()
-
-                    if (!acc[weekKey]) {
-                        acc[weekKey] = [weekStart.toDateString(), 0, 0]
-                    }
-
-                    acc[weekKey][1] += job.revenue
-                    acc[weekKey][2] += job.netProfit
-
-                    return acc
-                }, {})
-                const weeklyTotalsArray = Object.values(weeklyTotals)
-                weeklyTotalsArray.forEach((el) => {
-                    sortedArray.push(el)
-                })
-                setLineChartData(sortedArray)
-                break;
-            case 'monthly':
-                jobs.forEach((jobA, iA) => {
-                    const jobADate = new Date(jobA.date)
-                    const jobAMonth = new Intl.DateTimeFormat("en-US", { month: 'long' }).format(jobADate)
-                    let monthRevenue = jobA.revenue
-                    let monthProfit = jobA.netProfit
-                    jobs.forEach((jobB, iB) => {
-                        const jobBDate = new Date(jobB.date)
-                        const jobBMonth = new Intl.DateTimeFormat("en-US", { month: 'long' }).format(jobBDate)
-                        if (iA !== iB && jobAMonth === jobBMonth) {
-                            monthProfit += jobB.netProfit
-                            monthRevenue += jobB.revenue
-                        }
-                    })
-                    if (!sortedArray.some((el) => el.includes(jobAMonth))) {
-                        sortedArray.push([jobAMonth, monthRevenue, monthProfit])
-                    }
-                })
-                setLineChartData(sortedArray)
-                break;
-            default:
-                break;
-        }
-    }
-
     const formatCostsData = (data) => {
         const categories = ["dispatch", "gasCost", "factor", "labor", "odc", "insurance", "trailer", "payrollTax", "tractor", "gAndA"];
 
@@ -286,37 +212,26 @@ export default function Dashboard() {
         <div className="dashboardContainer">
             {jobs ?
                 <>
-                    <div className="topBanner">
-                        <div className="timeSelectContainer">
-                            <select id="pie-time-select" onChange={selectBarTime}>
-                                <option value="" disabled selected>Select Time frame</option>
-                                <option value={0}>Week</option>
-                                <option value={1}>Month</option>
-                                <option value={2}>Year</option>
-                                <option value={3}>All</option>
-                            </select>
+                    <div className="moneyBar">
+                        <div className="moneyBarItem">
+                            <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
+                            <div className="moneyBarSubItem">
+                                <h4 className="moneyBarLabel">Completed: {completedJobs.length}</h4>
+                                <h4 className="moneyBarLabel">Ongoing: 0</h4>
+                            </div>
+                            <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
                         </div>
-                        <div className="moneyBar">
-                            <div className="moneyBarItem">
-                                <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
-                                <div className="moneyBarSubItem">
-                                    <h4 className="moneyBarLabel">Completed: {completedJobs.length}</h4>
-                                    <h4 className="moneyBarLabel">Ongoing: 0</h4>
-                                </div>
-                                <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
-                            </div>
-                            <div className="moneyBarItem">
-                                <h2>{formatUSD(revenue)}</h2>
-                                <p className="moneyBarLabel">Revenue</p>
-                            </div>
-                            <div className="moneyBarItem">
-                                <h2>{formatUSD(totalCosts)}</h2>
-                                <p className="moneyBarLabel">Cost</p>
-                            </div>
-                            <div className="moneyBarItem">
-                                <h2>{formatUSD(profit)}</h2>
-                                <p className="moneyBarLabel">Profit</p>
-                            </div>
+                        <div className="moneyBarItem">
+                            <h2>{formatUSD(revenue)}</h2>
+                            <p className="moneyBarLabel">Revenue</p>
+                        </div>
+                        <div className="moneyBarItem">
+                            <h2>{formatUSD(totalCosts)}</h2>
+                            <p className="moneyBarLabel">Cost</p>
+                        </div>
+                        <div className="moneyBarItem">
+                            <h2>{formatUSD(profit)}</h2>
+                            <p className="moneyBarLabel">Profit</p>
                         </div>
                     </div>
                     <div className="chartContainer">
@@ -332,18 +247,12 @@ export default function Dashboard() {
                             </div>
                             <Chart chartType="PieChart" width="95%" height="95%" data={pieChartData} options={pieOptions} />
                         </div>
-                        <div className="lineChartContainer">
-                            <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'black' }}>Revenue & Profit</h2>
-                            </div>
-                            <Chart chartType="LineChart" width="95%" height="95%" data={lineChartData} options={lineOptions} />
+                    </div>
+                    <div className="recent-jobs-container">
+                        <div className="chartHeaderContainer">
+                            <h2 style={{ color: 'black' }}>Recent Jobs</h2>
                         </div>
-                        <div className="pieChartContainer">
-                            <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'black' }}>Recent Jobs</h2>
-                            </div>
-                            {/* <Chart chartType="Table" width="100%" height="100%" data={tableData} options={tableOptions} /> */}
-                        </div>
+                        <Chart chartType="Table" width="100%" height="100%" data={tableData} options={tableOptions} />
                     </div>
                 </>
                 :

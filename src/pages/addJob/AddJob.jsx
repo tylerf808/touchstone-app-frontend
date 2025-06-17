@@ -20,7 +20,7 @@ const AddJob = () => {
     driver: '',
     startDate: '',
     client: '',
-    hazmat: []
+    hazmat: ''
   });
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
