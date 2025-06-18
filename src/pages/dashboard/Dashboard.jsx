@@ -7,24 +7,17 @@ import formatUSD from "../../helpers/currencyFormatter"
 
 export default function Dashboard() {
 
-    const currentDateObj = new Date()
-    const currentDate = currentDateObj.getFullYear() + '-' + (parseInt(currentDateObj.getMonth()) + 1) + '-' + currentDateObj.getDate()
-
     const navigate = useNavigate()
 
-    const { apiUrl, location } = useContext(UserContext)
+    const { apiUrl } = useContext(UserContext)
 
     const [totalCosts, setTotalCosts] = useState()
-    const [costs, setCosts] = useState([])
     const [lineChartData, setLineChartData] = useState([["Date", "Revenue", "Profit"]])
     const [pieChartData, setPieChartData] = useState({})
     const [jobs, setJobs] = useState([])
     const [revenue, setRevenue] = useState()
     const [profit, setProfit] = useState()
-    const [noJobs, setNoJobs] = useState(true)
     const [totalJobs, setTotalJobs] = useState()
-    const [completedJobs, setCompletedJobs] = useState([])
-    const [options, setOptions] = useState({ lineChartTime: 'daily', pieChartTime: '' })
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -46,12 +39,10 @@ export default function Dashboard() {
         }).then((res) => res.json()).then((data) => {
             setJobs(data)
             if (data.length === 0) {
-                setNoJobs(true)
                 setRevenue(0)
                 setProfit(0)
                 setTotalCosts(0)
             } else {
-                setNoJobs(false)
                 setTotalJobs(data.length)
                 let revenue = 0
                 let profit = 0
@@ -84,86 +75,14 @@ export default function Dashboard() {
                 })
                 setLineChartData(sortedArray)
                 formatCostsData(data)
-                formatCompletedJobs(data)
             }
-
         }).catch((err) => {
-            setNoJobs(true)
             setRevenue(0)
             setProfit(0)
             setTotalCosts(0)
             setJobs([])
             setTotalJobs(0)
         })
-    }
-
-    const formatCompletedJobs = (jobs) => {
-
-        const completedJobs = []
-        const currentTime = Date.now()
-
-        jobs.forEach((job) => {
-            const jobTime = new Date(job.date)
-            if (jobTime <= currentTime) {
-                completedJobs.push(job)
-            }
-        })
-        setCompletedJobs(completedJobs)
-    }
-
-    const percentageChange = (jobs) => {
-
-    }
-
-    const selectBarTime = () => {
-
-        const currentTime = Date.now()
-        const selectedOption = document.getElementById('pie-time-select').value
-
-        let newArray = []
-
-        switch (selectedOption) {
-            case '0':
-                jobs.forEach((job) => {
-                    const jobTime = new Date(job.date)
-                    if ((currentTime - jobTime) <= 6.048e+8) {
-                        newArray.push(job)
-                    }
-                })
-                break;
-            case '1':
-                jobs.forEach((job) => {
-                    const jobTime = new Date(job.date)
-                    if ((currentTime - jobTime) <= 2.628e+9) {
-                        newArray.push(job)
-                    }
-                })
-                break;
-            case '2':
-                jobs.forEach((job) => {
-                    const jobTime = new Date(job.date)
-                    if ((currentTime - jobTime) <= 3.154e+10) {
-                        newArray.push(job)
-                    }
-                })
-                break;
-            default:
-                newArray = jobs
-                break;
-        }
-        setTotalJobs(newArray.length)
-        let revenue = 0
-        let profit = 0
-        let costsMoney = 0
-        newArray.forEach((job) => {
-            revenue = revenue + job.revenue
-            profit = job.netProfit + profit
-            costsMoney = costsMoney + job.totalCost
-        })
-        formatCompletedJobs(newArray)
-        setRevenue(revenue.toFixed(2))
-        setProfit(profit.toFixed(2))
-        setTotalCosts(costsMoney.toFixed(2))
     }
 
     const formatCostsData = (data) => {
@@ -184,40 +103,76 @@ export default function Dashboard() {
 
     const lineOptions = {
         legend: { position: "bottom" },
-        backgroundColor: '#ececec',
-        chartArea: { backgroundColor: '#f1f1f1' }
+        backgroundColor: 'white',
     };
 
     const pieOptions = {
         legend: { position: "bottom" },
-        backgroundColor: '#ececec'
+        backgroundColor: 'white'
     };
 
     const tableOptions = {
-        title: "Company Performance",
-        curveType: "function",
         legend: { position: "bottom" },
-        pageSize: 1,
+        backgroundColor: 'white',
+        pageSize: 3,
     };
 
     const tableData = [
-        ["Name", "Salary", "Full time employee"],
-        ["Mike", { v: 10000, f: "$10,000" }, true],
-        ["Jim", { v: 8000, f: "$8,000" }, false],
-        ["Alice", { v: 12500, f: "$12,500" }, true],
-        ["Bob", { v: 7000, f: "$7,000" }, true],
+        ['Start', 'Pick Up', 'Drop Off', 'Departure Date', 'Revenue', 'Gross Profit %',
+            'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Rate/Mile', 'Factor', 'Overhead',
+            'Loan', 'ODC', 'Repairs', 'Labor', 'Dispatch', 'Payroll Tax', 'Net Profit', 'Labor Rate %', 'Insurance',
+            'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Total Operating Cost', 'Distance',
+            'Drive Time', 'Client', 'Driver', 'Admin', 'Tractor']
     ]
+
+    const exclude = ['_id', 'createdAt', 'updatedAt'];
+    const excludeNonMoney = ['start', 'pickUp', 'dropOff', 'date', 'grossProfitPercentage',
+        'operatingProfitPercentage', 'netProfitPercentage', 'laborRatePercent', 'distance',
+        'driveTime', 'client', 'driver', 'tractor', 'admin']
+
+    jobs.forEach((job) => {
+        const subArray = []
+        Object.entries(job).forEach(([key, value]) => {
+            if (!exclude.includes(key)) {
+                if (key === 'date') {
+                    const isoString = value;
+                    const date = new Date(isoString);
+                    const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+                    subArray.push(formattedDate)
+                } else {
+                    if (!excludeNonMoney.includes(key)) {
+                        subArray.push('$' + value.toString())
+                    } else {
+                        subArray.push(value)
+                    }
+                }
+            }
+        })
+        tableData.push(subArray)
+    })
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const isCompleted = (job) => {
+        const jobDate = new Date(job.date);
+        jobDate.setHours(0, 0, 0, 0);
+        return jobDate <= today;
+    };
+
+    const completedJobs = jobs.filter(job => isCompleted(job));
+    const uncompletedJobs = jobs.filter(job => !isCompleted(job));
 
     return (
         <div className="dashboardContainer">
             {jobs ?
                 <>
-                    <div className="moneyBar">
+                    <div className="moneyBar" style={{ marginTop: '2rem' }}>
                         <div className="moneyBarItem">
                             <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
                             <div className="moneyBarSubItem">
                                 <h4 className="moneyBarLabel">Completed: {completedJobs.length}</h4>
-                                <h4 className="moneyBarLabel">Ongoing: 0</h4>
+                                <h4 className="moneyBarLabel">Uncompleted: {uncompletedJobs.length}</h4>
                             </div>
                             <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
                         </div>
@@ -248,10 +203,8 @@ export default function Dashboard() {
                             <Chart chartType="PieChart" width="95%" height="95%" data={pieChartData} options={pieOptions} />
                         </div>
                     </div>
-                    <div className="recent-jobs-container">
-                        <div className="chartHeaderContainer">
-                            <h2 style={{ color: 'black' }}>Recent Jobs</h2>
-                        </div>
+                    <div style={{ width: '82.5%', backgroundColor: 'white', borderRadius: '1rem', boxShadow: '0px 1px 5px 0px', marginTop: '2rem', paddingBottom: '1rem' }}>
+                        <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
                         <Chart chartType="Table" width="100%" height="100%" data={tableData} options={tableOptions} />
                     </div>
                 </>
