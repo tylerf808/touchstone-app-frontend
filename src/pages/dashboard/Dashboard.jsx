@@ -119,16 +119,16 @@ export default function Dashboard() {
 
     const tableData = [
         ['Start', 'Pick Up', 'Drop Off', 'Departure Date', 'Revenue', 'Gross Profit %',
-            'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Rate/Mile', 'Factor', 'G&A',
+            'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Rate/Mile', 'Factor', 'Overhead',
             'Loan', 'ODC', 'Repairs', 'Labor', 'Dispatch', 'Payroll Tax', 'Net Profit', 'Labor Rate %', 'Insurance',
-            'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Distance',
-            'Drive Time', 'Client', 'Driver', 'Total Operating Cost', 'Labor Rate %', 'Tractor']
+            'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Total Operating Cost', 'Distance',
+            'Drive Time', 'Client', 'Driver', 'Admin', 'Tractor']
     ]
 
     const exclude = ['_id', 'createdAt', 'updatedAt'];
     const excludeNonMoney = ['start', 'pickUp', 'dropOff', 'date', 'grossProfitPercentage',
-        'operatingProfitPercentage', 'netProfitPercentage', 'laborRate', 'distance',
-        'driveTime', 'client', 'driver', 'tractor']
+        'operatingProfitPercentage', 'netProfitPercentage', 'laborRatePercent', 'distance',
+        'driveTime', 'client', 'driver', 'tractor', 'admin']
 
     jobs.forEach((job) => {
         const subArray = []
@@ -143,7 +143,7 @@ export default function Dashboard() {
                     if (!excludeNonMoney.includes(key)) {
                         subArray.push('$' + value.toString())
                     } else {
-                        subArray.push(value);
+                        subArray.push(value)
                     }
                 }
             }
