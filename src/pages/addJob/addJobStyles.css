@@ -84,17 +84,6 @@
     align-items: flex-start;
 }
 
-.loading-container {
-    width: 100%;
-    height: 100%;
-    justify-self: center;
-}
-
-.results-info {
-    width: 100%;
-    margin-top: 2rem;
-}
-
 .results-header {
     width: 100%;
     display: flex;
@@ -102,42 +91,63 @@
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
-.results-tabs {
-    width: 90%;
+.main-details-banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 95%;
+    margin-bottom: 1rem;
+    align-self: center;
+}
+
+.details-addresses {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.details-address-row {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+    justify-items: flex-start;
+    width: 100%;
+}
+
+.details-info {
     display: grid;
     grid-template-columns: 50% 50%;
     align-items: center;
-    justify-self: center;
 }
 
-.tab {
-    width: 100%;
-    height: 3rem;
-    border: none;
-    background-color: rgb(215, 215, 215);
-    border-top: .1rem solid rgba(251, 251, 251, 0.912);
-    border-right: .1rem solid rgba(251, 251, 251, 0.912);
-    border-left: .1rem solid rgba(251, 251, 251, 0.912);
+.breakdown-grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 95%;
+    border-top: .1rem solid lightgrey;
+    align-self: center;
 }
 
-.results-tabs button.active {
-    background-color: rgba(251, 251, 251, 0.912);
-    font-weight: bold;
+.profit-summary {
+    border-left: .1rem solid lightgray;
+    height: 100%;
+    padding-top: 1rem;
 }
 
-.rows {
-    width: 90%;
-    height: 35rem;
-    background-color: rgba(251, 251, 251, 0.912);
-    align-items: center;
-    justify-self: center;
+.revenue-expenses {
+    padding-top: 1rem;
 }
+
 
 .results-row {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 70% 30%;
     width: 95%;
     justify-items: flex-end;
     padding: .1rem;
