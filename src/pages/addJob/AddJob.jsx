@@ -167,7 +167,6 @@ const AddJob = () => {
   }, []);
 
   return (
-    <div className="calculator-container">
       <div className={`transition-container ${showResults ? 'expand' : ''}`}>
         {!showResults ? (
           loading ? (
@@ -201,7 +200,6 @@ const AddJob = () => {
           />
         )}
       </div>
-    </div>
   );
 };
 

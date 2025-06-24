@@ -1,8 +1,7 @@
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { CircularProgress } from "@mui/material";
-import ResultsContainer from "./ResultsContainer";
 
-export default function DetailsInput({findRoute, setSelectedTractor, tractors, drivers, logistics, setLogistics }) {
+export default function DetailsInput({ findRoute, setSelectedTractor, tractors, drivers, logistics, setLogistics }) {
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -19,28 +18,28 @@ export default function DetailsInput({findRoute, setSelectedTractor, tractors, d
                 <div className="address-inputs">
                     <Autocomplete className="address-row">
                         <>
-                            <label>Start</label>
+                            <p style={{ justifySelf: 'center' }}>Start</p>
                             <input className="address-field" id="start-input" type="text" />
                         </>
                     </Autocomplete>
                     <Autocomplete className="address-row">
                         <>
-                            <label>Pick-Up</label>
+                            <p style={{ justifySelf: 'center' }}>Pick-Up</p>
                             <input className="address-field" id='pick-up-input' type="text" />
                         </>
                     </Autocomplete >
                     <Autocomplete className="address-row">
                         <>
-                            <label>Drop-Off</label>
+                            <p style={{ justifySelf: 'center' }}>Drop-Off</p>
                             <input className="address-field" id="drop-off-input" type="text" />
                         </>
                     </Autocomplete>
                 </div>
                 <div className="logistics-inputs">
                     <div className="logistics-row">
-                        <label>
+                        <p>
                             Client:
-                        </label>
+                        </p>
                         <input style={{ width: '6rem', height: '1.2rem' }} type='text' onChange={(e) => {
                             const newLogistics = logistics
                             newLogistics.client = e.target.value
@@ -48,9 +47,9 @@ export default function DetailsInput({findRoute, setSelectedTractor, tractors, d
                         }}></input>
                     </div>
                     <div className="logistics-row">
-                        <label>
+                        <p>
                             Revenue: $
-                        </label>
+                        </p>
                         <input style={{ width: '6rem' }} type='number' onChange={(e) => {
                             const newLogistics = logistics
                             newLogistics.revenue = e.target.value
@@ -58,17 +57,17 @@ export default function DetailsInput({findRoute, setSelectedTractor, tractors, d
                         }}></input>
                     </div>
                     <div className="logistics-row">
-                        <label>
+                        <p>
                             Date of Departure:
-                        </label>
+                        </p>
                         <input type="date" onChange={(e) => {
                             setLogistics({ ...logistics, startDate: e.target.value })
                         }}></input>
                     </div>
                     <div className="logistics-row">
-                        <label>
+                        <p>
                             Hazmat:
-                        </label>
+                        </p>
                         <select defaultValue='none' onChange={(e) => {
                             setLogistics({ ...logistics, hazmat: e.target.value })
                         }}>
@@ -85,8 +84,8 @@ export default function DetailsInput({findRoute, setSelectedTractor, tractors, d
                         </select>
                     </div>
                     <div className="logistics-row">
-                        <label>Driver:
-                        </label>
+                        <p>Driver:
+                        </p>
                         <select onChange={(e) => {
                             const newLogistics = logistics
                             newLogistics.driver = e.target.value
@@ -100,8 +99,8 @@ export default function DetailsInput({findRoute, setSelectedTractor, tractors, d
                         </select>
                     </div>
                     <div className="logistics-row">
-                        <label>Tractor:
-                        </label>
+                        <p>Tractor:
+                        </p>
                         <select className="tractor-select" onChange={(e) => {
                             setSelectedTractor(e.target.value)
                         }}>
