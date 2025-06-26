@@ -171,7 +171,7 @@ const AddJob = () => {
         {!showResults ? (
           loading ? (
             <div style={{justifySelf: 'center', alignSelf: 'center', display: 'flex', flexDirection: 'column',
-             justifyContent: 'center', alignItems: 'center', marginTop: '6rem'}}>
+             justifyContent: 'center', alignItems: 'center', marginTop: '3rem', height: '100%'}}>
               <CircularProgress style={{color: 'orange'}}/>
               <p style={{color: 'gray'}}>Calculating route...</p>
             </div>

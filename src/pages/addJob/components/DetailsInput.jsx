@@ -15,48 +15,27 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
     return (
         <div className="details-form">
             <div className="address-logistics-container">
-                <div className="address-inputs">
-                    <Autocomplete className="address-row">
+                <div className="route-details">
+                    <h3 style={{ marginBottom: '1rem' }}>Route Details</h3>
+                    <Autocomplete className="route-details-row">
                         <>
                             <p style={{ justifySelf: 'center' }}>Start</p>
                             <input className="address-field" id="start-input" type="text" />
                         </>
                     </Autocomplete>
-                    <Autocomplete className="address-row">
+                    <Autocomplete className="route-details-row">
                         <>
                             <p style={{ justifySelf: 'center' }}>Pick-Up</p>
                             <input className="address-field" id='pick-up-input' type="text" />
                         </>
                     </Autocomplete >
-                    <Autocomplete className="address-row">
+                    <Autocomplete className="route-details-row">
                         <>
                             <p style={{ justifySelf: 'center' }}>Drop-Off</p>
                             <input className="address-field" id="drop-off-input" type="text" />
                         </>
                     </Autocomplete>
-                </div>
-                <div className="logistics-inputs">
-                    <div className="logistics-row">
-                        <p>
-                            Client:
-                        </p>
-                        <input style={{ width: '6rem', height: '1.2rem' }} type='text' onChange={(e) => {
-                            const newLogistics = logistics
-                            newLogistics.client = e.target.value
-                            setLogistics(newLogistics)
-                        }}></input>
-                    </div>
-                    <div className="logistics-row">
-                        <p>
-                            Revenue: $
-                        </p>
-                        <input style={{ width: '6rem' }} type='number' onChange={(e) => {
-                            const newLogistics = logistics
-                            newLogistics.revenue = e.target.value
-                            setLogistics(newLogistics)
-                        }}></input>
-                    </div>
-                    <div className="logistics-row">
+                    <div className="route-details-row" style={{ flexDirection: 'row', gap: '.75rem' }}>
                         <p>
                             Date of Departure:
                         </p>
@@ -64,7 +43,64 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             setLogistics({ ...logistics, startDate: e.target.value })
                         }}></input>
                     </div>
-                    <div className="logistics-row">
+
+                </div>
+                <div className="load-details">
+                    <h3 style={{ marginBottom: '1rem' }}>Load Details</h3>
+                    <div className="load-details-row">
+                        <p>
+                            Client:
+                        </p>
+                        <input style={{ width: '8rem' }} type='text' onChange={(e) => {
+                            const newLogistics = logistics
+                            newLogistics.client = e.target.value
+                            setLogistics(newLogistics)
+                        }}></input>
+                    </div>
+                    <div className="load-details-row">
+                        <p>
+                            Revenue:
+                        </p>
+                        <div style={{display: 'flex', flexDirection: 'row', gap: '.5rem'}}>
+                            <p>$</p>
+                            <input style={{ width: '7rem' }} type='number' onChange={(e) => {
+                                const newLogistics = logistics
+                                newLogistics.revenue = e.target.value
+                                setLogistics(newLogistics)
+                            }}></input>
+                        </div>
+
+                    </div>
+
+                    <div className="load-details-row">
+                        <p>Driver:
+                        </p>
+                        <select onChange={(e) => {
+                            const newLogistics = logistics
+                            newLogistics.driver = e.target.value
+                            setLogistics(newLogistics)
+                        }}>
+                            {drivers?.map((driver, i) => {
+                                return (
+                                    <option key={i}>{driver.name}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                    <div className="load-details-row">
+                        <p>Tractor:
+                        </p>
+                        <select className="tractor-select" onChange={(e) => {
+                            setSelectedTractor(e.target.value)
+                        }}>
+                            {tractors?.map((tractor, i) => {
+                                return (
+                                    <option value={tractor} key={i}>{tractor.internalNum}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                    <div className="load-details-row">
                         <p>
                             Hazmat:
                         </p>
@@ -81,34 +117,6 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             <option value='Class7'>Radioactive</option>
                             <option value='Class8'>Corrosives</option>
                             <option value='Class9'>Miscellaneous</option>
-                        </select>
-                    </div>
-                    <div className="logistics-row">
-                        <p>Driver:
-                        </p>
-                        <select onChange={(e) => {
-                            const newLogistics = logistics
-                            newLogistics.driver = e.target.value
-                            setLogistics(newLogistics)
-                        }}>
-                            {drivers?.map((driver, i) => {
-                                return (
-                                    <option key={i}>{driver.name}</option>
-                                )
-                            })}
-                        </select>
-                    </div>
-                    <div className="logistics-row">
-                        <p>Tractor:
-                        </p>
-                        <select className="tractor-select" onChange={(e) => {
-                            setSelectedTractor(e.target.value)
-                        }}>
-                            {tractors?.map((tractor, i) => {
-                                return (
-                                    <option value={tractor} key={i}>{tractor.internalNum}</option>
-                                )
-                            })}
                         </select>
                     </div>
                 </div>

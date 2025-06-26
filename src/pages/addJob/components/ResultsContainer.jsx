@@ -22,7 +22,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <h3 style={profitableStyle}><CircleX className="text-red-500 w-5 h-5 mr-2" style={{ marginRight: '.5rem' }} />NOT PROFITABLE</h3>}
                     <h2 style={{ marginTop: '.5rem' }}>{formatUSD(job?.netProfit)}</h2>
                 </div>
-                <div className="banner-card" style={{marginLeft: '.5rem', marginRight: '.5rem'}}>
+                <div className="banner-card" style={{ marginLeft: '.5rem', marginRight: '.5rem' }}>
                     <h3 style={{ display: 'flex', alignItems: 'center' }}>
                         <Truck style={{ marginRight: '.5rem' }} className="text-orange-500 w-5 h-5 mr-2" />Rate Per Mile
                     </h3>
@@ -37,7 +37,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                 <div className="revenue-expenses">
                     <h2 style={{ padding: '1rem', marginLeft: '1rem' }}>Revenue & Expenses</h2>
                     <div className="results-row">
-                        <p>Revenue</p>
+                        <p>(Revenue)</p>
                         <p>{formatUSD(job?.revenue)}</p>
                     </div>
                     <div className="results-row">
@@ -101,7 +101,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>{formatUSD(job?.totalOperatingCost)}</p>
                     </div>
                     <div className="results-row">
-                        <p>Total Costs</p>
+                        <p>(Total Costs)</p>
                         <p>{formatUSD(job?.totalCost)}</p>
                     </div>
                 </div>
@@ -112,30 +112,30 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>{formatUSD(job?.grossProfit)}</p>
                     </div>
                     <div className="results-row">
-                        <p>Gross Profit %</p>
-                        <p>{job?.grossProfitPercentage}</p>
-                    </div>
-                    <div className="results-row">
                         <p>Operating Profit</p>
                         <p>{formatUSD(job?.operatingProfit)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p>Operating Profit %</p>
-                        <p>{job?.operatingProfitPercentage}</p>
                     </div>
                     <div className="results-row">
                         <p>Net Profit</p>
                         <p>{formatUSD(job?.netProfit)}</p>
                     </div>
                     <div className="results-row">
+                        <p>Gross Profit %</p>
+                        <p>{job?.grossProfitPercentage}</p>
+                    </div>
+                    <div className="results-row">
+                        <p>Operating Profit %</p>
+                        <p>{job?.operatingProfitPercentage}</p>
+                    </div>
+                    <div className="results-row">
                         <p>Net Profit %</p>
                         <p>{job?.netProfitPercentage}</p>
                     </div>
                     <div style={{
-                        marginTop: '55%', display: 'flex', flexDirection: 'row',
-                        justifyContent: 'space-evenly', alignSelf: 'center'
+                        marginTop: '16rem', display: 'flex', flexDirection: 'row',
+                        justifyContent: 'space-evenly', alignItems: 'center'
                     }}>
-                        <button className="calc-route-button" onClick={(e) => {
+                        <button className="add-route-button" onClick={(e) => {
                             e.preventDefault()
                             addJob()
                             setShowResults(false)

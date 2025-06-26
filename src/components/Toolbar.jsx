@@ -55,17 +55,17 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, setCosts
           <i className='user-icon fa fa-user' onClick={handleMenu}></i>
           {showMenu ?
             <div className='user-menu'>
-              <div className='user-menu-item'><Link className='user-menu-link' to='/costs' onClick={() => setShowMenu(false)}>Costs</Link></div>
+              <Link className='user-menu-item' to='/costs' onClick={() => setShowMenu(false)}>Costs</Link>
               {isAdmin ?
                 <>
-                  <div className='user-menu-item'><Link to='/users' className='user-menu-link' onClick={() => setShowMenu(false)}>Users</Link></div>
-                  <div className='user-menu-item'><Link to='/tractors' className='user-menu-link' onClick={() => setShowMenu(false)}>Tractors</Link></div>
+                  <Link to='/users' className='user-menu-item' onClick={() => setShowMenu(false)}>Users</Link>
+                  <Link to='/tractors' className='user-menu-item' onClick={() => setShowMenu(false)}>Tractors</Link>
                 </>
                 :
                 null
               }
-              <div className='user-menu-item'><Link to='/account' className='user-menu-link' onClick={() => setShowMenu(false)}>Account</Link></div>
-              <div className='user-menu-item'><a className='user-menu-link' onClick={handleLogOut}>Log Out</a></div>
+              <Link to='/account' className='user-menu-item' onClick={() => setShowMenu(false)}>Account</Link>
+              <a className='user-menu-item' onClick={handleLogOut}>Log Out</a>
             </div>
             :
             null

@@ -12,7 +12,7 @@ p {
 .details-form {
     background-color: rgb(211, 211, 211);
     width: 100%;
-    height: 18rem;
+    height: 100%;
     display: flex;
     justify-self: center;
     flex-direction: column;
@@ -22,46 +22,48 @@ p {
 }
 
 .address-logistics-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap:1rem;
+    width: 90%;
+    justify-items: center;
 }
 
-.logistics-row {
+.load-details-row {
     display: grid;
     grid-template-columns: 40% 60%;
-    width: 70%;
+    width: 100%;
     justify-items: flex-start;
+    margin-bottom: 1rem;
 }
 
-.address-row {
-    display: grid;
-    grid-template-columns: 30% 70%;
+.route-details-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 1rem;
 }
 
 .address-field {
-    width: 13rem;
+    width: 16rem;
 }
 
-.address-inputs {
-    margin-left: 1rem;
-    gap: .5rem;
-    margin-bottom: 1rem;
-    margin-top: .5rem;
-    width: 100%;
-}
-
-.logistics-inputs {
+.route-details {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    gap: .5rem;
+    width: 100%;
+}
+
+.load-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     width: 100%;
     border-left: .1rem solid lightgray;
+    padding-left: 2rem;
 }
 
 .route-group {
@@ -194,7 +196,20 @@ p {
     transition: background-color 0.2s ease;
     width: 12rem;
     height: 3rem;
-    margin: 1rem;
+    margin-top: 2rem;
+}
+
+.add-route-button {
+    background-color: #eb9225;
+    color: white;
+    border-radius: .5rem;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    width: 10rem;
+    height: 3rem;
 }
 
 .cancel-route-button {
@@ -206,12 +221,11 @@ p {
     cursor: pointer;
     font-weight: 500;
     transition: background-color 0.2s ease;
-    width: 12rem;
+    width: 10rem;
     height: 3rem;
-    margin: 1rem;
 }
 
-.calc-route-button:hover {
+.add-route-button:hover {
     background-color: #a9621b;
 }
 
@@ -226,10 +240,8 @@ p {
 
 .transition-container {
     transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    height: 18rem;
+    height: 24rem;
     /* match details-form height */
-    max-height: 18rem;
     justify-self: center;
     margin-top: 3rem;
     width: 50%;
@@ -242,7 +254,6 @@ p {
 }
 
 .transition-container.expand {
-    height: 90%;
     /* expanded height for results */
     max-height: max-content;
     background-color: transparent;
