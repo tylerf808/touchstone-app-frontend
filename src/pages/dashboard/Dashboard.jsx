@@ -165,51 +165,84 @@ export default function Dashboard() {
 
     return (
         <div className="dashboardContainer">
-            {jobs ?
+            {jobs.length > 0 &&
                 <>
                     <div className="moneyBar" style={{ marginTop: '2rem' }}>
                         <div className="moneyBarItem">
-                            <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
+                            <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
                             <div className="moneyBarSubItem">
                                 <h4 className="moneyBarLabel">Completed: {completedJobs.length}</h4>
                                 <h4 className="moneyBarLabel">Uncompleted: {uncompletedJobs.length}</h4>
                             </div>
-                            <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
+                            <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
                         </div>
                         <div className="moneyBarItem">
-                            <h2>{formatUSD(revenue)}</h2>
                             <p className="moneyBarLabel">Revenue</p>
+                            <h2>{formatUSD(revenue)}</h2>
                         </div>
                         <div className="moneyBarItem">
+                            <p className="moneyBarLabel">Total Costs</p>
                             <h2>{formatUSD(totalCosts)}</h2>
-                            <p className="moneyBarLabel">Cost</p>
                         </div>
                         <div className="moneyBarItem">
-                            <h2>{formatUSD(profit)}</h2>
                             <p className="moneyBarLabel">Profit</p>
+                            <h2>{formatUSD(profit)}</h2>
                         </div>
                     </div>
                     <div className="chartContainer">
                         <div className="lineChartContainer">
                             <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'black' }}>Revenue & Profit</h2>
+                                <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Revenue & Profit</h2>
                             </div>
-                            <Chart chartType="ColumnChart" width="95%" height="95%" data={lineChartData} options={lineOptions} />
+                            <Chart chartType="ColumnChart" width="98%" height="98%" data={lineChartData} options={lineOptions} />
                         </div>
                         <div className="pieChartContainer">
                             <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'black' }}>Expended Costs</h2>
+                                <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Expended Costs</h2>
                             </div>
-                            <Chart chartType="PieChart" width="95%" height="95%" data={pieChartData} options={pieOptions} />
+                            <Chart chartType="PieChart" width="98%" height="98%" data={pieChartData} options={pieOptions} />
                         </div>
                     </div>
-                    <div style={{ width: '82.5%', backgroundColor: 'white', borderRadius: '1rem', boxShadow: '0px 1px 5px 0px', marginTop: '2rem', paddingBottom: '1rem' }}>
+                    <div className="table-container">
                         <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
                         <Chart chartType="Table" width="100%" height="100%" data={tableData} options={tableOptions} />
                     </div>
-                </>
-                :
-                <h2>Loading...</h2>
+                </>}
+            {jobs.length === 0 &&
+                <div className="placeholder-dashboard">
+                    <div className="moneyBar" style={{ marginTop: '2rem' }}>
+                        <div className="moneyBarItem">
+                            <p className="moneyBarLabel" style={{color: 'grey'}}>Jobs</p>
+                        </div>
+                        <div className="moneyBarItem">
+                            <p className="moneyBarLabel" style={{color: 'grey'}}>Revenue</p>
+                        </div>
+                        <div className="moneyBarItem">
+                            <p className="moneyBarLabel" style={{color: 'grey'}}>Total Costs</p>
+                        </div>
+                        <div className="moneyBarItem">
+                            <p className="moneyBarLabel" style={{color: 'grey'}}>Profit</p>
+                        </div>
+                    </div>
+                    <div className="chartContainer">
+                        <div className="lineChartContainer">
+                            <div className="chartHeaderContainer">
+                                <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginBottom: '16rem' }}>Revenue & Profit</h2>
+                            </div>
+                        </div>
+                        <div className="pieChartContainer">
+                            <div className="chartHeaderContainer">
+                                <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginBottom: '16rem' }}>Expended Costs</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="table-container">
+                        <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
+                    </div>
+                    <div className="placeholder-overlay">
+                        <h2 style={{justifySelf: 'center', top: '40%', position: 'relative'}}>Charts will appear here once you have saved jobs</h2>
+                    </div>
+                </div>
             }
         </div>
     )

@@ -1,3 +1,9 @@
+h2,
+h3,
+p {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
 .subItemLabel {
   color: black
 }
@@ -12,41 +18,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.dashboardDrivers {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 50%;
-}
-
-.topBanner {
-  width: 99%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 8vh;
-  margin-top: 2rem;
-}
-
-.timeSelectContainer {
-  height: 3rem;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-start;
+  justify-self: center;
+  width: 80%;
+  gap: .5rem;
 }
 
 .moneyBar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 83%;
-  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  width: 100%;
+  justify-items: center;
 }
 
 .moneyBarItem {
@@ -54,11 +35,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 20rem;
+  width: 97%;
   height: 7rem;
   background-color: white;
   border-radius: .5rem;
-  box-shadow: 0px 1px 5px 0px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .moneyBarSubItem {
@@ -70,6 +51,7 @@
 }
 
 .moneyBarLabel {
+  font-size: 1.2rem;
   color: black;
 }
 
@@ -78,16 +60,11 @@
 }
 
 .chartContainer {
-  
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-  width: 90%;
-  
-  flex-wrap: wrap;
-  height: 30%;
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  width: 100%;
+  gap: .3rem;
+  justify-items: center;
 }
 
 .google-visualization-table-table td,
@@ -107,40 +84,62 @@
 }
 
 .lineChartContainer {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  width: 40vw;
+  width: 99%;
   height: 35vh;
-  padding: .5rem;
   border-radius: .5rem;
-  box-shadow: 0px 1px 5px 0px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: white;
-  margin: .5rem;
 }
 
 .pieChartContainer {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  width: 40vw;
+  width: 99%;
   height: 35vh;
-  padding: .5rem;
   border-radius: .5rem;
-  box-shadow: 0px 1px 5px 0px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: white;
-  margin: .5rem;
 }
 
-.chartHeaderContainer {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  width: 100%;
-  justify-items: center;
+.table-container {
+  width: 98.5%;
+  min-height: 10rem;
+  background-color: white;
+  padding: .5rem;
+  border-radius: .5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lineChartContainer > div,
+.pieChartContainer > div {
+  width: 100% !important;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.placeholder-dashboard {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.placeholder-overlay {
+  z-index: 2;
+  position: fixed;
+  left: 15%;
+  background-color: rgba(71, 71, 71, 0.259);
+  height: 93vh;
+  width: 70%;
 }
 
 @media screen and (max-width: 1000px) {
