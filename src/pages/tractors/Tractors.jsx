@@ -13,7 +13,17 @@ export default function Tractors() {
 
     const [tractors, setTractors] = useState([])
     const [visibleTractors, setVisibleTractors] = useState([])
-    const [editingItem, setEditingItem] = useState()
+    const [editingItem, setEditingItem] = useState({
+        internalNum: '',
+        vin: '',
+        insurance: '',
+        tractorLease: '',
+        trailerLease: '',
+        mpg: '',
+        height: { ft: '', in: '' },
+        width: { ft: '', in: '' },
+        weight: ''
+    })
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
     const [showNewModal, setShowNewModal] = useState(false)
@@ -105,43 +115,70 @@ export default function Tractors() {
     }
 
     return (
-        <div className="users-container">
-            <div className="users-header">
-                <div className="users-header-text">
-                    <h2 style={{ fontSize: '2rem' }}>Tractors</h2>
-                </div>
-                <div className="users-header-inputs">
+        <div className="tractors-container">
+            <div className="tractors-header">
+                <h2 style={{ fontSize: '2rem', marginLeft: '2rem' }}>Tractors</h2>
+                <div className="tractor-header-inputs">
                     <p style={{ fontWeight: 'bold' }}>{tractors.length} Tractors</p>
                     <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search by internal number" className="users-search-input"></input>
-                    <button className="add-user-btn" onClick={() => setShowNewModal(true)}>
+                    <button className="add-tractor-btn" onClick={() => setShowNewModal(true)}>
                         <span style={{ color: 'white', fontSize: '1.5rem', marginRight: '.2rem' }}>+</span>Add Tractor
                     </button>
                 </div>
             </div>
-
             <div className="tractor-list">
                 {visibleTractors?.map((tractor, i) => {
                     return (
                         <div className="tractor-item" key={i}>
+                            <div className="tractor-item-header">
+                                <h3 style={{ marginTop: '1rem' }}>{tractor?.internalNum}</h3>
+                                <div className="tractor-header-btns">
+                                    <i onClick={() => {
+                                        setEditingItem(tractor)
+                                        setShowEditModal(true)
+                                    }} className="fa fa-pencil" style={{ fontSize: '1.5rem', marginRight: '1rem' }}></i>
+                                    <i onClick={() => {
+                                        setEditingItem(tractor)
+                                        setShowDeleteModal(true)
+                                    }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem'}}></i>
+                                </div>
+                            </div>
                             <div className="tractor-info">
-                                <h3>{tractor?.internalNum}</h3>
-                                <p>VIN: {tractor?.vin}</p>
-                                <p>Insurance: {formatUSD(tractor?.insurance)}</p>
-                                <p>MPG: {tractor?.mpg}</p>
-                                <p>Height: {tractor?.height.ft} Ft. {tractor?.height.in} In.</p>
-                                <p>Width: {tractor?.width.ft} Ft. {tractor?.width.in} In.</p>
-                                <p>Weight: {tractor?.weight}</p>
+
+                                <div className="tractor-info-row">
+                                    <p>VIN</p>
+                                    <p>{tractor?.vin}</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>MPG</p>
+                                    <p>{tractor?.mpg}</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>Insurance</p>
+                                    <p>{formatUSD(tractor?.insurance)}</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>Tractor Lease</p>
+                                    <p>{formatUSD(tractor?.tractorLease)}</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>Trailer Lease</p>
+                                    <p>{formatUSD(tractor?.trailerLease)}</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>Height</p>
+                                    <p>{tractor?.height.ft}' {tractor?.height.in}"</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>Width</p>
+                                    <p>{tractor?.width.ft}' {tractor?.width.in}"</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>Weight</p>
+                                    <p>{tractor?.weight} lbs.</p>
+                                </div>
                             </div>
-                            <div className="user-item-btns">
-                                <i onClick={() => {
-                                    setEditingItem(tractor)
-                                    setShowEditModal(true)
-                                }} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
-                                <i onClick={() => {
-                                    setEditingItem(tractor)
-                                    setShowDeleteModal(true)
-                                }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '2rem' }}></i>
-                            </div>
+
                         </div>
                     )
                 })}
@@ -151,6 +188,7 @@ export default function Tractors() {
                 tractor={editingItem}
                 handleDeleteConfirmation={handleDeleteConfirmation}
                 showDeleteModal={showDeleteModal}
+                setEditedItem={setEditingItem}
             />
             <EditTractorModal
                 tractor={editingItem}

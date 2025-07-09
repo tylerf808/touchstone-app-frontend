@@ -1,10 +1,19 @@
+export default function DeleteTractorModal({ tractor, handleDeleteConfirmation, showDeleteModal, setShowDeleteModal, setEditedItem }) {
 
-
-export default function DeleteTractorModal({ tractor, handleDeleteConfirmation, showDeleteModal, setShowDeleteModal }) {
-
-    if(!showDeleteModal) return null
+    if (!showDeleteModal) return null
 
     const handleCancel = () => {
+        setEditedItem({
+            internalNum: '',
+            vin: '',
+            insurance: '',
+            tractorLease: '',
+            trailerLease: '',
+            mpg: '',
+            height: { ft: '', in: '' },
+            width: { ft: '', in: '' },
+            weight: ''
+        })
         setShowDeleteModal(false)
     }
 
@@ -15,22 +24,54 @@ export default function DeleteTractorModal({ tractor, handleDeleteConfirmation, 
 
     return (
         <div className="overlay">
-                <div className="delete-modal-container">
-                    <div className="delete-modal-header">
-                        <h2>Confirm Delete Tractor</h2>
-                        <p>This cannot be undone</p>
+            <form className="modal-form">
+                <div className="delete-tractor-header">
+                    <h2>Confirm Delete Tractor {tractor.internalNum}</h2>
+                    <p>This cannot be undone</p>
+                </div>
+                <div className="delete-tractor-body">
+                    <div className="delete-tractor-row">
+                        <p>Internal Num</p>
+                        <p>{tractor.internalNum}</p>
                     </div>
-                    <div className="delete-modal-body">
-                        <p>Internal Num: <span style={{fontWeight: 'normal'}}>{tractor.internalNum}</span></p>
-                        <p>VIN: <span style={{fontWeight: 'normal'}}>{tractor.vin}</span></p>
-                        <p>Insurance: <span style={{fontWeight: 'normal'}}>${tractor.insurance}</span></p>
-                        <p>MPG: <span style={{fontWeight: 'normal'}}>{tractor.mpg}</span></p>
+                    <div className="delete-tractor-row">
+                        <p>VIN</p>
+                        <p>{tractor.vin}</p>
                     </div>
-                    <div className="delete-modal-btn-container">
-                        <button onClick={handleDelete} style={{backgroundColor: 'rgb(216, 4, 4)'}} className="delete-modal-btn">Confirm</button>
-                        <button onClick={handleCancel} style={{backgroundColor: 'rgb(12, 159, 22)'}} className="delete-modal-btn">Cancel</button>
+                    <div className="delete-tractor-row">
+                        <p>MPG</p>
+                        <p>{tractor.mpg}</p>
+                    </div>
+                    <div className="delete-tractor-row">
+                        <p>Insurance</p>
+                        <p>{tractor.insurance}</p>
+                    </div>
+                    <div className="delete-tractor-row">
+                        <p>Tractor Lease</p>
+                        <p>{tractor.tractorLease}</p>
+                    </div>
+                    <div className="delete-tractor-row">
+                        <p>Trailer Lease</p>
+                        <p>{tractor.trailerLease}</p>
+                    </div>
+                    <div className="delete-tractor-row">
+                        <p>Height</p>
+                        <p>{tractor.height.ft}'{tractor.height.in}"</p>
+                    </div>
+                    <div className="delete-tractor-row">
+                        <p>Width</p>
+                        <p>{tractor.width.ft}'{tractor.width.in}"</p>
+                    </div>
+                    <div className="delete-tractor-row">
+                        <p>Weight</p>
+                        <p>{tractor.weight} lbs.</p>
                     </div>
                 </div>
+                <div className="modal-actions">
+                    <button onClick={handleDelete} className="modal-save-btn">Confirm</button>
+                    <button onClick={handleCancel} className="modal-cancel-btn">Cancel</button>
+                </div>
+            </form>
 
         </div>
 
