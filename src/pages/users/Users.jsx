@@ -164,14 +164,15 @@ export default function Users() {
                         return (
                             <div className="user-item" key={i}>
                                 <div className="user-item-header">
-                                    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
                                         {user.accountType.toLowerCase() === 'driver' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={driverIcon}></img>}
                                         {user.accountType.toLowerCase() === 'dispatcher' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={dispatcherIcon}></img>}
                                         <h3>{user?.name}</h3>
+                                        {user.confirmationCode && <p style={{ fontStyle: 'italic', marginLeft: '1rem' }}>Pending User</p>}
                                     </div>
                                     <div>
                                         <div className="user-item-btns">
-                                            <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
+                                            {user.confirmationCode ? null : <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>}
                                             <i onClick={() => {
                                                 setEditingItem(user)
                                                 setShowDeleteModal(true)
@@ -184,21 +185,19 @@ export default function Users() {
                                         <p>Email</p>
                                         <p>{user?.email}</p>
                                     </div>
-                                    <div className="user-info-row">
-                                        <p>Username</p>
-                                        <p>{user?.username}</p>
-                                    </div>
+                                    {user.confirmationCode ?
+                                        null
+                                        :
+                                        <div className="user-info-row">
+                                            <p>Username</p>
+                                            <p>{user?.username}</p>
+                                        </div>
+                                    }
                                     <div className="user-info-row">
                                         <p>Account Type</p>
                                         <p>{user?.accountType}</p>
                                     </div>
-                                    {user.confirmationCode ?
-                                        <div className="user-info-row">
-                                            <p style={{ fontStyle: 'italic' }}>pending user</p>
-                                            <button style={{ width: '12rem', backgroundColor: 'orange' }}>Resend Varification Email</button>
-                                        </div>
-                                        :
-                                        null}
+                                    {user.confirmationCode && <button style={{ width: '12rem', marginTop: '1rem' }} className="modal-save-btn">Resend Verification Email</button>}
                                 </div>
                             </div>
                         )

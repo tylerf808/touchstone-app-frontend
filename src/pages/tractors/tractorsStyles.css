@@ -46,7 +46,7 @@
     height: 83%;
     justify-self: center;
     justify-items: center;
-    align-items: center;
+    align-items: flex-start;
     display: grid;
     grid-template-columns: 33% 33% 33%;
     row-gap: 1rem;
