@@ -144,7 +144,6 @@ export default function Tractors() {
                                 </div>
                             </div>
                             <div className="tractor-info">
-
                                 <div className="tractor-info-row">
                                     <p>VIN</p>
                                     <p>{tractor?.vin}</p>

@@ -45,6 +45,7 @@ const AddJob = () => {
 
       const data = await response.json();
       setDrivers(data[0]);
+      console.log(data)
       setTractors(data[1]);
       setSelectedTractor(data[1][0])
       setLogistics(prevLogistics => ({

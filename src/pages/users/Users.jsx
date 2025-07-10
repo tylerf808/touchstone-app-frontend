@@ -57,6 +57,7 @@ export default function Users() {
             setDispatchers(allDispatchers)
             const allUsers = allDrivers.concat(allDispatchers)
             setVisibleUsers(allUsers)
+            console.log(data.users)
         })
     }
 
@@ -142,11 +143,10 @@ export default function Users() {
     }
 
     return (
-
         <div className="users-container">
             <div className="users-header">
                 <div className="users-header-text">
-                    <h2 style={{ fontSize: '2rem' }}>Drivers and Dispatchers</h2>
+                    <h2 style={{ fontSize: '2rem', marginLeft: '2rem' }}>Users</h2>
                 </div>
                 <div className="users-header-inputs">
                     <p style={{ fontWeight: 'bold' }}>{users.length} Users</p>
@@ -163,26 +163,42 @@ export default function Users() {
                     {visibleUsers?.map((user, i) => {
                         return (
                             <div className="user-item" key={i}>
+                                <div className="user-item-header">
+                                    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                                        {user.accountType.toLowerCase() === 'driver' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={driverIcon}></img>}
+                                        {user.accountType.toLowerCase() === 'dispatcher' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={dispatcherIcon}></img>}
+                                        <h3>{user?.name}</h3>
+                                    </div>
+                                    <div>
+                                        <div className="user-item-btns">
+                                            <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
+                                            <i onClick={() => {
+                                                setEditingItem(user)
+                                                setShowDeleteModal(true)
+                                            }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '1rem' }}></i>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="user-info">
-                                    {user.accountType === 'driver' || user.accountType === "Driver" && <img style={{ height: '2.5rem', marginRight: '1rem' }} src={driverIcon}></img>}
-                                    {user.accountType === 'dispatcher' && <img style={{ height: '2rem', marginRight: '1.5rem' }} src={dispatcherIcon}></img>}
-                                    <h3>{user?.name}</h3>
-                                    <p>{user?.email}</p>
-                                    <p>{user?.username}</p>
+                                    <div className="user-info-row">
+                                        <p>Email</p>
+                                        <p>{user?.email}</p>
+                                    </div>
+                                    <div className="user-info-row">
+                                        <p>Username</p>
+                                        <p>{user?.username}</p>
+                                    </div>
+                                    <div className="user-info-row">
+                                        <p>Account Type</p>
+                                        <p>{user?.accountType}</p>
+                                    </div>
                                     {user.confirmationCode ?
-                                        <div style={{ width: '60%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                        <div className="user-info-row">
                                             <p style={{ fontStyle: 'italic' }}>pending user</p>
                                             <button style={{ width: '12rem', backgroundColor: 'orange' }}>Resend Varification Email</button>
                                         </div>
                                         :
                                         null}
-                                </div>
-                                <div className="user-item-btns">
-                                    <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>
-                                    <i onClick={() => {
-                                        setEditingItem(user)
-                                        setShowDeleteModal(true)
-                                    }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '2rem' }}></i>
                                 </div>
                             </div>
                         )

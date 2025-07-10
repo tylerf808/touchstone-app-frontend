@@ -25,7 +25,18 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
             return;
         }
         setError('')
-        onSave(editedItem); // or whatever your save handler is
+        onSave(editedItem)
+        setEditedItem({
+            internalNum: '',
+            vin: '',
+            insurance: '',
+            tractorLease: '',
+            trailerLease: '',
+            mpg: '',
+            height: { ft: '', in: '' },
+            width: { ft: '', in: '' },
+            weight: ''
+        })
         setShowNewModal(false)
     }
 

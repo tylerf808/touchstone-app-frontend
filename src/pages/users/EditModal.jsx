@@ -17,7 +17,6 @@ export default function Modal({ isOpen, onClose, editedItem, setEditedItem, onSa
 
   return (
     <div className="overlay">
-      <div className="edit-modal">
         <form className="modal-form" onSubmit={handleSubmit}>
               <h3 style={{marginBottom: '1rem'}}>{editedItem.name}</h3>
               <div className="modal-input-row">
@@ -54,11 +53,10 @@ export default function Modal({ isOpen, onClose, editedItem, setEditedItem, onSa
                 />
               </div>
           <div className="modal-actions">
-            <button style={{backgroundColor: 'green'}} className="modal-btn" id="save-btn" type="submit" onClick={handleSubmit}>Save</button>
-            <button style={{backgroundColor: 'red'}} className="modal-btn" id="cancel-btn" type="button" onClick={onClose}>Cancel</button>
+            <button className="modal-save-btn" onClick={handleSubmit}>Save</button>
+            <button className="modal-cancel-btn" onClick={onClose}>Cancel</button>
           </div>
         </form>
-      </div>
     </div>
   );
 };
