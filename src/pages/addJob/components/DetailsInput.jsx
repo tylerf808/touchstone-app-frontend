@@ -91,13 +91,12 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                         <p>Tractor:
                         </p>
                         <select className="tractor-select" onChange={(e) => {
-                            setSelectedTractor(e.target.value)
+                            const tractor = tractors.find(t => String(t.internalNum) === e.target.value);
+                            setSelectedTractor(tractor);
                         }}>
-                            {tractors?.map((tractor, i) => {
-                                return (
-                                    <option value={tractor} key={i}>{tractor.internalNum}</option>
-                                )
-                            })}
+                            {tractors?.map((tractor, i) => (
+                                <option value={String(tractor.internalNum)} key={i}>{tractor.internalNum}</option>
+                            ))}
                         </select>
                     </div>
                     <div className="load-details-row">

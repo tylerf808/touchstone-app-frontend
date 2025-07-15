@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
+import signupImage from '../../images/signup-image.png'
 import UserContext from "../../helpers/Context"
 import './signUpStyles.css'
 
@@ -43,63 +44,66 @@ export default function SignUp() {
   }
 
   return (
-    <div className="tabbed-container">
+    <>
       {submitted ?
-        <div style={{ justifySelf: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4rem' }}>
-          <h3>Email Sent</h3>
-          <p>Check you email to continue the sign up process</p>
+        <div className="signup-container" style={{width: '20rem', height: '12rem', display: 'flex',
+        flexDirection: 'column', justifyContent: 'flex-start', alignContent: 'center'}}>
+          <h3 style={{alignSelf: 'center', marginTop: '2rem'}}>Email Sent</h3>
+          <p style={{marginTop: '3rem', textAlign: 'center'}}>Check you email to continue the sign up process</p>
         </div>
         :
-        <>
-          <div style={{ justifySelf: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1rem'}}>
-            <h3 style={{ color: 'orange', fontSize: '1.5rem' }}>Create an Account</h3>
-            <p className="input-label" style={{ fontSize: '1.1rem', }}>Enter your information and a confirmation email will be sent to the provided email</p>
+        <div className="signup-container">
+          <div className="signup-image-container">
+            <img style={{scale: '50%', position: 'relative', top: '5rem'}} src={signupImage}></img>
           </div>
-
-          <div className="tab-content" >
-            <div className="input-group" style={{gridTemplateColumns: "40% 60%"}}>
-              <p className="input-label" style={{ alignSelf: 'center' }}>Account Type</p>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}>
-                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: '2rem'}}>
-                  <p className="radioLabel" style={{marginRight: '.5rem'}}>Owner/Operator</p>
-                  <input id="owner" className="radioInput" type="radio" name="accountType" value='owner' onClick={(e) => {
+          <div className="signup-form">
+            <div className="signup-header-container">
+              <h2 style={{ color: 'orange', fontSize: '2rem' }}>Create an Account</h2>
+              <p>Already have an account? <Link to='/login'>Log In here!</Link></p>
+            </div>
+            <div className="signup-input-row">
+              <p style={{ alignSelf: 'center' }}>Account Type</p>
+              <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
+                <div style={{display: 'flex', flexDirection: 'row', marginBottom: '.5rem'}}>
+                  <p style={{ marginRight: '.5rem' }}>Owner/Operator</p>
+                  <input id="owner" className="radio-input" type="radio" name="accountType" value='owner' onClick={(e) => {
                     setUserInfo({ ...userInfo, accountType: e.target.value })
                   }}></input>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                  <p className="radioLabel" style={{marginRight: '.5rem'}}>Administrator</p>
-                  <input id="admin" className="radioInput" type="radio" name="accountType" value='admin' onClick={(e) => {
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                  <p style={{ marginRight: '.5rem' }}>Administrator</p>
+                  <input id="admin" className="radio-input" type="radio" name="accountType" value='admin' onClick={(e) => {
                     setUserInfo({ ...userInfo, accountType: e.target.value })
                   }}></input>
                 </div>
               </div>
             </div>
-            <div className="input-group">
-              <p className="input-label">Full Name</p>
-              <input defaultValue={userInfo.name} className="emailInputSignUp" onChange={(e) => {
+            <div className="signup-input-row">
+              <p>Full Name</p>
+              <input defaultValue={userInfo.name} className="signup-input" onChange={(e) => {
                 setUserInfo({ ...userInfo, name: e.target.value })
-              }} type="email" />
+              }} type="text" />
             </div>
-            <div className="input-group">
-              <p className="input-label">Email</p>
-              <input defaultValue={userInfo.email} className="emailInputSignUp" onChange={(e) => {
+            <div className="signup-input-row">
+              <p>Email</p>
+              <input defaultValue={userInfo.email} className="signup-input" onChange={(e) => {
                 setUserInfo({ ...userInfo, email: e.target.value })
               }} type="email" />
             </div>
-            <div className="input-group">
-              <p className="input-label">Username</p>
-              <input defaultValue={userInfo.username} className="emailInputSignUp" onChange={(e) => {
+            <div className="signup-input-row">
+              <p>Username</p>
+              <input defaultValue={userInfo.username} className="signup-input" onChange={(e) => {
                 setUserInfo({ ...userInfo, username: e.target.value })
               }} type="text" />
             </div>
+            <div style={{marginTop: '2rem'}}>
+              <button className="modal-save-btn" style={{ backgroundColor: 'orange' }} onClick={() => {
+                checkUser()
+              }}>Submit</button>
+            </div>
           </div>
-          <div className="btnContainer">
-            <button className="btnSignUp" style={{backgroundColor: 'orange'}} onClick={() => {
-              checkUser()
-            }}>Submit</button>
-          </div>
-        </>
+        </div>
       }
-    </div>
+    </>
   )
 }

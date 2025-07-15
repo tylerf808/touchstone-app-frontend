@@ -9,7 +9,7 @@ export default function Dashboard() {
 
     const navigate = useNavigate()
 
-    const { apiUrl } = useContext(UserContext)
+    const { apiUrl, loggedIn } = useContext(UserContext)
 
     const [totalCosts, setTotalCosts] = useState()
     const [lineChartData, setLineChartData] = useState([["Date", "Revenue", "Profit"]])
@@ -21,11 +21,13 @@ export default function Dashboard() {
 
     useEffect(() => {
         const token = localStorage.getItem('token')
-        if (!token) {
+        if (!loggedIn) {
             navigate('/')
+        } else {
+            setLineChartData([["Date", "Revenue", "Profit"]])
+            getInfo(token)
         }
-        setLineChartData([["Date", "Revenue", "Profit"]])
-        getInfo(token)
+
     }, [])
 
     const getInfo = async (token) => {
@@ -212,16 +214,16 @@ export default function Dashboard() {
                 <div className="placeholder-dashboard">
                     <div className="moneyBar" style={{ marginTop: '2rem' }}>
                         <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{color: 'grey'}}>Jobs</p>
+                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Jobs</p>
                         </div>
                         <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{color: 'grey'}}>Revenue</p>
+                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Revenue</p>
                         </div>
                         <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{color: 'grey'}}>Total Costs</p>
+                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Total Costs</p>
                         </div>
                         <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{color: 'grey'}}>Profit</p>
+                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Profit</p>
                         </div>
                     </div>
                     <div className="chartContainer">
@@ -240,7 +242,7 @@ export default function Dashboard() {
                         <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
                     </div>
                     <div className="placeholder-overlay">
-                        <h2 style={{justifySelf: 'center', top: '40%', position: 'relative'}}>Charts will appear here once you have saved jobs</h2>
+                        <h2 style={{ justifySelf: 'center', top: '40%', position: 'relative' }}>Charts will appear here once you have saved jobs</h2>
                     </div>
                 </div>
             }

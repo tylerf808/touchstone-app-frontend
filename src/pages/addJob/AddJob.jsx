@@ -130,6 +130,8 @@ const AddJob = () => {
         logistics: logistics
       };
 
+      console.log(payload.tractor)
+
       // Make request to your backend
       const response = await fetch(`${apiUrl}/api/costs/calculate`, {
         method: 'POST',

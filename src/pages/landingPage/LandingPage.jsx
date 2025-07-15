@@ -19,9 +19,8 @@ export default function LandingPage() {
         setAlertMsg, userType, setUserType, apiUrl, costs, setCosts, fetchUser } = useUserContext()
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (token) {
-            navigate('/dashboard')
+        if (!loggedIn) {
+            navigate('/')
         }
     }, [])
 

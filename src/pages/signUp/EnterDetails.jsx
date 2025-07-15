@@ -92,13 +92,13 @@ const TabbedInputComponent = () => {
       {newUsers?.map((user, i) => {
         return <AddUserForm key={i} i={i} user={user} newUsers={newUsers} setNewUsers={setNewUsers} />
       })}
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '.5rem', textAlign: 'center' }}>
         <button onClick={(e) => {
           e.preventDefault()
           const newArray = [...newUsers, { name: '', email: '', accountType: 'Driver' }]
           setNewUsers(newArray)
-        }} style={{ backgroundColor: 'orange', lineHeight: '1.5rem', justifySelf: 'center' }}>
-          <span style={{ fontSize: '1.5rem' }}>+</span>
+        }} className='modal-save-btn' style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+          <span style={{ fontSize: '1.5rem', marginRight: '.5rem' }}>+</span>
           Add User
         </button>
       </div>
@@ -120,8 +120,8 @@ const TabbedInputComponent = () => {
             width: { ft: '', in: '' }, weight: ''
           }]
           setNewTractors(newArray)
-        }} style={{ backgroundColor: 'orange', width: '6.5rem', justifySelf: 'center' }}>
-          <span style={{ fontSize: '1.5rem' }}>+</span>
+        }} className='modal-save-btn' style={{ padding: '.5rem', width: '8rem', justifySelf: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <span style={{ fontSize: '1.5rem', marginRight: '.5rem' }}>+</span>
           Add Tractor
         </button>
       </div>
@@ -192,7 +192,7 @@ const TabbedInputComponent = () => {
           </svg>
           Previous
         </button>
-        {activeTab === 5 ? <button style={{ backgroundColor: 'orange' }} onClick={confirmPendingAccount}>Submit</button> : <button
+        {activeTab === 5 ? <button style={{ backgroundColor: 'orange' }} onClick={confirmPendingAccount} className='modal-save-btn'>Submit</button> : <button
           className="nav-button next-button"
           onClick={nextTab}
           disabled={activeTab === tabs.length - 1}

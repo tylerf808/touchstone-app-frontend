@@ -131,8 +131,17 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>Net Profit %</p>
                         <p>{job?.netProfitPercentage}</p>
                     </div>
+                    <h2 style={{ padding: '1rem', marginLeft: '1rem', marginTop: '1rem' }}>Other</h2>
+                    <div className='results-row'>
+                        <p>Distance</p>
+                        <p>{job?.distance.toFixed(2)} Miles</p>
+                    </div>
+                    <div className='results-row'>
+                        <p>Drive Time</p>
+                        <p>{job?.driveTime}</p>
+                    </div>
                     <div style={{
-                        marginTop: '16rem', display: 'flex', flexDirection: 'row',
+                        marginTop: '12rem', display: 'flex', flexDirection: 'row',
                         justifyContent: 'space-evenly', alignItems: 'center'
                     }}>
                         <button className="add-route-button" onClick={(e) => {

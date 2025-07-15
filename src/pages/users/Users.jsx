@@ -10,7 +10,7 @@ import dispatcherIcon from '../../images/dispatcher-icon.png'
 
 export default function Users() {
 
-    const { user, apiUrl } = useContext(UserContext)
+    const { user, apiUrl, loggedIn } = useContext(UserContext)
 
     const [selectedCategory, setSelectedCategory] = useState('drivers')
     const [modalOpen, setModalOpen] = useState(false);
@@ -29,7 +29,7 @@ export default function Users() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!token) {
+        if (!loggedIn) {
             navigate('/')
         } else {
             getUsers()

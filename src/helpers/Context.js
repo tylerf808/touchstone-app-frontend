@@ -38,6 +38,9 @@ export const useUserContext = () => {
             }).then((res) => res.json()).then((data) => {
                 setLoggedIn(true)
                 setUser(data)
+            }).catch((error) => {
+                setLoggedIn(false)
+                console.log(error)
             })
         }
     }

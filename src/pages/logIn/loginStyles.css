@@ -1,16 +1,3 @@
-.logInContainer {
-   margin-top: 5em;
-   width: 20rem;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   border: .1em solid black;
-   border-radius: .7em;
-   background-color: white;
-   padding: 2rem;
-}
-
 .emailAndPasswordInput {
    margin: .7em;
    width: 80%;
@@ -20,7 +7,7 @@
    background-color: rgb(244, 236, 230);
 }
 
-.logInHeader {
+.login-header {
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -29,58 +16,37 @@
    margin-left: 5em;
    margin-right: 5em;
    margin-bottom: 2.5em;
+   width: 90%;
 }
 
-.logInHeader h2 {
+.login-header h2 {
    color: rgb(207, 133, 75);
    font-size: 2em;
    margin-bottom: .3em;
 }
 
-.logInHeader p {
+.login-header p {
    color: black;
    font-size: 1em;
 }
 
-.logInFormItem {
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   align-items: center;
-   margin-top: 3em;
-}
-
-.logInLabels {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-}
-
-.logInLabelContainer {
-   width: 50%;
+.login-input {
    display: flex;
    flex-direction: row;
    justify-content: center;
+   align-items: center;
+   margin-bottom: 1rem;
+   width: 16rem;
+   height: 1.2rem;
+   border-radius: .25rem;
+   border: .1rem solid lightgrey
 }
 
-.logInBtn {
-   position: relative;
-   background-color: rgb(236, 223, 213);
-   width: 160px;
-   height: 30px;
-   margin: 2em;
-}
-
-.logInBtn:hover {
-   box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-   cursor: pointer;
-}
-
-.logInShowPassword {
+.login-show-password {
    display: flex;
    flex-direction: row;
    justify-content: flex-end;
-   width: 100%;
+   width: 90%;
    margin-right: 4em;
 }
 

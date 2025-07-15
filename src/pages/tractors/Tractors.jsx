@@ -9,7 +9,7 @@ import formatUSD from '../../helpers/currencyFormatter'
 
 export default function Tractors() {
 
-    const { apiUrl } = useContext(UserContext)
+    const { apiUrl, loggedIn } = useContext(UserContext)
 
     const [tractors, setTractors] = useState([])
     const [visibleTractors, setVisibleTractors] = useState([])
@@ -33,7 +33,7 @@ export default function Tractors() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!token) {
+        if (!loggedIn) {
             navigate('/')
         } else {
             getTractors()

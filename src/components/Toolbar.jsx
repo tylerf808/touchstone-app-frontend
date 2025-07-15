@@ -4,9 +4,14 @@ import { Link } from 'react-router-dom'
 import './toolbarStyles.css'
 import { useNavigate } from 'react-router-dom';
 
-export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, setCosts, setShowAlert, setShowMenu, showMenu }) {
+export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location, setShowAlert, setShowMenu, showMenu }) {
 
   const navigate = useNavigate();
+
+  console.log(location)
+
+  const isSignUpPage = location?.pathname === '/signup' || location?.pathname === '/confirmPendingUser/' || 
+  location?.pathname === '/login'
 
   const handleLogOut = () => {
     setShowMenu(false)
@@ -72,12 +77,16 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, setCosts
           }
         </div>
         :
-        <div className='landing-menu'>
-          <div className='login-btn-container'>
-            <button className='landing-btn' onClick={handleLogIn}>Log In</button>
-          </div>
-          <button className='landing-btn' onClick={handleSignUp}>Sign Up</button>
-        </div>
+        <>
+          {!loggedIn && !isSignUpPage &&
+            <div className='landing-menu'>
+              <div className='login-btn-container'>
+                <button className='landing-btn' onClick={handleLogIn}>Log In</button>
+              </div>
+              <button className='landing-btn' onClick={handleSignUp}>Sign Up</button>
+            </div>
+          }
+        </>
       }
     </div >
   );
