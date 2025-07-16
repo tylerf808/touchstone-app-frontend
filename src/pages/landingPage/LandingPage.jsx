@@ -20,6 +20,9 @@ export default function LandingPage() {
 
   useEffect(() => {
     fetchUser()
+    if(loggedIn){
+      navigate('/dashboard')
+    }
   }, [])
 
   const tiles = [
