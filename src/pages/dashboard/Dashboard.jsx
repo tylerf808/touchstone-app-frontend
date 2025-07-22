@@ -21,7 +21,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         const token = localStorage.getItem('token')
-        if (!loggedIn) {
+        if (!token) {
             navigate('/')
         } else {
             setLineChartData([["Date", "Revenue", "Profit"]])

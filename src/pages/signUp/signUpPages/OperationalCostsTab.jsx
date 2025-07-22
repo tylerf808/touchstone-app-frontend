@@ -43,19 +43,6 @@ export default function OperationalCostsTab({ operationalCosts, setOperationalCo
                     />
                 </div>
             </div>
-            <div className="input-group operational-group">
-                <label htmlFor="gAndA" className="input-label">Enter your total monthly G&A cost</label>
-                <div style={{ justifySelf: 'flex-end' }}>
-                    <span>$</span>
-                    <input
-                        name="gAndA"
-                        type='number'
-                        className="input-field"
-                        defaultValue={operationalCosts?.gAndA}
-                        onChange={(e) => setOperationalCosts({ ...operationalCosts, gAndA: e.target.value })}
-                    />
-                </div>
-            </div>
         </form>
     )
 }

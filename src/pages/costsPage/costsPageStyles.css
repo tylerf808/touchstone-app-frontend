@@ -1,147 +1,113 @@
-.costsInputContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+.costs-page-container {
+  max-width: 900px;
+  margin: 2.5rem auto;
+  background: #fff;
+  border-radius: .75rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 2rem 2.5rem;
 }
 
-.tractorContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: .6em;
+.costs-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #222;
 }
 
-.tractorSubContainer {
-    width: 85%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    margin-left: 4rem;
+.costs-sections {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: space-between;
 }
 
-.tractor {
-    display: flex;
-    width: 90%;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    
+.fixed-costs-section,
+.operational-costs-section {
+  flex: 1;
+  padding: 1.5rem 1rem;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: .5rem;
+  background-color: rgb(249, 249, 249);
 }
 
-.costsInput {
-    width: 4rem;
-    font-size: 1rem;
-    background-color: rgb(255, 250, 241);
-    border: .1rem solid black;
-    border-radius: .2rem;
-    padding: .1rem;
+.fixed-costs-section h2,
+.operational-costs-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: #444;
 }
 
-.infoContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    height: auto;
-    padding: 1rem;
+.tractors-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-height: 10rem;
+  overflow-y: auto;
 }
 
-.graphContainer {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    border-right: .1rem solid black;
+@media (min-width: 600px) {
+  .tractors-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.costsContainer {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    justify-items: center;
-    width: 75%;
-    height: 100%;
-    margin-top: 3rem;
-    border: .1rem solid black;
-    background-color: white;
-    border-radius: .5rem;
+.tractor-card {
+  background: #fff;
+  border-radius: .5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
 }
 
-.operatingCostsContainer {
-    width: 100%;
+.tractor-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: .5rem;
+  color: #333;
 }
 
-.fixedCostsContainer {
-    width: 100%;
+.tractor-cost-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: .95rem;
+  padding: .25rem 0;
+  color: #555;
 }
 
-.costsHeaderContainer {
-    margin: auto;
-    width: 50%;
+.operational-costs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: .5rem;
 }
 
-.costsItem {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: .6em;
+.operational-costs-table td {
+  padding: .5rem .75rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: .97rem;
+  color: #444;
 }
 
-.costsLabel {
-    margin-left: 2rem;
-    font-size: 1.2rem;
+.operational-costs-table tr:last-child td {
+  border-bottom: none;
 }
 
-.inputInstructions {
-    font-size: 1rem;
-    width: 80%;
+.fixed-costs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: .5rem;
 }
 
-.subHeaderContainer {
-    margin-bottom: .5em;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.fixed-costs-table td {
+  padding: .5rem .75rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: .97rem;
+  color: #444;
 }
 
-#edit-btn:hover {
-    cursor: pointer;
-}
-
-.cancelX {
-    color: red;
-    font-size: 1.7rem;
-}
-
-.confirmCheck {
-    color: green;
-    font-size: 1.7rem;
-}
-
-@media screen and (max-width: 1000px) {
-
-    .costsContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-top: 1rem;
-    }
-
-    .graphContainer {
-        width: 80%;
-        height: 16rem;
-        margin-bottom: 1rem;
-    }
-
-    .infoContainer {
-        width: 80%;
-    }
+.fixed-costs-table tr:last-child td {
+  border-bottom: none;
 }
