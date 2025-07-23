@@ -69,6 +69,7 @@ export default function CostsPage() {
     { key: 'parking', label: 'Parking' },
     { key: 'repairs', label: 'Repairs' },
     { key: 'loan', label: 'Loan' },
+    { key: 'loadsPerMonth', label: 'Loads per Month'}
   ]
 
   return (
@@ -88,14 +89,11 @@ export default function CostsPage() {
                 <tr key={key}>
                   <td>{label}</td>
                   {label === 'Overhead' && <td>{costs ? costs[key] : '-'}%</td>}
-                  {label === 'Repairs' && <td>{costs ? costs[key] : '-'}</td>}
-                  {label !== 'Repairs' && label !== 'Overhead' && <td>{costs ? formatUSD(costs[key]) : '-'}</td>}
+                  {label === 'Repairs' && <td>{costs ? costs[key] : '-'}¢</td>}
+                  {label === 'Loads per Month' && <td>{costs ? costs[key] : '-'}</td>}
+                  {label !== 'Repairs' && label !== 'Overhead' && label !== 'Loads per Month' && <td>{costs ? formatUSD(costs[key]) : '-'}</td>}
                 </tr>
               ))}
-              <tr>
-                <td>Average Loads per Month</td>
-                <td>20</td>
-              </tr>
             </tbody>
           </table>
 
