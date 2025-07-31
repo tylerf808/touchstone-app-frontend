@@ -16,7 +16,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
         <div className="details-form">
             <div className="address-logistics-container">
                 <div className="route-details">
-                    <h3 style={{ marginBottom: '1rem' }}>Route Details</h3>
+                    <h3 style={{ marginBottom: '1rem', alignSelf: 'center' }}>Route Details</h3>
                     <Autocomplete className="route-details-row">
                         <>
                             <p style={{ justifySelf: 'center' }}>Start</p>
@@ -43,10 +43,33 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             setLogistics({ ...logistics, startDate: e.target.value })
                         }}></input>
                     </div>
-
+                    <div className="route-details-row" style={{ flexDirection: 'row', gap: '.75rem', alignItems: 'center', alignSelf: 'center', justifyContent: 'space-between', width: '60%' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '.25rem' }}>
+                            <input
+                                type="radio"
+                                name="routePreference"
+                                value={true}
+                                checked={logistics.fastest === true}
+                                onChange={() => setLogistics({ ...logistics, fastest: true })}
+                                style={{ accentColor: 'orange' }}
+                            />
+                            Fastest
+                        </label>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '.25rem' }}>
+                            <input
+                                type="radio"
+                                name="routePreference"
+                                value={false}
+                                checked={logistics.fastest === false}
+                                onChange={() => setLogistics({ ...logistics, fastest: false })}
+                                style={{ accentColor: 'orange' }}
+                            />
+                            Cheapest
+                        </label>
+                    </div>
                 </div>
                 <div className="load-details">
-                    <h3 style={{ marginBottom: '1rem' }}>Load Details</h3>
+                    <h3 style={{ marginBottom: '1rem', alignSelf: 'center', justifySelf: 'flex-start' }}>Load Details</h3>
                     <div className="load-details-row">
                         <p>
                             Client:
@@ -61,7 +84,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                         <p>
                             Revenue:
                         </p>
-                        <div style={{display: 'flex', flexDirection: 'row', gap: '.5rem'}}>
+                        <div style={{ display: 'flex', flexDirection: 'row', gap: '.5rem' }}>
                             <p>$</p>
                             <input style={{ width: '7rem' }} type='number' onChange={(e) => {
                                 const newLogistics = logistics
