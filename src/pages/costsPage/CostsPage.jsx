@@ -55,7 +55,7 @@ export default function CostsPage() {
       })
   }
 
-  const operationalKeys = [
+  const directKeys = [
     { key: 'laborRate', label: 'Labor Rate' },
     { key: 'payrollTax', label: 'Payroll Tax' },
     { key: 'dispatch', label: 'Dispatch' },
@@ -70,6 +70,7 @@ export default function CostsPage() {
     { key: 'repairs', label: 'Repairs' },
     { key: 'loan', label: 'Loan' },
     { key: 'loadsPerMonth', label: 'Loads per Month'}
+    
   ]
 
   return (
@@ -100,7 +101,7 @@ export default function CostsPage() {
         </section>
         <section className="operational-costs-section">
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '95%' }}>
-            <h2>Operational Costs</h2>
+            <h2>Direct Costs</h2>
             <i className="fa fa-pencil" style={{ fontSize: '1.2rem' }} onClick={() => {
               setCostsType('operational')
               setIsOpen(true)
@@ -108,7 +109,7 @@ export default function CostsPage() {
           </div>
           <table className="operational-costs-table">
             <tbody>
-              {operationalKeys.map(({ key, label }) => (
+              {directKeys.map(({ key, label }) => (
                 <tr key={key}>
                   <td>{label}</td>
                   <td>{costs ? costs[key] : '-'}%</td>
@@ -135,6 +136,10 @@ export default function CostsPage() {
               <div className="tractor-cost-row">
                 <span>Trailer Lease</span>
                 <span>{formatUSD(tractor.trailerLease)}</span>
+              </div>
+              <div className="tractor-cost-row">
+                <span>Annual Depreciation</span>
+                <span>{formatUSD(tractor.depreciation)}</span>
               </div>
             </div>
           ))}

@@ -32,6 +32,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
             insurance: '',
             tractorLease: '',
             trailerLease: '',
+            depreciation: '',
             mpg: '',
             height: { ft: '', in: '' },
             width: { ft: '', in: '' },
@@ -48,6 +49,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
             insurance: '',
             tractorLease: '',
             trailerLease: '',
+            depreciation: '',
             mpg: '',
             height: { ft: '', in: '' },
             width: { ft: '', in: '' },
@@ -84,6 +86,19 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                             style={{ width: '8rem' }}
                             type="number"
                             name="insurance"
+                            onChange={handleChange}
+                        />
+                    </div>
+                </div>
+                <div className="modal-input-row">
+                    <label>Annual Depreciation:</label>
+                    <div style={{ justifySelf: 'flex-end' }}>
+                        <span style={{ fontWeight: 'bold' }}>$ </span>
+                        <input
+                            className="new-tractor-input"
+                            style={{ width: '8rem' }}
+                            type="number"
+                            name="depreciation"
                             onChange={handleChange}
                         />
                     </div>

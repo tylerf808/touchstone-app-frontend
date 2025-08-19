@@ -15,6 +15,7 @@ export default function EditTractorModal({ isOpen, editedItem, setEditedItem, on
             insurance: '',
             tractorLease: '',
             trailerLease: '',
+            depreciation: '',
             mpg: '',
             height: { ft: '', in: '' },
             width: { ft: '', in: '' },
@@ -25,6 +26,7 @@ export default function EditTractorModal({ isOpen, editedItem, setEditedItem, on
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(editedItem)
         onSave(editedItem);
         onClose();
     };
@@ -111,6 +113,21 @@ export default function EditTractorModal({ isOpen, editedItem, setEditedItem, on
                             type="number"
                             name="trailerLease"
                             value={editedItem?.trailerLease}
+                            onChange={handleChange}
+                        />
+                    </div>
+                </div>
+                <div className="modal-input-row">
+                    <label>
+                        Annual Depreciation:
+                    </label>
+                    <div style={{ justifySelf: 'flex-end' }}>
+                        <span style={{ fontWeight: 'bold' }}>$ </span>
+                        <input
+                            style={{ width: '8rem' }}
+                            type="number"
+                            name="depreciation"
+                            value={editedItem?.depreciation}
                             onChange={handleChange}
                         />
                     </div>

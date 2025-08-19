@@ -12,6 +12,8 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
         width: '100%'
     }
 
+    console.log(job)
+
     return (
         <div className="results-container">
             <div className="main-details-banner">

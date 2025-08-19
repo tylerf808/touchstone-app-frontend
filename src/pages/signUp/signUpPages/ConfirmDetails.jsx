@@ -20,8 +20,8 @@ export default function ConfirmDetails({ newAccount, newUsers, newTractors, oper
                     <p>${operationalCosts.parking}</p>
                 </div>
                 <div className='confirm-row'>
-                    <label className="input-label">Monthly G&A cost</label>
-                    <p>${operationalCosts.gAndA}</p>
+                    <label className="input-label">Ave. loads per month</label>
+                    <p>{operationalCosts.loadsPerMonth}</p>
                 </div>
             </div>
             <div className="confirm-group">

@@ -43,6 +43,19 @@ export default function OperationalCostsTab({ operationalCosts, setOperationalCo
                     />
                 </div>
             </div>
+            <div className="input-group operational-group">
+                <label htmlFor="parking" className="input-label">Enter your average number of loads per month</label>
+                <div style={{ justifySelf: 'flex-end' }}>
+                    <input
+                        name="parking"
+                        type='number'
+                        className="input-field"
+                        style={{width: '2rem'}}
+                        defaultValue={operationalCosts?.parking}
+                        onChange={(e) => setOperationalCosts({ ...operationalCosts, loadsPerMonth: Number(e.target.value) })}
+                    />
+                </div>
+            </div>
         </form>
     )
 }

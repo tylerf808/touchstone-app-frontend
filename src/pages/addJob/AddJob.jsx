@@ -46,7 +46,6 @@ const AddJob = () => {
 
       const data = await response.json();
       setDrivers(data[0]);
-      console.log(data)
       setTractors(data[1]);
       setSelectedTractor(data[1][0])
       setLogistics(prevLogistics => ({
@@ -131,8 +130,6 @@ const AddJob = () => {
         logistics: logistics
       };
 
-      console.log(payload.tractor)
-
       // Make request to your backend
       const response = await fetch(`${apiUrl}/api/costs/calculate`, {
         method: 'POST',
@@ -148,8 +145,6 @@ const AddJob = () => {
       }
 
       const data = await response.json();
-
-      console.log(data)
 
       if (!data) {
         throw new Error('No route data received from server');

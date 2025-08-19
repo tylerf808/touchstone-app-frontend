@@ -29,7 +29,7 @@ export default function Users() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!loggedIn) {
+        if (!token) {
             navigate('/')
         } else {
             getUsers()
@@ -142,6 +142,18 @@ export default function Users() {
         getUsers()
     }
 
+    const handleResendConfirmation = async (user) => {
+        console.log(user)
+        await fetch(apiUrl + '/api/user/sendConfirmationEmail', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify(user)
+        }).catch((err) => console.log(err))
+    }
+
     return (
         <div className="users-container">
             <div className="users-header">
@@ -197,7 +209,8 @@ export default function Users() {
                                         <p>Account Type</p>
                                         <p>{user?.accountType}</p>
                                     </div>
-                                    {user.confirmationCode && <button style={{ width: '12rem', marginTop: '1rem' }} className="modal-save-btn">Resend Verification Email</button>}
+                                    {user.confirmationCode && <button style={{ width: '12rem', marginTop: '1rem' }} className="modal-save-btn"
+                                    onClick={() => handleResendConfirmation(user)}>Resend Verification Email</button>}
                                 </div>
                             </div>
                         )

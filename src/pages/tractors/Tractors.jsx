@@ -19,6 +19,7 @@ export default function Tractors() {
         insurance: '',
         tractorLease: '',
         trailerLease: '',
+        depreciation: '',
         mpg: '',
         height: { ft: '', in: '' },
         width: { ft: '', in: '' },
@@ -33,7 +34,7 @@ export default function Tractors() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!loggedIn) {
+        if (!token) {
             navigate('/')
         } else {
             getTractors()
@@ -163,6 +164,10 @@ export default function Tractors() {
                                 <div className="tractor-info-row">
                                     <p>Trailer Lease</p>
                                     <p>{formatUSD(tractor?.trailerLease)}</p>
+                                </div>
+                                 <div className="tractor-info-row">
+                                    <p>Depreciation</p>
+                                    <p>{formatUSD(tractor?.depreciation)}</p>
                                 </div>
                                 <div className="tractor-info-row">
                                     <p>Height</p>

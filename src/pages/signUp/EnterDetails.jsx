@@ -17,7 +17,7 @@ const TabbedInputComponent = () => {
   const params = new URLSearchParams(window.location.search)
   const code = params.get('code')
 
-  const [operationalCosts, setOperationalCosts] = useState({ tractorLease: '', trailerLease: '', repairs: '', loan: '', parking: '', gAndA: '' })
+  const [operationalCosts, setOperationalCosts] = useState({ tractorLease: '', trailerLease: '', repairs: '', loan: '', parking: '', gAndA: '', loadsPerMonth: '' })
   const [fixedCosts, setFixedCosts] = useState({ labor: '', payroll: '', dispatch: '', factor: '', odc: '', overhead: '' })
   const [activeTab, setActiveTab] = useState(0);
   const [password, setPassword] = useState('')
@@ -178,7 +178,6 @@ const TabbedInputComponent = () => {
             fixedCosts={fixedCosts} newUsers={newUsers} newTractors={newTractors} />
         </div>
       </div>
-
 
       {/* Navigation arrows */}
       <div className="navigation">

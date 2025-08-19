@@ -65,7 +65,7 @@ export default function EditCostsModal({ isOpen, setIsOpen, costsType, newCosts,
                 </form>
                 :
                 <form className="modal-form" style={{width: '30rem'}}>
-                    <h2 style={{ marginBottom: '1rem' }}>Edit Operational Costs</h2>
+                    <h2 style={{ marginBottom: '1rem' }}>Edit Direct Costs</h2>
                     <div className="modal-form-row">
                         <label>Labor rate as a percentage of revenue</label>
                         <div>
