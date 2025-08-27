@@ -115,6 +115,10 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>{formatUSD(job?.overhead)}</p>
                     </div>
                     <div className="results-row">
+                        <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
+                        <p>{formatUSD(job?.depreciation)}</p>
+                    </div>
+                    <div className="results-row">
                         <p style={{ marginLeft: '1.2rem' }}>Parking</p>
                         <p>{formatUSD(job?.parking)}</p>
                     </div>
@@ -127,7 +131,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         padding: '.2rem'
                     }} className='results-row'>
                         <p style={{ marginLeft: '2rem' }}>Subtotal - Other</p>
-                        <p>{formatUSD(job.overhead + job.parking + job.repairs)}</p>
+                        <p>{formatUSD(job.overhead + job.parking + job.repairs + job.depreciation)}</p>
                     </div>
                 </div>
                 <div className="profit-summary">

@@ -45,6 +45,7 @@ export default function Dashboard() {
                 setProfit(0)
                 setTotalCosts(0)
             } else {
+                console.log(data)
                 setTotalJobs(data.length)
                 let revenue = 0
                 let profit = 0

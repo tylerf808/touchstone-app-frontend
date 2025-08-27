@@ -166,7 +166,7 @@ export default function Tractors() {
                                     <p>{formatUSD(tractor?.trailerLease)}</p>
                                 </div>
                                  <div className="tractor-info-row">
-                                    <p>Depreciation</p>
+                                    <p>Annual Depreciation</p>
                                     <p>{formatUSD(tractor?.depreciation)}</p>
                                 </div>
                                 <div className="tractor-info-row">
