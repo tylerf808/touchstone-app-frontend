@@ -81,7 +81,7 @@ p {
 
 .results-container {
     width: 80%;
-    height: 80vh;
+    height: auto;
     border-radius: .5rem;
     display: flex;
     flex-direction: column;
@@ -176,7 +176,7 @@ p {
     justify-self: center;
     width: 70%;
     padding: .1rem;
-    margin-bottom: .5rem;
+    margin-bottom: .2rem;
 }
 
 .results-group {

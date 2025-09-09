@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import * as atlas from 'azure-maps-control'
 import "azure-maps-control/dist/atlas.min.css";
 
-const AddJob = () => {
+const AddJob = ({ setShowAlert, setAlertMsg }) => {
   const [job, setJob] = useState(null);
   const [error, setError] = useState('')
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,7 +21,7 @@ const AddJob = () => {
     startDate: '',
     client: '',
     hazmat: false,
-    fastest: true 
+    fastest: true
   });
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
@@ -94,18 +94,28 @@ const AddJob = () => {
       e.preventDefault();
     }
 
+    setAlertMsg('')
+    setShowAlert(false)
+
+    // Get addresses from input elements
+    const startElement = document.getElementById('start-input');
+    const pickupElement = document.getElementById('pick-up-input');
+    const dropoffElement = document.getElementById('drop-off-input');
+
+    if (startElement.value === '' || pickupElement === '' || dropoffElement === '') {
+      setAlertMsg('Missing an input')
+      setShowAlert(true)
+    }
+
+    if (logistics.revenue === 0 || logistics.driver === '' || logistics.startDate === ''
+      || logistics.driver === '' || logistics.client === '') {
+      setAlertMsg('Missing an input')
+      setShowAlert(true)
+    }
+
     try {
       setLoading(true);
       setError(null);
-
-      // Get addresses from input elements
-      const startElement = document.getElementById('start-input');
-      const pickupElement = document.getElementById('pick-up-input');
-      const dropoffElement = document.getElementById('drop-off-input');
-
-      if (!startElement || !pickupElement || !dropoffElement) {
-        throw new Error('Could not find one or more address input elements');
-      }
 
       const dateObj = new Date(logistics.startDate)
 
@@ -166,39 +176,41 @@ const AddJob = () => {
   }, []);
 
   return (
-      <div className={`transition-container ${showResults ? 'expand' : ''}`}>
-        {!showResults ? (
-          loading ? (
-            <div style={{justifySelf: 'center', alignSelf: 'center', display: 'flex', flexDirection: 'column',
-             justifyContent: 'center', alignItems: 'center', marginTop: '3rem', height: '100%'}}>
-              <CircularProgress style={{color: 'orange'}}/>
-              <p style={{color: 'gray'}}>Calculating route...</p>
-            </div>
-          ) : (
-            <DetailsInput
-              findRoute={findRoute}
-              isExpanded={isExpanded}
-              setIsExpanded={setIsExpanded}
-              tractors={tractors}
-              drivers={drivers}
-              logistics={logistics}
-              setLogistics={setLogistics}
-              job={job}
-              addJob={addJob}
-              selectedTractor={selectedTractor}
-              setSelectedTractor={setSelectedTractor}
-            />
-          )
+    <div className={`transition-container ${showResults ? 'expand' : ''}`}>
+      {!showResults ? (
+        loading ? (
+          <div style={{
+            justifySelf: 'center', alignSelf: 'center', display: 'flex', flexDirection: 'column',
+            justifyContent: 'center', alignItems: 'center', marginTop: '3rem', height: '100%'
+          }}>
+            <CircularProgress style={{ color: 'orange' }} />
+            <p style={{ color: 'gray' }}>Calculating route...</p>
+          </div>
         ) : (
-          <ResultsContainer
-            addJob={addJob}
+          <DetailsInput
+            findRoute={findRoute}
+            isExpanded={isExpanded}
+            setIsExpanded={setIsExpanded}
+            tractors={tractors}
+            drivers={drivers}
+            logistics={logistics}
+            setLogistics={setLogistics}
             job={job}
-            setJob={setJob}
-            setShowResults={setShowResults}
-            setError={setError}
+            addJob={addJob}
+            selectedTractor={selectedTractor}
+            setSelectedTractor={setSelectedTractor}
           />
-        )}
-      </div>
+        )
+      ) : (
+        <ResultsContainer
+          addJob={addJob}
+          job={job}
+          setJob={setJob}
+          setShowResults={setShowResults}
+          setError={setError}
+        />
+      )}
+    </div>
   );
 };
 

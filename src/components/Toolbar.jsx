@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom'
 import './toolbarStyles.css'
 import { useNavigate } from 'react-router-dom';
 
-export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location, setShowAlert, setShowMenu, showMenu }) {
+export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location, setShowAlert, setAlertMsg, setShowMenu, showMenu }) {
 
   const navigate = useNavigate();
-
-  console.log(location)
 
   const isSignUpPage = location?.pathname === '/signup' || location?.pathname === '/confirmPendingUser/' || 
   location?.pathname === '/login'

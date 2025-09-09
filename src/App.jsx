@@ -38,10 +38,10 @@ function AppContent() {
     }}>
       <Toolbar setShowMenu={setShowMenu} showMenu={showMenu} setShowAlert={setShowAlert} user={user}
         loggedIn={loggedIn} setLoggedIn={setLoggedIn} setUser={setUser} userType={userType} setUserType={setUserType} location={location} />
-      <div className="alertContainer"> {showAlert ? <Alert className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
+      <div className="alertContainer"> {showAlert ? <Alert style={{justifyContent: 'center'}} className="alertMsg" severity="error">{alertMsg}</Alert> : null} </div>
       <Routes>
         <Route path='dashboard' element={<Dashboard />} />
-        <Route path="addjob" element={<AddJob />} />
+        <Route path="addjob" element={<AddJob setAlertMsg={setAlertMsg} setShowAlert={setShowAlert}/>} />
         <Route path="/" element={<LandingPage />} />
         <Route path='login' element={<LogIn />} />
         <Route path="jobs" element={<ViewJobs />} />

@@ -39,6 +39,11 @@ export default function Dashboard() {
                 "Authorization": token
             }
         }).then((res) => res.json()).then((data) => {
+            data.sort((a, b) => {
+                const dateA = new Date(a.date)
+                const dateB = new Date(b.date)
+                return dateB.getTime() - dateA.getTime()
+            })
             setJobs(data)
             if (data.length === 0) {
                 setRevenue(0)
@@ -121,10 +126,10 @@ export default function Dashboard() {
     };
 
     const tableData = [
-        ['Start', 'Pick Up', 'Drop Off', 'Departure Date', 'Revenue', 'Gross Profit %',
-            'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Rate/Mile', 'Factor', 'Overhead',
-            'Loan', 'ODC', 'Repairs', 'Labor', 'Dispatch', 'Payroll Tax', 'Net Profit', 'Labor Rate %', 'Insurance',
-            'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Total Operating Cost', 'Distance',
+        ['Start', 'Pick Up', 'Drop Off', 'Departure Date', 'Rate per Mile', 'Revenue', 'Gross Profit %',
+            'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Factor', 'Overhead',
+            'Loan', 'ODC', 'Repairs', 'Labor', 'Dispatch', 'Depreciation', 'Payroll Tax', 'Net Profit', 'Labor Rate %', 'Insurance',
+            'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Total Direct Cost', 'Distance',
             'Drive Time', 'Client', 'Driver', 'Admin', 'Tractor']
     ]
 
@@ -132,6 +137,18 @@ export default function Dashboard() {
     const excludeNonMoney = ['start', 'pickUp', 'dropOff', 'date', 'grossProfitPercentage',
         'operatingProfitPercentage', 'netProfitPercentage', 'laborRatePercent', 'distance',
         'driveTime', 'client', 'driver', 'tractor', 'admin']
+
+    const percentage = ['grossProfitPercentage', 'operatingProfitPercentage', 'netProfitPercentage']
+
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const isCompleted = (job) => {
+        const jobDate = new Date(job.date);
+        jobDate.setHours(0, 0, 0, 0);
+        return jobDate <= today;
+    };
 
     jobs.forEach((job) => {
         const subArray = []
@@ -146,22 +163,20 @@ export default function Dashboard() {
                     if (!excludeNonMoney.includes(key)) {
                         subArray.push('$' + value.toString())
                     } else {
-                        subArray.push(value)
+                        if(!percentage.includes(key)){
+                            subArray.push(value)
+                        } else {
+                            subArray.push(value.toString(2) + '%')
+                        }
                     }
                 }
             }
         })
+
         tableData.push(subArray)
     })
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
 
-    const isCompleted = (job) => {
-        const jobDate = new Date(job.date);
-        jobDate.setHours(0, 0, 0, 0);
-        return jobDate <= today;
-    };
 
     const completedJobs = jobs.filter(job => isCompleted(job));
     const uncompletedJobs = jobs.filter(job => !isCompleted(job));

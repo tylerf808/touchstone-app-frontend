@@ -140,27 +140,27 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>Gross Profit</p>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '10rem' }}>
                             <p>{formatUSD(job?.grossProfit)}</p>
-                            <p>{job?.grossProfitPercentage}</p>
+                            <p>{job?.grossProfitPercentage}%</p>
                         </div>
                     </div>
                     <div className="results-row">
                         <p>Operating Profit</p>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '10rem' }}>
                             <p>{formatUSD(job?.operatingProfit)}</p>
-                            <p>{job?.operatingProfitPercentage}</p>
+                            <p>{job?.operatingProfitPercentage}%</p>
                         </div>
                     </div>
                     <div className="results-row">
                         <p>Net Profit</p>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '10rem' }}>
                             <p>{formatUSD(job?.netProfit)}</p>
-                            <p>{job?.netProfitPercentage}</p>
+                            <p>{job?.netProfitPercentage}%</p>
                         </div>
                     </div>
                     <h2 style={{ padding: '1rem', marginLeft: '1rem', marginTop: '1rem' }}>Other</h2>
                     <div className='results-row'>
                         <p>Distance</p>
-                        <p>{job?.distance.toFixed(2)} Miles</p>
+                        <p>{job?.distance} Miles</p>
                     </div>
                     <div className='results-row'>
                         <p>Drive Time</p>
@@ -171,7 +171,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>{formatUSD(job?.ratePerMile)}</p>
                     </div>
                     <div style={{
-                        marginTop: '20rem', display: 'flex', flexDirection: 'row',
+                        marginTop: '16rem', display: 'flex', flexDirection: 'row',
                         justifyContent: 'space-evenly', alignItems: 'center'
                     }}>
                         <button className="add-route-button" onClick={(e) => {
