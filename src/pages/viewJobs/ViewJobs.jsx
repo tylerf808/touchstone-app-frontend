@@ -12,6 +12,7 @@ export default function ViewJobs() {
 
     const navigate = useNavigate();
 
+    const [selectedJobs, setSelectedJobs] = useState([])
     const [jobs, setJobs] = useState([])
     const [csvJobs, setCsvJobs] = useState()
     const [noJobs, setNoJobs] = useState(true)
@@ -89,16 +90,13 @@ export default function ViewJobs() {
     }, [])
 
     return (
-        <div className="jobs-page-container">
-            <div className="jobs-table-container">
-                <div className='view-jobs-toolbar'>
-                    <div className='view-jobs-menu'>
-
-                    </div>
-                    <i class="fa fa-download" style={{ fontSize: '1.2rem' }}>Download</i>
-                </div>
-                <JobsTable jobs={jobs} />
+        <div className="jobs-table-container">
+            <div className='view-jobs-toolbar'>
+                <p style={{marginRight: '2.5rem'}}>{selectedJobs.length} Selections</p>
+                <i class="fa fa-download" style={{ fontSize: '1.2rem', marginRight: '2rem' }}>Download</i>
+                <i  className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem'}}></i>
             </div>
+            <JobsTable jobs={jobs} selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs}/>
         </div>
     )
 }

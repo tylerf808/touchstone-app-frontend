@@ -1,40 +1,32 @@
-.jobs-page-container {
-    height: 93.75vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: rgb(245, 245, 245);
-}
-
 .view-jobs-toolbar {
     position: absolute;
-    width: 99%;
     height: 2.25rem;
-    border-bottom: 4px solid #c7c7c7;
+    width: 78%;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    justify-self: center;
     align-items: center;
 }
 
 .jobs-table-container {
-    width: 99%;
-    height: 95%;
+    width: 80%;
+    height: 50rem;
     overflow-x: scroll;
     overflow-y: auto;
-    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
-    border-bottom-right-radius: .5rem;
-    border-bottom-left-radius: .5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: .5rem;
     padding: .5rem;
+    justify-self: center;
+    margin-top: 2rem;
+    background-color: white;
 }
 
 .jobs-table {
-    width: 98%;
-    height: 30vh;
     border-collapse: collapse;
-    margin-bottom: 1rem;
     margin-top: 3rem;
+    height: 80%;
+    border-radius: .5rem;
 }
 
 .jobs-table-header {
@@ -43,7 +35,7 @@
 }
 
 .jobs-table-header th {
-    text-align: left;
+    text-align: center;
     font-weight: bold;
     text-transform: capitalize;
     cursor: pointer;
@@ -57,6 +49,7 @@
 
 .jobs-table-body tr {
     border-bottom: 1px solid #e0e0e0;
+    max-height: 1rem;
 }
 
 .jobs-table-body tr:nth-child(even) {
@@ -69,11 +62,6 @@
 
 .jobs-table-body td {
     padding: 2px 15px;
-    /* Minimal padding */
-    line-height: 1;
-    /* Tighten line height */
-    vertical-align: middle;
-    /* Center content vertically */
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

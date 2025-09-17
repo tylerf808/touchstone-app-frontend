@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import './viewJobsStyles.css'
 
-const JobsTable = ({ jobs }) => {
+const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
     const [sortConfig, setSortConfig] = useState({
         key: null,
         direction: 'ascending'
@@ -46,37 +46,61 @@ const JobsTable = ({ jobs }) => {
         'Drive Time', 'Client', 'Driver', 'Tractor']
 
     return (
-        
-            <table className="jobs-table">
-                <thead className="jobs-table-header">
-                    <tr>
-                        {tableHeaders.map((header, i) => (
-                            <th
-                                key={header}
-                                onClick={() => requestSort(header)}
-                            >
-                                {formattedTableHeaders[i]}
-                                {sortConfig.key === header && (
-                                    <span className="jobs-table-sort-indicator">
-                                        {sortConfig.direction === 'ascending' ? '▲' : '▼'}
-                                    </span>
-                                )}
-                            </th>
+
+        <table className="jobs-table">
+            <thead className="jobs-table-header">
+                <tr>
+                    <th>
+                        <input type='checkbox' style={{ alignSelf: 'center', justifySelf: 'center' }} onClick={(e) => {
+                            const selectedRows = Array.from(document.getElementsByClassName('row-checkbox'))
+                            if (e.target.checked) {
+                                selectedRows.forEach((row) => {
+                                    row.checked = true
+                                })
+                            } else {
+                                selectedRows.forEach((row) => {
+                                    row.checked = false
+                                })
+                            }
+                        }}></input>
+                    </th>
+                    {tableHeaders.map((header, i) => (
+                        <th
+                            key={header}
+                            onClick={() => requestSort(header)}
+                        >
+                            {formattedTableHeaders[i]}
+                            {sortConfig.key === header && (
+                                <span className="jobs-table-sort-indicator">
+                                    {sortConfig.direction === 'ascending' ? '▲' : '▼'}
+                                </span>
+                            )}
+                        </th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody className="jobs-table-body">
+                {sortedJobs.map((job, index) => (
+                    <tr key={index} onClick={() => {
+                        const checkbox = document.getElementById(`row-checkbox-${index}`)
+                        if (checkbox.checked) {
+                            checkbox.checked = false
+                        } else {
+                            checkbox.checked = true
+                        }
+                    }}>
+                        <td style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                            <input className='row-checkbox' id={`row-checkbox-${index}`} type='checkbox'></input>
+                        </td>
+                        {tableHeaders.map((header) => (
+                            <td key={header}>
+                                {job[header]}
+                            </td>
                         ))}
                     </tr>
-                </thead>
-                <tbody className="jobs-table-body">
-                    {sortedJobs.map((job, index) => (
-                        <tr key={index}>
-                            {tableHeaders.map((header) => (
-                                <td key={header}>
-                                    {job[header]}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                ))}
+            </tbody>
+        </table>
 
     );
 };
