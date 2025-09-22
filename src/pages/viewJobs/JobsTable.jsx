@@ -6,7 +6,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
         key: null,
         direction: 'ascending'
     });
-    
+
 
     const sortedJobs = useMemo(() => {
         if (!sortConfig.key) return jobs;
@@ -56,10 +56,12 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
                             if (e.target.checked) {
                                 selectedRows.forEach((row) => {
                                     row.checked = true
+                                    setSelectedJobs(jobs)
                                 })
                             } else {
                                 selectedRows.forEach((row) => {
                                     row.checked = false
+                                    setSelectedJobs([])
                                 })
                             }
                         }}></input>
@@ -82,15 +84,17 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
             <tbody className="jobs-table-body">
                 {sortedJobs.map((job, index) => (
                     <tr key={index} onClick={() => {
-                        const checkbox = document.getElementById(`row-checkbox-${index}`)
+                        const checkbox = document.getElementById(`row-checkbox-${index}`);
                         if (checkbox.checked) {
-                            checkbox.checked = false
+                            checkbox.checked = false;
+                            setSelectedJobs(selectedJobs.filter(j => j._id !== job._id));
                         } else {
-                            checkbox.checked = true
+                            checkbox.checked = true;
+                            setSelectedJobs([...selectedJobs, job]);
                         }
                     }}>
                         <td style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                            <input className='row-checkbox' id={`row-checkbox-${index}`} type='checkbox'></input>
+                            <input className='row-checkbox' id={`row-checkbox-${index}`} type='checkbox' checked={selectedJobs.some(j => j._id === job._id)} readOnly />
                         </td>
                         {tableHeaders.map((header) => (
                             <td key={header}>

@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import './viewJobsStyles.css'
 import UserContext from '../../helpers/Context';
 import JobsTable from './JobsTable';
+import ConfirmationModal from './ConfirmationModal';
 
 export default function ViewJobs() {
 
     const { user, loggedIn, apiUrl } = useContext(UserContext)
 
     const navigate = useNavigate();
+    const token = localStorage.getItem('token')
 
     const [selectedJobs, setSelectedJobs] = useState([])
     const [jobs, setJobs] = useState([])
@@ -18,8 +20,6 @@ export default function ViewJobs() {
     const [noJobs, setNoJobs] = useState(true)
 
     const getJobs = async () => {
-
-        const token = localStorage.getItem('token')
 
         await fetch(apiUrl + '/api/jobs/allJobs',
             {
@@ -76,12 +76,26 @@ export default function ViewJobs() {
                     setNoJobs(false)
                 }
             })
+    }
 
-
+    const handleDelete = async () => {
+        await fetch(apiUrl + '/api/jobs/deleteJobs', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                jobs: selectedJobs
+            })
+        }).then((res) => res.json())
+            .then(() => {
+                setSelectedJobs([])
+                getJobs()
+            })
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
         if (!token) {
             navigate('/')
         } else {
@@ -92,11 +106,12 @@ export default function ViewJobs() {
     return (
         <div className="jobs-table-container">
             <div className='view-jobs-toolbar'>
-                <p style={{marginRight: '2.5rem'}}>{selectedJobs.length} Selections</p>
-                <i class="fa fa-download" style={{ fontSize: '1.2rem', marginRight: '2rem' }}>Download</i>
-                <i  className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem'}}></i>
+                <p style={{ marginRight: '2.5rem' }}>{selectedJobs.length} Selections</p>
+                <i className="fa fa-download" style={{ fontSize: '1.2rem', marginRight: '2rem' }}>Download</i>
+                <i className="fa fa-trash-o" onClick={handleDelete} style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem' }}></i>
             </div>
-            <JobsTable jobs={jobs} selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs}/>
+            <ConfirmationModal handleDelete={handleDelete}/>
+            <JobsTable jobs={jobs} selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} />
         </div>
     )
 }
