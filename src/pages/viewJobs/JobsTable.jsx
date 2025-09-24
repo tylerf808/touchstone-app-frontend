@@ -97,7 +97,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
                             <input className='row-checkbox' id={`row-checkbox-${index}`} type='checkbox' checked={selectedJobs.some(j => j._id === job._id)} readOnly />
                         </td>
                         {tableHeaders.map((header) => (
-                            <td key={header}>
+                            <td key={header} style={{ textAlign: 'center', verticalAlign: 'middle', height: '2.5rem', padding: 0 }}>
                                 {job[header]}
                             </td>
                         ))}

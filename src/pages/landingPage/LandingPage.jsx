@@ -21,6 +21,7 @@ export default function LandingPage() {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if(token){
+      fetchUser()
       navigate('/dashboard')
     }
   }, [])

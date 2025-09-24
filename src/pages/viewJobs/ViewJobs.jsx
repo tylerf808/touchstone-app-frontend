@@ -18,6 +18,7 @@ export default function ViewJobs() {
     const [jobs, setJobs] = useState([])
     const [csvJobs, setCsvJobs] = useState()
     const [noJobs, setNoJobs] = useState(true)
+    const [showModal, setShowModal] = useState(false)
 
     const getJobs = async () => {
 
@@ -79,21 +80,25 @@ export default function ViewJobs() {
     }
 
     const handleDelete = async () => {
-        await fetch(apiUrl + '/api/jobs/deleteJobs', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
-            },
-            body: JSON.stringify({
-                jobs: selectedJobs
-            })
-        }).then((res) => res.json())
-            .then(() => {
-                setSelectedJobs([])
-                getJobs()
-            })
-    }
+        try {
+            const response = await fetch(apiUrl + '/api/jobs/deleteJobs', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify({
+                    jobs: selectedJobs
+                })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete jobs');
+            }
+            setSelectedJobs([]);
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     useEffect(() => {
         if (!token) {
@@ -106,11 +111,13 @@ export default function ViewJobs() {
     return (
         <div className="jobs-table-container">
             <div className='view-jobs-toolbar'>
-                <p style={{ marginRight: '2.5rem' }}>{selectedJobs.length} Selections</p>
-                <i className="fa fa-download" style={{ fontSize: '1.2rem', marginRight: '2rem' }}>Download</i>
-                <i className="fa fa-trash-o" onClick={handleDelete} style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem' }}></i>
+                <p style={{ marginRight: '2.5rem', marginLeft: '2rem' }}>{selectedJobs.length} Selections</p>
+                <div>
+                    <i className="fa fa-download" style={{ fontSize: '1.2rem', marginRight: '2rem' }}>Download</i>
+                    <i className="fa fa-trash-o" onClick={() => { if (selectedJobs.length !== 0) setShowModal(true) }} style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem' }}></i>
+                </div>
             </div>
-            <ConfirmationModal handleDelete={handleDelete}/>
+            {showModal ? <ConfirmationModal getJobs={getJobs} handleDelete={handleDelete} setShowModal={setShowModal} selectedJobs={selectedJobs} /> : null}
             <JobsTable jobs={jobs} selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} />
         </div>
     )
