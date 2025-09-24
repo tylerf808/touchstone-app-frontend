@@ -1,7 +1,7 @@
-.view-jobs-toolbar {
+ .view-jobs-toolbar {
     position: absolute;
     height: 2.25rem;
-    width: 90rem;
+    width: 80vw;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -10,7 +10,7 @@
 }
 
 .jobs-table-container {
-    width: 80%;
+    width: 80vw;
     height: 50rem;
     overflow-x: scroll;
     overflow-y: auto;
@@ -25,7 +25,6 @@
 .jobs-table {
     border-collapse: collapse;
     margin-top: 3rem;
-    height: 80%;
     border-radius: .5rem;
 }
 
@@ -40,8 +39,8 @@
     text-transform: capitalize;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    min-width: 8rem;
-    max-height: 4rem;
+    min-width: 10rem;
+    height: 3rem;
 }
 
 .jobs-table-header th:hover {
@@ -49,9 +48,7 @@
 }
 
 .jobs-table-body tr {
-    height: 2.5rem !important;
-    max-height: 2.5rem !important;
-    min-height: 2.5rem !important;
+    height: 4.5rem;
     border-bottom: 1px solid #e0e0e0;
 }
 
@@ -64,15 +61,13 @@
 }
 
 .jobs-table-body td {
-    height: 2.5rem !important;
-    max-height: 2.5rem !important;
-    min-height: 2.5rem !important;
-    line-height: 2.5rem !important;
     vertical-align: middle !important;
     padding: 0 8px !important;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
 }
 
 .jobs-table-sort-indicator {

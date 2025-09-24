@@ -39,11 +39,11 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
             .filter(key => !excludedFields.includes(key))
         : [];
 
-    const formattedTableHeaders = ['Start', 'Pick Up', 'Drop Off', 'Departure Date', 'Revenue', 'Gross Profit %',
-        'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Rate/Mile', 'Factor', 'G&A',
-        'Loan', 'ODC', 'Repairs', 'Labor', 'Dispatch', 'Payroll Tax', 'Net Profit', 'Labor Rate %', 'Insurance',
-        'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Distance',
-        'Drive Time', 'Client', 'Driver', 'Tractor']
+    const formattedTableHeaders = ['Start', 'Pick Up', 'Drop Off', 'Departure Date', 'Rate/Mile', 'Revenue', 'Gross Profit %',
+        'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Factor', 'Overhead',
+        'Loan', 'ODC', 'Repairs', 'Depreciation', 'Labor', 'Dispatch', 'Payroll Tax', 'Net Profit', 'Insurance',
+        'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Total Direct Costs', 'Distance',
+        'Drive Time', 'Client', 'Driver', 'Admin', 'Tractor']
 
     return (
 
@@ -51,7 +51,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
             <thead className="jobs-table-header">
                 <tr>
                     <th>
-                        <input type='checkbox' style={{ alignSelf: 'center', justifySelf: 'center' }} onClick={(e) => {
+                        <input type='checkbox' style={{ alignSelf: 'center', justifySelf: 'center' }} onClick={((e) => {
                             const selectedRows = Array.from(document.getElementsByClassName('row-checkbox'))
                             if (e.target.checked) {
                                 selectedRows.forEach((row) => {
@@ -64,7 +64,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
                                     setSelectedJobs([])
                                 })
                             }
-                        }}></input>
+                        })}></input>
                     </th>
                     {tableHeaders.map((header, i) => (
                         <th
@@ -93,8 +93,17 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
                             setSelectedJobs([...selectedJobs, job]);
                         }
                     }}>
-                        <td style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                            <input className='row-checkbox' id={`row-checkbox-${index}`} type='checkbox' checked={selectedJobs.some(j => j._id === job._id)} readOnly />
+                        <td style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '4.5rem' }}>
+                            <input onChange={() => {
+                                const checkbox = document.getElementById(`row-checkbox-${index}`);
+                                if (checkbox.checked) {
+                                    checkbox.checked = false;
+                                    setSelectedJobs(selectedJobs.filter(j => j._id !== job._id));
+                                } else {
+                                    checkbox.checked = true;
+                                    setSelectedJobs([...selectedJobs, job]);
+                                }
+                            }} className='row-checkbox' id={`row-checkbox-${index}`} type='checkbox' checked={selectedJobs.some(j => j._id === job._id)} />
                         </td>
                         {tableHeaders.map((header) => (
                             <td key={header} style={{ textAlign: 'center', verticalAlign: 'middle', height: '2.5rem', padding: 0 }}>
