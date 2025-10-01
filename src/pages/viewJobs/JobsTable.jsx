@@ -39,11 +39,11 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
             .filter(key => !excludedFields.includes(key))
         : [];
 
-    const formattedTableHeaders = ['Start', 'Pick Up', 'Drop Off', 'Departure Date', 'Rate/Mile', 'Revenue', 'Gross Profit %',
-        'Operating Profit %', 'Net Profit %', 'Total Costs', "Gas Cost", 'Factor', 'Overhead',
-        'Loan', 'ODC', 'Repairs', 'Depreciation', 'Labor', 'Dispatch', 'Payroll Tax', 'Net Profit', 'Insurance',
-        'Trailer Lease', 'Tractor Lease', 'Tolls', 'Gross Profit', 'Operating Profit', 'Total Fixed Costs', 'Total Direct Costs', 'Distance',
-        'Drive Time', 'Client', 'Driver', 'Admin', 'Tractor']
+    const formattedTableHeaders = ['Date', 'Client', 'Driver', 'Start', 'End',
+        'Tolls', 'Miles', 'Drive Time', 'Revenue', 'Mileage Rate', 'Gross Profit', 'Gross Profit %',
+        'Operating %', 'Net %', 'Labor Rate', 'Labor', 'Payroll Tax', 'Dispatch',
+        'Factor', 'Fuel', 'Tolls', 'ODC', 'Insurance', 'Lease - Trailer', 'Lease - Tractor',
+        'Parking', 'Operating Profit', 'Repairs', 'Depreciation', 'Net Profit']
 
     return (
 

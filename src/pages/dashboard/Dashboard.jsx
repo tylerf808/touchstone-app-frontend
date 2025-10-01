@@ -182,7 +182,7 @@ export default function Dashboard() {
     const uncompletedJobs = jobs.filter(job => !isCompleted(job));
 
     return (
-        <div className="dashboardContainer">
+        <div className="dashboard-container">
             {jobs.length > 0 &&
                 <>
                     <div className="moneyBar" style={{ marginTop: '2rem' }}>

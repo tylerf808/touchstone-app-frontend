@@ -131,13 +131,48 @@
    cursor: pointer;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 900px) {
    .toolbar {
-      height: 4rem;
+      height: 4vh;
+      width: 100vw;
    }
 
-   .sidenav {
+   .dashboard-container {
+      height: 90vh;
+      padding-top: 4vh
+   }
+
+   .menu {
+      margin-right: .5rem;
+   }
+   
+   .user-menu {
+      top: 0px;
+      margin-top: 4vh;
+      padding: .5rem;
+   }
+
+
+   .toolbar-header-container {
       width: 100%;
-      left: -100%
+      /* Use fixed positioning on small screens so header stays visible while scrolling */
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 9999; /* Keep toolbar above other content */
+      background-color: rgb(248, 190, 109); /* ensure background to cover content under it */
+      height: 4vh;
+   }
+
+   .toolbar-header {
+      font-weight: 300;
+      font-size: .9rem;
+      margin-left: 1rem;
+      color: white;
    }
 }

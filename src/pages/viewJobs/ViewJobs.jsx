@@ -30,22 +30,20 @@ export default function ViewJobs() {
                     "Authorization": token
                 },
             }).then((res) => res.json()).then((data) => {
-                const formattedCsvJobs = []
-                data.forEach((el, i) => {
+                const formattedArray = data.map((el, i) => {
                     const job = {
                         _id: el._id,
-                        data: el.date,
+                        date: el.date,
                         client: el.client,
                         driver: el.driver,
                         start: el.start,
-                        Pick_Up: el.pickUp,
-                        Drop_Off: el.dropOff,
-                        Drive_time: (el.driveTime / 60),
-                        Revenue: el.revenue,
-                        Rate_per_Mile: el.ratePerMile,
-                        Gross_Profit: el.grossProfit,
-                        Gross_Profit_Percentage: el.grossProfitPercentage,
-                        Operating_Profit: el.operatingProfit,
+                        end: el.dropOff,
+                        driveTime: (el.driveTime / 60),
+                        revenue: el.revenue,
+                        mileageRate: el.ratePerMile,
+                        grossProfit: el.grossProfit,
+                        grossProfitPercentage: el.grossProfitPercentage,
+                        operatingProfit: el.operatingProfit,
                         operatingProfitPercentage: el.operatingProfitPercentage,
                         netProfit: el.netProfit,
                         netProfitPercentage: el.netProfitPercentage,
@@ -67,10 +65,9 @@ export default function ViewJobs() {
                         totalFixedCost: el.totalFixedCost,
                         totalCost: el.totalCost
                     }
-                    formattedCsvJobs.push(job)
                 })
-                setCsvJobs(formattedCsvJobs)
-                setJobs(data)
+                setCsvJobs(formattedArray)
+                setJobs(formattedArray)
                 if (data.length === 0) {
                     setNoJobs(true)
                 } else {

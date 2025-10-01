@@ -8,8 +8,8 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
 
   const navigate = useNavigate();
 
-  const isSignUpPage = location?.pathname === '/signup' || location?.pathname === '/confirmPendingUser/' || 
-  location?.pathname === '/login'
+  const isSignUpPage = location?.pathname === '/signup' || location?.pathname === '/confirmPendingUser/' ||
+    location?.pathname === '/login'
 
   const handleLogOut = () => {
     setShowMenu(false)
@@ -49,15 +49,17 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
 
   return (
     <div className='toolbar'>
-      <h1 className='toolbarHeader' id='toolbar-header'>TOUCHSTONE LOGISTICS</h1>
+      <div className='toolbar-header-container'>
+        <h1 className='toolbar-header' id='toolbar-header'>TOUCHSTONE LOGISTICS</h1>
+      </div>
       {loggedIn ?
         <div className='menu' >
-          <div className='toolbarItem'><Link className='link' to='/dashboard' onClick={() => setShowMenu(false)}>Dashboard</Link></div>
-          <div className='toolbarItem'><Link className='link' to='/addjob' onClick={() => setShowMenu(false)}>New Load</Link></div>
-          <div className='toolbarItem'><Link className='link' to='/jobs' onClick={() => setShowMenu(false)}>Accepted Loads</Link></div>
-          <i className='user-icon fa fa-user' onClick={handleMenu}></i>
+          <i className='fa fa-bars' onClick={handleMenu}></i>
           {showMenu ?
             <div className='user-menu'>
+              <div className='user-menu-item'><Link className='link' style={{color: 'orange'}} to='/dashboard' onClick={() => setShowMenu(false)}>Dashboard</Link></div>
+              <div className='user-menu-item'><Link className='link' style={{color: 'orange'}} to='/addjob' onClick={() => setShowMenu(false)}>New Load</Link></div>
+              <div className='user-menu-item'><Link className='link' style={{color: 'orange'}} to='/jobs' onClick={() => setShowMenu(false)}>Accepted Loads</Link></div>
               <Link className='user-menu-item' to='/costs' onClick={() => setShowMenu(false)}>Costs</Link>
               {isAdmin ?
                 <>
