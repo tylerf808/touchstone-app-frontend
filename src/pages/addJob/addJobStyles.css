@@ -9,6 +9,28 @@ p {
     font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
 }
 
+.transition-container {
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 28rem;
+    /* match details-form height */
+    justify-self: center;
+    margin-top: 3rem;
+    width: 50%;
+    border-radius: 1rem;
+    /* <-- add this */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* <-- add this */
+    background-color: white;
+    /* <-- add this if not already present */
+}
+
+.transition-container.expand {
+    /* expanded height for results */
+    max-height: max-content;
+    background-color: transparent;
+    box-shadow: none;
+}
+
 .details-form {
     background-color: rgb(211, 211, 211);
     width: 100%;
@@ -237,25 +259,130 @@ p {
     background-color: rgb(230, 230, 230);
 }
 
-.transition-container {
-    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    height: 24rem;
-    /* match details-form height */
-    justify-self: center;
-    margin-top: 3rem;
-    width: 50%;
-    border-radius: 1rem;
-    /* <-- add this */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* <-- add this */
-    background-color: white;
-    /* <-- add this if not already present */
-}
 
-.transition-container.expand {
-    /* expanded height for results */
-    max-height: max-content;
-    background-color: transparent;
-    box-shadow: none;
-    width: 70%;
+
+@media screen and (max-width: 1000px) {
+
+    .address-logistics-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+    }
+
+    .details-form {
+        width: 80%;
+    }
+
+    .transition-container {
+        width: 90vw;
+        height: 80vh;
+        margin-top: 2rem;
+        transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .route-details {
+        width: 100%;
+    }
+
+    .load-details {
+        border-left: none;
+    }
+
+    .results-container {
+        width: 90vw;
+        height: 80vh;
+    }
+
+    .main-details-banner {
+        width: 100%;
+    }
+
+    .banner-card {
+        width: 7.5rem;
+        padding: 0rem;
+        height: auto;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .banner-card h3,
+    .banner-card h2 {
+        font-size: .9rem;
+    }
+
+    .text-green {
+        height: 1rem;
+        width: 1rem;
+    }
+
+    .breakdown-container {
+        height: 80vh;
+        flex-direction: column;
+    }
+
+    .results-row {
+        width: 82%;
+    }
+
+    .direct-sub-row {
+        overflow: hidden;
+        height: 0;
+        /* start collapsed */
+        opacity: 0;
+        /* invisible */
+        display: flex;
+        margin-bottom: 0;
+        padding: 0;
+        /* stays flex but collapsed */
+        transition: height 0.5s ease, opacity 0.3s ease;
+    }
+
+    .fixed-sub-row {
+        overflow: hidden;
+        height: 0;
+        /* start collapsed */
+        opacity: 0;
+        /* invisible */
+        display: flex;
+        margin-bottom: 0;
+        padding: 0;
+        /* stays flex but collapsed */
+        transition: height 0.5s ease, opacity 0.3s ease;
+    }
+
+    .other-sub-row {
+        overflow: hidden;
+        height: 0;
+        /* start collapsed */
+        opacity: 0;
+        /* invisible */
+        display: flex;
+        margin-bottom: 0;
+        padding: 0;
+        /* stays flex but collapsed */
+        transition: height 0.5s ease, opacity 0.3s ease;
+    }
+
+    .open {
+        height: 1rem;
+        /* larger than expected height */
+        opacity: 1;
+        padding: .1rem;
+        margin-bottom: .2rem;
+    }
+
+    .profit-summary {
+        height: 25rem;
+    }
+
+    .route-btn-container {
+        margin-top: 2.5rem;
+        justify-self: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
 }

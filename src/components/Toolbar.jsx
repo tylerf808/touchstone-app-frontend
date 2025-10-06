@@ -53,13 +53,13 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
         <h1 className='toolbar-header' id='toolbar-header'>TOUCHSTONE LOGISTICS</h1>
       </div>
       {loggedIn ?
-        <div className='menu' >
-          <i className='fa fa-bars' onClick={handleMenu}></i>
+        <>
+          <i className='fa fa-bars' style={{color: 'whitesmoke'}} onClick={handleMenu}></i>
           {showMenu ?
             <div className='user-menu'>
-              <div className='user-menu-item'><Link className='link' style={{color: 'orange'}} to='/dashboard' onClick={() => setShowMenu(false)}>Dashboard</Link></div>
-              <div className='user-menu-item'><Link className='link' style={{color: 'orange'}} to='/addjob' onClick={() => setShowMenu(false)}>New Load</Link></div>
-              <div className='user-menu-item'><Link className='link' style={{color: 'orange'}} to='/jobs' onClick={() => setShowMenu(false)}>Accepted Loads</Link></div>
+              <Link className='user-menu-item' to='/dashboard' onClick={() => setShowMenu(false)}>Dashboard</Link>
+              <Link className='user-menu-item' to='/addjob' onClick={() => setShowMenu(false)}>New Load</Link>
+              <Link className='user-menu-item' to='/jobs' onClick={() => setShowMenu(false)}>Accepted Loads</Link>
               <Link className='user-menu-item' to='/costs' onClick={() => setShowMenu(false)}>Costs</Link>
               {isAdmin ?
                 <>
@@ -75,7 +75,7 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
             :
             null
           }
-        </div>
+        </>
         :
         <>
           {!loggedIn && !isSignUpPage &&

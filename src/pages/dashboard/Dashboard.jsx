@@ -185,7 +185,7 @@ export default function Dashboard() {
         <div className="dashboard-container">
             {jobs.length > 0 &&
                 <>
-                    <div className="moneyBar" style={{ marginTop: '2rem' }}>
+                    <div className="moneyBar">
                         <div className="moneyBarItem">
                             <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
                             <div className="moneyBarSubItem">

@@ -1,7 +1,14 @@
 import { CheckCircle, Truck, CircleX } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import formatUSD from "../../../helpers/currencyFormatter"
 
 export default function ResultsContainer({ addJob, job, setJob, setShowResults }) {
+
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        if (window.visualViewport.width <= 1000) setIsMobile(true)
+    }, [])
 
     const profitableStyle = {
         color: job?.profitable ? 'green' : 'red',
@@ -12,7 +19,15 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
         width: '100%'
     }
 
-    console.log(job)
+    const handleExpand = (section) => {
+        let rows = Array.from(document.getElementsByClassName(section + '-sub-row'))
+        const arrow = document.getElementById(section)
+        let isOpen
+        rows.forEach((row) => {
+            isOpen = row.classList.toggle('open')
+        })
+        arrow.innerHTML = isOpen ? '&#x25BC;' : '&#x25B6;';
+    }
 
     return (
         <div className="results-container">
@@ -20,15 +35,15 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                 <div className="banner-card">
                     {job.profitable ?
                         <h3 style={profitableStyle} >
-                            <CheckCircle className="text-green-500" style={{ marginRight: '.5rem' }} /> PROFITABLE
+                            <CheckCircle className="text-green" /> PROFITABLE
                         </h3>
                         :
-                        <h3 style={profitableStyle}><CircleX className="text-red-500" style={{ marginRight: '.5rem' }} />NOT PROFITABLE</h3>}
+                        <h3 style={profitableStyle}><CircleX className="text-red-500" />NOT PROFITABLE</h3>}
                     <h2 style={{ marginTop: '.5rem' }}>{formatUSD(job?.netProfit)}</h2>
                 </div>
-                <div className="banner-card" style={{ marginLeft: '.5rem', marginRight: '.5rem' }}>
+                <div className="banner-card" >
                     <h3 style={{ display: 'flex', alignItems: 'center' }}>
-                        <Truck style={{ marginRight: '.5rem' }} className="text-orange-500" />Rate Per Mile
+                        <Truck />Rate Per Mile
                     </h3>
                     <h2 style={{ marginTop: '.5rem' }}>{formatUSD(job.ratePerMile)}</h2>
                 </div>
@@ -40,100 +55,214 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
             <div className="breakdown-container">
                 <div className="revenue-expenses">
                     <h2 style={{ padding: '1rem', marginLeft: '1rem' }}>Revenue & Expenses</h2>
-                    <div style={{
-                        borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
-                        padding: '.2rem'
-                    }} className="results-row">
-                        <p>Revenue</p>
-                        <p>{formatUSD(job?.revenue)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ justifySelf: 'flex-start' }}>Direct Costs</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Labor</p>
-                        <p>{formatUSD(job?.labor)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Payroll Tax</p>
-                        <p>{formatUSD(job?.payrollTax)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Dispatch</p>
-                        <p>{formatUSD(job?.dispatch)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Factor</p>
-                        <p>{formatUSD(job?.factor)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Fuel</p>
-                        <p>{formatUSD(job?.gasCost)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Tolls</p>
-                        <p>{formatUSD(job?.tolls)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>ODC</p>
-                        <p>{formatUSD(job?.odc)}</p>
-                    </div>
-                    <div style={{
-                        borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
-                        padding: '.2rem'
-                    }} className='results-row'>
-                        <p style={{ marginLeft: '2rem' }}>Subtotal - Direct</p>
-                        <p>{formatUSD(job.labor + job.payrollTax + job.dispatch + job.factor + job.gasCost + job.tolls + job.odc)}</p>
-                    </div>
-                    <div className='results-row'>
-                        <p style={{ justifySelf: 'flex-start' }}>Fixed Costs</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Tractor Lease</p>
-                        <p>{formatUSD(job?.tractorLease)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}> Trailer Lease</p>
-                        <p>{formatUSD(job?.trailerLease)}</p>
-                    </div>
-                    <div className='results-row'>
-                        <p style={{ marginLeft: '1.2rem' }}>Insurance</p>
-                        <p>{formatUSD(job.insurance)}</p>
-                    </div>
-                    <div style={{
-                        borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
-                        padding: '.2rem'
-                    }} className='results-row'>
-                        <p style={{ marginLeft: '2rem' }}>Subtotal - Fixed</p>
-                        <p>{formatUSD(job.tractorLease = job.tractorLease + job.insurance)}</p>
-                    </div>
-                    <div className='results-row'>
-                        <p style={{ justifySelf: 'flex-start' }}>Other Costs</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Overhead</p>
-                        <p>{formatUSD(job?.overhead)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
-                        <p>{formatUSD(job?.depreciation)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Parking</p>
-                        <p>{formatUSD(job?.parking)}</p>
-                    </div>
-                    <div className="results-row">
-                        <p style={{ marginLeft: '1.2rem' }}>Repairs</p>
-                        <p>{formatUSD(job?.repairs)}</p>
-                    </div>
-                    <div style={{
-                        borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
-                        padding: '.2rem'
-                    }} className='results-row'>
-                        <p style={{ marginLeft: '2rem' }}>Subtotal - Other</p>
-                        <p>{formatUSD(job.overhead + job.parking + job.repairs + job.depreciation)}</p>
-                    </div>
+                    {isMobile ?
+                        <>
+                            <div style={{
+                                borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
+                                padding: '.2rem'
+                            }} className="results-row">
+                                <p>Revenue</p>
+                                <p>{formatUSD(job?.revenue)}</p>
+                            </div>
+                            <div className="results-row">
+                                <div style={{ justifySelf: 'flex-start', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '7rem' }}>
+                                    <p>Direct Costs</p>
+                                    <a id='direct' onClick={(e) => {
+                                        handleExpand(e.target.id)
+                                    }}>&#x25B6;</a>
+                                </div>
+                                <p>({formatUSD(job.labor + job.payrollTax + job.dispatch
+                                    + job.factor + job.gasCost + job.tolls + job.odc)})
+                                </p>
+                            </div>
+                            <div className="results-row direct-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Labor</p>
+                                <p>{formatUSD(job?.labor)}</p>
+                            </div>
+                            <div className="results-row direct-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Payroll Tax</p>
+                                <p>{formatUSD(job?.payrollTax)}</p>
+                            </div>
+                            <div className="results-row direct-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Dispatch</p>
+                                <p>{formatUSD(job?.dispatch)}</p>
+                            </div>
+                            <div className="results-row direct-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Factor</p>
+                                <p>{formatUSD(job?.factor)}</p>
+                            </div>
+                            <div className="results-row direct-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Fuel</p>
+                                <p>{formatUSD(job?.gasCost)}</p>
+                            </div>
+                            <div className="results-row direct-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Tolls</p>
+                                <p>{formatUSD(job?.tolls)}</p>
+                            </div>
+                            <div className="results-row direct-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>ODC</p>
+                                <p>{formatUSD(job?.odc)}</p>
+                            </div>
+                            <div className='results-row'>
+                                <div style={{
+                                    justifySelf: 'flex-start', display: 'flex', flexDirection: 'row',
+                                    justifyContent: 'space-between', alignItems: 'center', width: '7rem'
+                                }}>
+                                    <p>Fixed Costs</p>
+                                    <a id='fixed' onClick={(e) => {
+                                        handleExpand(e.target.id)
+                                    }}>&#x25B6;</a>
+                                </div>
+                                <p>({formatUSD(job.tractorLease = job.tractorLease + job.insurance)})</p>
+                            </div>
+                            <div className="results-row fixed-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Tractor Lease</p>
+                                <p>{formatUSD(job?.tractorLease)}</p>
+                            </div>
+                            <div className="results-row fixed-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}> Trailer Lease</p>
+                                <p>{formatUSD(job?.trailerLease)}</p>
+                            </div>
+                            <div className='results-row fixed-sub-row'>
+                                <p style={{ marginLeft: '1.2rem' }}>Insurance</p>
+                                <p>{formatUSD(job.insurance)}</p>
+                            </div>
+                            <div className='results-row'>
+                                <div style={{
+                                    justifySelf: 'flex-start', display: 'flex', flexDirection: 'row',
+                                    justifyContent: 'space-between', alignItems: 'center', width: '7rem'
+                                }}>
+                                    <p>Other Costs</p>
+                                    <a id='other' onClick={(e) => {
+                                        handleExpand(e.target.id)
+                                    }}>&#x25B6;</a>
+                                </div>
+                                <p>({formatUSD(job.overhead + job.parking + job.repairs + job.depreciation)})</p>
+
+                            </div>
+                            <div className="results-row other-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Overhead</p>
+                                <p>{formatUSD(job?.overhead)}</p>
+                            </div>
+                            <div className="results-row other-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
+                                <p>{formatUSD(job?.depreciation)}</p>
+                            </div>
+                            <div className="results-row other-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Parking</p>
+                                <p>{formatUSD(job?.parking)}</p>
+                            </div>
+                            <div className="results-row other-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Repairs</p>
+                                <p>{formatUSD(job?.repairs)}</p>
+                            </div>
+                            <div style={{
+                                borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
+                                padding: '.2rem'
+                            }} className="results-row">
+                                <p>Total Costs</p>
+                                <p>({formatUSD(job?.totalCost)})</p>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <div style={{
+                                borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
+                                padding: '.2rem'
+                            }} className="results-row">
+                                <p>Revenue</p>
+                                <p>{formatUSD(job?.revenue)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ justifySelf: 'flex-start' }}>Direct Costs</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Labor</p>
+                                <p>{formatUSD(job?.labor)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Payroll Tax</p>
+                                <p>{formatUSD(job?.payrollTax)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Dispatch</p>
+                                <p>{formatUSD(job?.dispatch)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Factor</p>
+                                <p>{formatUSD(job?.factor)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Fuel</p>
+                                <p>{formatUSD(job?.gasCost)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Tolls</p>
+                                <p>{formatUSD(job?.tolls)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>ODC</p>
+                                <p>{formatUSD(job?.odc)}</p>
+                            </div>
+                            <div style={{
+                                borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
+                                padding: '.2rem'
+                            }} className='results-row'>
+                                <p style={{ marginLeft: '2rem' }}>Subtotal - Direct</p>
+                                <p>{formatUSD(job.labor + job.payrollTax + job.dispatch + job.factor + job.gasCost + job.tolls + job.odc)}</p>
+                            </div>
+                            <div className='results-row'>
+                                <p style={{ justifySelf: 'flex-start' }}>Fixed Costs</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Tractor Lease</p>
+                                <p>{formatUSD(job?.tractorLease)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}> Trailer Lease</p>
+                                <p>{formatUSD(job?.trailerLease)}</p>
+                            </div>
+                            <div className='results-row'>
+                                <p style={{ marginLeft: '1.2rem' }}>Insurance</p>
+                                <p>{formatUSD(job.insurance)}</p>
+                            </div>
+                            <div style={{
+                                borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
+                                padding: '.2rem'
+                            }} className='results-row'>
+                                <p style={{ marginLeft: '2rem' }}>Subtotal - Fixed</p>
+                                <p>{formatUSD(job.tractorLease = job.tractorLease + job.insurance)}</p>
+                            </div>
+                            <div className='results-row'>
+                                <p style={{ justifySelf: 'flex-start' }}>Other Costs</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Overhead</p>
+                                <p>{formatUSD(job?.overhead)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
+                                <p>{formatUSD(job?.depreciation)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Parking</p>
+                                <p>{formatUSD(job?.parking)}</p>
+                            </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Repairs</p>
+                                <p>{formatUSD(job?.repairs)}</p>
+                            </div>
+                            <div style={{
+                                borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
+                                padding: '.2rem'
+                            }} className='results-row'>
+                                <p style={{ marginLeft: '2rem' }}>Subtotal - Other</p>
+                                <p>{formatUSD(job.overhead + job.parking + job.repairs + job.depreciation)}</p>
+                            </div>
+                        </>
+                    }
                 </div>
+
                 <div className="profit-summary">
                     <h2 style={{ padding: '1rem', marginLeft: '1rem' }}>Profit Summary</h2>
                     <div className="results-row">
@@ -170,10 +299,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>Rate Per Mile</p>
                         <p>{formatUSD(job?.ratePerMile)}</p>
                     </div>
-                    <div style={{
-                        marginTop: '16rem', display: 'flex', flexDirection: 'row',
-                        justifyContent: 'space-evenly', alignItems: 'center'
-                    }}>
+                    <div className='route-btn-container'>
                         <button className="add-route-button" onClick={(e) => {
                             e.preventDefault()
                             addJob()

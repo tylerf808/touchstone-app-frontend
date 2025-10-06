@@ -19,25 +19,25 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                     <h3 style={{ marginBottom: '1rem', alignSelf: 'center' }}>Route Details</h3>
                     <Autocomplete className="route-details-row">
                         <>
-                            <p style={{ justifySelf: 'center' }}>Start</p>
+                            <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Start</p>
                             <input className="address-field" id="start-input" type="text" />
                         </>
                     </Autocomplete>
                     <Autocomplete className="route-details-row">
                         <>
-                            <p style={{ justifySelf: 'center' }}>Pick-Up</p>
+                            <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Pick-Up</p>
                             <input className="address-field" id='pick-up-input' type="text" />
                         </>
                     </Autocomplete >
                     <Autocomplete className="route-details-row">
                         <>
-                            <p style={{ justifySelf: 'center' }}>Drop-Off</p>
+                            <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Drop-Off</p>
                             <input className="address-field" id="drop-off-input" type="text" />
                         </>
                     </Autocomplete>
                     <div className="route-details-row" style={{ flexDirection: 'row', gap: '.75rem' }}>
                         <p>
-                            Date of Departure:
+                            Date of Departure
                         </p>
                         <input type="date" onChange={(e) => {
                             setLogistics({ ...logistics, startDate: e.target.value })
@@ -72,7 +72,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                     <h3 style={{ marginBottom: '1rem', alignSelf: 'center', justifySelf: 'flex-start' }}>Load Details</h3>
                     <div className="load-details-row">
                         <p>
-                            Client:
+                            Client
                         </p>
                         <input style={{ width: '8rem' }} type='text' onChange={(e) => {
                             const newLogistics = logistics
@@ -82,7 +82,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                     </div>
                     <div className="load-details-row">
                         <p>
-                            Revenue:
+                            Revenue
                         </p>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '.5rem' }}>
                             <p>$</p>
@@ -96,7 +96,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                     </div>
 
                     <div className="load-details-row">
-                        <p>Driver:
+                        <p>Driver
                         </p>
                         <select onChange={(e) => {
                             const newLogistics = logistics
@@ -111,7 +111,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                         </select>
                     </div>
                     <div className="load-details-row">
-                        <p>Tractor:
+                        <p>Tractor
                         </p>
                         <select className="tractor-select" onChange={(e) => {
                             const tractor = tractors.find(t => String(t.internalNum) === e.target.value);
@@ -124,7 +124,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                     </div>
                     <div className="load-details-row">
                         <p>
-                            Hazmat:
+                            Hazmat
                         </p>
                         <select defaultValue='none' onChange={(e) => {
                             setLogistics({ ...logistics, hazmat: e.target.value })

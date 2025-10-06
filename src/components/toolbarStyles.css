@@ -4,27 +4,22 @@
    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
    width: 100%;
    display: flex;
+   flex-direction: row;
    justify-content: space-between;
    align-items: center;
    height: 4rem;
 }
 
-.toolbarHeader {
+.toolbar-header {
    color: rgb(242, 242, 242);
    justify-self: flex-start;
    margin: 1rem;
 }
 
-.user-icon {
+.menu {
+   color: whitesmoke;
+   margin-right: .5rem;
    font-size: 2rem;
-   color: white;
-   border-left: .1rem solid white;
-   height: 90%;
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   width: 5rem;
 }
 
 .user-icon:hover {
@@ -63,16 +58,6 @@
 
 .user-menu-item:hover {
    cursor: pointer;
-}
-
-.menu {
-   width: 50%;
-   display: flex;
-   flex-direction: row;
-   justify-content: flex-end;
-   align-items: center;
-   gap: 3rem;
-   height: 100%;
 }
 
 .toolbarItem {
@@ -131,42 +116,42 @@
    cursor: pointer;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 800px) {
    .toolbar {
       height: 4vh;
-      width: 100vw;
-   }
-
-   .dashboard-container {
-      height: 90vh;
-      padding-top: 4vh
-   }
-
-   .menu {
-      margin-right: .5rem;
-   }
-   
-   .user-menu {
-      top: 0px;
-      margin-top: 4vh;
-      padding: .5rem;
-   }
-
-
-   .toolbar-header-container {
       width: 100%;
-      /* Use fixed positioning on small screens so header stays visible while scrolling */
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+   }
+
+   .menu {
+      color: whitesmoke;
+      font-size: 1.2rem;
+   }
+
+   .fa-bars {
+      margin-right: .5rem;
+      font-size: 1.5rem;
+   }
+
+   .user-menu {
+      position: absolute;
+      top: 2.25rem;
+      width: 100vw;
+      padding: 0px;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      height: 12%;
+      display: grid;
+      grid-template-columns: 33% 33% 33%;
       align-items: center;
-      z-index: 9999; /* Keep toolbar above other content */
-      background-color: rgb(248, 190, 109); /* ensure background to cover content under it */
-      height: 4vh;
+      justify-items: center;
+   }
+
+   .user-menu-item {
+      font-size: 1rem;
+      text-align: center;
    }
 
    .toolbar-header {
