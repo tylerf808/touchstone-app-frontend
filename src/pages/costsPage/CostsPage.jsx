@@ -50,9 +50,9 @@ export default function CostsPage() {
       },
       body: JSON.stringify(newCosts)
     }).then((res) => res.json()).then((data) => {
-        setCosts(data)
-        console.log(data)
-      })
+      setCosts(data)
+      console.log(data)
+    })
   }
 
   const directKeys = [
@@ -69,8 +69,8 @@ export default function CostsPage() {
     { key: 'parking', label: 'Parking' },
     { key: 'repairs', label: 'Repairs' },
     { key: 'loan', label: 'Loan' },
-    { key: 'loadsPerMonth', label: 'Loads per Month'}
-    
+    { key: 'loadsPerMonth', label: 'Loads per Month' }
+
   ]
 
   return (
@@ -125,21 +125,23 @@ export default function CostsPage() {
           {tractors.map((tractor) => (
             <div className="tractor-card" key={tractor.internalNum}>
               <h3>Tractor {tractor.internalNum}</h3>
-              <div className="tractor-cost-row">
-                <span>Insurance</span>
-                <span>{formatUSD(tractor.insurance)}</span>
-              </div>
-              <div className="tractor-cost-row">
-                <span>Tractor Lease</span>
-                <span>{formatUSD(tractor.tractorLease)}</span>
-              </div>
-              <div className="tractor-cost-row">
-                <span>Trailer Lease</span>
-                <span>{formatUSD(tractor.trailerLease)}</span>
-              </div>
-              <div className="tractor-cost-row">
-                <span>Annual Depreciation</span>
-                <span>{formatUSD(tractor.depreciation)}</span>
+              <div className="tractor-card-body">
+                <div className="tractor-cost-row">
+                  <span>Insurance</span>
+                  <span>{formatUSD(tractor.insurance)}</span>
+                </div>
+                <div className="tractor-cost-row">
+                  <span>Tractor Lease</span>
+                  <span>{formatUSD(tractor.tractorLease)}</span>
+                </div>
+                <div className="tractor-cost-row">
+                  <span>Trailer Lease</span>
+                  <span>{formatUSD(tractor.trailerLease)}</span>
+                </div>
+                <div className="tractor-cost-row">
+                  <span>Annual Depreciation</span>
+                  <span>{formatUSD(tractor.depreciation)}</span>
+                </div>
               </div>
             </div>
           ))}

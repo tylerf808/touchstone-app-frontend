@@ -122,3 +122,69 @@
   width: 90%;
   margin-bottom: .75rem;
 }
+
+@media screen and (max-width: 1000px) {
+
+  .costs-page-container {
+    width: 95%;
+  }
+
+  .costs-sections {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 22rem;
+    margin-top: 1rem;
+  }
+
+  .fixed-costs-section,
+  .operational-costs-section {
+    width: 20rem;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .fixed-costs-table tr,
+  .operational-costs-table tr {
+    padding: .25rem;
+  }
+
+  .tractors-section {
+    width: 22rem;
+    height: auto;
+  }
+
+  .tractors-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+    width: 20rem;
+    height: 20rem;
+    padding: 0;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+  }
+
+  .tractor-card {
+    width: 16rem;
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+  }
+
+  .tractor-cost-row {
+    padding: .2rem;
+  }
+
+  .modal-form {
+    width: 22rem;
+  }
+
+  .modal-form-row label {
+    width: 75%;
+  }
+}

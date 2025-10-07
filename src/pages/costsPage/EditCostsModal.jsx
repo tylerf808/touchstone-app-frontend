@@ -17,7 +17,7 @@ export default function EditCostsModal({ isOpen, setIsOpen, costsType, newCosts,
     return (
         <div className="overlay">
             {costsType === 'fixed' ?
-                <form className="modal-form" style={{ width: '30rem' }}>
+                <form className="modal-form" >
                     <h2 style={{ marginBottom: '1rem' }}>Edit Fixed Costs</h2>
                     <div className="modal-form-row">
                         <label>Overhead as a percentage of revenue</label>
@@ -64,7 +64,7 @@ export default function EditCostsModal({ isOpen, setIsOpen, costsType, newCosts,
                     </div>
                 </form>
                 :
-                <form className="modal-form" style={{width: '30rem'}}>
+                <form className="modal-form" >
                     <h2 style={{ marginBottom: '1rem' }}>Edit Direct Costs</h2>
                     <div className="modal-form-row">
                         <label>Labor rate as a percentage of revenue</label>
