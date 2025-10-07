@@ -158,15 +158,16 @@ export default function Users() {
         <div className="users-container">
             <div className="users-header">
                 <div className="users-header-text">
-                    <h2 style={{ fontSize: '2rem', marginLeft: '2rem' }}>Users</h2>
+                    <h2>Users</h2>
+                    <div className="users-header-stats">
+                        <p>{drivers.length} Drivers</p>
+                        <p>{dispatchers.length} Dispatcher{dispatchers.length > 1 && <>s</>}</p>
+                    </div>
                 </div>
                 <div className="users-header-inputs">
-                    <p style={{ fontWeight: 'bold' }}>{users.length} Users</p>
-                    <p>{drivers.length} Drivers</p>
-                    <p>{dispatchers.length} Dispatcher{dispatchers.length > 1 && <>s</>}</p>
                     <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search by name" className="users-search-input"></input>
                     <button onClick={() => setNewModalOpen(true)} className="add-user-btn">
-                        <span style={{ color: 'white', fontSize: '1.5rem', marginRight: '.2rem' }}>+</span>Add User
+                        <span style={{marginRight: '.25rem', fontSize: '1.2rem'}}>+</span>Add User
                     </button>
                 </div>
             </div>
@@ -210,7 +211,7 @@ export default function Users() {
                                         <p>{user?.accountType}</p>
                                     </div>
                                     {user.confirmationCode && <button style={{ width: '12rem', marginTop: '1rem' }} className="modal-save-btn"
-                                    onClick={() => handleResendConfirmation(user)}>Resend Verification Email</button>}
+                                        onClick={() => handleResendConfirmation(user)}>Resend Verification Email</button>}
                                 </div>
                             </div>
                         )

@@ -174,3 +174,69 @@ i:hover {
     justify-content: center;
     align-items: center;
 }
+
+@media screen and (max-width: 1000px){
+    
+    .users-container {
+        width: 90%;
+        height: 90vh;
+        margin-top: 1rem;
+    }
+
+    .users-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-y: auto;
+    }
+
+    .users-header {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .users-header-text{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-bottom: .5rem;
+        width: 100%;
+    }
+
+    .users-header-stats {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        justify-self: flex-end;
+        gap: .75rem;
+    }
+
+    .users-header-inputs {
+        width: 100%;
+        padding: 0;
+        margin-right: 0;
+    }
+
+    .add-user-btn {
+        width: 6rem;
+    }
+
+    .user-item {
+        height: 8rem;
+    }
+
+    .user-item-btns {
+        margin-right: 0;
+    }
+
+    .modal-input-row input{
+        width: 7rem !important;
+    }
+
+    .delete-user-body {
+        width: 70%;
+    }
+}

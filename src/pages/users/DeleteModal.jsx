@@ -15,7 +15,7 @@ export default function DeleteModal({ user, handleDeleteConfirmation, showDelete
 
     return (
         <div className="overlay">
-            <div style={{width: '28rem'}} className="modal-form">
+            <div className="modal-form">
                 <div className="delete-user-header">
                     <h2>Confirm Delete User</h2>
                     <p style={{color: 'red'}}>This cannot be undone</p>
