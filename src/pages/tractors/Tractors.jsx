@@ -118,9 +118,11 @@ export default function Tractors() {
     return (
         <div className="tractors-container">
             <div className="tractors-header">
-                <h2 style={{ fontSize: '2rem', marginLeft: '2rem' }}>Tractors</h2>
-                <div className="tractor-header-inputs">
+                <div className="tractors-header-text">
+                    <h2 >Tractors</h2>
                     <p style={{ fontWeight: 'bold' }}>{tractors.length} Tractors</p>
+                </div>
+                <div className="tractor-header-inputs">
                     <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search by internal number" className="users-search-input"></input>
                     <button className="add-tractor-btn" onClick={() => setShowNewModal(true)}>
                         <span style={{ color: 'white', fontSize: '1.5rem', marginRight: '.2rem' }}>+</span>Add Tractor
@@ -141,7 +143,7 @@ export default function Tractors() {
                                     <i onClick={() => {
                                         setEditingItem(tractor)
                                         setShowDeleteModal(true)
-                                    }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem'}}></i>
+                                    }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem' }}></i>
                                 </div>
                             </div>
                             <div className="tractor-info">
@@ -165,7 +167,7 @@ export default function Tractors() {
                                     <p>Trailer Lease</p>
                                     <p>{formatUSD(tractor?.trailerLease)}</p>
                                 </div>
-                                 <div className="tractor-info-row">
+                                <div className="tractor-info-row">
                                     <p>Annual Depreciation</p>
                                     <p>{formatUSD(tractor?.depreciation)}</p>
                                 </div>

@@ -218,3 +218,55 @@ label {
     justify-content: center;
     align-items: center;
 }
+
+@media screen and (max-width: 1000px) {
+    
+    .tractors-container {
+        width: 90%;
+        height: 88vh;
+        margin-top: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .tractors-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 85%;
+    }
+
+    .tractors-header-text {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tractor-header-inputs {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: .5rem;
+    }
+
+    .users-search-input {
+        width: 10rem;
+    }
+
+    .add-tractor-btn {
+        width: 8rem;
+    }
+
+    .tractor-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-y: auto;
+    }
+
+    .tractor-item {
+        width: 85%;
+    }
+}
