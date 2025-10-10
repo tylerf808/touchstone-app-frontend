@@ -7,6 +7,8 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
         direction: 'ascending'
     });
 
+    console.log(jobs)
+
 
     const sortedJobs = useMemo(() => {
         if (!sortConfig.key) return jobs;

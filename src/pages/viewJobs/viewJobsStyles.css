@@ -74,3 +74,26 @@
     margin-left: 5px;
     font-size: 0.8em;
 }
+
+@media screen and (max-width: 1000px) {
+    
+    .jobs-table-container {
+        width: 90%;
+        margin-top: 1rem;
+    }
+
+    .jobs-table-header th {
+        max-width: 8rem;
+        min-width: 2rem;
+    }
+
+    .jobs-table-body td {
+        max-width: 8rem;
+        min-width: 2rem;
+    }
+
+    .jobs-table {
+        padding-bottom: 1rem;
+    }
+
+}

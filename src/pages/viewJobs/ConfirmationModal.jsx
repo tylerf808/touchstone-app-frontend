@@ -12,7 +12,7 @@ export default function ConfirmationModal({ handleDelete, setShowModal, getJobs 
 
     return (
         <div className="overlay">
-            <div className="modal-form" style={{ padding: '2rem' }}>
+            <div className="modal-form" >
                 <h3 style={{ color: 'red', marginBottom: '1rem' }}>Confirm Delete Selected Loads</h3>
                 <p style={{ textAlign: 'center' }}>Deletions cannot be undone. Are you sure you want to delete these previous loads?</p>
                 <div style={{

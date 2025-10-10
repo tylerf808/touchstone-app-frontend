@@ -65,6 +65,7 @@ export default function ViewJobs() {
                         totalFixedCost: el.totalFixedCost,
                         totalCost: el.totalCost
                     }
+                    return job
                 })
                 setCsvJobs(formattedArray)
                 setJobs(formattedArray)
