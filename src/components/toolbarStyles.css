@@ -116,7 +116,7 @@
    cursor: pointer;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
    .toolbar {
       height: 4vh;
       width: 100%;
@@ -136,22 +136,38 @@
    }
 
    .user-menu {
-      position: absolute;
-      top: 2.25rem;
-      width: 100vw;
+      position: fixed;
+      right: 0;
+      width: 0;
+      opacity: 0;
       padding: 0px;
       border-top-left-radius: 0px;
       border-top-right-radius: 0px;
-      height: 12%;
-      display: grid;
-      grid-template-columns: 33% 33% 33%;
+      height: 95vh;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-items: center;
+      justify-items: flex-start;
+      transition: width .5s ease, opacity .5s ease;
+      margin-top: 0;
+      top: 2.25rem;
+   }
+
+   .menu-open {
+      width: 50vw;
+      height: 97vh;
+      opacity: 1;
+      margin-top: 0;
    }
 
    .user-menu-item {
       font-size: 1rem;
       text-align: center;
+      width: auto;
+      padding-bottom: 1rem;
+      padding-top: 1rem;
+      width: 90%;
+      border-bottom: solid .1rem lightgrey;
    }
 
    .toolbar-header {
@@ -159,5 +175,19 @@
       font-size: .9rem;
       margin-left: 1rem;
       color: white;
+   }
+
+   .overlay {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      display: none;
    }
 }

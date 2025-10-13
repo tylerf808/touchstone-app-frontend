@@ -32,9 +32,12 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
   }, [loggedIn])
 
   const handleMenu = () => {
+    const menuComponent = document.getElementsByClassName('user-menu')
     if (showMenu) {
+      menuComponent[0].classList.toggle('menu-open')
       setShowMenu(false)
     } else {
+      menuComponent[0].classList.toggle('menu-open')
       setShowMenu(true)
     }
   }
@@ -54,27 +57,23 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
       </div>
       {loggedIn ?
         <>
-          <i className='fa fa-bars' style={{color: 'whitesmoke'}} onClick={handleMenu}></i>
-          {showMenu ?
-            <div className='user-menu'>
-              <Link className='user-menu-item' to='/dashboard' onClick={() => setShowMenu(false)}>Dashboard</Link>
-              <Link className='user-menu-item' to='/addjob' onClick={() => setShowMenu(false)}>New Load</Link>
-              <Link className='user-menu-item' to='/jobs' onClick={() => setShowMenu(false)}>Accepted Loads</Link>
-              <Link className='user-menu-item' to='/costs' onClick={() => setShowMenu(false)}>Costs</Link>
-              {isAdmin ?
-                <>
-                  <Link to='/users' className='user-menu-item' onClick={() => setShowMenu(false)}>Users</Link>
-                  <Link to='/tractors' className='user-menu-item' onClick={() => setShowMenu(false)}>Tractors</Link>
-                </>
-                :
-                null
-              }
-              <Link to='/account' className='user-menu-item' onClick={() => setShowMenu(false)}>Account</Link>
-              <a className='user-menu-item' onClick={handleLogOut}>Log Out</a>
-            </div>
-            :
-            null
-          }
+          <i className='fa fa-bars' style={{ color: 'whitesmoke' }} onClick={handleMenu}></i>
+          <div id='user-menu' className='user-menu'>
+            <Link className='user-menu-item' to='/dashboard' onClick={handleMenu}>Dashboard</Link>
+            <Link className='user-menu-item' to='/addjob' onClick={handleMenu}>New Load</Link>
+            <Link className='user-menu-item' to='/jobs' onClick={handleMenu}>Accepted Loads</Link>
+            <Link className='user-menu-item' to='/costs' onClick={handleMenu}>Costs</Link>
+            {isAdmin ?
+              <>
+                <Link to='/users' className='user-menu-item' onClick={handleMenu}>Users</Link>
+                <Link to='/tractors' className='user-menu-item' onClick={handleMenu}>Tractors</Link>
+              </>
+              :
+              null
+            }
+            <Link to='/account' className='user-menu-item' onClick={handleMenu}>Account</Link>
+            <a className='user-menu-item' onClick={handleLogOut}>Log Out</a>
+          </div>
         </>
         :
         <>
