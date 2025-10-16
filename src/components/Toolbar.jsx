@@ -57,7 +57,7 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
       </div>
       {loggedIn ?
         <>
-          <i className='fa fa-bars' style={{ color: 'whitesmoke' }} onClick={handleMenu}></i>
+          <i className='fa fa-bars menu' style={{ color: 'whitesmoke' }} onClick={handleMenu}></i>
           <div id='user-menu' className='user-menu'>
             <Link className='user-menu-item' to='/dashboard' onClick={handleMenu}>Dashboard</Link>
             <Link className='user-menu-item' to='/addjob' onClick={handleMenu}>New Load</Link>

@@ -12,20 +12,15 @@ p {
 .transition-container {
     transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     height: 28rem;
-    /* match details-form height */
     justify-self: center;
     margin-top: 3rem;
     width: 50%;
     border-radius: 1rem;
-    /* <-- add this */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* <-- add this */
     background-color: white;
-    /* <-- add this if not already present */
 }
 
 .transition-container.expand {
-    /* expanded height for results */
     max-height: max-content;
     background-color: transparent;
     box-shadow: none;
@@ -102,7 +97,7 @@ p {
 }
 
 .results-container {
-    width: 80%;
+    width: 55rem;
     height: auto;
     border-radius: .5rem;
     display: flex;
@@ -127,19 +122,20 @@ p {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     margin-bottom: .5rem;
-    align-self: center;
+    width: 55rem;
 }
 
 .banner-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: white;
     border-radius: .5rem;
+    width: 14rem;
+    height: 2rem;
     padding: 2rem;
-    width: 100%;
-    min-height: 3.5rem;
-    max-height: 3.5rem;
-    justify-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 }
@@ -204,6 +200,14 @@ p {
 .results-group {
     padding: 1rem;
     width: 90%;
+}
+
+.route-btn-container {
+    margin-top: 16rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
 .calc-route-button {
@@ -300,16 +304,14 @@ p {
     }
 
     .banner-card {
-        width: 7.5rem;
-        padding: 0rem;
-        height: auto;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        width: 6.25rem;
+        padding: .75rem;
+        height: 2.5rem;
     }
 
     .banner-card h3,
     .banner-card h2 {
-        font-size: .9rem;
+        font-size: .7rem;
     }
 
     .text-green {

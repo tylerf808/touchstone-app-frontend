@@ -18,8 +18,8 @@
 
 .menu {
    color: whitesmoke;
-   margin-right: .5rem;
-   font-size: 2rem;
+   margin-right: 2rem;
+   font-size: 2.5rem;
 }
 
 .user-icon:hover {
@@ -27,32 +27,45 @@
 }
 
 .user-menu {
-   position: absolute;
+   position: fixed;
    display: flex;
    flex-direction: column;
    align-items: flex-start;
    justify-content: flex-start;
-   width: 8rem;
-   height: max-content;
+   width: 0;
+   right: 20rem;
+   height: 97vh;
+   right: 0;
    background-color: white;
    top: 4rem;
    z-index: 100;
+   opacity: 0;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-   border-radius: 12px;
-   padding: 0.75rem;
+   transition: right .5s ease, width .5s ease, opacity .25s ease;
+}
+
+.menu-open {
+   height: 97vh;
+   width: 20rem;
+   opacity: 1;
+   right: 0;
 }
 
 .user-menu-item {
-   padding: .5rem;
-   width: 90%;
    text-decoration: none;
-   color: rgb(190, 123, 0);
-   font-size: 1.2rem;
+   color: rgb(206, 137, 9);
+   font-size: 1.5rem;
+   text-align: center;
+   width: auto;
+   padding-bottom: 1rem;
+   padding-top: 1rem;
+   width: 100%;
+   border-bottom: solid .1rem lightgrey;
+   position: relative;
 }
 
 .user-menu-item:hover {
-   background-color: #f0f0f0;
-   border-radius: 8px;
+   background-color: #e7e7e7;
 }
 
 

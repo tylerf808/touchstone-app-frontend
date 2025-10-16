@@ -28,6 +28,7 @@ p {
   grid-template-columns: 25% 25% 25% 25%;
   width: 100%;
   justify-items: center;
+  margin-top: 2rem;
 }
 
 .moneyBarItem {
