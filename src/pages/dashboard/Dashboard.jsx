@@ -140,7 +140,6 @@ export default function Dashboard() {
 
     const percentage = ['grossProfitPercentage', 'operatingProfitPercentage', 'netProfitPercentage']
 
-
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -172,11 +171,8 @@ export default function Dashboard() {
                 }
             }
         })
-
         tableData.push(subArray)
     })
-
-
 
     const completedJobs = jobs.filter(job => isCompleted(job));
     const uncompletedJobs = jobs.filter(job => !isCompleted(job));
