@@ -113,7 +113,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                         handleExpand(e.target.id)
                                     }}>&#x25B6;</a>
                                 </div>
-                                <p>({formatUSD(job.tractorLease = job.tractorLease + job.insurance)})</p>
+                                <p>({formatUSD(job.trailerLease + job.tractorLease + job.insurance + job.overhead)})</p>
                             </div>
                             <div className="results-row fixed-sub-row">
                                 <p style={{ marginLeft: '1.2rem' }}>Tractor Lease</p>
@@ -127,6 +127,10 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                 <p style={{ marginLeft: '1.2rem' }}>Insurance</p>
                                 <p>{formatUSD(job.insurance)}</p>
                             </div>
+                            <div className="results-row other-sub-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Overhead</p>
+                                <p>{formatUSD(job?.overhead)}</p>
+                            </div>
                             <div className='results-row'>
                                 <div style={{
                                     justifySelf: 'flex-start', display: 'flex', flexDirection: 'row',
@@ -137,13 +141,10 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                         handleExpand(e.target.id)
                                     }}>&#x25B6;</a>
                                 </div>
-                                <p>({formatUSD(job.overhead + job.parking + job.repairs + job.depreciation)})</p>
+                                <p>({formatUSD(job.parking + job.repairs + job.depreciation)})</p>
 
                             </div>
-                            <div className="results-row other-sub-row">
-                                <p style={{ marginLeft: '1.2rem' }}>Overhead</p>
-                                <p>{formatUSD(job?.overhead)}</p>
-                            </div>
+                            
                             <div className="results-row other-sub-row">
                                 <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
                                 <p>{formatUSD(job?.depreciation)}</p>
@@ -226,20 +227,21 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                 <p style={{ marginLeft: '1.2rem' }}>Insurance</p>
                                 <p>{formatUSD(job.insurance)}</p>
                             </div>
+                            <div className="results-row">
+                                <p style={{ marginLeft: '1.2rem' }}>Overhead</p>
+                                <p>{formatUSD(job?.overhead)}</p>
+                            </div>
                             <div style={{
                                 borderTop: '.1rem solid lightgrey', borderBottom: '.1rem solid lightgrey',
                                 padding: '.2rem'
                             }} className='results-row'>
                                 <p style={{ marginLeft: '2rem' }}>Subtotal - Fixed</p>
-                                <p>{formatUSD(job.tractorLease = job.tractorLease + job.insurance)}</p>
+                                <p>{formatUSD(job.overhead + job.trailerLease + job.tractorLease + job.insurance)}</p>
                             </div>
                             <div className='results-row'>
                                 <p style={{ justifySelf: 'flex-start' }}>Other Costs</p>
                             </div>
-                            <div className="results-row">
-                                <p style={{ marginLeft: '1.2rem' }}>Overhead</p>
-                                <p>{formatUSD(job?.overhead)}</p>
-                            </div>
+                            
                             <div className="results-row">
                                 <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
                                 <p>{formatUSD(job?.depreciation)}</p>
@@ -257,7 +259,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                 padding: '.2rem'
                             }} className='results-row'>
                                 <p style={{ marginLeft: '2rem' }}>Subtotal - Other</p>
-                                <p>{formatUSD(job.overhead + job.parking + job.repairs + job.depreciation)}</p>
+                                <p>{formatUSD(job.parking + job.repairs + job.depreciation)}</p>
                             </div>
                         </>
                     }
