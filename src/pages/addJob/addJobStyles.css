@@ -263,7 +263,12 @@ p {
     background-color: rgb(230, 230, 230);
 }
 
-
+@supports (-webkit-touch-callout: none) {
+  .address-logistics-container,
+  .details-form {
+    min-height: -webkit-fill-available;
+  }
+}
 
 @media screen and (max-width: 1000px) {
 
@@ -277,7 +282,8 @@ p {
     }
 
     .details-form {
-        width: 80%;
+        width: 90vw;
+        height: 80vh;
     }
 
     .transition-container {
