@@ -278,17 +278,17 @@ p {
         justify-content: flex-start;
         align-items: center;
         width: 90vw;
-        height: 80vh;
+        height: -webkit-fill-available;
     }
 
     .details-form {
         width: 90vw;
-        height: 80vh;
+        height: -webkit-fill-available;
     }
 
     .transition-container {
         width: 90vw;
-        height: 80vh;
+        height: -webkit-fill-available;
         margin-top: 2rem;
         transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -303,7 +303,7 @@ p {
 
     .results-container {
         width: 90vw;
-        height: 80vh;
+        height: -webkit-fill-available;
     }
 
     .main-details-banner {
