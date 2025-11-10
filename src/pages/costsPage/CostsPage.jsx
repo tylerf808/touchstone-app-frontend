@@ -112,7 +112,7 @@ export default function CostsPage() {
               {directKeys.map(({ key, label }) => (
                 <tr key={key}>
                   <td>{label}</td>
-                  <td>{costs ? costs[key] : '-'}%</td>
+                  <td>{costs ? costs[key].toFixed(2) : '-'} %</td>
                 </tr>
               ))}
             </tbody>

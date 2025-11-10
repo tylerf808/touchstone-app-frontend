@@ -70,15 +70,15 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                 <h3 style={{ marginBottom: '1rem' }}>New Tractor</h3>
                 {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
                 <div className="modal-input-row">
-                    <label>Internal Number:</label>
+                    <label>Internal Number</label>
                     <input className="new-tractor-input" onChange={handleChange} type="number" name="internalNum" />
                 </div>
                 <div className="modal-input-row">
-                    <label>VIN:</label>
+                    <label>VIN</label>
                     <input className="new-tractor-input" onChange={handleChange} type="text" name="vin" />
                 </div>
                 <div className="modal-input-row">
-                    <label>Monthly Insurance:</label>
+                    <label>Insurance per Month</label>
                     <div style={{ justifySelf: 'flex-end' }}>
                         <span style={{ fontWeight: 'bold' }}>$ </span>
                         <input
@@ -91,7 +91,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                     </div>
                 </div>
                 <div className="modal-input-row">
-                    <label>Annual Depreciation:</label>
+                    <label>Annual Depreciation</label>
                     <div style={{ justifySelf: 'flex-end' }}>
                         <span style={{ fontWeight: 'bold' }}>$ </span>
                         <input
@@ -104,12 +104,12 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                     </div>
                 </div>
                 <div className="modal-input-row">
-                    <label>MPG:</label>
+                    <label>MPG</label>
                     <input className="new-tractor-input" style={{ width: '2.5rem' }} onChange={handleChange} type="number" name="mpg" />
                 </div>
                 <div className="modal-input-row">
                     <label>
-                        Tractor Lease:
+                        Tractor Lease per Month
                     </label>
                     <div style={{ justifySelf: 'flex-end' }}>
                         <span style={{ fontWeight: 'bold' }}>$ </span>
@@ -125,7 +125,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                 </div>
                 <div className="modal-input-row">
                     <label>
-                        Trailer Lease:
+                        Trailer Lease per Month
                     </label>
                     <div style={{ justifySelf: 'flex-end' }}>
                         <span style={{ fontWeight: 'bold' }}>$ </span>
@@ -140,7 +140,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                     </div>
                 </div>
                 <div className="modal-input-row">
-                    <label>Height:</label>
+                    <label>Height</label>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: '.5rem' }}>
                         <label>Ft.</label>
                         <input className="new-tractor-input" style={{ width: '2rem' }} name='ft' value={editedItem.height.ft} onChange={e => setEditedItem({
@@ -161,7 +161,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                     </div>
                 </div>
                 <div className="modal-input-row">
-                    <label>Width:</label>
+                    <label>Width</label>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', gap: '.5rem' }}>
                         <label>Ft.</label>
                         <input
@@ -194,7 +194,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
                     </div>
                 </div>
                 <div className="modal-input-row">
-                    <label>Weight (lbs):</label>
+                    <label>Weight (lbs)</label>
                     <input className="new-tractor-input" style={{ width: '4rem' }} onChange={handleChange} type="text" name="weight" />
                 </div>
                 <div className="modal-actions">
