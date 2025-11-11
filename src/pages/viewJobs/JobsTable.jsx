@@ -9,7 +9,6 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
 
     console.log(jobs)
 
-
     const sortedJobs = useMemo(() => {
         if (!sortConfig.key) return jobs;
 
@@ -42,10 +41,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
         : [];
 
     const formattedTableHeaders = ['Date', 'Client', 'Driver', 'Start', 'End',
-        'Tolls', 'Miles', 'Drive Time', 'Revenue', 'Mileage Rate', 'Gross Profit', 'Gross Profit %',
-        'Operating %', 'Net %', 'Labor Rate', 'Labor', 'Payroll Tax', 'Dispatch',
-        'Factor', 'Fuel', 'Tolls', 'ODC', 'Insurance', 'Lease - Trailer', 'Lease - Tractor',
-        'Parking', 'Operating Profit', 'Repairs', 'Depreciation', 'Net Profit']
+        'Details']
 
     return (
 
