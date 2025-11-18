@@ -8,6 +8,7 @@
    justify-content: space-between;
    align-items: center;
    height: 4rem;
+   position: fixed;
 }
 
 .toolbar-header {
@@ -38,7 +39,7 @@
    right: 0;
    background-color: white;
    top: 4rem;
-   z-index: 100;
+   z-index: 1000;
    opacity: 0;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
    transition: right .5s ease, width .5s ease, opacity .25s ease;
