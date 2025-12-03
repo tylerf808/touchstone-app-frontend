@@ -21,6 +21,9 @@ p {
   justify-self: center;
   width: 80%;
   gap: .5rem;
+  top: 4rem;
+  position: relative;
+  z-index: 1;
 }
 
 .moneyBar {

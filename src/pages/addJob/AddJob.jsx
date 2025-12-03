@@ -45,6 +45,7 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
       }
 
       const data = await response.json();
+      console.log(data)
       setDrivers(data[0]);
       setTractors(data[1]);
       setSelectedTractor(data[1][0])

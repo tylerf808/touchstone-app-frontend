@@ -2,7 +2,8 @@
   display: grid;
   justify-self: center;
   grid-template-columns: 60% 40%;
-  margin-top: 4rem;
+  position: relative;
+  top: 8rem;
   background-color: white;
   box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.2);
   border-radius: .5rem;

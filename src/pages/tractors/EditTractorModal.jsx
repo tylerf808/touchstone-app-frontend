@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './tractorsStyles.css'
 
-export default function EditTractorModal({ isOpen, editedItem, setEditedItem, onSave, setShowEditModal }) {
+export default function EditTractorModal({ isOpen, editedItem, setEditedItem, onSave, setShowEditModal, drivers }) {
 
 
     const handleChange = (e) => {
@@ -197,6 +197,17 @@ export default function EditTractorModal({ isOpen, editedItem, setEditedItem, on
                         value={editedItem?.weight}
                         onChange={handleChange}
                     />
+                </div>
+                <div className="modal-input-row">
+                    <label>
+                        Current Driver
+                    </label>
+                    <select style={{ width: '2rem' }}
+                        name="currentDriver"
+                        value={editedItem?.currentDriver}
+                        onChange={handleChange}>
+                        {}
+                   </select>
                 </div>
                 <div className="modal-actions">
                     <button className="modal-save-btn" type="submit">Save</button>

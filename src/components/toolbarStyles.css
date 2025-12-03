@@ -39,7 +39,7 @@
    right: 0;
    background-color: white;
    top: 4rem;
-   z-index: 1000;
+   z-index: 99999; /* ensure menu appears above charts/overlays */
    opacity: 0;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
    transition: right .5s ease, width .5s ease, opacity .25s ease;
@@ -50,6 +50,7 @@
    width: 20rem;
    opacity: 1;
    right: 0;
+   z-index: 99999;
 }
 
 .user-menu-item {
@@ -63,6 +64,7 @@
    width: 100%;
    border-bottom: solid .1rem lightgrey;
    position: relative;
+   z-index: 99999;
 }
 
 .user-menu-item:hover {
@@ -165,6 +167,7 @@
       transition: width .5s ease, opacity .5s ease;
       margin-top: 0;
       top: 2.25rem;
+      z-index: 99999;
    }
 
    .menu-open {
@@ -172,6 +175,7 @@
       height: 97vh;
       opacity: 1;
       margin-top: 0;
+      z-index: 99999;
    }
 
    .user-menu-item {

@@ -25,6 +25,7 @@ export default function Tractors() {
         width: { ft: '', in: '' },
         weight: ''
     })
+    const [drivers, setDrivers] = useState([])
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
     const [showNewModal, setShowNewModal] = useState(false)
@@ -49,6 +50,7 @@ export default function Tractors() {
                 "Authorization": token
             },
         }).then((res) => res.json()).then((data) => {
+            console.log(data)
             setTractors(data)
             setVisibleTractors(data)
         })
@@ -119,7 +121,7 @@ export default function Tractors() {
         <div className="tractors-container">
             <div className="tractors-header">
                 <div className="tractors-header-text">
-                    <h2 >Tractors</h2>
+                    <h2>Tractors</h2>
                     <p style={{ fontWeight: 'bold' }}>{tractors.length} Tractors</p>
                 </div>
                 <div className="tractor-header-inputs">
@@ -182,6 +184,10 @@ export default function Tractors() {
                                 <div className="tractor-info-row">
                                     <p>Weight</p>
                                     <p>{tractor?.weight} lbs.</p>
+                                </div>
+                                <div className="tractor-info-row">
+                                    <p>Current Driver</p>
+                                    <p>{tractor?.currentDriver}</p>
                                 </div>
                             </div>
 

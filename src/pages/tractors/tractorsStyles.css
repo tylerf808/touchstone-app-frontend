@@ -3,9 +3,11 @@
     height: 85vh;
     background-color: white;
     justify-self: center;
-    margin-top: 2.5rem;
+    position: relative;
+    top: 6rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: .5rem;
+    padding: 1rem;
 }
 
 .tractors-header {
@@ -13,10 +15,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
     width: 100%;
     justify-self: center;
+}
+
+.tractors-header-text h2 {
+    font-size: 2.5rem;
 }
 
 .tractor-header-inputs {
@@ -52,11 +56,12 @@
     row-gap: 1rem;
     overflow-y: auto;
     padding: .1rem;
+    margin-top: 1rem;
 }
 
 .tractor-item {
     width: 95%;
-    height: 18rem;
+    height: 20rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

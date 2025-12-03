@@ -55,7 +55,7 @@ export default function LogIn() {
     }
 
     return (
-        <div className='modal-form' style={{justifySelf: 'center', marginTop: '6rem', padding: '2rem'}}>
+        <div className='modal-form' style={{justifySelf: 'center', position: 'relative', top: '12rem', padding: '2rem'}}>
             <div className='login-header'>
                 <h2>Log In</h2>
                 <p >Don't have an account? <Link id='sign-up-link' to="/signup" onClick={() => setShowAlert(false)}>Sign up here!</Link></p>
