@@ -3,6 +3,11 @@
     padding: 0;
  }
 
+ /* src/index.css */
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+
  /*** Site Wide ***/
 
  body {

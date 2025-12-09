@@ -52,7 +52,7 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
       </div>
       {loggedIn ? (
         <>
-          <i className='fa fa-bars menu' style={{ color: 'whitesmoke' }} onClick={handleMenu}></i>
+          <i className={showMenu ? 'fa fa-window-close' : 'fa fa-bars menu '} style={{ color: 'whitesmoke', fontSize: '2.25rem', right: '4rem', position: 'absolute' }} onClick={handleMenu}></i>
           {/** Render the menu into document.body so it escapes stacking contexts */}
           {createPortal(
             <div id='user-menu' className={'user-menu' + (showMenu ? ' menu-open' : '')}>
@@ -84,6 +84,7 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
           )}
         </>
       )}
+      <div className={showMenu ? 'menu-overlay' : ''}></div>
     </div >
   );
 }

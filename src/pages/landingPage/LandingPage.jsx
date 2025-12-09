@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import addJobImage from '../../images/add-job-page-edited.PNG'
-import dashboardImage from '../../images/dashboard-page-edited.PNG'
-import viewJobsImage from '../../images/view-jobs-page-edited.PNG'
+import resultsImage from '../../images/results.PNG'
+import dashboardImage from '../../images/dashboard.PNG'
+
 import './landingPageStyles.css'
 import UserContext from '../../helpers/Context';
 import { useUserContext } from '../../helpers/Context';
@@ -28,7 +28,7 @@ export default function LandingPage() {
 
   const tiles = [
     {
-      backgroundImage: addJobImage,
+      backgroundImage: resultsImage,
       backgroundClass: 'first-tile-background',
       title: "Optimized Trucking Routes and Earnings Calculator",
       description: "Use cutting edge tools and real time data to find the best route and calculate earnings using a personalized costs profile.",
@@ -42,13 +42,13 @@ export default function LandingPage() {
       tileClass: 'second-tile-content',
       description: "Leverage a suite of tools to track and analyze your costs and earnings."
     },
-    {
-      backgroundImage: viewJobsImage,
-      backgroundClass: 'third-tile-background',
-      title: "Detailed Database of All Jobs",
-      tileClass: 'third-tile-content',
-      description: "Keep track of all your previous jobs with sortable and downloadable tables."
-    }
+    // {
+    //   backgroundImage: viewJobsImage,
+    //   backgroundClass: 'third-tile-background',
+    //   title: "Detailed Database of All Jobs",
+    //   tileClass: 'third-tile-content',
+    //   description: "Keep track of all your previous jobs with sortable and downloadable tables."
+    // }
   ];
 
   const scrollToTile = (tileIndex) => {

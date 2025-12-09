@@ -9,6 +9,7 @@
    align-items: center;
    height: 4rem;
    position: fixed;
+   z-index: 9999;
 }
 
 .toolbar-header {
@@ -17,10 +18,16 @@
    margin: 1rem;
 }
 
-.menu {
-   color: whitesmoke;
-   margin-right: 2rem;
-   font-size: 2.5rem;
+
+.menu-overlay {
+   background-color: rgba(0, 0, 0, 0.974);
+   opacity: .33;
+   position: absolute;
+   top: 4rem;
+   right: 20rem;
+   z-index: 9999;
+   height: 97vh;
+   width: 85%;
 }
 
 .user-icon:hover {
@@ -42,7 +49,6 @@
    z-index: 99999; /* ensure menu appears above charts/overlays */
    opacity: 0;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-   transition: right .5s ease, width .5s ease, opacity .25s ease;
 }
 
 .menu-open {
