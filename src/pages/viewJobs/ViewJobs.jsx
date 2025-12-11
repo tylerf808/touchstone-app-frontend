@@ -31,9 +31,10 @@ export default function ViewJobs() {
                 },
             }).then((res) => res.json()).then((data) => {
                 const formattedArray = data.map((el, i) => {
+                    const newDate = new Date(el.date)
                     const job = {
                         _id: el._id,
-                        date: el.date,
+                        date: newDate.toLocaleDateString(),
                         client: el.client,
                         driver: el.driver,
                         start: el.start,

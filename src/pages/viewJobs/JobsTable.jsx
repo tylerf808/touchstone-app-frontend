@@ -1,14 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import './viewJobsStyles.css'
+import Accordion from './Accordion';
 
 const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
     const [sortConfig, setSortConfig] = useState({
         key: null,
         direction: 'ascending'
     });
-
-    console.log(jobs)
-
 
     const sortedJobs = useMemo(() => {
         if (!sortConfig.key) return jobs;
@@ -32,91 +30,20 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
         setSortConfig({ key, direction });
     };
 
-    // Exclude timestamp fields for display
-    const excludedFields = ['createdAt', 'updatedAt', '_id', '__v', 'admin'];
-
-    // Get all keys from the first job, filtering out excluded fields
-    const tableHeaders = jobs.length > 0
-        ? Object.keys(jobs[0])
-            .filter(key => !excludedFields.includes(key))
-        : [];
-
-    const formattedTableHeaders = ['Date', 'Client', 'Driver', 'Start', 'End',
-        'Tolls', 'Miles', 'Drive Time', 'Revenue', 'Mileage Rate', 'Gross Profit', 'Gross Profit %',
-        'Operating %', 'Net %', 'Labor Rate', 'Labor', 'Payroll Tax', 'Dispatch',
-        'Factor', 'Fuel', 'Tolls', 'ODC', 'Insurance', 'Lease - Trailer', 'Lease - Tractor',
-        'Parking', 'Operating Profit', 'Repairs', 'Depreciation', 'Net Profit']
-
     return (
+        <div className='jobs-table'>
+            <div id='jobs-table-header'>
+                <h2>Date</h2>
+                <h2>Start</h2>
+                <h2>End</h2>
+            </div>
+            {jobs.map((job) => {
+                return (
+                    <Accordion job={job} />
+                )
+            })}
 
-        <table className="jobs-table">
-            <thead className="jobs-table-header">
-                <tr>
-                    <th>
-                        <input type='checkbox' style={{ alignSelf: 'center', justifySelf: 'center' }} onClick={((e) => {
-                            const selectedRows = Array.from(document.getElementsByClassName('row-checkbox'))
-                            if (e.target.checked) {
-                                selectedRows.forEach((row) => {
-                                    row.checked = true
-                                    setSelectedJobs(jobs)
-                                })
-                            } else {
-                                selectedRows.forEach((row) => {
-                                    row.checked = false
-                                    setSelectedJobs([])
-                                })
-                            }
-                        })}></input>
-                    </th>
-                    {tableHeaders.map((header, i) => (
-                        <th
-                            key={header}
-                            onClick={() => requestSort(header)}
-                        >
-                            {formattedTableHeaders[i]}
-                            {sortConfig.key === header && (
-                                <span className="jobs-table-sort-indicator">
-                                    {sortConfig.direction === 'ascending' ? '▲' : '▼'}
-                                </span>
-                            )}
-                        </th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody className="jobs-table-body">
-                {sortedJobs.map((job, index) => (
-                    <tr key={index} onClick={() => {
-                        const checkbox = document.getElementById(`row-checkbox-${index}`);
-                        if (checkbox.checked) {
-                            checkbox.checked = false;
-                            setSelectedJobs(selectedJobs.filter(j => j._id !== job._id));
-                        } else {
-                            checkbox.checked = true;
-                            setSelectedJobs([...selectedJobs, job]);
-                        }
-                    }}>
-                        <td style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '4.5rem' }}>
-                            <input onChange={() => {
-                                const checkbox = document.getElementById(`row-checkbox-${index}`);
-                                if (checkbox.checked) {
-                                    checkbox.checked = false;
-                                    setSelectedJobs(selectedJobs.filter(j => j._id !== job._id));
-                                } else {
-                                    checkbox.checked = true;
-                                    setSelectedJobs([...selectedJobs, job]);
-                                }
-                            }} className='row-checkbox' id={`row-checkbox-${index}`} type='checkbox' checked={selectedJobs.some(j => j._id === job._id)} />
-                        </td>
-                        {tableHeaders.map((header) => (
-                            <td key={header} style={{ textAlign: 'center', verticalAlign: 'middle', height: '2.5rem', padding: 0 }}>
-                                {job[header]}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-
+        </div>
     );
 };
 
