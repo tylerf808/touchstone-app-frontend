@@ -30,25 +30,28 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
         setSortConfig({ key, direction });
     };
 
+
+
     return (
-        <div id='jobs-table' className="h-max mt-14">
-            <div id='jobs-table-header' className='grid grid-cols-[10%,10%,10%,20%,20%,30%] justify-items-start justify-self-center w-11/12'>
-                <h2 className='ml-7'>Date</h2>
-                <h2 className='ml-7'>Client</h2>
-                <h2 className='ml-7'>Driver</h2>
-                <h2 className='ml-7'>Start</h2>
-                <h2 className='ml-7'>End</h2>
+        <div id='jobs-table' className="h-[44rem] mt-14 w-[98%] justify-self-center">
+            <div id='jobs-table-header' className='bg-gray-200 grid grid-cols-[2%,9%,9%,10%,20%,20%,30%] justify-items-start
+             justify-self-center w-full'>
+                <input type='checkbox' className='self-center justify-self-center p-4'></input>
+                <h2 className='justify-self-center'>Date</h2>
+                <h2 className='justify-self-center'>Client</h2>
+                <h2 className='justify-self-center'>Driver</h2>
+                <h2 className='justify-self-center'>Start</h2>
+                <h2 className='justify-self-center'>End</h2>
                 <div className='grid grid-cols-3 justify-items-center w-full'>
-                    <h2 className='text-center ml-7'>Revenue</h2>
-                    <h2 className='text-center ml-7'>Total Costs</h2>
-                    <h2 className='text-center ml-7'>Net Profit</h2>
+                    <h2 className='justify-self-center'>Revenue</h2>
+                    <h2 className='justify-self-center'>Total Costs</h2>
+                    <h2 className='justify-self-center'>Net Profit</h2>
                 </div>
             </div>
-            <div id='jobs-table-body' className='overflow-y-hidden h-full'>
-                {jobs.map((job) => {
+            <div id='jobs-table-body' className='h-full overflow-y-auto [scrollbar-gutter:stable] justify-self-center'>
+                {jobs.map((job, i) => {
                     return (
-                        <div id='accordion-row' className='w-full flex flex-row justify-center'>
-                            <input type='checkbox' id='accordion-checkbox' className='self-center mr-4'></input>
+                        <div key={i} id='accordion-row' className={`w-full flex flex-row justify-center pt-2 ${i%2 !== 0 ? 'bg-gray-50' : null}`}>
                             <Accordion job={job} />
                         </div>
                     )

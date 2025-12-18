@@ -107,7 +107,7 @@ export default function ViewJobs() {
     }, [])
 
     return (
-        <div className="jobs-table-container">
+        <div className="jobs-table-container overflow-x-hidden overflow-y-hidden pb-4">
             <div className='view-jobs-toolbar'>
                 <p style={{ marginRight: '2.5rem', marginLeft: '2rem' }}>{selectedJobs.length} Selections</p>
                 <div>
