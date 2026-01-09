@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
-import { CSVLink, CSVDownload } from 'react-csv'
+import CsvDownloader from 'react-csv-downloader';
 import { useNavigate } from 'react-router-dom';
 import './viewJobsStyles.css'
 import UserContext from '../../helpers/Context';
@@ -16,7 +15,6 @@ export default function ViewJobs() {
 
     const [selectedJobs, setSelectedJobs] = useState([])
     const [jobs, setJobs] = useState([])
-    const [csvJobs, setCsvJobs] = useState()
     const [noJobs, setNoJobs] = useState(true)
     const [showModal, setShowModal] = useState(false)
 
@@ -53,6 +51,8 @@ export default function ViewJobs() {
                         labor: el.labor,
                         payrollTax: el.payrollTax,
                         dispatch: el.dispatch,
+                        depreciation: el.depreciation,
+                        parking: el.parking,
                         factor: el.factor,
                         fuel: el.gasCost,
                         tolls: el.tolls,
@@ -67,7 +67,6 @@ export default function ViewJobs() {
                     }
                     return job
                 })
-                setCsvJobs(formattedArray)
                 setJobs(formattedArray)
                 if (data.length === 0) {
                     setNoJobs(true)
@@ -93,6 +92,7 @@ export default function ViewJobs() {
                 throw new Error('Failed to delete jobs');
             }
             setSelectedJobs([]);
+            setJobs(response.json())
         } catch (error) {
             alert(error.message);
         }
@@ -111,7 +111,12 @@ export default function ViewJobs() {
             <div className='view-jobs-toolbar'>
                 <p style={{ marginRight: '2.5rem', marginLeft: '2rem' }}>{selectedJobs.length} Selections</p>
                 <div>
-                    <i className="fa fa-download" style={{ fontSize: '1.2rem', marginRight: '2rem' }}>Download</i>
+                    <CsvDownloader filename="TouchstoneCSV"
+                        extension=".csv"
+                        separator=";"
+                        datas={jobs}
+                        text="Download"
+                        />
                     <i className="fa fa-trash-o" onClick={() => { if (selectedJobs.length !== 0) setShowModal(true) }} style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem' }}></i>
                 </div>
             </div>

@@ -30,14 +30,22 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
         setSortConfig({ key, direction });
     };
 
-
+    const handleSelectAll = (e) => {
+        const checked = e.target.checked
+        setSelectedJobs(() => {
+            if(checked){
+                return jobs
+            }
+            return []
+        })
+    }
 
     return (
-        <div id='jobs-table' className="h-[44rem] mt-14 w-[98%] justify-self-center">
+        <div className="h-[44rem] mt-14 w-full justify-self-center pl-4 pr-4">
             <div id='jobs-table-header' className='bg-gray-200 grid grid-cols-[2%,9%,9%,10%,20%,20%,30%] justify-items-start
              justify-self-center w-full'>
-                <input type='checkbox' className='self-center justify-self-center p-4'></input>
-                <h2 className='justify-self-center'>Date</h2>
+                <input type='checkbox' onClick={(e) => handleSelectAll(e)} className='self-center justify-self-center p-4'></input>
+                <h2 onClick={() => requestSort('date')} className='justify-self-center'>Date</h2>
                 <h2 className='justify-self-center'>Client</h2>
                 <h2 className='justify-self-center'>Driver</h2>
                 <h2 className='justify-self-center'>Start</h2>
@@ -48,11 +56,11 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
                     <h2 className='justify-self-center'>Net Profit</h2>
                 </div>
             </div>
-            <div id='jobs-table-body' className='h-full overflow-y-auto [scrollbar-gutter:stable] justify-self-center'>
-                {jobs.map((job, i) => {
+            <div id='jobs-table-body' className='h-full w-full overflow-y-auto [scrollbar-gutter:stable] justify-self-center'>
+                {sortedJobs.map((job, i) => {
                     return (
                         <div key={i} id='accordion-row' className={`w-full flex flex-row justify-center pt-2 ${i%2 !== 0 ? 'bg-gray-50' : null}`}>
-                            <Accordion job={job} />
+                            <Accordion selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} job={job} />
                         </div>
                     )
                 })}
