@@ -13,38 +13,38 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
     }
 
     return (
-        <div className="details-form">
+        <div className="self-center justify-self-center pt-4 pb-4 w-full flex flex-col">
             <div className="address-logistics-container">
                 <div className="route-details">
-                    <h3 style={{ marginBottom: '1rem', alignSelf: 'center' }}>Route Details</h3>
-                    <Autocomplete className="route-details-row">
+                    <h3 className="font-bold">Route Details</h3>
+                    <Autocomplete className="flex flex-col self-center justify-items-center justify-between m-4 w-[18rem]">
                         <>
                             <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Start</p>
-                            <input className="address-field" id="start-input" type="text" />
+                            <input className="p-2 border border-gray-500 rounded-md w-[18rem]" id="start-input" type="text" />
                         </>
                     </Autocomplete>
-                    <Autocomplete className="route-details-row">
+                    <Autocomplete className="flex flex-col self-center justify-items-center justify-between m-4 w-[18rem]">
                         <>
                             <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Pick-Up</p>
-                            <input className="address-field" id='pick-up-input' type="text" />
+                            <input className="p-2 border border-gray-500 rounded-md w-[18rem]" id='pick-up-input' type="text" />
                         </>
                     </Autocomplete >
-                    <Autocomplete className="route-details-row">
+                    <Autocomplete className="flex flex-col self-center justify-items-center justify-between m-4 w-[18rem]">
                         <>
                             <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Drop-Off</p>
-                            <input className="address-field" id="drop-off-input" type="text" />
+                            <input className="p-2 border border-gray-500 rounded-md w-[18rem]" id="drop-off-input" type="text" />
                         </>
                     </Autocomplete>
-                    <div className="route-details-row" style={{ flexDirection: 'row', gap: '.75rem' }}>
-                        <p>
+                    <div className="flex flex-row justify-between m-4 w-[18rem]" >
+                        <p className="self-center justify-self-center">
                             Date of Departure
                         </p>
-                        <input type="date" onChange={(e) => {
+                        <input type="date" className="border border-gray-500 rounded-md p-1" onChange={(e) => {
                             setLogistics({ ...logistics, startDate: e.target.value })
                         }}></input>
                     </div>
-                    <div className="route-details-row" style={{ flexDirection: 'row', gap: '.75rem', alignItems: 'center', alignSelf: 'center', justifyContent: 'space-between', width: '60%' }}>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '.25rem' }}>
+                    <div className="flex flex-row justify-between m-4 w-[18rem]" >
+                        <label>
                             <input
                                 type="radio"
                                 name="routePreference"
@@ -55,7 +55,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             />
                             Fastest
                         </label>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '.25rem' }}>
+                        <label>
                             <input
                                 type="radio"
                                 name="routePreference"
@@ -68,25 +68,25 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                         </label>
                     </div>
                 </div>
-                <div className="load-details">
-                    <h3 style={{ marginBottom: '1rem', alignSelf: 'center', justifySelf: 'flex-start' }}>Load Details</h3>
-                    <div className="load-details-row">
+                <div className="flex flex-col items-center justify-items-center justify-start w-full border-l border-l-gray-300 ">
+                    <h3 className="font-bold justify-self-center self-center mb-8">Load Details</h3>
+                    <div className="flex flex-row justify-between m-4 w-4/5">
                         <p>
                             Client
                         </p>
-                        <input style={{ width: '8rem' }} type='text' onChange={(e) => {
+                        <input className="p-2 border border-gray-500 rounded-md w-[12rem]" type='text' onChange={(e) => {
                             const newLogistics = logistics
                             newLogistics.client = e.target.value
                             setLogistics(newLogistics)
                         }}></input>
                     </div>
-                    <div className="load-details-row">
+                    <div className="flex flex-row justify-between m-4 w-4/5">
                         <p>
                             Revenue
                         </p>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '.5rem' }}>
                             <p>$</p>
-                            <input style={{ width: '7rem' }} type='number' onChange={(e) => {
+                            <input className="p-2 border border-gray-500 rounded-md w-[10rem]" type='number' onChange={(e) => {
                                 const newLogistics = logistics
                                 newLogistics.revenue = e.target.value
                                 setLogistics(newLogistics)
@@ -95,10 +95,10 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
 
                     </div>
 
-                    <div className="load-details-row">
+                    <div className="flex flex-row justify-between m-4 w-4/5">
                         <p>Driver
                         </p>
-                        <select onChange={(e) => {
+                        <select className="p-2 border border-gray-500 rounded-md w-[10rem]" onChange={(e) => {
                             const newLogistics = logistics
                             newLogistics.driver = e.target.value
                             setLogistics(newLogistics)
@@ -110,10 +110,10 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             })}
                         </select>
                     </div>
-                    <div className="load-details-row">
+                    <div className="flex flex-row justify-self-center justify-between m-4 w-4/5">
                         <p>Tractor
                         </p>
-                        <select className="tractor-select" onChange={(e) => {
+                        <select className="p-2 border border-gray-500 rounded-md w-[10rem]" onChange={(e) => {
                             const tractor = tractors.find(t => String(t.internalNum) === e.target.value);
                             setSelectedTractor(tractor);
                         }}>
@@ -122,11 +122,11 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             ))}
                         </select>
                     </div>
-                    <div className="load-details-row">
+                    <div className="flex flex-row justify-between m-4 w-4/5">
                         <p>
                             Hazmat
                         </p>
-                        <select defaultValue='none' onChange={(e) => {
+                        <select className="p-2 border border-gray-500 rounded-md w-[12rem]" defaultValue='none' onChange={(e) => {
                             setLogistics({ ...logistics, hazmat: e.target.value })
                         }}>
                             <option value={null}>None</option>
@@ -144,7 +144,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                 </div>
             </div>
             <button
-                className="calc-route-button"
+                className="justify-self-center self-center bg-orange-400 w-[12rem] p-2 text-white rounded-lg m-4"
                 type="submit"
                 onClick={(e) => findRoute(e)}>
                 Calculate Route

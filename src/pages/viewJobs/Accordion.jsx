@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
 import formatUSD from "../../helpers/currencyFormatter"
-import { use } from "react"
 
 export default function Accordion({ job, selectedJobs, setSelectedJobs }) {
+
+    console.log(job)
 
     const [accordionOpen, setAccordionOpen] = useState(false)
     const [selected, setSelected] = useState(false)

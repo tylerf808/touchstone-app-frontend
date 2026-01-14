@@ -53,6 +53,7 @@ export default function ViewJobs() {
                         dispatch: el.dispatch,
                         depreciation: el.depreciation,
                         parking: el.parking,
+                        overhead: el.overhead,
                         factor: el.factor,
                         fuel: el.gasCost,
                         tolls: el.tolls,
@@ -116,6 +117,7 @@ export default function ViewJobs() {
                         separator=";"
                         datas={jobs}
                         text="Download"
+                        className='mr-4'
                         />
                     <i className="fa fa-trash-o" onClick={() => { if (selectedJobs.length !== 0) setShowModal(true) }} style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem' }}></i>
                 </div>

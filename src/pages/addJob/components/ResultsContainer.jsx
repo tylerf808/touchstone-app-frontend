@@ -31,8 +31,8 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
 
     return (
         <div className="results-container">
-            <div className="main-details-banner">
-                <div className="banner-card">
+            <div className="flex flex-row w-full items-center justify-between mb-2">
+                <div className="w-[18rem] pt-3 pb-3 bg-white rounded-md flex flex-col items-center justify-center">
                     {job.profitable ?
                         <h3 style={profitableStyle} >
                             <CheckCircle className="text-green" /> PROFITABLE
@@ -41,15 +41,17 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <h3 style={profitableStyle}><CircleX className="text-red-500" />NOT PROFITABLE</h3>}
                     <h2 style={{ marginTop: '.5rem' }}>{formatUSD(job?.netProfit)}</h2>
                 </div>
-                <div className="banner-card" >
-                    <h3 style={{ display: 'flex', alignItems: 'center' }}>
-                        <Truck />Rate Per Mile
-                    </h3>
-                    <h2 style={{ marginTop: '.5rem' }}>{formatUSD(job.ratePerMile)}</h2>
+                <div className="w-[18rem] pt-4 pb-4 bg-white rounded-md flex flex-col items-center justify-center" >
+                    <div className='flex flex-row'>
+                        <Truck />
+                        <h3>Rate Per Mile</h3>
+                    </div>
+                    
+                    <h2>{formatUSD(job.ratePerMile)}</h2>
                 </div>
-                <div className="banner-card">
+                <div className="w-[18rem] pt-4 pb-4 bg-white rounded-md flex flex-col items-center justify-center">
                     <h3>Total Cost</h3>
-                    <h2 style={{ marginTop: '.5rem' }}>{formatUSD(job?.totalCost)}</h2>
+                    <h2>{formatUSD(job?.totalCost)}</h2>
                 </div>
             </div>
             <div className="breakdown-container">
@@ -144,7 +146,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                 <p>({formatUSD(job.parking + job.repairs + job.depreciation)})</p>
 
                             </div>
-                            
+
                             <div className="results-row other-sub-row">
                                 <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
                                 <p>{formatUSD(job?.depreciation)}</p>
@@ -241,7 +243,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                             <div className='results-row'>
                                 <p style={{ justifySelf: 'flex-start' }}>Other Costs</p>
                             </div>
-                            
+
                             <div className="results-row">
                                 <p style={{ marginLeft: '1.2rem' }}>Depreciation</p>
                                 <p>{formatUSD(job?.depreciation)}</p>
@@ -301,7 +303,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                         <p>Rate Per Mile</p>
                         <p>{formatUSD(job?.ratePerMile)}</p>
                     </div>
-                    <div className='route-btn-container'>
+                    <div className='flex flex-row w-full justify-evenly relative top-[22rem]'>
                         <button className="add-route-button" onClick={(e) => {
                             e.preventDefault()
                             addJob()

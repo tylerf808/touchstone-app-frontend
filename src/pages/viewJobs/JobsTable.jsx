@@ -57,7 +57,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
                 </div>
             </div>
             <div id='jobs-table-body' className='h-full w-full overflow-y-auto [scrollbar-gutter:stable] justify-self-center'>
-                {sortedJobs.map((job, i) => {
+                {sortedJobs?.map((job, i) => {
                     return (
                         <div key={i} id='accordion-row' className={`w-full flex flex-row justify-center pt-2 ${i%2 !== 0 ? 'bg-gray-50' : null}`}>
                             <Accordion selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} job={job} />

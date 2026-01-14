@@ -45,7 +45,6 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
       }
 
       const data = await response.json();
-      console.log(data)
       setDrivers(data[0]);
       setTractors(data[1]);
       setSelectedTractor(data[1][0])
@@ -177,15 +176,12 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
   }, []);
 
   return (
-    <div className={`transition-container ${showResults ? 'expand' : ''}`}>
+    <div className={`top-[8rem]  w-[54rem] h-[36rem] relative justify-self-center rounded-lg ${showResults ? 'expand' : 'bg-white'}`}>
       {!showResults ? (
         loading ? (
-          <div style={{
-            justifySelf: 'center', alignSelf: 'center', display: 'flex', flexDirection: 'column',
-            justifyContent: 'center', alignItems: 'center', marginTop: '3rem', height: '100%'
-          }}>
-            <CircularProgress style={{ color: 'orange' }} />
-            <p style={{ color: 'gray' }}>Calculating route...</p>
+          <div className='self-center justify-self-center flex flex-col items-center justify-center h-full w-full'>
+            <CircularProgress className='self-center justify-self-center' style={{ color: 'orange' }} />
+            <p className='self-center justify-self-center' style={{ color: 'gray' }}>Calculating route...</p>
           </div>
         ) : (
           <DetailsInput
