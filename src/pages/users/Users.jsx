@@ -155,7 +155,7 @@ export default function Users() {
     }
 
     return (
-        <div className="users-container">
+        <div style={{position: 'relative', top: '4rem'}} className="users-container">
             <div className="users-header">
                 <div className="users-header-text">
                     <h2>Users</h2>

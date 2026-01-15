@@ -250,9 +250,9 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                    <div className="table-container">
+                    {/* <div className="table-container">
                         <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
-                    </div>
+                    </div> */}
                     <div className="placeholder-overlay">
                         <h2 style={{ justifySelf: 'center', top: '40%', position: 'relative' }}>Charts will appear here once you have saved jobs</h2>
                     </div>
