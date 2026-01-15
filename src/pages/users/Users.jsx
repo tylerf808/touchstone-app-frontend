@@ -23,6 +23,7 @@ export default function Users() {
     const [dispatchers, setDispatchers] = useState([])
     const [visibleUsers, setVisibleUsers] = useState([])
     const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [tractors, setTractors] = useState([])
 
     const token = localStorage.getItem('token')
 
@@ -33,6 +34,7 @@ export default function Users() {
             navigate('/')
         } else {
             getUsers()
+            getTractors()
         }
     }, [])
 
@@ -57,8 +59,18 @@ export default function Users() {
             setDispatchers(allDispatchers)
             const allUsers = allDrivers.concat(allDispatchers)
             setVisibleUsers(allUsers)
-            console.log(data.users)
         })
+    }
+
+    const getTractors = async () => {
+         
+        await fetch(apiUrl + '/api/tractor/getTractors', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            }
+        }).then((res) => res.json()).then((data) => setTractors(data))
     }
 
     const handleEditItem = (item) => {
@@ -155,69 +167,73 @@ export default function Users() {
     }
 
     return (
-        <div style={{position: 'relative', top: '4rem'}} className="users-container">
-            <div className="users-header">
-                <div className="users-header-text">
-                    <h2>Users</h2>
-                    <div className="users-header-stats">
-                        <p>{drivers.length} Drivers</p>
-                        <p>{dispatchers.length} Dispatcher{dispatchers.length > 1 && <>s</>}</p>
-                    </div>
+        <div className="top-[8rem] h-[45rem] relative w-[60%] flex flex-col items-start justify-self-center bg-white rounded-md p-[2rem]">
+            <div className="w-full bg-slate-200 flex flex-row justify-between p-2 rounded-sm">
+                <div className="flex flex-row items-center justify-evenly p-2 w-[20rem]">
+                    <h2 className="text-lg font-bold">Users</h2>
+                    <p>{drivers.length} Drivers</p>
+                    <p>{dispatchers.length} Dispatcher{dispatchers.length > 1 && <>s</>}</p>
                 </div>
-                <div className="users-header-inputs">
+                <div className="flex flex-row items-center justify-between p-2 w-[24rem]">
                     <input onKeyUp={(e) => handleSearch(e)} type="text" placeholder="Search by name" className="users-search-input"></input>
                     <button onClick={() => setNewModalOpen(true)} className="add-user-btn">
-                        <span style={{marginRight: '.25rem', fontSize: '1.2rem'}}>+</span>Add User
+                        <span style={{ marginRight: '.25rem', fontSize: '1.2rem' }}>+</span>Add User
                     </button>
                 </div>
             </div>
-            <div className="users-display-container">
-                <div className="users-list">
-                    {visibleUsers?.map((user, i) => {
-                        return (
-                            <div className="user-item" key={i}>
-                                <div className="user-item-header">
-                                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-                                        {user.accountType.toLowerCase() === 'driver' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={driverIcon}></img>}
-                                        {user.accountType.toLowerCase() === 'dispatcher' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={dispatcherIcon}></img>}
-                                        <h3>{user?.name}</h3>
-                                        {user.confirmationCode && <p style={{ fontStyle: 'italic', marginLeft: '1rem' }}>Pending User</p>}
-                                    </div>
-                                    <div>
-                                        <div className="user-item-btns">
-                                            {user.confirmationCode ? null : <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>}
-                                            <i onClick={() => {
-                                                setEditingItem(user)
-                                                setShowDeleteModal(true)
-                                            }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '1rem' }}></i>
-                                        </div>
-                                    </div>
+            <div className="w-full h-[40rem] mt-6 flex flex-row flex-wrap items-start justify-start gap-6">
+                {visibleUsers?.map((user, i) => {
+                    return (
+                        <div className="w-[22rem] h-auto bg-slate-200 rounded-md p-2 flex flex-col items-center justify-center" key={i}>
+                            <div className="user-item-header">
+                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
+                                    {user.accountType.toLowerCase() === 'driver' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={driverIcon}></img>}
+                                    {user.accountType.toLowerCase() === 'dispatcher' && <img style={{ height: '2rem', marginRight: '.5rem' }} src={dispatcherIcon}></img>}
+                                    <h3>{user?.name}</h3>
+                                    {user.confirmationCode && <p style={{ fontStyle: 'italic', marginLeft: '1rem' }}>Pending User</p>}
                                 </div>
-                                <div className="user-info">
-                                    <div className="user-info-row">
-                                        <p>Email</p>
-                                        <p>{user?.email}</p>
+                                <div>
+                                    <div className="user-item-btns">
+                                        {user.confirmationCode ? null : <i onClick={() => handleEditItem(user)} className="fa fa-pencil" style={{ fontSize: '1.5rem' }}></i>}
+                                        <i onClick={() => {
+                                            setEditingItem(user)
+                                            setShowDeleteModal(true)
+                                        }} className="fa fa-trash-o" style={{ color: 'red', fontSize: '1.5rem', marginLeft: '1rem' }}></i>
                                     </div>
-                                    {user.confirmationCode ?
-                                        null
-                                        :
-                                        <div className="user-info-row">
-                                            <p>Username</p>
-                                            <p>{user?.username}</p>
-                                        </div>
-                                    }
-                                    <div className="user-info-row">
-                                        <p>Account Type</p>
-                                        <p>{user?.accountType}</p>
-                                    </div>
-                                    {user.confirmationCode && <button style={{ width: '12rem', marginTop: '1rem' }} className="modal-save-btn"
-                                        onClick={() => handleResendConfirmation(user)}>Resend Verification Email</button>}
                                 </div>
                             </div>
-                        )
-                    })}
-                </div>
+                            <div className="user-info">
+                                <div className="user-info-row">
+                                    <p>Email</p>
+                                    <p>{user?.email}</p>
+                                </div>
+                                {user.confirmationCode ?
+                                    null
+                                    :
+                                    <div className="user-info-row">
+                                        <p>Username</p>
+                                        <p>{user?.username}</p>
+                                    </div>
+                                }
+                                <div className="user-info-row">
+                                    <p>Account Type</p>
+                                    <p>{user?.accountType}</p>
+                                </div>
+                                {user.accountType === 'driver' ?
+                                    <div className="user-info-row">
+                                        <p>Assigned Tractor</p>
+                                        <p>{user.assignedTractor}</p>
+                                    </div>
+                                    :
+                                    null}
+                                {user.confirmationCode && <button style={{ width: '12rem', marginTop: '1rem' }} className="modal-save-btn"
+                                    onClick={() => handleResendConfirmation(user)}>Resend Verification Email</button>}
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
+
             <DeleteModal
                 setShowDeleteModal={setShowDeleteModal}
                 user={editingItem}
@@ -231,6 +247,7 @@ export default function Users() {
                 setEditedItem={setEditingItem}
                 category={selectedCategory}
                 onSave={handleEditConfirmation}
+                tractors={tractors}
             />
             <NewItemModal
                 newItem={newItem}

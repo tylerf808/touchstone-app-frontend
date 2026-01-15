@@ -105,21 +105,9 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                         }}>
                             {drivers?.map((driver, i) => {
                                 return (
-                                    <option key={i}>{driver.name}</option>
+                                    <option key={i} value={driver.username}>{driver.name}</option>
                                 )
                             })}
-                        </select>
-                    </div>
-                    <div className="flex flex-row justify-self-center justify-between m-4 w-4/5">
-                        <p>Tractor
-                        </p>
-                        <select className="p-2 border border-gray-500 rounded-md w-[10rem]" onChange={(e) => {
-                            const tractor = tractors.find(t => String(t.internalNum) === e.target.value);
-                            setSelectedTractor(tractor);
-                        }}>
-                            {tractors?.map((tractor, i) => (
-                                <option value={String(tractor.internalNum)} key={i}>{tractor.internalNum}</option>
-                            ))}
                         </select>
                     </div>
                     <div className="flex flex-row justify-between m-4 w-4/5">

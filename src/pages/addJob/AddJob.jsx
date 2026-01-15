@@ -14,7 +14,6 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [tractors, setTractors] = useState(null);
   const [drivers, setDrivers] = useState(null);
-  const [selectedTractor, setSelectedTractor] = useState()
   const [logistics, setLogistics] = useState({
     revenue: 0,
     driver: '',
@@ -46,8 +45,6 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
 
       const data = await response.json();
       setDrivers(data[0]);
-      setTractors(data[1]);
-      setSelectedTractor(data[1][0])
       setLogistics(prevLogistics => ({
         ...prevLogistics,
         driver: data[0][0]
@@ -136,7 +133,6 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
         pickupAddress: waypointAddr,
         dropoffAddress: endAddr,
         startDate: formattedStartDate,
-        tractor: selectedTractor,
         logistics: logistics
       };
 
@@ -194,8 +190,6 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
             setLogistics={setLogistics}
             job={job}
             addJob={addJob}
-            selectedTractor={selectedTractor}
-            setSelectedTractor={setSelectedTractor}
           />
         )
       ) : (

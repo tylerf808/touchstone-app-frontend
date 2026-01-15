@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-export default function Modal({ isOpen, onClose, editedItem, setEditedItem, onSave }) {
+export default function Modal({ isOpen, onClose, editedItem, setEditedItem, onSave, tractors }) {
+
 
   const handleChange = (e) => {
     setEditedItem({ ...editedItem, [e.target.name]: e.target.value });
@@ -51,6 +52,21 @@ export default function Modal({ isOpen, onClose, editedItem, setEditedItem, onSa
                   value={editedItem.email}
                   onChange={handleChange}
                 />
+              </div>
+              <div className="modal-input-row">
+                <label>
+                  Assigned Tractor:
+                </label>
+                <select onClick={(e) => {
+                  console.log(editedItem)
+                  setEditedItem({...editedItem, assignedTractor: e.target.value})
+                }}>
+                  {tractors.map((tractor) => {
+                    return(
+                      <option value={tractor.internalNum}>{tractor.internalNum}</option>
+                    )
+                  })}
+                  </select>
               </div>
           <div className="modal-actions">
             <button className="modal-save-btn" onClick={handleSubmit}>Save</button>
