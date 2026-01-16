@@ -219,10 +219,10 @@ export default function Users() {
                                     <p>Account Type</p>
                                     <p>{user?.accountType}</p>
                                 </div>
-                                {user.accountType === 'driver' ?
+                                {user.accountType.toLowerCase() === 'driver' ?
                                     <div className="user-info-row">
                                         <p>Assigned Tractor</p>
-                                        <p>{user.assignedTractor}</p>
+                                        <p>{user?.assignedTractor}</p>
                                     </div>
                                     :
                                     null}
