@@ -6,6 +6,8 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
 
     const [isMobile, setIsMobile] = useState(false)
 
+    console.log(job)
+
     useEffect(() => {
         if (window.visualViewport.width <= 1000) setIsMobile(true)
     }, [])
@@ -73,8 +75,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                         handleExpand(e.target.id)
                                     }}>&#x25B6;</a>
                                 </div>
-                                <p>({formatUSD(job.labor + job.payrollTax + job.dispatch
-                                    + job.factor + job.gasCost + job.tolls + job.odc)})
+                                <p>({formatUSD(job?.totalDirectCosts)})
                                 </p>
                             </div>
                             <div className="results-row direct-sub-row">
@@ -115,7 +116,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                         handleExpand(e.target.id)
                                     }}>&#x25B6;</a>
                                 </div>
-                                <p>({formatUSD(job.trailerLease + job.tractorLease + job.insurance + job.overhead)})</p>
+                                <p>({formatUSD(job?.totalFixedCost)})</p>
                             </div>
                             <div className="results-row fixed-sub-row">
                                 <p style={{ marginLeft: '1.2rem' }}>Tractor Lease</p>
@@ -143,7 +144,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                         handleExpand(e.target.id)
                                     }}>&#x25B6;</a>
                                 </div>
-                                <p>({formatUSD(job.parking + job.repairs + job.depreciation)})</p>
+                                <p>({formatUSD(job?.totalOtherCosts)})</p>
 
                             </div>
 
@@ -212,7 +213,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                 padding: '.2rem'
                             }} className='results-row'>
                                 <p style={{ marginLeft: '2rem' }}>Subtotal - Direct</p>
-                                <p>{formatUSD(job.labor + job.payrollTax + job.dispatch + job.factor + job.gasCost + job.tolls + job.odc)}</p>
+                                <p>{formatUSD(job.totalDirectCosts)}</p>
                             </div>
                             <div className='results-row'>
                                 <p style={{ justifySelf: 'flex-start' }}>Fixed Costs</p>
@@ -238,7 +239,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                 padding: '.2rem'
                             }} className='results-row'>
                                 <p style={{ marginLeft: '2rem' }}>Subtotal - Fixed</p>
-                                <p>{formatUSD(job.overhead + job.trailerLease + job.tractorLease + job.insurance)}</p>
+                                <p>{formatUSD(job.totalFixedCost)}</p>
                             </div>
                             <div className='results-row'>
                                 <p style={{ justifySelf: 'flex-start' }}>Other Costs</p>
@@ -261,7 +262,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
                                 padding: '.2rem'
                             }} className='results-row'>
                                 <p style={{ marginLeft: '2rem' }}>Subtotal - Other</p>
-                                <p>{formatUSD(job.parking + job.repairs + job.depreciation)}</p>
+                                <p>{formatUSD(job.totalOtherCosts)}</p>
                             </div>
                         </>
                     }
