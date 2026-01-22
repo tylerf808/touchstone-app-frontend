@@ -8,7 +8,37 @@
  @tailwind components;
  @tailwind utilities;
 
- /*** Site Wide ***/
+ @layer components {
+    .detailsInput {
+       @apply self-center justify-self-center pt-4 pb-4 w-full flex flex-col;
+    }
+
+    .detailsBody {
+      @apply max-sm:flex-col flex flex-row
+    }
+
+    .autocompleteWrapper {
+      @apply flex flex-col self-center justify-items-center justify-between m-4 w-[18rem]
+         max-sm:m-1
+    }
+
+    .addressInput {
+      @apply p-2 border border-gray-500 rounded-md w-[18rem] max-sm:p-1
+    }
+
+    .dateInput {
+      @apply border border-gray-500 rounded-md p-1
+    }
+
+    .radioBtnContainer {
+      @apply flex flex-row justify-between m-4 w-[18rem] max-sm:m-1
+    }
+
+    .jobInputRow {
+      @apply flex flex-row justify-between items-center m-4 w-4/5 max-sm:m-2
+    }
+
+ }
 
  body {
     background-color: rgb(217, 217, 217);

@@ -13,37 +13,37 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
     }
 
     return (
-        <div className="self-center justify-self-center pt-4 pb-4 w-full flex flex-col">
-            <div className="address-logistics-container">
+        <div className="detailsInput">
+            <div className="detailsBody">
                 <div className="route-details">
                     <h3 className="font-bold">Route Details</h3>
-                    <Autocomplete className="flex flex-col self-center justify-items-center justify-between m-4 w-[18rem]">
+                    <Autocomplete className="autocompleteWrapper">
                         <>
                             <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Start</p>
-                            <input className="p-2 border border-gray-500 rounded-md w-[18rem]" id="start-input" type="text" />
+                            <input className="addressInput" id="start-input" type="text" />
                         </>
                     </Autocomplete>
-                    <Autocomplete className="flex flex-col self-center justify-items-center justify-between m-4 w-[18rem]">
+                    <Autocomplete className="autocompleteWrapper">
                         <>
                             <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Pick-Up</p>
-                            <input className="p-2 border border-gray-500 rounded-md w-[18rem]" id='pick-up-input' type="text" />
+                            <input className="addressInput" id='pick-up-input' type="text" />
                         </>
                     </Autocomplete >
-                    <Autocomplete className="flex flex-col self-center justify-items-center justify-between m-4 w-[18rem]">
+                    <Autocomplete className="autocompleteWrapper">
                         <>
                             <p style={{ justifySelf: 'center', marginBottom: '.5rem' }}>Drop-Off</p>
-                            <input className="p-2 border border-gray-500 rounded-md w-[18rem]" id="drop-off-input" type="text" />
+                            <input className="addressInput" id="drop-off-input" type="text" />
                         </>
                     </Autocomplete>
                     <div className="flex flex-row justify-between m-4 w-[18rem]" >
                         <p className="self-center justify-self-center">
                             Date of Departure
                         </p>
-                        <input type="date" className="border border-gray-500 rounded-md p-1" onChange={(e) => {
+                        <input type="date" className="dateInput" onChange={(e) => {
                             setLogistics({ ...logistics, startDate: e.target.value })
                         }}></input>
                     </div>
-                    <div className="flex flex-row justify-between m-4 w-[18rem]" >
+                    <div className="radioBtnContainer" >
                         <label>
                             <input
                                 type="radio"
@@ -68,9 +68,9 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                         </label>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-items-center justify-start w-full border-l border-l-gray-300 ">
-                    <h3 className="font-bold justify-self-center self-center mb-8">Load Details</h3>
-                    <div className="flex flex-row justify-between m-4 w-4/5">
+                <div className="flex flex-col items-center justify-items-center justify-start max-sm:mt-4 w-full border-l border-l-gray-300">
+                    <h3 className="font-bold justify-self-center self-center mb-8 max-sm:mb-2">Load Details</h3>
+                    <div className="jobInputRow">
                         <p>
                             Client
                         </p>
@@ -80,12 +80,12 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             setLogistics(newLogistics)
                         }}></input>
                     </div>
-                    <div className="flex flex-row justify-between m-4 w-4/5">
+                    <div className="jobInputRow">
                         <p>
                             Revenue
                         </p>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '.5rem' }}>
-                            <p>$</p>
+                            <p className="self-center">$</p>
                             <input className="p-2 border border-gray-500 rounded-md w-[10rem]" type='number' onChange={(e) => {
                                 const newLogistics = logistics
                                 newLogistics.revenue = e.target.value
@@ -95,7 +95,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
 
                     </div>
 
-                    <div className="flex flex-row justify-between m-4 w-4/5">
+                    <div className="jobInputRow">
                         <p>Driver
                         </p>
                         <select className="p-2 border border-gray-500 rounded-md w-[10rem]" onChange={(e) => {
@@ -110,7 +110,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                             })}
                         </select>
                     </div>
-                    <div className="flex flex-row justify-between m-4 w-4/5">
+                    <div className="jobInputRow">
                         <p>
                             Hazmat
                         </p>
@@ -132,7 +132,7 @@ export default function DetailsInput({ findRoute, setSelectedTractor, tractors, 
                 </div>
             </div>
             <button
-                className="justify-self-center self-center bg-orange-400 w-[12rem] p-2 text-white rounded-lg m-4"
+                className="justify-self-center self-center bg-orange-400 w-[12rem] p-2 text-white rounded-lg m-4 max-sm:mt-8"
                 type="submit"
                 onClick={(e) => findRoute(e)}>
                 Calculate Route

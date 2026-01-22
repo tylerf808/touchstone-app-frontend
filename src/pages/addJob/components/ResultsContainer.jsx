@@ -33,7 +33,7 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
 
     return (
         <div className="results-container">
-            <div className="flex flex-row w-full items-center justify-between mb-2">
+            <div className="flex flex-row w-full items-center justify-between mb-2 max-sm:flex-col">
                 <div className="w-[18rem] pt-3 pb-3 bg-white rounded-md flex flex-col items-center justify-center">
                     {job.profitable ?
                         <h3 style={profitableStyle} >

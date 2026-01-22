@@ -172,7 +172,7 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
   }, []);
 
   return (
-    <div className={`top-[8rem]  w-[54rem] h-[36rem] relative justify-self-center rounded-lg ${showResults ? 'expand' : 'bg-white'}`}>
+    <div className={`top-[8rem] w-[54rem] h-[36rem] max-sm:w-[24rem] max-sm:h-[85vh] max-sm:top-16 relative justify-self-center rounded-lg ${showResults ? 'expand' : 'bg-white'}`}>
       {!showResults ? (
         loading ? (
           <div className='self-center justify-self-center flex flex-col items-center justify-center h-full w-full'>
