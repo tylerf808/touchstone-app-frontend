@@ -20,7 +20,7 @@ export default function ViewJobs() {
 
     const getJobs = async () => {
 
-        await fetch(apiUrl + '/api/jobs/allJobs',
+        await fetch(apiUrl + `/api/jobs/allJobs`,
             {
                 method: 'POST',
                 headers: {
@@ -69,6 +69,7 @@ export default function ViewJobs() {
                     return job
                 })
                 setJobs(formattedArray)
+                console.log(formattedArray)
                 if (data.length === 0) {
                     setNoJobs(true)
                 } else {
@@ -102,9 +103,9 @@ export default function ViewJobs() {
     useEffect(() => {
         if (!token) {
             navigate('/')
-        } else {
-            getJobs()
+            return
         }
+        getJobs()
     }, [])
 
     return (
@@ -118,7 +119,7 @@ export default function ViewJobs() {
                         datas={jobs}
                         text="Download"
                         className='mr-4'
-                        />
+                    />
                     <i className="fa fa-trash-o" onClick={() => { if (selectedJobs.length !== 0) setShowModal(true) }} style={{ color: 'red', fontSize: '1.5rem', marginRight: '1rem' }}></i>
                 </div>
             </div>
