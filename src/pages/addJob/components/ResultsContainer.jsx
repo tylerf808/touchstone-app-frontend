@@ -6,8 +6,6 @@ export default function ResultsContainer({ addJob, job, setJob, setShowResults }
 
     const [isMobile, setIsMobile] = useState(false)
 
-    console.log(job)
-
     useEffect(() => {
         if (window.visualViewport.width <= 1000) setIsMobile(true)
     }, [])
