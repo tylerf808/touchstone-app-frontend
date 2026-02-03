@@ -1,7 +1,7 @@
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { CircularProgress } from "@mui/material";
 
-export default function DetailsInput({ findRoute, setSelectedTractor, tractors, drivers, logistics, setLogistics }) {
+export default function DetailsInput({ findRoute, drivers, logistics, setLogistics }) {
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,

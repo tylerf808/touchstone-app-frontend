@@ -29,8 +29,6 @@ export default function ViewJobs() {
                 },
             }).then((res) => res.json()).then((data) => {
                 const regex = new RegExp('Z', 'g');
-
-
                 const formattedArray = data.map((el, i) => {
                     let filteredDate = el.date.replace(regex, "")
                     const newDate = new Date(filteredDate)
