@@ -28,8 +28,10 @@ export default function ViewJobs() {
                     "Authorization": token
                 },
             }).then((res) => res.json()).then((data) => {
+                const regex = new RegExp('Z', 'g');
                 const formattedArray = data.map((el, i) => {
-                    const newDate = new Date(el.date)
+                    let filteredDate = el.date.replace(regex, "")
+                    const newDate = new Date(filteredDate)
                     const job = {
                         _id: el._id,
                         date: newDate.toLocaleDateString(),
@@ -69,7 +71,6 @@ export default function ViewJobs() {
                     return job
                 })
                 setJobs(formattedArray)
-                console.log(formattedArray)
                 if (data.length === 0) {
                     setNoJobs(true)
                 } else {

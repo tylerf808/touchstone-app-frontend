@@ -10,6 +10,7 @@ import "azure-maps-control/dist/atlas.min.css";
 
 const AddJob = ({ setShowAlert, setAlertMsg }) => {
   const [job, setJob] = useState(null);
+  const [results, setResults] = useState(null)
   const [error, setError] = useState('')
   const [isExpanded, setIsExpanded] = useState(false);
   const [tractors, setTractors] = useState(null);
@@ -47,7 +48,7 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
       setDrivers(data[0]);
       setLogistics(prevLogistics => ({
         ...prevLogistics,
-        driver: data[0][0]
+        driver: data[0][0].username
       }));
     } catch (err) {
       console.error("Error fetching drivers and tractors:", err);
@@ -155,8 +156,8 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
       if (!data) {
         throw new Error('No route data received from server');
       }
-
-      setJob(data)
+      setResults(data)
+      setJob(data[0])
       setShowResults(true);
       setLoading(false)
     } catch (err) {
@@ -172,7 +173,7 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
   }, []);
 
   return (
-    <div className={`top-[8rem] w-[54rem] h-[36rem] max-sm:w-[24rem] max-sm:h-[85vh] max-sm:top-16 relative justify-self-center rounded-lg ${showResults ? 'expand' : 'bg-white'}`}>
+    <div className={`top-[6rem] w-[54rem] h-[36rem] max-sm:w-[24rem] max-sm:h-[85vh] max-sm:top-16 relative justify-self-center rounded-lg ${showResults ? 'expand' : 'bg-white'}`}>
       {!showResults ? (
         loading ? (
           <div className='self-center justify-self-center flex flex-col items-center justify-center h-full w-full'>
@@ -199,6 +200,7 @@ const AddJob = ({ setShowAlert, setAlertMsg }) => {
           setJob={setJob}
           setShowResults={setShowResults}
           setError={setError}
+          results={results}
         />
       )}
     </div>
