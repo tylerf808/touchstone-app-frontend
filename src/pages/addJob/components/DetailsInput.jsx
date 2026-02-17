@@ -43,30 +43,6 @@ export default function DetailsInput({ findRoute, drivers, logistics, setLogisti
                             setLogistics({ ...logistics, startDate: e.target.value })
                         }}></input>
                     </div>
-                    <div className="radioBtnContainer" >
-                        <label>
-                            <input
-                                type="radio"
-                                name="routePreference"
-                                value={true}
-                                checked={logistics.fastest === true}
-                                onChange={() => setLogistics({ ...logistics, fastest: true })}
-                                style={{ accentColor: 'orange' }}
-                            />
-                            Fastest
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                name="routePreference"
-                                value={false}
-                                checked={logistics.fastest === false}
-                                onChange={() => setLogistics({ ...logistics, fastest: false })}
-                                style={{ accentColor: 'orange' }}
-                            />
-                            Cheapest
-                        </label>
-                    </div>
                 </div>
                 <div className="flex flex-col items-center justify-items-center justify-start max-sm:mt-4 w-full border-l border-l-gray-300">
                     <h3 className="font-bold justify-self-center self-center mb-8 max-sm:mb-2">Load Details</h3>

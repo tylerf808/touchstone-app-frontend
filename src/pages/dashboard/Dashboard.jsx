@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState, useContext } from 'react'
 import './dashboardStyles.css'
-import { Chart } from "react-google-charts"
 import UserContext from "../../helpers/Context"
+import LineChartComponent from "./LineChartComponent"
 import formatUSD from "../../helpers/currencyFormatter"
 
 export default function Dashboard() {
@@ -12,7 +12,7 @@ export default function Dashboard() {
     const { apiUrl, loggedIn } = useContext(UserContext)
 
     const [totalCosts, setTotalCosts] = useState()
-    const [lineChartData, setLineChartData] = useState([["Date", "Revenue", "Profit"]])
+    const [lineChartData, setLineChartData] = useState([{ name: 'September', profit: 4000, revenue: 3000 }, { name: 'October', profit: 5000, revenue: 4500 }])
     const [pieChartData, setPieChartData] = useState({})
     const [jobs, setJobs] = useState([])
     const [revenue, setRevenue] = useState()
@@ -24,7 +24,6 @@ export default function Dashboard() {
         if (!token) {
             navigate('/')
         } else {
-            setLineChartData([["Date", "Revenue", "Profit"]])
             getInfo(token)
         }
 
@@ -67,22 +66,23 @@ export default function Dashboard() {
                 setProfit(profit.toFixed(2))
                 setTotalCosts(costsMoney.toFixed(2))
                 data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-                const sortedArray = [["Date", "Revenue", "Profit"]]
+                const sortedArray = []
                 data.forEach((jobA, iA) => {
-                    let dayRevenue = jobA.revenue
-                    let dayProfit = jobA.netProfit
-                    data.forEach((jobB, iB) => {
-                        if (iA !== iB && jobA.date === jobB.date) {
-                            dayProfit += jobB.netProfit
-                            dayRevenue += jobB.revenue
-                        }
-                    })
-                    if (!sortedArray.some((el) => el.includes(jobA.date))) {
-                        sortedArray.push([jobA.date, dayRevenue, dayProfit])
-                    }
+                    sortedArray.push({ name: jobA.date.toString(), revenue: jobA.revenue, profit: jobA.profit })
+                    // let dayRevenue = jobA.revenue
+                    // let dayProfit = jobA.netProfit
+                    // data.forEach((jobB, iB) => {
+                    //     if (iA !== iB && jobA.date === jobB.date) {
+                    //         dayProfit += jobB.netProfit
+                    //         dayRevenue += jobB.revenue
+                    //     }
+                    // })
+                    // if (!sortedArray.some((el) => el.includes())) {
+                    //     sortedArray.push({name: jobA.date, pv: dayRevenue, uv: dayProfit})
+                    // }
                 })
-                setLineChartData(sortedArray)
-                formatCostsData(data)
+                // setLineChartData(sortedArray)
+                // formatCostsData(data)
             }
         }).catch((err) => {
             setRevenue(0)
@@ -162,7 +162,7 @@ export default function Dashboard() {
                     if (!excludeNonMoney.includes(key)) {
                         subArray.push('$' + value.toString())
                     } else {
-                        if(!percentage.includes(key)){
+                        if (!percentage.includes(key)) {
                             subArray.push(value)
                         } else {
                             subArray.push(value.toString(2) + '%')
@@ -179,85 +179,73 @@ export default function Dashboard() {
 
     return (
         <div className="dashboard-container">
-            {jobs.length > 0 &&
-                <>
-                    <div className="moneyBar">
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
-                            <div className="moneyBarSubItem">
-                                <h4 className="moneyBarLabel">Completed: {completedJobs.length}</h4>
-                                <h4 className="moneyBarLabel">Uncompleted: {uncompletedJobs.length}</h4>
-                            </div>
-                            <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
-                        </div>
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel">Revenue</p>
-                            <h2>{formatUSD(revenue)}</h2>
-                        </div>
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel">Total Costs</p>
-                            <h2>{formatUSD(totalCosts)}</h2>
-                        </div>
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel">Profit</p>
-                            <h2>{formatUSD(profit)}</h2>
-                        </div>
+
+            <div className="moneyBar">
+                <div className="moneyBarItem">
+                    <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
+                    <div className="moneyBarSubItem">
+                        <h4 className="moneyBarLabel">Completed: {completedJobs.length}</h4>
+                        <h4 className="moneyBarLabel">Uncompleted: {uncompletedJobs.length}</h4>
                     </div>
-                    <div className="chartContainer">
-                        <div className="lineChartContainer">
-                            <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Revenue & Profit</h2>
-                            </div>
-                            <Chart chartType="ColumnChart" width="98%" height="98%" data={lineChartData} options={lineOptions} />
-                        </div>
-                        <div className="pieChartContainer">
-                            <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Expended Costs</h2>
-                            </div>
-                            <Chart chartType="PieChart" width="98%" height="98%" data={pieChartData} options={pieOptions} />
-                        </div>
-                    </div>
-                    <div className="table-container">
-                        <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
-                        <Chart chartType="Table" width="100%" height="100%" data={tableData} options={tableOptions} />
-                    </div>
-                </>}
-            {jobs.length === 0 &&
-                <div className="placeholder-dashboard">
-                    <div className="moneyBar" style={{ marginTop: '2rem' }}>
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Jobs</p>
-                        </div>
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Revenue</p>
-                        </div>
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Total Costs</p>
-                        </div>
-                        <div className="moneyBarItem">
-                            <p className="moneyBarLabel" style={{ color: 'grey' }}>Profit</p>
-                        </div>
-                    </div>
-                    <div className="chartContainer">
-                        <div className="lineChartContainer">
-                            <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginBottom: '16rem' }}>Revenue & Profit</h2>
-                            </div>
-                        </div>
-                        <div className="pieChartContainer">
-                            <div className="chartHeaderContainer">
-                                <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginBottom: '16rem' }}>Expended Costs</h2>
-                            </div>
-                        </div>
-                    </div>
-                    {/* <div className="table-container">
-                        <h2 style={{ color: 'grey', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
-                    </div> */}
-                    <div className="placeholder-overlay">
-                        <h2 style={{ justifySelf: 'center', top: '40%', position: 'relative' }}>Charts will appear here once you have saved jobs</h2>
-                    </div>
+                    <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
                 </div>
-            }
+                <div className="moneyBarItem">
+                    <p className="moneyBarLabel">Revenue</p>
+                    <h2>{formatUSD(revenue)}</h2>
+                </div>
+                <div className="moneyBarItem">
+                    <p className="moneyBarLabel">Total Costs</p>
+                    <h2>{formatUSD(totalCosts)}</h2>
+                </div>
+                <div className="moneyBarItem">
+                    <p className="moneyBarLabel">Profit</p>
+                    <h2>{formatUSD(profit)}</h2>
+                </div>
+            </div>
+            <div className="chartContainer">
+                <LineChartComponent data={[
+                    {
+                        name: 'Page A',
+                        uv: 400,
+                        pv: 2400,
+                        amt: 2400,
+                    },
+                    {
+                        name: 'Page B',
+                        uv: 300,
+                        pv: 4567,
+                        amt: 2400,
+                    },
+                    {
+                        name: 'Page C',
+                        uv: 320,
+                        pv: 1398,
+                        amt: 2400,
+                    },
+                    {
+                        name: 'Page D',
+                        uv: 200,
+                        pv: 9800,
+                        amt: 2400,
+                    },
+                    {
+                        name: 'Page E',
+                        uv: 278,
+                        pv: 3908,
+                        amt: 2400,
+                    },
+                    {
+                        name: 'Page F',
+                        uv: 189,
+                        pv: 4800,
+                        amt: 2400,
+                    },
+                ]} />
+            </div>
+            <div className="table-container">
+                <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
+                {/* <Chart chartType="Table" width="100%" height="100%" data={tableData} options={tableOptions} /> */}
+            </div>
         </div>
     )
 }

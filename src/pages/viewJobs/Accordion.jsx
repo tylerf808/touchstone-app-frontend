@@ -57,7 +57,7 @@ export default function Accordion({ job, selectedJobs, setSelectedJobs }) {
                         <h3 className='justify-self-start'>Direct Costs</h3>
                         <div className="flex flex-row justify-start flex-wrap w-[100%]">
                             <p style={{ fontSize: '.9rem', marginRight: '2rem' }}>Labor: {formatUSD(job.labor)}</p>
-                            <p style={{ fontSize: '.9rem', marginRight: '2rem' }}>Payroll Tax: {formatUSD(job.labor)}</p>
+                            <p style={{ fontSize: '.9rem', marginRight: '2rem' }}>Payroll Tax: {formatUSD(job.payrollTax)}</p>
                             <p style={{ fontSize: '.9rem', marginRight: '2rem' }}>Dispatch: {formatUSD(job.dispatch)}</p>
                             <p style={{ fontSize: '.9rem', marginRight: '2rem' }}>Factor: {formatUSD(job.factor)}</p>
                             <p style={{ fontSize: '.9rem', marginRight: '2rem' }}>Fuel: {formatUSD(job.fuel)}</p>

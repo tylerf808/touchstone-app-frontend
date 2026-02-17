@@ -116,7 +116,7 @@ export default function ViewJobs() {
                 <div>
                     <CsvDownloader filename="TouchstoneCSV"
                         extension=".csv"
-                        separator=";"
+                        separator=","
                         datas={jobs}
                         text="Download"
                         className='mr-4'

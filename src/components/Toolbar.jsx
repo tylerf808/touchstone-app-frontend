@@ -21,16 +21,16 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
     navigate('/')
   };
 
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(true)
 
 
   useEffect(() => {
     if (user) {
-      if (user.accountType === 'admin') {
-        setIsAdmin(true)
+      if (user.accountType === 'driver') {
+        setIsAdmin(false)
       }
     }
-  }, [loggedIn])
+  }, [])
 
   const handleMenu = () => {
     // toggle menu state (CSS class handled by render)
@@ -53,7 +53,6 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
       {loggedIn ? (
         <>
           <i className={showMenu ? 'fa fa-window-close' : 'fa fa-bars menu '} style={{ color: 'whitesmoke', fontSize: '2.25rem', right: '4rem', position: 'absolute' }} onClick={handleMenu}></i>
-          {/** Render the menu into document.body so it escapes stacking contexts */}
           {createPortal(
             <div id='user-menu' className={'user-menu' + (showMenu ? ' menu-open' : '')}>
               <Link className='user-menu-item' to='/dashboard' onClick={() => setShowMenu(false)}>Dashboard</Link>
