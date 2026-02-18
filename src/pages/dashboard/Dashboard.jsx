@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom"
 import { useEffect, useState, useContext } from 'react'
 import './dashboardStyles.css'
 import UserContext from "../../helpers/Context"
-import LineChartComponent from "./LineChartComponent"
+import SimpleAreaChart from "./SimpleAreaChart"
 import formatUSD from "../../helpers/currencyFormatter"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Dashboard() {
 
@@ -12,12 +14,19 @@ export default function Dashboard() {
     const { apiUrl, loggedIn } = useContext(UserContext)
 
     const [totalCosts, setTotalCosts] = useState()
-    const [lineChartData, setLineChartData] = useState([{ name: 'September', profit: 4000, revenue: 3000 }, { name: 'October', profit: 5000, revenue: 4500 }])
-    const [pieChartData, setPieChartData] = useState({})
+    const [lineChartData, setLineChartData] = useState()
     const [jobs, setJobs] = useState([])
+    const [selectedJobs, setSelectedJobs] = useState([])
     const [revenue, setRevenue] = useState()
     const [profit, setProfit] = useState()
     const [totalJobs, setTotalJobs] = useState()
+    const [startDate, setStartDate] = useState(() => {
+        const d = new Date();
+        d.setFullYear(d.getFullYear() - 1);
+        return d;
+    });
+    const [endDate, setEndDate] = useState(new Date());
+
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -66,23 +75,12 @@ export default function Dashboard() {
                 setProfit(profit.toFixed(2))
                 setTotalCosts(costsMoney.toFixed(2))
                 data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-                const sortedArray = []
-                data.forEach((jobA, iA) => {
-                    sortedArray.push({ name: jobA.date.toString(), revenue: jobA.revenue, profit: jobA.profit })
-                    // let dayRevenue = jobA.revenue
-                    // let dayProfit = jobA.netProfit
-                    // data.forEach((jobB, iB) => {
-                    //     if (iA !== iB && jobA.date === jobB.date) {
-                    //         dayProfit += jobB.netProfit
-                    //         dayRevenue += jobB.revenue
-                    //     }
-                    // })
-                    // if (!sortedArray.some((el) => el.includes())) {
-                    //     sortedArray.push({name: jobA.date, pv: dayRevenue, uv: dayProfit})
-                    // }
-                })
-                // setLineChartData(sortedArray)
-                // formatCostsData(data)
+
+                // initialize selected jobs and chart based on current date range
+                const filtered = filterJobsByRange(data, startDate, endDate);
+                setSelectedJobs(filtered);
+                const monthly = formatLineChartData(filtered);
+                setLineChartData(monthly);
             }
         }).catch((err) => {
             setRevenue(0)
@@ -93,36 +91,49 @@ export default function Dashboard() {
         })
     }
 
-    const formatCostsData = (data) => {
-        const categories = ["dispatch", "gasCost", "factor", "labor", "odc", "insurance", "trailer", "payrollTax", "tractor", "gAndA"];
-
-        const totals = categories.reduce((acc, category) => {
-            acc[category + "Total"] = data.reduce((sum, el) => sum + el[category], 0);
-            return acc;
-        }, {});
-
-        const pieChartData = [
-            ["Cost", "Amount"],
-            ...categories.map(category => [category.charAt(0).toUpperCase() + category.slice(1), totals[category + "Total"]])
-        ];
-        pieChartData[10][0] = "G&A"
-        setPieChartData(pieChartData);
-    }
-
-    const lineOptions = {
-        legend: { position: "bottom" },
-        backgroundColor: 'white',
+    const formatLineChartData = (jobsArray) => {
+        const map = {};
+        jobsArray.forEach((job) => {
+            const date = new Date(job.date);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // 1-based
+            const key = `${year}-${month}`;
+            if (!map[key]) {
+                map[key] = { name: `${month}/${year}`, revenue: 0, profit: 0, jobs: 0 };
+            }
+            const rev = Number(job.revenue) || 0;
+            const net = Number(job.netProfit || job.profit) || 0;
+            map[key].revenue += rev;
+            map[key].profit += net;
+            map[key].jobs += 1;
+        });
+        return Object.keys(map)
+            .sort((a, b) => {
+                const [ay, am] = a.split('-').map(Number);
+                const [by, bm] = b.split('-').map(Number);
+                return ay === by ? am - bm : ay - by;
+            })
+            .map((k) => ({ ...map[k] }));
     };
 
-    const pieOptions = {
-        legend: { position: "bottom" },
-        backgroundColor: 'white'
+    const filterJobsByRange = (jobsArray, start, end) => {
+        if (!jobsArray || !jobsArray.length) return [];
+        if (!start && !end) return jobsArray.slice();
+        const s = start ? new Date(start) : null;
+        const e = end ? new Date(end) : s || null;
+        if (s) s.setHours(0, 0, 0, 0);
+        if (e) e.setHours(23, 59, 59, 999);
+        return jobsArray.filter((job) => {
+            const jd = new Date(job.date);
+            return (!s || jd >= s) && (!e || jd <= e);
+        });
     };
 
-    const tableOptions = {
-        legend: { position: "bottom" },
-        backgroundColor: 'white',
-        pageSize: 3,
+    const updateChartForRange = (start, end) => {
+        const filtered = filterJobsByRange(jobs, start, end);
+        setSelectedJobs(filtered);
+        const monthly = formatLineChartData(filtered);
+        setLineChartData(monthly);
     };
 
     const tableData = [
@@ -177,74 +188,65 @@ export default function Dashboard() {
     const completedJobs = jobs.filter(job => isCompleted(job));
     const uncompletedJobs = jobs.filter(job => !isCompleted(job));
 
-    return (
-        <div className="dashboard-container">
+    const onChange = (dates) => {
+        const [start, end] = dates;
+        setStartDate(start);
+        setEndDate(end);
+        // immediately update chart using the newly selected range
+        updateChartForRange(start, end);
+    };
 
-            <div className="moneyBar">
-                <div className="moneyBarItem">
-                    <p className="moneyBarLabel" onClick={() => { navigate('/jobs') }}>Jobs</p>
+    return (
+        <div className="w-[80rem] h-auto justify-self-center relative top-[6rem] bg-white rounded-md p-4">
+            <div className="flex flex-row justify-end items-center">
+                <h3 className="mr-2">Select Date</h3>
+                <DatePicker
+                    selected={startDate}
+                    onChange={onChange}
+                    startDate={startDate}
+                    endDate={endDate}
+                    selectsRange
+                />
+            </div>
+            <div className="w-full flex flex-row justify-between gap-2 mb-2 ">
+                <div className="w-[20rem] h-[6rem] text-center justify-items-center border-b-2 border-r-2  rounded-md border-gray-300 items-center flex flex-col p-2">
+                    <p className='' onClick={() => { navigate('/jobs') }}>Jobs</p>
                     <div className="moneyBarSubItem">
-                        <h4 className="moneyBarLabel">Completed: {completedJobs.length}</h4>
-                        <h4 className="moneyBarLabel">Uncompleted: {uncompletedJobs.length}</h4>
+                        <h4 className=''>Completed: {completedJobs.length}</h4>
+                        <h4 className=''>Uncompleted: {uncompletedJobs.length}</h4>
                     </div>
-                    <h2 className="moneyBarLabel">Total: {totalJobs}</h2>
+                    <h2 className=''>Total: {totalJobs}</h2>
                 </div>
-                <div className="moneyBarItem">
-                    <p className="moneyBarLabel">Revenue</p>
+                <div className="w-[20rem] h-[6rem] text-center justify-center border-b-2 border-r-2  rounded-md border-gray-300 items-center flex flex-col p-2">
+                    <p className=''>Revenue</p>
                     <h2>{formatUSD(revenue)}</h2>
                 </div>
-                <div className="moneyBarItem">
-                    <p className="moneyBarLabel">Total Costs</p>
+                <div className="w-[20rem] h-[6rem] text-center justify-center border-b-2 border-r-2  rounded-md border-gray-300 items-center flex flex-col p-2">
+                    <p className=''>Total Costs</p>
                     <h2>{formatUSD(totalCosts)}</h2>
                 </div>
-                <div className="moneyBarItem">
-                    <p className="moneyBarLabel">Profit</p>
+                <div className="w-[20rem] h-[6rem] text-center justify-center border-b-2 border-r-2  border-gray-300 items-center rounded-md flex flex-col p-2">
+                    <p className=''>Profit</p>
                     <h2>{formatUSD(profit)}</h2>
                 </div>
             </div>
-            <div className="chartContainer">
-                <LineChartComponent data={[
-                    {
-                        name: 'Page A',
-                        uv: 400,
-                        pv: 2400,
-                        amt: 2400,
-                    },
-                    {
-                        name: 'Page B',
-                        uv: 300,
-                        pv: 4567,
-                        amt: 2400,
-                    },
-                    {
-                        name: 'Page C',
-                        uv: 320,
-                        pv: 1398,
-                        amt: 2400,
-                    },
-                    {
-                        name: 'Page D',
-                        uv: 200,
-                        pv: 9800,
-                        amt: 2400,
-                    },
-                    {
-                        name: 'Page E',
-                        uv: 278,
-                        pv: 3908,
-                        amt: 2400,
-                    },
-                    {
-                        name: 'Page F',
-                        uv: 189,
-                        pv: 4800,
-                        amt: 2400,
-                    },
-                ]} />
+            <div className="grid grid-cols-2 ">
+                <div className='border-r-[1px] border-gray-300'>
+                    <SimpleAreaChart
+                        data={lineChartData}
+                        series={[
+                            { dataKey: 'revenue', stroke: '#8884d8', name: 'Revenue' },
+                            { dataKey: 'profit', stroke: '#82ca9d', name: 'Net Profit' },
+                        ]}
+                    />
+                </div>
+                <div>
+
+                </div>
             </div>
-            <div className="table-container">
+            <div className="w-full rounded-md mt-2 min-h-[12rem] border-t-2 border-gray-300">
                 <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
-                {/* <Chart chartType="Table" width="100%" height="100%" data={tableData} options={tableOptions} /> */}
+
             </div>
         </div>
     )
