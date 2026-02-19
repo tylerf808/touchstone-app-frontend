@@ -5,6 +5,7 @@ import UserContext from "../../helpers/Context"
 import SimpleAreaChart from "./SimpleAreaChart"
 import formatUSD from "../../helpers/currencyFormatter"
 import DatePicker from "react-datepicker";
+import RadarChart from "./RadarChart"
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Dashboard() {
@@ -241,7 +242,9 @@ export default function Dashboard() {
                     />
                 </div>
                 <div>
-
+                        <RadarChart 
+                            data={selectedJobs}
+                            />
                 </div>
             </div>
             <div className="w-full rounded-md mt-2 min-h-[12rem] border-t-2 border-gray-300">
