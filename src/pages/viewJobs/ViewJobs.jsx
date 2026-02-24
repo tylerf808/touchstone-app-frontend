@@ -5,6 +5,7 @@ import './viewJobsStyles.css'
 import UserContext from '../../helpers/Context';
 import JobsTable from './JobsTable';
 import ConfirmationModal from './ConfirmationModal';
+import EditJobModal from './EditJobModal'
 
 export default function ViewJobs() {
 
@@ -17,6 +18,8 @@ export default function ViewJobs() {
     const [jobs, setJobs] = useState([])
     const [noJobs, setNoJobs] = useState(true)
     const [showModal, setShowModal] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
+    const [editingJob, setEditingJob] = useState(null)
 
     const getJobs = async () => {
 
@@ -95,11 +98,83 @@ export default function ViewJobs() {
                 throw new Error('Failed to delete jobs');
             }
             setSelectedJobs([]);
-            setJobs(response.json())
+            // Refresh jobs after deletion
+            const updated = await response.json()
+            setJobs(updated)
         } catch (error) {
             alert(error.message);
         }
     };
+
+    const openEdit = (job) => {
+        setEditingJob(job)
+        setIsOpen(true)
+    }
+
+    const saveJob = async (editedJob) => {
+        try {
+            // Map frontend keys to backend Job schema keys
+            const payload = {
+                _id: editedJob._id,
+                date: editedJob.date,
+                client: editedJob.client,
+                driver: editedJob.driver,
+                start: editedJob.start,
+                dropOff: editedJob.end,
+                driveTime: editedJob.driveTime,
+                distance: editedJob.distance,
+
+                // financial / costs mapping
+                revenue: editedJob.revenue,
+                ratePerMile: editedJob.mileageRate,
+                grossProfit: editedJob.grossProfit,
+                grossProfitPercentage: editedJob.grossProfitPercentage,
+                operatingProfit: editedJob.operatingProfit,
+                operatingProfitPercentage: editedJob.operatingProfitPercentage,
+                netProfit: editedJob.netProfit,
+                netProfitPercentage: editedJob.netProfitPercentage,
+                laborRatePercent: editedJob.laborRatePercent,
+
+                // direct costs
+                labor: editedJob.labor,
+                payrollTax: editedJob.payrollTax,
+                dispatch: editedJob.dispatch,
+                factor: editedJob.factor,
+                gasCost: editedJob.fuel,
+                tolls: editedJob.tolls,
+                odc: editedJob.odc,
+
+                // fixed/other
+                trailerLease: editedJob.trailerLease,
+                tractorLease: editedJob.tractorLease,
+                insurance: editedJob.insurance,
+                overhead: editedJob.overhead,
+                depreciation: editedJob.depreciation,
+                parking: editedJob.parking,
+                loan: editedJob.loan,
+                repairs: editedJob.repairs,
+
+                // totals
+                totalFixedCost: editedJob.totalFixedCost,
+                totalCost: editedJob.totalCost
+            }
+
+            const response = await fetch(apiUrl + '/api/jobs/updateJob', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify(payload)
+            })
+            if (!response.ok) throw new Error('Failed to save job')
+            await response.json()
+            setIsOpen(false)
+            getJobs()
+        } catch (err) {
+            alert(err.message)
+        }
+    }
 
     useEffect(() => {
         if (!token) {
@@ -125,7 +200,8 @@ export default function ViewJobs() {
                 </div>
             </div>
             {showModal ? <ConfirmationModal getJobs={getJobs} handleDelete={handleDelete} setShowModal={setShowModal} selectedJobs={selectedJobs} /> : null}
-            <JobsTable jobs={jobs} selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} />
+            <JobsTable isOpen={isOpen} setIsOpen={setIsOpen} onEdit={openEdit} jobs={jobs} selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} />
+            <EditJobModal setIsOpen={setIsOpen} isOpen={isOpen} job={editingJob} saveJob={saveJob} />
         </div>
     )
 }

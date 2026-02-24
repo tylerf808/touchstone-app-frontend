@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import './viewJobsStyles.css'
 import Accordion from './Accordion';
 
-const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
+const JobsTable = ({ jobs, selectedJobs, setSelectedJobs, isOpen, setIsOpen, onEdit }) => {
     const [sortConfig, setSortConfig] = useState({
         key: null,
         direction: 'ascending'
@@ -42,7 +42,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
 
     return (
         <div className="h-[44rem] mt-14 w-full justify-self-center pl-4 pr-4">
-            <div id='jobs-table-header' className='bg-gray-200 grid grid-cols-[2%,9%,9%,10%,20%,20%,30%] justify-items-start
+            <div id='jobs-table-header' className='bg-gray-200 grid grid-cols-[2%,9%,9%,10%,20%,20%,25%,5%] justify-items-start
              justify-self-center w-full'>
                 <input type='checkbox' onClick={(e) => handleSelectAll(e)} className='self-center justify-self-center p-4'></input>
                 <h2 onClick={() => requestSort('date')} className='justify-self-center'>Date</h2>
@@ -60,7 +60,7 @@ const JobsTable = ({ jobs, selectedJobs, setSelectedJobs }) => {
                 {sortedJobs?.map((job, i) => {
                     return (
                         <div key={i} id='accordion-row' className={`w-full flex flex-row justify-center pt-2 ${i%2 !== 0 ? 'bg-gray-50' : null}`}>
-                            <Accordion selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} job={job} />
+                            <Accordion isOpen={isOpen} setIsOpen={setIsOpen} onEdit={onEdit} selectedJobs={selectedJobs} setSelectedJobs={setSelectedJobs} job={job} />
                         </div>
                     )
                 })}

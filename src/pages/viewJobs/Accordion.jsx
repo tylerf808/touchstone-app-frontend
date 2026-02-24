@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react"
 import formatUSD from "../../helpers/currencyFormatter"
 
-export default function Accordion({ job, selectedJobs, setSelectedJobs }) {
-
-    console.log(job)
+export default function Accordion({ job, selectedJobs, setSelectedJobs, setIsOpen, onEdit }) {
 
     const [accordionOpen, setAccordionOpen] = useState(false)
     const [selected, setSelected] = useState(false)
@@ -26,6 +24,10 @@ export default function Accordion({ job, selectedJobs, setSelectedJobs }) {
         })
     }
 
+    const handleEdit = () => {
+        
+    }
+
     useEffect(() => {
         if(selectedJobs.includes(job)){
             setSelected(true)
@@ -37,7 +39,7 @@ export default function Accordion({ job, selectedJobs, setSelectedJobs }) {
     return (
         <div onClick={(e) => toggleAccordion(e)} className={accordionOpen ? 'w-full hover:cursor-pointer transition-all duration-150 ease-in-out border-b-2'
             : 'w-full hover:cursor-pointer transition-all duration-150 ease-in-out border-b-2'}>
-            <div id="accordion-header" className="divide-solid grid grid-cols-[2%,9%,9%,10%,20%,20%,30%] items-center w-full h-12">
+            <div id="accordion-header" className="divide-solid grid grid-cols-[2%,9%,9%,10%,20%,20%,25%,5%] items-center w-full h-12">
                 <input type='checkbox' id='accordion-checkbox' checked={selected} onChange={(e) => handleSelection(e)} className='self-center justify-self-center'></input>
                 <h2 className="font-semibold text-sm justify-self-center">{job.date}</h2>
                 <h2 className="font-semibold text-sm justify-self-center">{job.client}</h2>
@@ -49,6 +51,7 @@ export default function Accordion({ job, selectedJobs, setSelectedJobs }) {
                     <p className='text-center'>{formatUSD(job.totalCost)}</p>
                     <p className='text-center'>{formatUSD(job.netProfit)}</p>
                 </div>
+                <i className="fa fa-pencil text-center" onClick={(e) => { e.stopPropagation(); if(onEdit) onEdit(job) }}></i>
             </div>
             <div id="accordion-body" className={`overflow-hidden grid grid-cols-[60%,40%] justify-center items-center gap-0 self-center justify-self-center
                  transition-[height] duration-150 w-11/12 ${accordionOpen ? 'h-[12rem]' : 'h-0'}`}>
