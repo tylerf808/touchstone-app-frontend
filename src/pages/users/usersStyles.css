@@ -161,6 +161,13 @@ i:hover {
     padding: 1rem;
 }
 
+/* ensure inputs inside modals have borders for visibility */
+.modal-form input {
+    border: 1px solid #ccc;
+    border-radius: .25rem;
+    padding: .25rem;
+}
+
 .overlay {
     position: fixed;
     top: 0;

@@ -66,7 +66,7 @@ export default function NewTractorModal({ editedItem, setEditedItem, isOpen, onS
 
     return (
         <div className="overlay">
-            <form className="modal-form">
+            <form className="modal-form w-[26rem]">
                 <h3 style={{ marginBottom: '1rem' }}>New Tractor</h3>
                 {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
                 <div className="modal-input-row">

@@ -81,3 +81,19 @@
  input::-webkit-inner-spin-button {
     -webkit-appearance: none;
  }
+
+/* global input styling for visibility */
+input,
+textarea,
+select {
+    border: 1px solid #ccc;
+    border-radius: .25rem;
+    padding: .25rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #888;
+}

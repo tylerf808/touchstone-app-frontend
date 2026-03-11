@@ -132,6 +132,9 @@
 .modal-input-row input {
     width: 8rem;
     justify-self: flex-end;
+    border: 1px solid #ccc;
+    border-radius: .25rem;
+    padding: .25rem;
 }
 
 .modal-actions {

@@ -20,6 +20,7 @@ import './components/toolbarStyles.css'
 import ConfirmationPage from "./pages/confirmationPage/ConfirmationPage";
 import Tractors from "./pages/tractors/Tractors";
 import EnterDetails from "./pages/signUp/EnterDetails";
+import FleetManagement from "./pages/fleetManagement/FleetManagement";
 
 function AppContent() {
   const { setShowMenu, showMenu, user, setUser, loggedIn, setLoggedIn, showAlert, setShowAlert, alertMsg,
@@ -46,8 +47,7 @@ function AppContent() {
         <Route path='login' element={<LogIn />} />
         <Route path="jobs" element={<ViewJobs />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="costs" element={<CostsPage />} />
-        <Route path="users" element={<Users />} />
+        <Route path="fleetManagement" element={<FleetManagement />} />
         <Route path="tractors" element={<Tractors />} />
         <Route path="confirm" element={<ConfirmationPage />} />
         <Route path="confirmPendingUser" element={<EnterDetails />} />

@@ -9,11 +9,17 @@ export default function NewItemModal({ newItem, setNewItem, isOpen, onClose, han
     setNewItem({ ...newItem, [e.target.name]: e.target.value });
   };
 
+  // ensure accountType is never blank when the modal opens
+  useEffect(() => {
+    if (!newItem.accountType) return
+    // nothing else to do; value is shown disabled
+  }, [newItem.accountType]);
+
   if (!isOpen) return null;
 
   return (
     <div className="overlay">
-      <form className="modal-form">
+      <form className="modal-form w-[26rem]">
         <h3 style={{marginBottom: '.5rem'}}>New User</h3>
         <p>A sign up link will be sent to the email provided</p>
         <p style={{ marginBottom: '1rem', fontStyle: 'italic' }}>Expires after 24 hours</p>
@@ -32,11 +38,7 @@ export default function NewItemModal({ newItem, setNewItem, isOpen, onClose, han
         </div>
         <div className="modal-input-row">
           <label>Account Type</label>
-          <select onChange={(e) => handleChange(e)} name="accountType">
-            <option value="" disabled selected>Select User Type</option>
-            <option value='driver'>Driver</option>
-            <option value='dispatcher'>Dispatcher</option>
-          </select>
+          <input type="text" name="accountType" value={newItem.accountType} disabled />
         </div>
         <div className="modal-actions">
           <button className="modal-save-btn" type="submit" onClick={(e) => {

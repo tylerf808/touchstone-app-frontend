@@ -60,10 +60,7 @@ export default function Toolbar({ loggedIn, user, setUser, setLoggedIn, location
               <Link className='user-menu-item' to='/jobs' onClick={() => setShowMenu(false)}>Accepted Loads</Link>
               <Link className='user-menu-item' to='/costs' onClick={() => setShowMenu(false)}>Costs</Link>
               {isAdmin ? (
-                <>
-                  <Link to='/users' className='user-menu-item' onClick={() => setShowMenu(false)}>Users</Link>
-                  <Link to='/tractors' className='user-menu-item' onClick={() => setShowMenu(false)}>Tractors</Link>
-                </>
+                  <Link to='/fleetManagement' className='user-menu-item' onClick={() => setShowMenu(false)}>Fleet Management</Link>
               ) : null}
               <Link to='/account' className='user-menu-item' onClick={() => setShowMenu(false)}>Account</Link>
               <a className='user-menu-item' onClick={handleLogOut}>Log Out</a>

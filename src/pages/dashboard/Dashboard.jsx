@@ -6,6 +6,7 @@ import SimpleAreaChart from "./SimpleAreaChart"
 import formatUSD from "../../helpers/currencyFormatter"
 import DatePicker from "react-datepicker";
 import RadarChart from "./RadarChart"
+import RecentJobsTable from "./RecentJobsTable"
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Dashboard() {
@@ -247,9 +248,10 @@ export default function Dashboard() {
                             />
                 </div>
             </div>
-            <div className="w-full rounded-md mt-2 min-h-[12rem] border-t-2 border-gray-300">
-                <h2 style={{ color: 'black', height: '3rem', marginLeft: '5rem', marginTop: '1rem' }}>Recent Jobs</h2>
-
+            <div className="w-full rounded-md mt-2 min-h-[12rem] border-t-[.1rem] border-gray-300">
+                <div className="px-8 pb-4 mt-4">
+                    <RecentJobsTable recentJobs={jobs.slice(0, 5)} />
+                </div>
             </div>
         </div>
     )
