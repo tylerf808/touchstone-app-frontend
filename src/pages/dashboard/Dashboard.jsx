@@ -24,7 +24,7 @@ export default function Dashboard() {
     const [totalJobs, setTotalJobs] = useState()
     const [startDate, setStartDate] = useState(() => {
         const d = new Date();
-        d.setFullYear(d.getFullYear() - 1);
+        d.setDate(d.getDate() - 30);
         return d;
     });
     const [endDate, setEndDate] = useState(new Date());
@@ -81,7 +81,7 @@ export default function Dashboard() {
                 // initialize selected jobs and chart based on current date range
                 const filtered = filterJobsByRange(data, startDate, endDate);
                 setSelectedJobs(filtered);
-                const monthly = formatLineChartData(filtered);
+                const monthly = formatLineChartData(filtered, startDate, endDate);
                 setLineChartData(monthly);
             }
         }).catch((err) => {
@@ -93,15 +93,56 @@ export default function Dashboard() {
         })
     }
 
-    const formatLineChartData = (jobsArray) => {
+    const formatLineChartData = (jobsArray, startDate, endDate) => {
+        if (!jobsArray || !jobsArray.length) return [];
+
+        // determine grouping window. prefer explicit dates from picker but fall
+        // back to the actual data range so that missing/invalid inputs don't
+        // accidentally flip to weekly.
+        let diffDays;
+        if (startDate && endDate) {
+            const diffTime = Math.abs(new Date(endDate) - new Date(startDate));
+            diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        } else {
+            // compute from job date bounds
+            const dates = jobsArray.map((j) => new Date(j.date)).sort((a, b) => a - b);
+            if (dates.length >= 2) {
+                const diffTime = dates[dates.length - 1] - dates[0];
+                diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            } else {
+                diffDays = 1;
+            }
+        }
+        const groupByDay = diffDays < 22;
+        // debug
+        // console.log('formatLineChartData', { startDate, endDate, diffDays, groupByDay });
+
+        const getWeekNumber = (date) => {
+            const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            const dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        };
+
         const map = {};
         jobsArray.forEach((job) => {
             const date = new Date(job.date);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1; // 1-based
-            const key = `${year}-${month}`;
+            let key, name;
+            if (groupByDay) {
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+                key = `${year}-${month}-${day}`;
+                name = `${month}/${day}/${year}`;
+            } else {
+                const year = date.getFullYear();
+                const week = getWeekNumber(date);
+                key = `${year}-W${week}`;
+                name = `W${week} ${year}`;
+            }
             if (!map[key]) {
-                map[key] = { name: `${month}/${year}`, revenue: 0, profit: 0, jobs: 0 };
+                map[key] = { name, revenue: 0, profit: 0, jobs: 0 };
             }
             const rev = Number(job.revenue) || 0;
             const net = Number(job.netProfit || job.profit) || 0;
@@ -111,9 +152,15 @@ export default function Dashboard() {
         });
         return Object.keys(map)
             .sort((a, b) => {
-                const [ay, am] = a.split('-').map(Number);
-                const [by, bm] = b.split('-').map(Number);
-                return ay === by ? am - bm : ay - by;
+                if (groupByDay) {
+                    const [ay, am, ad] = a.split('-').map(Number);
+                    const [by, bm, bd] = b.split('-').map(Number);
+                    return new Date(ay, am - 1, ad) - new Date(by, bm - 1, bd);
+                } else {
+                    const [ay, aw] = a.split('-W').map(Number);
+                    const [by, bw] = b.split('-W').map(Number);
+                    return ay === by ? aw - bw : ay - by;
+                }
             })
             .map((k) => ({ ...map[k] }));
     };
@@ -132,6 +179,7 @@ export default function Dashboard() {
     };
 
     const updateChartForRange = (start, end) => {
+
         const filtered = filterJobsByRange(jobs, start, end);
         setSelectedJobs(filtered);
         const monthly = formatLineChartData(filtered);
@@ -191,12 +239,24 @@ export default function Dashboard() {
     const uncompletedJobs = jobs.filter(job => !isCompleted(job));
 
     const onChange = (dates) => {
-        const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
-        // immediately update chart using the newly selected range
-        updateChartForRange(start, end);
+        let [start, end] = dates;
+        // if the picker returns undefined for one of the dates, keep the previous value
+        setStartDate((prev) => start || prev);
+        setEndDate((prev) => end || prev);
+
+        // compute range values that will actually be used for charting
+        const useStart = start || startDate;
+        const useEnd = end || endDate;
+        updateChartForRange(useStart, useEnd);
     };
+
+    // recalc whenever jobs or range state changes (covers cases where onChange
+    // didn't run or was passed partial dates)
+    useEffect(() => {
+
+            updateChartForRange(startDate, endDate);
+        
+    }, [startDate, endDate, jobs]);
 
     return (
         <div className="w-[80rem] h-auto justify-self-center relative top-[6rem] bg-white rounded-md p-4">
@@ -243,9 +303,9 @@ export default function Dashboard() {
                     />
                 </div>
                 <div>
-                        <RadarChart 
-                            data={selectedJobs}
-                            />
+                    <RadarChart
+                        data={selectedJobs}
+                    />
                 </div>
             </div>
             <div className="w-full rounded-md mt-2 min-h-[12rem] border-t-[.1rem] border-gray-300">

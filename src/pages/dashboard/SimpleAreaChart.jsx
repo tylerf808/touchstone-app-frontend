@@ -28,28 +28,16 @@ const SimpleAreaChart = ({ data: propData, series = [{ dataKey: 'uv', stroke: '#
           <YAxis yAxisId="right" orientation="right" width={64} />
           <Tooltip />
           <Legend layout="horizontal" />
-          {chartData && chartData.some((d) => typeof d.jobs === 'number') && (
-            <Bar
-              yAxisId="right"
-              dataKey="jobs"
-              name="Jobs"
-              fill="#ffc658"
-              fillOpacity={0.28}
-              barSize={18}
-              radius={[4, 4, 0, 0]}
-            />
-          )}
+
           {series.map((s) => (
-            <Area
+            <Bar
               key={s.dataKey}
               yAxisId="left"
-              type="monotone"
               dataKey={s.dataKey}
               name={s.name || s.dataKey}
-              stroke={s.stroke || s.color}
-              strokeWidth={2}
-              fill={s.fill || 'none'}
-              fillOpacity={s.fillOpacity ?? 0}
+              fill={s.stroke || s.color}
+              barSize={18}
+              radius={[4, 4, 0, 0]}
             />
           ))}
         </ComposedChart>
