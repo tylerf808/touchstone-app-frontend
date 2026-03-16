@@ -310,7 +310,7 @@ export default function Dashboard() {
             </div>
             <div className="w-full rounded-md mt-2 min-h-[12rem] border-t-[.1rem] border-gray-300">
                 <div className="px-8 pb-4 mt-4">
-                    <RecentJobsTable recentJobs={jobs.slice(0, 5)} />
+                    <RecentJobsTable recentJobs={jobs.filter(job => isCompleted(job)).sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5)} />
                 </div>
             </div>
         </div>
